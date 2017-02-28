@@ -2,7 +2,7 @@
   "apps": [{
     "name": "cmswing",
     "script": "www/production.js",
-    "cwd": "/usr/web/cmswing",
+    "cwd": "/home/sky/jukin/peanutroll",
     "exec_mode": "cluster",
     "instances": 0,
     "max_memory_restart": "1G",
@@ -10,7 +10,7 @@
     "node_args": [],
     "args": [],
     "env": {
-
+      
     }
   }]
 }

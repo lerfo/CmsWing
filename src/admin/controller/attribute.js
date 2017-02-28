@@ -1,17 +1,17 @@
 // +----------------------------------------------------------------------
-// | CmsWing [ 网站内容管理框架 ]
+// | PeanutRoll [ 网站内容管理框架 ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2015 http://www.cmswing.com All rights reserved.
+// | Copyright (c) 2015 http://www.peanutroll.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: arterli <arterli@qq.com>
+// | Author: zhengqsh <zhengqsh@126.com>
 // +----------------------------------------------------------------------
 'use strict';
 
 import Base from './base.js';
 /**
  * 字段属性控制器
- * @author 阿特 <arterli@qq.com>
- * http://www.cmswing.com
+ * @author  <zhengqsh@126.com>
+ * http://www.peanutroll.com
  */
 export default class extends Base {
     init(http) {

@@ -1,9 +1,9 @@
 // +----------------------------------------------------------------------
-// | CmsWing [ 网站内容管理框架 ]
+// | PeanutRoll [ 网站内容管理框架 ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2015 http://www.cmswing.com All rights reserved.
+// | Copyright (c) 2015 http://www.peanutroll.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: arterli <arterli@qq.com>
+// | Author: zhengqsh <zhengqsh@126.com>
 // +----------------------------------------------------------------------
 'use strict';
 
@@ -34,7 +34,7 @@ export default class extends Base {
           console.log(uppic);
           // { fieldName: 'file',
           //     originalFilename: '2015-07-06_BaiduPlayerNetSetup_100.exe',
-          //     path: '/Users/Arterli/Projects/CmsWing/runtime/upload/EPKRrpZvCsSV73J-7kuDiiEY.exe',
+          //     path: '/Users/Arterli/Projects/PeanutRoll/runtime/upload/EPKRrpZvCsSV73J-7kuDiiEY.exe',
           //     headers:
           //     { 'content-disposition': 'form-data; name="file"; filename="2015-07-06_BaiduPlayerNetSetup_100.exe"',
           //         'content-type': 'application/x-msdownload' },

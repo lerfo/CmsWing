@@ -1,16 +1,16 @@
 // +----------------------------------------------------------------------
-// | CmsWing [ 网站内容管理框架 ]
+// | PeanutRoll [ 网站内容管理框架 ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2015 http://www.cmswing.com All rights reserved.
+// | Copyright (c) 2015 http://www.peanutroll.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: arterli <arterli@qq.com>
+// | Author: zhengqsh <zhengqsh@126.com>
 // +----------------------------------------------------------------------
 'use strict';
 import Base from './base.js';
 import url from 'url';
 /**
  * 模型管理模型
- * @author arterli <arterli@qq.com>
+ * @author zhengqsh <zhengqsh@126.com>
  */
 export default class extends Base {
     init(http) {

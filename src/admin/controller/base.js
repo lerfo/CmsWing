@@ -1,9 +1,9 @@
 // +----------------------------------------------------------------------
-// | CmsWing [ 网站内容管理框架 ]
+// | PeanutRoll [ 网站内容管理框架 ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2015 http://www.cmswing.com All rights reserved.
+// | Copyright (c) 2015 http://www.peanutroll.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: arterli <arterli@qq.com>
+// | Author: zhengqsh <zhengqsh@126.com>
 // +----------------------------------------------------------------------
 'use strict';
 
@@ -112,7 +112,7 @@ export default class extends think.controller.base {
      * @param {Object}  msg   执行正确和错误的消息 {'success':'','error':'', 'url':'','ajax':false}
      *                      url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author arterli <arterli@qq.com>
+     * @author zhengqsh <zhengqsh@126.com>
      */
     async editRow(model, data, where, msg) {
         let id = this.param('id');
@@ -150,7 +150,7 @@ export default class extends think.controller.base {
      * @param {Object}  msg   执行正确和错误的消息,可以设置四个元素 {'success':'','error':'', 'url':'','ajax':false}
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author arterli <arterli@qq.com>
+     * @author zhengqsh <zhengqsh@126.com>
      */
     async forbid(model, where, msg) {
         where = where || {}, msg = msg || { 'success': '状态禁用成功！', 'error': '状态禁用失败！' };
@@ -165,7 +165,7 @@ export default class extends think.controller.base {
      * @param {Object}  msg   执行正确和错误的消息 {'success':'','error':'', 'url':'','ajax':false}
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author arterli <arterli@qq.com>
+     * @author zhengqsh <zhengqsh@126.com>
      */
     async resume(model, where, msg) {
         where = where || {}, msg = msg || { 'success': '状态恢复成功！', 'error': '状态恢复失败！' };
@@ -179,7 +179,7 @@ export default class extends think.controller.base {
      * @param {array}  where 查询时的where()方法的参数
      * @param {array}  msg   执行正确和错误的消息 {'success':'','error':'', 'url':'','ajax':false}
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
-     * @author arterli <arterli@qq.com>
+     * @author zhengqsh <zhengqsh@126.com>
      */
     async restore(model, where, msg) {
         where = where || {}, msg = msg || { 'success': '状态还原成功！', 'error': '状态还原失败！' };
@@ -195,7 +195,7 @@ export default class extends think.controller.base {
      * @param {array} msg   执行正确和错误的消息 {'success':'','error':'', 'url':'','ajax':false}
      *                     url为跳转页面,ajax是否ajax方式(数字则为倒数计时秒数)
      *
-     * @author arterli <arterli@qq.com>
+     * @author zhengqsh <zhengqsh@126.com>
      */
     async delete(model, where, msg) {
         where = where || {}, msg = msg || { 'success': '删除成功！', 'error': '删除失败！' };

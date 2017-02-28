@@ -11,10 +11,12 @@ var instance = new thinkjs({
   _:lodash,
   env: 'development'
 });
-//compile src/ to app/
+
+// Build code from src to app directory.
 instance.compile({
-  //retainLines: true,
-  log: true
+	log: true,
+	presets: [],
+	plugins: []
 });
 
 instance.run();

@@ -103,7 +103,7 @@ export default class extends Base {
     testAction(){
         let wapi = new weiapi("wxf417a542a02aa8fc", "564033623a2ea9b19119f0164289ba45");
         let self = this;
-        wapi.uploadMaterial('F:\\nodejs-www\\CmsWing\\www\\static\\admin\\img\\m0.jpg', "image", function(err, res){
+        wapi.uploadMaterial('F:\\nodejs-www\\PeanutRoll\\www\\static\\admin\\img\\m0.jpg', "image", function(err, res){
             think.log(res);
             console.log("err= "+err);
             self.end(res);

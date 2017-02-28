@@ -5,7 +5,7 @@
 *development*
 
 ```js
-node www/index.js
+node www/development.js
 ```
 
 *testing*

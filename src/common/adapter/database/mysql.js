@@ -1,9 +1,9 @@
 // +----------------------------------------------------------------------
-// | CmsWing [ 网站内容管理框架 ]
+// | PeanutRoll [ 网站内容管理框架 ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2015 http://www.cmswing.com All rights reserved.
+// | Copyright (c) 2015 http://www.peanutroll.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: arterli <arterli@qq.com>
+// | Author: zhengqsh <zhengqsh@126.com>
 // +----------------------------------------------------------------------
 'use strict';
 /**
@@ -37,7 +37,7 @@ export default class extends think.adapter.base {
         if (!think.isFile(filenmae)) {
             let db = think.config('db');
             let sql = "-- -----------------------------\n";
-            sql += "-- CmsWing MySQL Data Transfer \n";
+            sql += "-- PeanutRoll MySQL Data Transfer \n";
             sql += "-- \n";
             sql += "-- Host     : " + db.host + "\n";
             sql += "-- Port     : " + db.port + "\n";

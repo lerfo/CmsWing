@@ -1,9 +1,9 @@
 // +----------------------------------------------------------------------
-// | CmsWing [ 网站内容管理框架 ]
+// | PeanutRoll [ 网站内容管理框架 ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2015 http://www.cmswing.com All rights reserved.
+// | Copyright (c) 2015 http://www.peanutroll.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: arterli <arterli@qq.com>
+// | Author: zhengqsh <zhengqsh@126.com>
 // +----------------------------------------------------------------------
 'use strict';
 import API from 'wechat-api';
@@ -236,8 +236,8 @@ export default class extends think.controller.base {
         let api = new API('wxec8fffd0880eefbe', 'a084f19ebb6cc5dddd2988106e739a07');
         let self = this;
         //{"media_id":"Snt_yv6I9f5KMAJKz4GNZAjZSXJeIgZVbUgRey2STH8","url":"https://mmbiz.qlogo.cn/mmbiz/yNHpDQhqmZmaEjdMt6hokMa5ic2a8tjEmDp2tHVAxe3orww1bN4YIiayUBThKC9k3PKyr7OxeZ0vIklb2tMaKDXw/0?wx_fmt=jpeg"}
-        api.uploadMaterial('D:\\webStorm\\CmsWing\\www\\static\\admin\\img\\m0.jpg','thumb',(err,result)=>{
-        //api.uploadThumbMaterial('D:\\webStorm\\CmsWing\\www\\static\\admin\\img\\m21.jpg',(err,result)=>{
+        api.uploadMaterial('D:\\webStorm\\PeanutRoll\\www\\static\\admin\\img\\m0.jpg','thumb',(err,result)=>{
+        //api.uploadThumbMaterial('D:\\webStorm\\PeanutRoll\\www\\static\\admin\\img\\m21.jpg',(err,result)=>{
             if(!think.isEmpty(result)){
                 think.log(result,"test");
                 self.end(result);
@@ -338,7 +338,7 @@ export default class extends think.controller.base {
     uploadimageAction(){
         let api = new API('wxec8fffd0880eefbe', 'a084f19ebb6cc5dddd2988106e739a07');
         let self = this;
-        api.uploadImage('D:\\webStorm\\CmsWing\\www\\static\\admin\\img\\a3.png',(err,result)=>{
+        api.uploadImage('D:\\webStorm\\PeanutRoll\\www\\static\\admin\\img\\a3.png',(err,result)=>{
             if(!think.isEmpty(result)){
                 think.log(result,"getmaterial");
                 self.end(result);
@@ -355,7 +355,7 @@ export default class extends think.controller.base {
     uploadmediaAction(){
         let api = new API('wxec8fffd0880eefbe', 'a084f19ebb6cc5dddd2988106e739a07');
         let self = this;
-        api.uploadMedia('D:\\webStorm\\CmsWing\\www\\static\\admin\\img\\m0.jpg','thumb',(err,result)=>{
+        api.uploadMedia('D:\\webStorm\\PeanutRoll\\www\\static\\admin\\img\\m0.jpg','thumb',(err,result)=>{
             if(!think.isEmpty(result)){
                 think.log(result,"getmaterial");
                 self.end(result);

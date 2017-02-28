@@ -1,9 +1,9 @@
 // +----------------------------------------------------------------------
-// | CmsWing [ 网站内容管理框架 ]
+// | PeanutRoll [ 网站内容管理框架 ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2015 http://www.cmswing.com All rights reserved.
+// | Copyright (c) 2015 http://www.peanutroll.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: arterli <arterli@qq.com>
+// | Author: zhengqsh <zhengqsh@126.com>
 // +----------------------------------------------------------------------
 /**
  * this file will be loaded before server started
@@ -616,7 +616,7 @@ global.get_list_field = function(data, grid, controller, module) {
  * 获取行为类型
  * @param intger type 类型
  * @param bool all 是否返回全部类型
- * @author arterli <arterli@qq.com>
+ * @author zhengqsh <zhengqsh@126.com>
  */
 /* global get_action_type */
 global.get_action_type = function(type, all) {
@@ -720,7 +720,7 @@ global.get_url = (name, id) => {
  * @param int cover_id
  * @param string field
  * @return 完整的数据  或者  指定的field字段值
- * @author arterli <arterli@qq.com>
+ * @author zhengqsh <zhengqsh@126.com>
  */
 /*global get_cover*/
 global.get_cover = async (cover_id, field) => {
@@ -787,7 +787,7 @@ global.get_pic = async(id,m=null,w=null,h=null)=>{
  * @param array arr_id
  * @param string field
  * @return 完整的数据或者 指定的field字段值
- * @author arterli <arterli@qq.com>
+ * @author zhengqsh <zhengqsh@126.com>
  */
 /*global get_pics_one */
 global.get_pics_one = async (arr_id, field) => {

@@ -225,7 +225,7 @@ CLASSES:
                             <li><span style="width: 60px"><i class="fa fa-user"></i>作者:</span> {{info.uid|get_nickname}}</li>
                             <li><span style="width: 60px"><i class="fa fa-calendar"></i>时间:</span> {{ info.update_time|dateformat('Y-m-d H:i') }}</li>
                             <li><span style="width: 60px"><i class="fa fa-lightbulb-o"></i>分类:</span> {%set nn = 1%} {%for val in breadcrumb %}{%if nn != 1%} /{%endif%} <a href="{{val.url}}">{{val.title}}</a>{%set nn = nn+1%}{% endfor %}</li>
-                            <li><span style="width: 60px"><i class="fa fa-link"></i>来源:</span> <a href="#">www.cmswing.com</a></li>
+                            <li><span style="width: 60px"><i class="fa fa-link"></i>来源:</span> <a href="#">www.peanutroll.com</a></li>
                         </ul>
 
                     </div>

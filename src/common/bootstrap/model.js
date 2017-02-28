@@ -1,9 +1,9 @@
 // +----------------------------------------------------------------------
-// | CmsWing [ 网站内容管理框架 ]
+// | PeanutRoll [ 网站内容管理框架 ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2015 http://www.cmswing.com All rights reserved.
+// | Copyright (c) 2015 http://www.peanutroll.com All rights reserved.
 // +----------------------------------------------------------------------
-// | Author: arterli <arterli@qq.com>
+// | Author: zhengqsh <zhengqsh@126.com>
 // +----------------------------------------------------------------------
 /**
  * this file will be loaded before server started
@@ -28,7 +28,7 @@
  * @param id 数据id
  * @param field 字段
  * @param return 整条数据或字段数据
- * @author arterli <arterli@qq.com>
+ * @author zhengqsh <zhengqsh@126.com>
  */
 /* global getmodelfield */
 global.getmodelfield = async(model_id,id,field)=>{
