@@ -1,4 +1,4 @@
-<script src="../../../../Users/Arterli/AppData/Local/Temp/public.js"></script>{% extends "./inc/base.html" %} {% block content %}
+{% extends "./inc/base.html" %} {% block content %}
 <!-- 
 				PAGE HEADER 
 				
@@ -40,7 +40,7 @@
         <div class="row">
 
             <!-- LOGIN -->
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-4 col-sm-4" style="margin-left: auto; margin-right: auto; float: none;">
 
                 <!-- ALERT -->
                 <!--
@@ -52,21 +52,25 @@
 {%if controller.setup.USER_ALLOW_REGISTER ==1%}
 				{%if controller.setup.USER_ALLOW_SMSREGISTER == 1%}
                 <!-- register form 短信注册-->
-                <form class="nomargin sky-form boxed registerpost" action="/uc/public/smsreg" method="post">
+                <form class="nomargin sky-form boxed registerpost" action="/uc/public/smsreg" method="post" autocomplete="off">
                     <header>
                         <i class="fa fa-users"></i> {{controller.meta_title}}
                     </header>
                     <fieldset class="nomargin">
 						<label class="input margin-bottom-10">
 							<i class="ico-append fa fa-mobile"></i>
-							<input type="text" placeholder="可用于登录和找回密码" name="mobile">
+							<input type="text" maxlength="11" placeholder="输入用于登录的手机号" name="mobile" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();">
 							<b class="tooltip tooltip-bottom-right">请输入中国大陆手机号</b>
 						</label>
-                        <label class="input margin-bottom-10">
-                            <i class="ico-append fa fa-lock"></i>
-                            <input type="password" placeholder="密码" name="password">
-                            <b class="tooltip tooltip-bottom-right">长度不少于6位字符,不允许有空格</b>
-                        </label>
+
+                        <!--是否开启验证码-->
+                        {%if controller.setup.GEETEST_IS_LOGIN ==1%}
+                        <div class="form-group" style="margin-top: 16px !important;">
+                            <div id="captcha"></div>
+                            <p id="wait" class="show">正在加载验证码......</p>
+                            <p id="notice" class="hide">请先拖动验证码到相应位置</p>
+                        </div>
+                        {%endif%}
 
 							<div class="row">
 								<div class="col-md-6">
@@ -76,25 +80,37 @@
 							<b class="tooltip tooltip-bottom-right">点击右侧按钮获取验证码</b>
 									</label>
 								</div>
-								<div class="col-md-6"><a href="#" class="btn btn-3d btn-sm btn-reveal btn-white" style="margin-left: -15px" id="verifycodesend" data-type="1">
+								<div class="col-md-6"><a href="#" class="btn btn-3d btn-sm btn-reveal btn-white" style="margin-left: 0; padding-left: 32px; padding-right: 32px;" id="verifycodesend" data-type="1">
 									<i class="fa fa-send-o"></i>
 									<span class="qian">获取短信验证码</span>
 									<span class="hou" style="display: none"><m id="wait" class="">60</m>秒后重新获取激活码</span>
 								</a></div>
 							</div>
 
-                        <div class="margin-top-30">
+						<label class="input margin-bottom-10">
+							<i class="ico-append fa fa fa-user"></i>
+							<input type="text" placeholder="用户名" name="username" autocomplete="off">
+							<b class="tooltip tooltip-bottom-right">起一个具有辨识度的用户名</b>
+						</label>
+
+                        <label class="input margin-bottom-10">
+                            <i class="ico-append fa fa-lock"></i>
+                            <input type="password" placeholder="密码" name="password" autocomplete="off">
+                            <b class="tooltip tooltip-bottom-right">长度不少于6位字符,不允许有空格</b>
+                        </label>
+
+                        <div class="margin-top-20">
                             <label class="checkbox nomargin">
 								<input type="hidden" name="sms_type" value="1">
                                 <input class="checked-agree" type="checkbox" name="clause" checked><i></i>我同意 <a href="#" data-toggle="modal" data-target="#termsModal">网站服务条款</a></label>
-                            <label class="checkbox nomargin">
-                                <input type="checkbox" name="info"><i></i>我想接收新闻和特别优惠信息！</label>
+                            <!--<label class="checkbox nomargin">
+                                <input type="checkbox" name="info"><i></i>我想接收新闻和特别优惠信息！</label>-->
                         </div>
                     </fieldset>
 
                     <div class="row margin-bottom-20">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary ajax-post" target-form="registerpost" ><i class="fa fa-check"></i> 立即注册</button>
+                        <div class="col-md-12" style="padding-left: 30px; padding-right: 30px;">
+                            <button type="submit" class="btn btn-primary ajax-post" target-form="registerpost" style="width: 100%; margin: 0;"><i class="fa fa-check"></i> 立即注册</button>
                         </div>
                     </div>
 
@@ -136,8 +152,8 @@
 						<div class="margin-top-30">
 							<label class="checkbox nomargin">
 								<input class="checked-agree" type="checkbox" name="clause" checked><i></i>我同意 <a href="#" data-toggle="modal" data-target="#termsModal">网站服务条款</a></label>
-							<label class="checkbox nomargin">
-								<input type="checkbox" name="info"><i></i>我想接收新闻和特别优惠信息！</label>
+							<!--<label class="checkbox nomargin">
+								<input type="checkbox" name="info"><i></i>我想接收新闻和特别优惠信息！</label>-->
 						</div>
 					</fieldset>
 
@@ -160,7 +176,7 @@
             <!-- /LOGIN -->
 
             <!-- SOCIAL LOGIN -->
-            <div class="col-md-6 col-sm-6">
+            <!--<div class="col-md-6 col-sm-6">
                 <form action="#" method="post" class="sky-form boxed">
 
                     <header class="size-18 margin-bottom-20">
@@ -199,7 +215,7 @@
 
                 </form>
 
-            </div>
+            </div>-->
             <!-- /SOCIAL LOGIN -->
 
         </div>
@@ -420,4 +436,90 @@
 				
 			});
 		</script>
+
+{%if controller.setup.GEETEST_IS_LOGIN ==1%}
+<!-- 引入封装了failback的接口--initGeetest -->
+
+<!-- 引入封装了failback的接口--initGeetest -->
+<script src="//static.geetest.com/static/tools/gt.js"></script>
+
+<!-- 若是https，使用以下接口 -->
+<!-- <script src="https://static.geetest.com/static/tools/gt.js"></script> -->
+<script>
+    $(function () {
+        var handlerEmbed = function (captchaObj) {
+            var success = false;
+            $("#validate-submit").click(function () {
+                var validate = captchaObj.getValidate();
+                if (!validate) {
+                    _toastr("请先完成验证!","top-right","error",false);
+                    return false;
+                }
+                $.ajax({
+                    url: "/uc/public/login", // 进行二次验证
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        // 二次验证所需的三个值
+                        geetest_challenge: validate.geetest_challenge,
+                        geetest_validate: validate.geetest_validate,
+                        geetest_seccode: validate.geetest_seccode,
+                        username:$("input[name='username']").val(),
+                        password:$("input[name='password']").val()
+                    },
+                    success: function (data) {
+
+                        if (data && (data.errno < 0)) {
+
+                            _toastr(data.errmsg,"top-right","error",false);
+                            captchaObj.refresh();
+
+                        } else {
+                            location.reload();
+                        }
+                    }
+                });
+  return false;
+            });
+
+            // 将验证码加到id为captcha的元素里
+            captchaObj.appendTo("#captcha");
+
+            captchaObj.onReady(function () {
+                $("#wait")[0].className = "hide";
+            });
+
+            // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
+        };
+        $("#captcha").ready(function(){
+            setTimeout(function(){
+                $.ajax({
+                    // 获取id，challenge，success（是否启用failback）
+                    url: "/admin/public/geetest?t=" + (new Date()).getTime(), // 加随机数防止缓存
+                    type: "get",
+                    dataType: "json",
+                    success: function (data) {
+
+                        // 使用initGeetest接口
+                        // 参数1：配置参数
+                        // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                        initGeetest({
+                            gt: data.gt,
+                            challenge: data.challenge,
+                            product: "float", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+                            offline: !data.success // 表示用户后台检测极验服务器是否宕机，一般不需要关注
+                        }, handlerEmbed);
+                    }
+                });
+
+            },1000);
+        });
+    })
+
+</script>
+{%else%}
+<script>
+</script>
+{%endif%}
+
         {% endblock %}

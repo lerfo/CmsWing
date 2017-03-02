@@ -1,16 +1,100 @@
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-									<button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
-									<h4 id="myModalLabel" class="modal-title">用户登录</h4>
-								</div>
-        <div class="modal-body wrapper-lg">
+{% extends "./inc/base.html" %} {% block content %}
+<!-- 
+                PAGE HEADER 
+                
+                CLASSES:
+                    .page-header-xs = 20px margins
+                    .page-header-md = 50px margins
+                    .page-header-lg = 80px margins
+                    .page-header-xlg= 130px margins
+                    .dark           = dark page header
+
+                    .shadow-before-1    = shadow 1 header top
+                    .shadow-after-1     = shadow 1 header bottom
+                    .shadow-before-2    = shadow 2 header top
+                    .shadow-after-2     = shadow 2 header bottom
+                    .shadow-before-3    = shadow 3 header top
+                    .shadow-after-3     = shadow 3 header bottom
+            -->
+<section class="page-header page-header-xs">
+    <div class="container">
+
+        <!-- breadcrumbs -->
+        <ol class="breadcrumb breadcrumb-inverse">
+            <li><a href="/index">首页</a></li>
+            <li class="active">登录</li>
+        </ol>
+        <!-- /breadcrumbs -->
+
+    </div>
+</section>
+<!-- /PAGE HEADER -->
+
+
+
+
+<!-- -->
+<section>
+    <div class="container">
+
+        <div class="row">
+
             <div class="row">
-                <div class="col-sm-7 b-r">
-                    <!--<h3 class="m-t-none m-b">已有账号</h3>
-                    <p>Sign in to meet your friends.</p>-->
-                    <form role="form" class="sky-form" id="login" method="post">
+                <div class="col-md-4 col-sm-4" style="margin-left: auto; margin-right: auto; float: none;">
+                        <!--<h3 class="m-t-none m-b">已有账号</h3>
+                        <p>Sign in to meet your friends.</p>-->
+                    <form role="form" class="nomargin sky-form boxed" id="login" method="post" autocomplete="off">
+                        <header>
+                            <i class="fa fa-users"></i> {{controller.meta_title}}
+                        </header>
+                        <fieldset class="nomargin">
+                            <label class="input margin-bottom-10">
+                                <i class="ico-append fa fa-mobile"></i>
+                                <input type="text" name="username" class="form-control" placeholder="邮箱/手机号/昵称" required="">
+                                <b class="tooltip tooltip-bottom-right">请输入中国大陆手机号</b>
+                            </label>
+
+                            <!--是否开启验证码-->
+                            {%if controller.setup.GEETEST_IS_LOGIN ==1%}
+                            <div class="form-group" style="margin-top: 16px !important;">
+                                <div id="captcha"></div>
+                                <p id="wait" class="show">正在加载验证码......</p>
+                                <p id="notice" class="hide">请先拖动验证码到相应位置</p>
+                            </div>
+                            {%endif%}
+
+                            <label class="input margin-bottom-10">
+                                <i class="ico-append fa fa-lock"></i>
+                                <input type="password" name="password" class="form-control" placeholder="密码" required="">
+                                <b class="tooltip tooltip-bottom-right">长度不少于6位字符,不允许有空格</b>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px;">
+                                <label class="checkbox weight-300" style="font-size: 14px;">
+                                    <input type="checkbox" name="checkbox-inline">
+                                    <i></i> 记住我
+                                </label>
+
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6" style="padding-right: 0px;">
+                                <a href="#" class="pull-right" style="margin-top: 3px;">忘记密码?</a>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 margin-top-10 margin-bottom-10" style="padding-left: 0px; padding-right: 0px;">
+
+                                <button class="btn btn-primary" id="validate-submit" style="width: 100%; margin: 0;">登录</button>
+
+                            </div>
+
+                        </fieldset>
+
+                    </form>
+
+
+                    <!--<form role="form" class="sky-form" id="login" method="post">
                         
+                    <header>
+                        <i class="fa fa-users"></i> {{controller.meta_title}}
+                    </header>
                            <div class="form-group">
                             <label>账号</label>
                           
@@ -25,7 +109,6 @@
                                 <a href="#" class="pull-right">忘记密码?</a>
                             </div>
                         </div>
-                        <!--是否开启验证码-->
                         {%if controller.setup.GEETEST_IS_LOGIN ==1%}
                         <div class="form-group">
                             <div id="captcha"></div>
@@ -39,9 +122,9 @@
 
                             <div class="col-md-6 col-sm-6 col-xs-6">
 <label class="checkbox weight-300 margin-top-10">
-										<input type="checkbox" name="checkbox-inline">
-										<i></i> 记住我
-									</label>
+                                        <input type="checkbox" name="checkbox-inline">
+                                        <i></i> 记住我
+                                    </label>
 
                             </div>
 
@@ -53,9 +136,9 @@
 
                         </div>
 
-                    </form>
+                    </form>-->
                 </div>
-                <div class="col-sm-5">
+                <!--<div class="col-sm-5">
                     <h4>还没有账号?</h4>
                     <p>你可以在<a href="/uc/public/register" class="text-info">这里</a>创建一个帐户 </p>
                     <p>或者</p>
@@ -74,13 +157,18 @@
                                     <i class="fa fa-weibo"></i> 使用新浪微博账号登录
                                 </a>
                     {%endif%}
-                </div>
+                </div>-->
             </div>
         </div>
+
+
     </div>
-    <!-- /.modal-content -->
-</div>
-<!-- /.modal-dialog -->
+</section>
+<!-- / -->
+{% endblock %}
+
+
+{% block script %}
 {%if controller.setup.GEETEST_IS_LOGIN ==1%}
 <!-- 引入封装了failback的接口--initGeetest -->
 
@@ -166,3 +254,4 @@
     _login();
 </script>
 {%endif%}
+{% endblock %}

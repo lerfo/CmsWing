@@ -3142,8 +3142,8 @@ section.dark.page-header ul.page-options a {
 		- search, etc
 	*/
 	#header ul.nav-second-main {
-		border-left:rgba(0,0,0,0.1) 1px solid;
-		padding-left:15px;
+		border-right:rgba(0,0,0,0.1) 1px solid;
+		padding-right:15px;
 		margin-top: 39px;
 
 		-webkit-transition: all .300s;
@@ -7510,6 +7510,12 @@ ul.search-history {
 #footer.footer-light h6 {
 	color:#414141;
 }
+
+#footer.footer-light h4 {
+	padding-left: 11px;
+	border-left: 4px solid #2cd;
+}
+
 #footer.footer-light p,
 #footer.footer-light a,
 #footer.footer-light ul.footer-links>li>a {

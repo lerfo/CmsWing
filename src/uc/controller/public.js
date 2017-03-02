@@ -213,7 +213,7 @@ export default class extends Base {
       return this.fail("密码：只能输入6-20个字母、数字、下划线")
     }
     data.email = 0;
-    data.username = data.mobile;
+    // data.username = data.mobile;
     data.status = 1;
     data.reg_time = new Date().valueOf();
     data.reg_ip = _ip2int(this.ip());
