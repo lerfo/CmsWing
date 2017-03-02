@@ -44,6 +44,7 @@ export default class extends Base {
     }
     // 获取当前栏目的模型
     let models = await this.model("category").get_category(cate.id, 'model');
+    console.log('got models!');
     //获取模型信息
     let modellist = [];
     //console.log(111111111)
@@ -62,7 +63,7 @@ export default class extends Base {
     //console.log(cate);
     //获取当前分类的所有子栏目
     let subcate = await this.model('category').get_sub_category(cate.id);
-    // console.log(subcate);
+    console.log(subcate);
     subcate.push(cate.id);
     //获取模型列表数据个数
     // console.log(cate);
@@ -131,6 +132,7 @@ export default class extends Base {
     let sortarr = query[4]||null;
     let nsobj = {};
     let sort = await this.model("category").get_category(cate.id, 'documentsorts');
+    console.log('got sort!!!!!');
     if (sort) {
       this.assign("sorturl",get.split("-")[4])
       sort = JSON.parse(sort);
@@ -285,16 +287,17 @@ export default class extends Base {
     this.description = cate.description ? cate.description : ""; //seo描述
 
     //获取面包屑信息
+    console.log('got breadcrumb!! cate.id : '+cate.id)
     let breadcrumb = await this.model('category').get_parent_category(cate.id,true);
     this.assign('breadcrumb', breadcrumb);
-    //console.log(breadcrumb)
+    console.log(breadcrumb)
 
 
     /* 模板赋值并渲染模板 */
     this.assign('category', cate);
     this.assign('list', data.data);
     this.assign('count',data.count);
-    //console.log(cate)
+    console.log(data.data)
     let temp = cate.template_lists ? `${cate.template_lists}` : "";
     //console.log(cate);
     //console.log(111)
@@ -329,7 +332,7 @@ export default class extends Base {
       //think.log(temp);
       return this.display(`mobile/${this.http.controller}/${temp}`)
     }else{
-      //console.log(temp);
+      console.log(temp);
       return this.display(temp);
     }
 

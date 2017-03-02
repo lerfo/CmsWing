@@ -32,7 +32,7 @@ export default class extends Base {
         let model;
         let _model;
         //console.log(2222);
-        console.log(cate_id);
+        console.log('cate_id:'+cate_id);
         if (!think.isEmpty(cate_id)) {
             //权限验证
             await this.admin_priv("init",cate_id,"您没有权限查看本栏目！")
@@ -104,7 +104,8 @@ export default class extends Base {
                 //console.log(typevar);
                 this.assign("typevar",typevar);
             }
-            //console.log(sort);
+            console.log('article,sort:')
+            console.log(sort);
             this.assign("sort",sort);
             let pid = this.get("pid") || 0;
             // 获取列表绑定的模型
@@ -231,6 +232,7 @@ export default class extends Base {
         this.assign({
             "navxs": true,
         });
+        console.log('display article page');
         return this.display();
     }
 
@@ -316,7 +318,7 @@ export default class extends Base {
                 }
             }
         }
-        //console.log(field);
+        console.log(field);
         //console.log(1111111);
         if (!think.isEmpty(position)) {
             map[1] = "position & {$position} = {$position}";
@@ -394,7 +396,7 @@ export default class extends Base {
         this.assign('status', status);
         this.assign('allow', allow_publish);
         this.assign('pid', map.pid);
-        //console.log(list.data);
+        console.log(list.data);
         this.meta_title = '文档列表';
         return list.data;
     }
@@ -614,6 +616,7 @@ export default class extends Base {
                 data.sort_id=sort.defaultshow;
             }
             let typevar = await this.model("typevar").where({sortid:data.sort_id}).select();
+            console.log(typevar);
             for (let val of typevar){
 
                 val.option= await this.model("typeoption").where({optionid:val.optionid}).find();
@@ -637,7 +640,7 @@ export default class extends Base {
                     }
                 }
             }
-           // console.log(typevar);
+            console.log(typevar);
             this.assign("typevar",typevar);
         }
         //console.log(sort);
@@ -661,7 +664,7 @@ export default class extends Base {
         this.assign({
             "navxs": true,
         });
-        //console.log(data);
+        console.log(data);
         this.assign('data', data);
         this.assign('model_id', data.model_id);
         this.assign('model', model);
@@ -673,7 +676,7 @@ export default class extends Base {
      */
     async updateAction() {
         let data = this.post();
-       // console.log(data);
+        //console.log(data);
         let res = await this.model('document').updates(data);
 
         if (res) {

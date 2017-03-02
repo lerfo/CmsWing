@@ -19,6 +19,7 @@ export default class extends Base {
    */
   async indexAction(){
     //auto render template file index_index.html
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     this.meta_title = "首页";//标题1
     this.keywords = this.setup.WEB_SITE_KEYWORD ? this.setup.WEB_SITE_KEYWORD : '';//seo关键词
     this.description = this.setup.WEB_SITE_DESCRIPTION ? this.setup.WEB_SITE_DESCRIPTION : "";//seo描述
@@ -40,7 +41,7 @@ export default class extends Base {
       //排序
       let o = {};
       let order =this.get('order')||100;
-      //console.log(order);
+      console.log('get order:'+order);
       order = Number(order);
       switch (order){
         case 1:
@@ -88,7 +89,7 @@ export default class extends Base {
       return this.display(`mobile/${this.http.controller}/${this.http.action}`)
     }else{
       //debugger;
-      //console.log(think.datetime(new Date(), "YYYY-MM-DD"));
+      console.log(think.datetime(new Date(), "YYYY-MM-DD"));
       return this.display();
     }
 
@@ -97,6 +98,7 @@ export default class extends Base {
    * 解析路由，判断是频道页面还是列表页面
    */
   async routeAction(){
+    console.log('enter routeAction');
     // this.end( this.get('category'));
     let cate = await this.category(this.get('category').split("-")[0]);
     let type = cate.allow_publish;

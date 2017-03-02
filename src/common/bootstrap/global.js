@@ -745,6 +745,7 @@ global.get_cover = async (cover_id, field) => {
  * @param h 高
  */
 global.get_pic = async(id,m=null,w=null,h=null)=>{
+    console.log('enter get_pic id = '+id);
     if(think.isEmpty(id)){
         return "/static/noimg.jpg";
     }

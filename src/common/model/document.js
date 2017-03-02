@@ -69,7 +69,7 @@ export default class extends think.model.base {
              data[vs[1]]=(think.isEmpty(data[v])||data[v]==0)?0:new Date(data[v]).getTime();
             };
         }
-        //console.log(data);
+        console.log(data);
         data=data||null;
         //检查文档类型是否符合要求
         let type = data.type||2;
@@ -168,8 +168,8 @@ export default class extends think.model.base {
                             sortdata.fid = data.category_id;
                         }
                     }
-                    //console.log(sortarr);
-                    //console.log(sortdata);
+                    console.log(sortarr);
+                    console.log(sortdata);
                     let cou = await this.model("type_optionvalue"+data.sort_id).where({tid:data.id}).count("tid");
                     if(cou > 0){
                         await this.model("type_optionvalue"+data.sort_id).where({tid:data.id}).update(sortdata);
