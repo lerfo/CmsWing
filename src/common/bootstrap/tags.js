@@ -14,27 +14,27 @@
  * }
  */
 
-global.mytags= function(){
+ global.mytags= function(){
 
-        this.tags= ['tagtest'];
-        this.parse = function (parser, nodes, lexer) {
+    this.tags= ['tagtest'];
+    this.parse = function (parser, nodes, lexer) {
         var tok = parser.nextToken();
         var args = parser.parseSignature(null, true);
         parser.advanceAfterBlockEnd(tok.value);
         return new nodes.CallExtensionAsync(this, 'run', args)
-        };
-        this.run = async function (context, args, callback) {
+    };
+    this.run = async function (context, args, callback) {
              //console.log(args);
 
-            for (var arg in args) {
+             for (var arg in args) {
                 //console.log(arg);
                 if (arg !== '__keywords') {
                   let map = args[arg].split(",");
-                   let maps={}
-                    for(let val of map){
-                        val=val.split("=");
+                  let maps={}
+                  for(let val of map){
+                    val=val.split("=");
                           //console.log(val[1].indexOf("["));
-                        if(val[1].indexOf("[")===0){
+                          if(val[1].indexOf("[")===0){
                             val[1]=val[1].replace("[", "").replace("]", "").split("-");
                             console.log(val[1]);
                         }
@@ -80,10 +80,10 @@ global.mytags= function(){
                     context.ctx[arg] = data;
                 }
             }
-           return callback(null,'');
+            return callback(null,'');
         };
 
-}
+    }
 /**
  * 获取同一级栏目标签
  *{%column data = "list"%}
@@ -97,7 +97,7 @@ global.mytags= function(){
  * @param isapp: 是否在在移动端调用 iaapp="all" 调用全部栏目 isapp="1" pid为0的栏目,isindex="1",除去封面。
  * @parpm isnum = "1" ,1-获取栏目条数,默认不获取
  */
-global.column= function(){
+ global.column= function(){
 
     this.tags= ['column'];
     this.parse = function (parser, nodes, lexer) {
@@ -122,17 +122,17 @@ global.column= function(){
             }
         }
        //console.log(column);
-        let arr;
+       let arr;
         //获取同级栏目
         let map = {};
         if(pid){
-           map.pid=think._.toInteger(pid);
-            arr = think._.filter(column, map)
-        }else if(cid){
-            map.pid=think._.toInteger(cid);
-            arr = think._.filter(column, map)
-        }else if(tree){
-            let trees = arr_to_tree(column,tree);
+         map.pid=think._.toInteger(pid);
+         arr = think._.filter(column, map)
+     }else if(cid){
+        map.pid=think._.toInteger(cid);
+        arr = think._.filter(column, map)
+    }else if(tree){
+        let trees = arr_to_tree(column,tree);
             //console.log(trees)
             arr = !think.isEmpty(trees)?trees:false;
         }else if(isapp||isapp==0){
@@ -160,28 +160,28 @@ global.column= function(){
  */
 
  global.channel = function(){
-   this.tags = ['channel'];
-   this.parse = function (parser,nodes,lexer) {
-     var tok = parser.nextToken();
-     var args = parser.parseSignature(null, true);
-     parser.advanceAfterBlockEnd(tok.value);
-     return new nodes.CallExtensionAsync(this, 'run', args)
+     this.tags = ['channel'];
+     this.parse = function (parser,nodes,lexer) {
+       var tok = parser.nextToken();
+       var args = parser.parseSignature(null, true);
+       parser.advanceAfterBlockEnd(tok.value);
+       return new nodes.CallExtensionAsync(this, 'run', args)
    };
    this.run = async function (context, args, callback) {
-     let data = think.isEmpty(args.data) ?"data":args.data;
-     let channel = await think.model('channel', think.config("db")).get_channel_cache();
-     channel = arr_to_tree(channel,0);
+       let data = think.isEmpty(args.data) ?"data":args.data;
+       let channel = await think.model('channel', think.config("db")).get_channel_cache();
+       channel = arr_to_tree(channel,0);
      //console.log(channel);
      context.ctx[data] = channel;
      return callback(null,'');
-   }
  }
+}
 /**
  *获取分类分组标签
  *  {% groups data="groups",cid="1"%}
  */
 
-global.groups = function(){
+ global.groups = function(){
     this.tags = ['groups'];
     this.parse = function (parser,nodes,lexer) {
         var tok = parser.nextToken();
@@ -201,18 +201,20 @@ global.groups = function(){
  * {% topic data = "data"%}
  * topic:标签名称
  * data:接受返回数据的变量名称，例: data = "data"
+ * page: 设置查询开始页面，从1开始，默认为0，例：page = "2"
  * limit: 设置查询结果的条数，例: limit="10",limit="3,10"
  * cid: 栏目id ,单个栏目 cid="1",多个栏目 cid = "1,2,3,4" , 不写调取全部栏目
  * {{name|get_url(id)}}文章链接
- * type: 标签类型,hot-安装浏览量从高到底,level-安装优先级从高到低排序,默认安装更新时间排序
+ * type: 标签类型,hot-按照浏览量从高到底,level-安装优先级从高到低排序,默认安装更新时间排序
  * //{% topic data = "data",limit= "5",cid=category.id,type="hot"%}
  * position:1:列表推荐,2:频道推荐,4:首页推荐
  * ispic:是否包涵缩略图,1:包含缩略图的内容,2:不包含缩略图,默认所有
  * issub:1:包含自栏目,2:不包含自栏目,默认包含自栏目
+ * ischild:1:包含子目录，其它：不包含子目录
  * isstu:1:获取副表内容,2:只从主表拿数据,默认只从主表拿
  * group:分组id，单个分组：group="1",多个分组 :group="1,2,3,4",不写调取全部分组。
  */
-global.topic = function(){
+ global.topic = function(){
     this.tags = ['topic'];
     this.parse = function (parser, nodes, lexer) {
         let tok = parser.nextToken();
@@ -221,25 +223,29 @@ global.topic = function(){
         return new nodes.CallExtensionAsync(this, 'run', args);
     };
     this.run = async function (context, args, callback) {
-       // console.log(args);
-        let where = {'status':1,'pid':0};
+        console.log(args);
+        let where = {'status':1};
         let data = think.isEmpty(args.data) ? "data" : args.data;
         let limit = think.isEmpty(args.limit) ? "10" : args.limit;
+        let page = think.isEmpty(args.page) ? "0" : args.page;
+        if(args.ischild != 1){
+            where = think.extend({},where,{'pid':0});
+        }
         //获取当前分类的所有子栏目
         if(args.issub!=2){
-        if(!think.isEmpty(args.cid)){
-            let cids = `${args.cid}`;
-            let cidarr = []
-            for (let v of cids.split(",")){
-                let subcate = await think.model('category',think.config("db")).get_sub_category(v);
-                cidarr = cidarr.concat(subcate)
-                cidarr.push(Number(v))
+            if(!think.isEmpty(args.cid)){
+                let cids = `${args.cid}`;
+                let cidarr = []
+                for (let v of cids.split(",")){
+                    let subcate = await think.model('category',think.config("db")).get_sub_category(v);
+                    cidarr = cidarr.concat(subcate)
+                    cidarr.push(Number(v))
+                }
+
+                args.cid=unique(cidarr).sort();
             }
-
-            args.cid=unique(cidarr).sort();
         }
-        }
-
+        console.log('topic().args.cid:'+args.cid)
         //subcate.push(cate.id);
         let cid = think.isEmpty(args.cid) ? false :{'category_id':['IN',args.cid]};
         if(cid){
@@ -253,10 +259,10 @@ global.topic = function(){
         if(!think.isEmpty(args.type)){
             if(args.type=="hot"){
               type="view DESC"
-            }else if(args.type == "level"){
-                type="level DESC"
-            }
+          }else if(args.type == "level"){
+            type="level DESC"
         }
+    }
         //推荐
         if(!think.isEmpty(args.position)){
             where = think.extend(where,{position:args.position})
@@ -271,18 +277,18 @@ global.topic = function(){
         }
 
         console.log(where);
-        let topic = await think.model('document', think.config("db")).where(where).limit(limit).order(type).select();
+        let topic = await think.model('document', think.config("db")).where(where).page(page,limit).order(type).select();
         //副表数据
         if(args.isstu == 1){
             let topicarr = []
             for(let v of topic){
-            let table =await think.model("model",think.config("db")).get_table_name(v.model_id);
-            let details = await think.model(table,think.config("db")).find(v.id);
-           topicarr.push(think.extend({},v,details));
+                let table =await think.model("model",think.config("db")).get_table_name(v.model_id);
+                let details = await think.model(table,think.config("db")).find(v.id);
+                topicarr.push(think.extend({},v,details));
             }
-          topic = topicarr;
+            topic = topicarr;
         }
-        //console.log(topic)
+        console.log(topic)
         context.ctx[data] = topic;
         return callback(null, '');
     }
@@ -297,7 +303,7 @@ global.topic = function(){
  * type: hot
  */
 
-global.keywords = function(){
+ global.keywords = function(){
     this.tags = ['keywords'];
     this.parse = function (parser,nodes,lexer) {
         var tok = parser.nextToken();
@@ -335,7 +341,7 @@ global.keywords = function(){
  * mod_id:模型id,
  * id:文章的的id,
  */
-global.rkeywords = function () {
+ global.rkeywords = function () {
     this.tags = ['rkeywords'];
     this.parse = function (parser,nodes,lexer) {
         var tok = parser.nextToken();
@@ -351,9 +357,9 @@ global.rkeywords = function () {
         let type= think.isEmpty(args.type) ? "0" : args.type;
         let mod_id= think.isEmpty(args.mod_id) ? "1" : args.mod_id;
         let id = think.isEmpty(args.id) ? "0" : args.id;
-          where.docid=id;
-          where.mod_type=type;
-          where.mod_id=mod_id;
+        where.docid=id;
+        where.mod_type=type;
+        where.mod_id=mod_id;
         let keyword;
         let topicid = await think.model("keyword_data", think.config("db")).where(where).getField("tagid");
         if(!think.isEmpty(topicid)){
@@ -384,7 +390,7 @@ global.rkeywords = function () {
  * order {String} 排序方式
  * cache {Number} 缓存有效时间，单位为秒,建议1000秒
  */
-global.model = function () {
+ global.model = function () {
     this.tags = ['model'];
     this.parse = function (parser,nodes,lexer) {
         var tok = parser.nextToken();
@@ -436,12 +442,14 @@ global.model = function () {
         //join查询c
         if(join){
             model.join(join);
-         }
+        }
 
-          let ret =  await model.select();
+        let ret =  await model.select();
 
         //console.log(ret);
         context.ctx[data] = ret;
         return callback(null,'');
     }
 }
+
+

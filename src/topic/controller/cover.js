@@ -14,7 +14,7 @@ export default class extends Base {
    * index action
    * @return {Promise} []
    */
-  //频道页
+  //封面频道页
   async indexAction() {
 
     //auto render template file index_index.html
@@ -29,8 +29,10 @@ export default class extends Base {
     let roleid=8;//游客
     //访问控制
     if(this.is_login){
+      //获取用户组角色
       roleid = await this.model("member").where({id:this.is_login}).getField('groupid', true);
     }
+    //获取当前模型的访问权限设置
     let priv = await this.model("category_priv").priv(cate.id,roleid,'visit');
     if(!priv){
       this.http.error = new Error('您所在的用户组,禁止访问本栏目！');
@@ -43,11 +45,13 @@ export default class extends Base {
     //内容可以通过模板标签自行定制
     //获取面包屑信息
     let breadcrumb = await this.model('category').get_parent_category(cate.id,true);
+    console.log(breadcrumb);
     this.assign('breadcrumb', breadcrumb);
     /* 模板赋值并渲染模板 */
     this.assign('category', cate);
+    //console.log(cate);
     let temp = cate.template_index ? `${cate.template_index}` : `${this.http.action}`;
-
+    console.log(temp);
     //判断浏览客户端
     if(checkMobile(this.userAgent())){
       temp = cate.template_m_index ? `${cate.template_m_index}` : `${this.http.action}`

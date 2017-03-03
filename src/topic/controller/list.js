@@ -24,6 +24,7 @@ export default class extends Base {
     }
     this.setCorsHeader();
     let get = this.get('category') || 0;
+    console.log('args category:'+get);
     let id=0;
     let query = get.split("-");
     if(get != 0){
@@ -92,6 +93,7 @@ export default class extends Base {
     let o = {};
     o.level = 'DESC';
     let order = query[1]||0;
+    console.log('order:'+order);
     order = Number(order);
     switch (order){
       case 1:
@@ -126,13 +128,14 @@ export default class extends Base {
     this.assign('order',order);
     // 获取分类信息
     let sortid = query[3]||0;
+    console.log('sortid:'+sortid);
     if(!think.isEmpty(sortid)){
       map.sort_id = sortid;
     }
     let sortarr = query[4]||null;
     let nsobj = {};
     let sort = await this.model("category").get_category(cate.id, 'documentsorts');
-    console.log('got sort!!!!!');
+    console.log('got category document sorts:'+sort);
     if (sort) {
       this.assign("sorturl",get.split("-")[4])
       sort = JSON.parse(sort);
@@ -198,7 +201,7 @@ export default class extends Base {
           }
         }
       }
-      // console.log(typevar);
+      console.log(typevar);
       this.assign("typevar",typevar);
     }
     if(!think.isEmpty(sortarr)) {
@@ -236,7 +239,7 @@ export default class extends Base {
     }
     //console.log(map);
     //return false;
-    //console.log(sort);
+    console.log(sort);
     this.assign("sort",sort);
     this.assign("nsobj",nsobj);
 
@@ -300,7 +303,7 @@ export default class extends Base {
     console.log(data.data)
     let temp = cate.template_lists ? `${cate.template_lists}` : "";
     //console.log(cate);
-    //console.log(111)
+    console.log(temp)
     if(checkMobile(this.userAgent())){
       if(this.isAjax("get")){
         for(let v of data.data){

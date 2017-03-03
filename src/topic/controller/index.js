@@ -17,7 +17,7 @@ export default class extends Base {
    * index action
    * @return {Promise} []
    */
-  async indexAction(){
+   async indexAction(){
     //auto render template file index_index.html
     console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     this.meta_title = "首页";//标题1
@@ -45,16 +45,16 @@ export default class extends Base {
       order = Number(order);
       switch (order){
         case 1:
-          o.update_time = 'ASC';
-          break;
+        o.update_time = 'ASC';
+        break;
         case 2:
-          o.view = 'DESC';
-          break;
+        o.view = 'DESC';
+        break;
         case 3:
-          o.view = 'ASC';
-          break;
+        o.view = 'ASC';
+        break;
         default:
-          o.update_time = 'DESC';
+        o.update_time = 'DESC';
       }
 
       this.assign('order',order);
@@ -95,39 +95,41 @@ export default class extends Base {
 
   }
   /**
-   * 解析路由，判断是频道页面还是列表页面
+   * 解析路由，判断是封面频道页面还是列表页面
    */
-  async routeAction(){
+   async routeAction(){
     console.log('enter routeAction');
     // this.end( this.get('category'));
+    console.log(this.get('category'));
     let cate = await this.category(this.get('category').split("-")[0]);
-    let type = cate.allow_publish;
+    //console.log(cate);
+    let type = cate.allow_publish;//allow_publish:栏目发布类型，是否允许发布内容  0封面，1列表
     if(cate.mold == 2){
       type = 'sp';
     }
 
     switch (type){
       case 0:
-        if(cate.mold==1){
+        if(cate.mold==1){//mold:栏目类型 0系统模型 1独立模型 2单页面
           await this.action("mod/index","index");
         }else {
           await this.action("cover","index");
         }
-            break;
-      case 1:
-      case 2:
+        break;
+        case 1:
+        case 2:
         if(cate.mold==1){
          // await this.action('question/list', 'index', 'mod')
-          await this.action("mod/index","list");
-        }else {
-          await this.action("list","index");
-        }
-            break;
+         await this.action("mod/index","list");
+       }else {
+        await this.action("list","index");
+      }
+      break;
       case 'sp':
-         await this.action("sp","index");
-            break;
+      await this.action("sp","index");
+      break;
       default:
-        this.end(111)
+      this.end(111)
     }
     //this.end(cate.allow_publish)
     // 获取当前栏目的模型
