@@ -80,6 +80,7 @@ export default class extends Base {
 
     if (this.isAjax("post")) {
 //验证码
+    /*
       if(1==this.setup.GEETEST_IS_LOGIN){
         let Geetest = think.service("geetest"); //加载 commoon 模块下的 geetset service
         let geetest = new Geetest();
@@ -91,6 +92,7 @@ export default class extends Base {
           return this.fail(-3,"验证码不正确!");
         }
       }
+      */
 //用户账号密码验证
       let username = this.post('username');
       let password = this.post('password');
@@ -137,17 +139,28 @@ export default class extends Base {
     }
 
   }
-//获取短信验证码
+
+/* 获取短信验证码
+*  mobile:手机号 目前支持大陆地区 默认+86
+*  type:短信类型 1：注册短信，2：忘记密码短信
+*  check: 是否检查手机号已注册 1：检查手机号  目前强制检查
+*  
+*/
   async verifycodesendAction(){
     if(!this.isPost()){
       return this.fail("请求错误！")
     }
     let data = this.post();
     let code = MathRand();
+
+    data.check = 1;// 强制检查手机号
     if(data.check ==1){
       let res = await this.model("member").where({mobile:data.mobile}).find();
-      if(!think.isEmpty(res)){
-        return this.fail("该手机号已存在！")
+      if(!think.isEmpty(res) && data.type==1){
+        return this.fail("该手机号已注册！")
+      }
+      if(think.isEmpty(res) && data.type==2){
+        return this.fail("该手机号未注册！")
       }
     }
     //检查执行周期
@@ -194,7 +207,15 @@ export default class extends Base {
     }
     return this.json(result.result)
   }
-  //短信注册
+
+
+/* 短信注册
+*  mobile:手机号 目前支持大陆地区 默认+86
+*  sms_type:短信类型 1：注册短信，2：忘记密码短信
+*  check: 是否检查手机号已注册 1：检查手机号  目前强制检查
+*  password：密码，密码需包含字母+数字的8-16位字符
+*  username：用户名，需唯一
+*/
   async smsregAction(){
     let data = this.post();
     //对比验证码
@@ -208,13 +229,19 @@ export default class extends Base {
     if(think.isEmpty(code)||code != data.verifycode){
       return this.fail("验证码不正确!")
     }
-    let patrn=/^(\w){6,20}$/;
-    if(!patrn.test(data.password)){
-      return this.fail("密码：只能输入6-20个字母、数字、下划线")
+    //let patrn=/^(\w){8,16}$/;//只能输入6-20个字母、数字、下划线
+    let patrn = /^(?=.*[0-9])(?=.*[a-zA-Z])^[A-Za-z0-9\x21-\x7e]{8,16}$/;//密码需包含字母+数字的8-16位字符
+    if (!patrn.test(data.password)){
+      return this.fail("密码：需包含字母和数字的8-16为字符")
+    }
+    //检查用户名唯一
+    let res = await this.model("member").where({username:data.username}).find();
+      if(!think.isEmpty(res)){
+        return this.fail("该用户名已注册！")
     }
     data.email = 0;
     // data.username = data.mobile;
-    data.status = 1;
+    data.status = 1;//默认激活
     data.reg_time = new Date().valueOf();
     data.reg_ip = _ip2int(this.ip());
     data.password = encryptPassword(data.password);
@@ -232,6 +259,62 @@ export default class extends Base {
     await this.session('webuser', userInfo);
     return this.success({name:"注册成功,登录中!",url:"/uc/index"});
   }
+
+/* 短信忘记密码注
+*  mobile:手机号 目前支持大陆地区 默认+86
+*  sms_type:短信类型 1：注册短信，2：忘记密码短信
+*  check: 是否检查手机号已注册 1：检查手机号  目前强制检查
+*  password：密码，密码需包含字母+数字的8-16位字符
+*  username：用户名，需唯一
+*/
+  async smsforgotpwAction(){
+    let data = this.post();
+    let user = await this.model("member").where({mobile:data.mobile}).find();
+      if(think.isEmpty(user) ){
+        return this.fail("该手机号未注册！")
+    }
+    //对比验证码
+    let map = {
+      mobile:data.mobile,
+      type:data.sms_type
+    }
+    map.create_time = [">",new Date().valueOf() - 1 * 3600 * 1000]
+    // console.log(map);
+    let code = await this.model("sms_log").where(map).order("id DESC").getField("code",true);
+    if(think.isEmpty(code)||code != data.verifycode){
+      return this.fail("验证码不正确!")
+    }
+
+
+    //let patrn=/^(\w){8,16}$/;//只能输入6-20个字母、数字、下划线
+    let patrn = /^(?=.*[0-9])(?=.*[a-zA-Z])^[A-Za-z0-9\x21-\x7e]{8,16}$/;//密码需包含字母+数字的8-16位字符
+    if (!patrn.test(data.password)){
+      return this.fail("密码：需包含字母和数字的8-16为字符")
+    }
+    data.email = 0;
+    // data.username = data.mobile;
+    data.status = 1;
+    data.reg_time = new Date().valueOf();
+    data.reg_ip = _ip2int(this.ip());
+    data.password = encryptPassword(data.password);
+    let reg = await this.model("member").add(data);
+    if(reg){
+      //用户副表
+      await this.model("customer").add({user_id:reg});
+    }
+
+
+    //await this.model("member").autoLogin({id:reg}, this.ip());//更新用户登录信息，自动登陆
+
+    let userInfo = {
+      'uid':user.uid,
+      'username': user.username,
+      'last_login_time': new Date().valueOf(),
+    };
+    await this.session('webuser', userInfo);
+    return this.success({name:"验证成功,修改密码!",url:"/uc/changepw"});
+  }
+
   async verifymemberAction(){
     let v = this.get("v");
     let f = this.get("f");

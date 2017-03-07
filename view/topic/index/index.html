@@ -457,7 +457,7 @@ owl-carousel item paddings
 				</h3>
 				<div class="timeline">
 					<div class="timeline-hline"><!-- horizontal line cache='1000'--></div>
-					{%model data="list",table="question",order="update_time DESC",limit="10"%}
+					{%model data="list",table="question",where='{"has_img":1}',order="update_time DESC",limit="10"%}
 					{% for val in list %}
 					{% set categoryname = val.category_id|get_cate %}
 					{% set imgs= val.detail|img_text_view(200,120)%}
@@ -606,50 +606,51 @@ owl-carousel item paddings
 				</div>
 
 				{%endif%}
+				<!--
 				<div class="box-inner nopadding  margin-bottom-20">
 					<h3>
 						<a class="pull-right size-11 text-warning" href="#">更多</a>
 						捐赠墙
 					</h3>
 					<div class="" >
-						<div class="clearfix margin-bottom-20"><!-- notification item -->
+						
 							<span class="label label-success label-square pull-left" style="width: auto;padding-left: 5px;padding-right: 5px">
 													<i class="fa fa-rmb"></i>5.00
 												</span>
 							<span class="size-14 text-muted"><b class="weight-500 text-warning">仁伟</b>: 支付宝-转账</span>
 						</div>
-						<div class="clearfix margin-bottom-20"><!-- notification item -->
+						
 							<span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
 													<i class="fa fa-rmb"></i>1500.00
 												</span>
 							<span class="size-14 text-muted"><b class="weight-500 text-warning">伴猪看斜阳</b>: 支付宝-转账</span>
 						</div>
-						<div class="clearfix margin-bottom-20"><!-- notification item -->
+						<div class="clearfix margin-bottom-20"><
 							<span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
 													<i class="fa fa-rmb"></i>500.00
 												</span>
 							<span class="size-14 text-muted"><b class="weight-500 text-warning">张轶军</b>: 微信-转账</span>
 						</div>
-						<div class="clearfix margin-bottom-20"><!-- notification item -->
+						<div class="clearfix margin-bottom-20">
 							<span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
 													<i class="fa fa-rmb"></i>50.00
 												</span>
 							<span class="size-14 text-muted"><b class="weight-500 text-warning">koala</b>:QQ红包-转账</span>
 						</div>
-						<div class="clearfix margin-bottom-20"><!-- notification item -->
+						<div class="clearfix margin-bottom-20">
 							<span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
 													<i class="fa fa-rmb"></i>50.00
 												</span>
 							<span class="size-14 text-muted"><b class="weight-500 text-warning">dancingalone</b>:oschina-捐助</span>
 						</div>
-						<div class="clearfix margin-bottom-20"><!-- notification item -->
+						<div class="clearfix margin-bottom-20">
 							<span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
 													<i class="fa fa-rmb"></i>666.00
 												</span>
 							<span class="size-14 text-muted"><b class="weight-500 text-warning">dancingalone</b>:oschina-捐助</span>
 						</div>
 					</div>
-				</div>
+				</div>-->
 
 			</div>
 

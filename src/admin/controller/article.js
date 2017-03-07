@@ -153,7 +153,7 @@ export default class extends Base {
         //解析列表规则
         let fields = [];
         let ngrids = [];
-        //console.log(model);
+        console.log(model);
         let grids = model.list_grid.split("\r\n");
         for (let value of grids) {
             //字段:标题:链接
@@ -172,7 +172,7 @@ export default class extends Base {
                     [values.title, values.format] = val[1].split('|');
                 }
             }
-            //console.log(field);
+            console.log(field);
             for (let val  of field) {
                 let array = val.split('|');
                 fields.push(array[0]);

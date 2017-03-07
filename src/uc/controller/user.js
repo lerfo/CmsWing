@@ -581,6 +581,30 @@ export default class extends Base {
 
     }
 
+/* 
+*  重置密码
+*  password：密码，密码需包含字母+数字的8-16位字符
+*  password2：确认密码
+*  
+*/
+    async resetpasswordAction() {
+        //判断是否登陆
+        await this.weblogin();
+        let data = this.post();
+        //let password = await this.model("member").where({id: this.user.uid}).getField("password", true);
+        if(data.password != data.password2){
+          return this.fail("两次输入的密码不一致，请重新填写！")
+        }
+
+        let patrn = /^(?=.*[0-9])(?=.*[a-zA-Z])^[A-Za-z0-9\x21-\x7e]{8,16}$/;//密码需包含字母+数字的8-16位字符
+        if (!patrn.test(data.password)){
+          return this.fail("密码：需包含字母和数字的8-16为字符")
+        }
+
+        await this.model("member").where({id: this.user.uid}).update({password: encryptPassword(data.password)})
+        return this.success({name:"密码重置成功,登录中!",url:"/uc/index"});
+    }
+    
     //上传头像
     async updateavatarAction() {
         //判断是否登陆

@@ -446,7 +446,7 @@
 
         let ret =  await model.select();
 
-        //console.log(ret);
+        console.log(ret);
         context.ctx[data] = ret;
         return callback(null,'');
     }

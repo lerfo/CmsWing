@@ -47,13 +47,15 @@ export default class extends think.model.base {
                 // }
             }
         }else {//更新主题
-            let status = this.update(data);
+            let status = await this.update(data);
             console.log(data);
-            //更新关键词
-            //获取相关话题;
-            await this.model("keyword").updatekey(data.keyname,data.id,data.userid,data.mod_id,1);
-            //更新搜索
-            await this.model("search").updatesearch(data.mod_id,data);
+            if(data.keyname && data.mod_id){//推荐或取消推荐主题时，不更新关键字
+                //更新关键词
+                //获取相关话题;
+                await this.model("keyword").updatekey(data.keyname,data.id,data.userid,data.mod_id,1);
+                //更新搜索
+                await this.model("search").updatesearch(data.mod_id,data);
+            }
         }
         return {data:data,id:id};
     }

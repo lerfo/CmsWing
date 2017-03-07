@@ -8,7 +8,7 @@ export default class extends Base {
      * @return {Promise} []
      * 封面入口
      */
-    indexAction(){
+     indexAction(){
         //console.log(this);
         //auto render template file index_index.html
 
@@ -20,7 +20,7 @@ export default class extends Base {
      * @param cid 栏目id
      * @returns {*}
      */
-    async getgroupsAction(){
+     async getgroupsAction(){
         let cid = this.get("cid");
         let groups = await this.model('category').get_groups(cid);
         if(think.isEmpty(groups)){
@@ -29,7 +29,7 @@ export default class extends Base {
         return this.json(groups);
     }
 //关注
-    async ajaxquestionfocusAction(){
+async ajaxquestionfocusAction(){
         //前端验证登录
         await this.weblogin();
         //获取关注的类型，1关注，2取消关注
@@ -41,20 +41,47 @@ export default class extends Base {
             case 1:
             //关注
             await this.model("question_focus").add({question_id:id,uid:this.user.uid,add_time:new Date().getTime()});
-                 await this.model("question").where({id:id}).increment("focus_count");
-                 this.success({name:"关注成功!"});
-                break;
+            await this.model("question").where({id:id}).increment("focus_count");
+            this.success({name:"关注成功!"});
+            break;
             case 2:
                //取消关注
-                await this.model("question_focus").where({question_id:id,uid:this.user.uid}).delete();
-                await this.model("question").where({id:id}).decrement("focus_count");
-                this.success({name:"取消关注成功!"});
-            break;
-            default:
-                return this.fail("缺少参数!")
-        }
+               await this.model("question_focus").where({question_id:id,uid:this.user.uid}).delete();
+               await this.model("question").where({id:id}).decrement("focus_count");
+               this.success({name:"取消关注成功!"});
+               break;
+               default:
+               return this.fail("缺少参数!")
+           }
+           console.log('focus end');
+       }
 
+ //管理员推荐主题
+ async ajaxrecommendAction(){
+      //前台登录验证
+      await this.weblogin();
+      console.log(this.get("id"));
+      let question_id = this.get("id");
+      //操作：0取消推荐；1推荐
+      let cmd = this.get('cmd');
+      if(this.user.is_admin == 1){
+        let data={};
+        data.id = question_id;
+        data.is_recommend = cmd;
+        let res = await this.model('question').where({id:question_id}).updates(data)
+        if (res) {
+            //行为记录
+            //if (res.data.id) {
+                //添加操作日志，可根据需求后台设置日志类型。
+                await this.model("action").log("recommendquestion", "question", res.id, this.user.uid, this.ip(), this.http.url);
+                this.success({name: "推荐成功"});
+            //}
+        } else{
+            return this.fail("操作失败！");
+        }
+      }
     }
+
     //获取评论
     async ajaxanswercommentsAction(){
         let answer_id = this.get("answer_id");
@@ -102,7 +129,7 @@ export default class extends Base {
         }
         this.assign("answer",answer);
         //pc
-       return this.modtemp();
+        return this.modtemp();
 
     }
     async delanswerAction(){
@@ -125,7 +152,7 @@ export default class extends Base {
         await this.model("question_answer_comments").where({answer_id:answer_id}).delete();
         //删除统计
         await this.model("question").where({id:this.get("qid")}).decrement("answer_count",1);
-       return this.success({name:"删除成功!"})
+        return this.success({name:"删除成功!"})
     }
     async delcommentsAction(){
         //前端登录验证

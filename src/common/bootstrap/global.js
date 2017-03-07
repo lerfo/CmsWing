@@ -745,7 +745,7 @@ global.get_cover = async (cover_id, field) => {
  * @param h 高
  */
 global.get_pic = async(id,m=null,w=null,h=null)=>{
-    console.log('enter get_pic id = '+id);
+    //console.log('enter get_pic id = '+id);
     if(think.isEmpty(id)){
         return "/static/noimg.jpg";
     }
@@ -1269,7 +1269,7 @@ global.priv = async(catid,roleid,action,is_admin=0,type=true)=>{
     // console.log(action);
     // console.log(is_admin);
     let priv = await think.model("category_priv",think.config("db")).priv(catid,roleid,action,is_admin,type);
-    //console.log(priv);
+    console.log(priv);
     if(!priv){
         return false;
     }else {

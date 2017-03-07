@@ -11,7 +11,7 @@ export default class extends Base {
   async indexAction(){
     await this.weblogin();
     let cate_id = this.get('cate_id') || null;
-    //console.log(cate_id);
+    console.log(cate_id);
     //权限控制
     let priv = await this.priv(cate_id);
     if(priv){

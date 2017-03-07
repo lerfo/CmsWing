@@ -167,4 +167,26 @@ $(function () {
         $("#btn-input-" + id).insertContent(name);
        // alert(name)
     })
+
+        //提交评论
+    $(document).on("click",'.btn_recommend',function () {
+        var id = $(this).attr("data-recommend-id");
+        console.log(id);
+        
+        $.ajax({
+            type:"get",
+            url:"/mod/question/ajax/ajaxrecommend/cmd/0/id/"+id,
+            success:function (data) {
+                if (data.errno==0) {
+                        _toastr(data.data.name,"top-right","success",false);
+                        addhtml(id)
+                }else{
+
+                        _toastr(data.errmsg,"top-right","error",false);
+
+                }
+            }
+        })
+        //alert(id)
+    })
 });

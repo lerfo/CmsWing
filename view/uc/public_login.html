@@ -15,46 +15,48 @@
                     .shadow-after-2     = shadow 2 header bottom
                     .shadow-before-3    = shadow 3 header top
                     .shadow-after-3     = shadow 3 header bottom
-            -->
-<section class="page-header page-header-xs">
-    <div class="container">
+                -->
+                <!-- 
+                <section class="page-header page-header-xs">
+                    <div class="container">
 
-        <!-- breadcrumbs -->
-        <ol class="breadcrumb breadcrumb-inverse">
-            <li><a href="/index">首页</a></li>
-            <li class="active">登录</li>
-        </ol>
-        <!-- /breadcrumbs -->
-
-    </div>
-</section>
-<!-- /PAGE HEADER -->
+                        
+                        <ol class="breadcrumb breadcrumb-inverse">
+                            <li><a href="/index">首页</a></li>
+                            <li class="active">登录</li>
+                        </ol>
 
 
+                    </div>
+                </section>-->
+                <!-- /PAGE HEADER -->
 
 
-<!-- -->
-<section>
-    <div class="container">
 
-        <div class="row">
 
-            <div class="row">
-                <div class="col-md-4 col-sm-4" style="margin-left: auto; margin-right: auto; float: none;">
+                <!-- -->
+                <section>
+                    <div class="container">
+
+                        <div class="row">
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4" style="margin-left: auto; margin-right: auto; float: none;">
                         <!--<h3 class="m-t-none m-b">已有账号</h3>
                         <p>Sign in to meet your friends.</p>-->
-                    <form role="form" class="nomargin sky-form boxed" id="login" method="post" autocomplete="off">
-                        <header>
-                            <i class="fa fa-users"></i> {{controller.meta_title}}
-                        </header>
-                        <fieldset class="nomargin">
-                            <label class="input margin-bottom-10">
-                                <i class="ico-append fa fa-mobile"></i>
-                                <input type="text" name="username" class="form-control" placeholder="邮箱/手机号/昵称" required="">
-                                <b class="tooltip tooltip-bottom-right">请输入中国大陆手机号</b>
-                            </label>
+                        <form role="form" class="nomargin sky-form boxed" id="login" method="post" autocomplete="off">
+                            <header>
+                                <i class="fa fa-users"></i> {{controller.meta_title}}
+                            </header>
+                            <fieldset class="nomargin">
+                                <label class="input margin-bottom-10">
+                                    <i class="ico-append fa fa-mobile"></i>
+                                    <input type="text" name="username" class="form-control" placeholder="邮箱/手机号/昵称" required="">
+                                    <b class="tooltip tooltip-bottom-right">请输入中国大陆手机号</b>
+                                </label>
 
-                            <!--是否开启验证码-->
+                                <!--是否开启验证码-->
+                            <!--
                             {%if controller.setup.GEETEST_IS_LOGIN ==1%}
                             <div class="form-group" style="margin-top: 16px !important;">
                                 <div id="captcha"></div>
@@ -62,32 +64,32 @@
                                 <p id="notice" class="hide">请先拖动验证码到相应位置</p>
                             </div>
                             {%endif%}
-
-                            <label class="input margin-bottom-10">
-                                <i class="ico-append fa fa-lock"></i>
-                                <input type="password" name="password" class="form-control" placeholder="密码" required="">
-                                <b class="tooltip tooltip-bottom-right">长度不少于6位字符,不允许有空格</b>
+                        -->
+                        <label class="input margin-bottom-10">
+                            <i class="ico-append fa fa-lock"></i>
+                            <input type="password" name="password" class="form-control" placeholder="密码" required="">
+                            <b class="tooltip tooltip-bottom-right">长度不少于6位字符,不允许有空格</b>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px;">
+                            <label class="checkbox weight-300" style="font-size: 14px;">
+                                <input type="checkbox" name="checkbox-inline">
+                                <i></i> 记住我
                             </label>
-                            <div class="col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px;">
-                                <label class="checkbox weight-300" style="font-size: 14px;">
-                                    <input type="checkbox" name="checkbox-inline">
-                                    <i></i> 记住我
-                                </label>
 
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-6" style="padding-right: 0px;">
-                                <a href="#" class="pull-right" style="margin-top: 3px;">忘记密码?</a>
-                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6" style="padding-right: 0px;">
+                            <a href="#" class="pull-right" style="margin-top: 3px;">忘记密码?</a>
+                        </div>
 
-                            <div class="col-md-12 col-sm-12 col-xs-12 margin-top-10 margin-bottom-10" style="padding-left: 0px; padding-right: 0px;">
+                        <div class="col-md-12 col-sm-12 col-xs-12 margin-top-10 margin-bottom-10" style="padding-left: 0px; padding-right: 0px;">
 
-                                <button class="btn btn-primary" id="validate-submit" style="width: 100%; margin: 0;">登录</button>
+                            <button class="btn btn-primary" id="validate-submit" style="width: 100%; margin: 0;">登录</button>
 
-                            </div>
+                        </div>
 
-                        </fieldset>
+                    </fieldset>
 
-                    </form>
+                </form>
 
 
                     <!--<form role="form" class="sky-form" id="login" method="post">
@@ -169,7 +171,7 @@
 
 
 {% block script %}
-{%if controller.setup.GEETEST_IS_LOGIN ==1%}
+{%if controller.setup.GEETEST_IS_LOGIN ==0%}
 <!-- 引入封装了failback的接口--initGeetest -->
 
 <!-- 引入封装了failback的接口--initGeetest -->
@@ -211,7 +213,7 @@
                         }
                     }
                 });
-  return false;
+                return false;
             });
 
             // 将验证码加到id为captcha的元素里

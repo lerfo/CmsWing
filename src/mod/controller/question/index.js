@@ -157,7 +157,7 @@ export default class extends Base {
       await this.c_verify("visit",info.category_id);
 
       this.assign("info",info);
-
+      console.log(this.user);
       //seo
       this.meta_title = info.title; //标题
       this.keywords = info.keyname ? info.keyname : ''; //seo关键词
