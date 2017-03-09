@@ -126,9 +126,9 @@
         //获取同级栏目
         let map = {};
         if(pid){
-         map.pid=think._.toInteger(pid);
-         arr = think._.filter(column, map)
-     }else if(cid){
+           map.pid=think._.toInteger(pid);
+           arr = think._.filter(column, map)
+       }else if(cid){
         map.pid=think._.toInteger(cid);
         arr = think._.filter(column, map)
     }else if(tree){
@@ -160,17 +160,17 @@
  */
 
  global.channel = function(){
-     this.tags = ['channel'];
-     this.parse = function (parser,nodes,lexer) {
-       var tok = parser.nextToken();
-       var args = parser.parseSignature(null, true);
-       parser.advanceAfterBlockEnd(tok.value);
-       return new nodes.CallExtensionAsync(this, 'run', args)
-   };
-   this.run = async function (context, args, callback) {
-       let data = think.isEmpty(args.data) ?"data":args.data;
-       let channel = await think.model('channel', think.config("db")).get_channel_cache();
-       channel = arr_to_tree(channel,0);
+   this.tags = ['channel'];
+   this.parse = function (parser,nodes,lexer) {
+     var tok = parser.nextToken();
+     var args = parser.parseSignature(null, true);
+     parser.advanceAfterBlockEnd(tok.value);
+     return new nodes.CallExtensionAsync(this, 'run', args)
+ };
+ this.run = async function (context, args, callback) {
+     let data = think.isEmpty(args.data) ?"data":args.data;
+     let channel = await think.model('channel', think.config("db")).get_channel_cache();
+     channel = arr_to_tree(channel,0);
      //console.log(channel);
      context.ctx[data] = channel;
      return callback(null,'');
@@ -195,6 +195,53 @@
         return callback(null,'');
     }
 }
+/**
+ * 获取首页社区帖子
+ * {% topic data = "data"%} 
+ * question:标签名称
+ * data:接受返回数据的变量名称，例: data = "list"
+ * page: 设置查询开始页面，从1开始，默认为0，例：page = "2"
+ * limit: 设置查询结果的条数，例: limit="10",limit="3,10"
+ * cid: 栏目id ,单个栏目 cid="1",多个栏目 cid = "1,2,3,4" , 不写调取全部栏目
+ * order: 排序方式,默认按更新时间排序
+ * 示例//{%question data="list",has_img="1",order="is_recommend DESC,update_time DESC",limit="3",page="2" %}
+ */
+ global.question = function(){
+    this.tags = ['question'];
+    this.parse = function (parser, nodes, lexer) {
+        let tok = parser.nextToken();
+        let args = parser.parseSignature(null, true);
+        parser.advanceAfterBlockEnd(tok.value);
+        return new nodes.CallExtensionAsync(this, 'run', args);
+    };
+    this.run = async function (context, args, callback) {
+        console.log(args);
+        let where = {};//{'status':1};
+        let data = think.isEmpty(args.data) ? "data" : args.data;
+        let limit = think.isEmpty(args.limit) ? "4" : args.limit;
+        let page = think.isEmpty(args.page) ? "0" : args.page;
+        //帖子包含图片
+        if(args.has_img == 1){
+            where = think.extend({},where,{'has_img':1});
+        }
+        if(args.cid){
+            where = think.extend({},where,{'category_id':args.cid});
+        }
+        //排序
+        let type='update_time DESC';
+        if(!think.isEmpty(args.order)){
+            type = args.order;
+        }
+        console.log('page:'+page);
+        console.log(where);
+        let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).select();
+
+        console.log(questions)
+        context.ctx[data] = questions;
+        return callback(null, '');
+    }
+}
+
 
 /**
  * 获取数据标签

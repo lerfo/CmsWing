@@ -13,6 +13,7 @@ export default class extends Base {
     //    this.fail('文档ID错误！');
     //}
     /* 获取详细信息*/
+    console.log('topic_controller_detail_index:id='+id);
     let document = this.model('document');
     let info = await document.detail(id);
     if(info.errno==702){
@@ -142,7 +143,8 @@ export default class extends Base {
 
       }
     }
-    //console.log(info);
+    console.log(info);
+    console.log(cate);
     this.assign('info', info);
     //判断浏览客户端
     if(checkMobile(this.userAgent())){
@@ -166,9 +168,9 @@ export default class extends Base {
       } else if (!think.isEmpty(cate.template_detail)) {
         temp = cate.template_detail; //分类已经设置模板
       } else {
-        temp = model;
+        temp = model;   //BUG，创建一个新的栏目时，应当要用对应的详情模板页面，否则会报错找不到
       }
-       // console.log(temp);
+      console.log('temp:'+temp);
         //console.log(info);
       //内容分页
       if(!think.isEmpty(info.content)){
@@ -181,31 +183,31 @@ export default class extends Base {
   /**
    * 下载
    */
-  async downloadgetidAction(){
+   async downloadgetidAction(){
     let id = this.get("id").split("||");
-      let db = this.model('document_download');
-      let info =await db.find(id[0]);
-      console.log(info);
-      let file_id = info.file_id;
-      console.log(file_id);
-      let dlink;
-      if(id[1]==1){
-          let location = await this.model('file').where({id:file_id}).getField("location",true);
-          console.log(location);
-          let d = await get_file(file_id);
-          if(this.setup.IS_QINIU==1 && location==1){
+    let db = this.model('document_download');
+    let info =await db.find(id[0]);
+    console.log(info);
+    let file_id = info.file_id;
+    console.log(file_id);
+    let dlink;
+    if(id[1]==1){
+      let location = await this.model('file').where({id:file_id}).getField("location",true);
+      console.log(location);
+      let d = await get_file(file_id);
+      if(this.setup.IS_QINIU==1 && location==1){
             //七牛下载
              // dlink = await get_file(file_id,"savename",true);
-            let qiniu = think.service("qiniu");
-            let instance = new qiniu();
-                dlink = await instance.download(d.savename);
-          }else {
+             let qiniu = think.service("qiniu");
+             let instance = new qiniu();
+             dlink = await instance.download(d.savename);
+           }else {
               // 本地下载
               dlink = d.savepath+d.savename+"?attname="
-          }
-          console.log(dlink);
+            }
+            console.log(dlink);
           //访问统计
-        await db.where({id:info.id}).increment('download');
+          await db.where({id:info.id}).increment('download');
         //return this.redirect(dlink);
         this.assign("durl",dlink);
         if(checkMobile(this.userAgent())){
@@ -215,7 +217,7 @@ export default class extends Base {
           return this.display();
         }
       }else if(id[1]==2){
-          dlink = id[2];
+        dlink = id[2];
         await db.where({id:info.id}).increment('download');
         return this.redirect(dlink);
       }else if(id[1]==3){
@@ -232,7 +234,7 @@ export default class extends Base {
             })
           }
         }
-          await db.where({id:info.id}).increment('download');
+        await db.where({id:info.id}).increment('download');
         if(checkMobile(this.userAgent())){
           //手机模版
           return this.display(`mobile/${this.http.controller}/${this.http.action}`)
@@ -241,5 +243,5 @@ export default class extends Base {
         }
       }
 
+    }
   }
-}

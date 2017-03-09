@@ -1,4 +1,4 @@
-{% extends "./inc/base.html" %} {% block content %}
+{% extends "./inc/base_login.html" %} {% block content %}
 <!-- 
                 PAGE HEADER 
                 
@@ -35,7 +35,7 @@
 
 
                 <!-- -->
-                <section>
+                <section style="padding: 180px 0;">
                     <div class="container">
 
                         <div class="row">
@@ -46,7 +46,7 @@
                         <p>Sign in to meet your friends.</p>-->
                         <form role="form" class="nomargin sky-form boxed" id="login" method="post" autocomplete="off">
                             <header>
-                                <i class="fa fa-users"></i> {{controller.meta_title}}
+                                <!--<i class="fa fa-users"></i>--> {{controller.meta_title}}
                             </header>
                             <fieldset class="nomargin">
                                 <label class="input margin-bottom-10">
@@ -71,20 +71,24 @@
                             <b class="tooltip tooltip-bottom-right">长度不少于6位字符,不允许有空格</b>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px;">
-                            <label class="checkbox weight-300" style="font-size: 14px;">
+                            <label class="checkbox weight-300" style="font-size: 14px; color: #fff;">
                                 <input type="checkbox" name="checkbox-inline">
                                 <i></i> 记住我
                             </label>
 
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-6" style="padding-right: 0px;">
-                            <a href="#" class="pull-right" style="margin-top: 3px;">忘记密码?</a>
+                            <a href="#" class="pull-right" style="margin-top: 3px; color: #fff;">忘记密码?</a>
                         </div>
 
                         <div class="col-md-12 col-sm-12 col-xs-12 margin-top-10 margin-bottom-10" style="padding-left: 0px; padding-right: 0px;">
 
                             <button class="btn btn-primary" id="validate-submit" style="width: 100%; margin: 0;">登录</button>
 
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 col-xs-12" style="padding-right: 0px;">
+                            <a href="/uc/public/register" class="pull-right" style="margin-top: 3px; color: #fff;">立即注册</a>
                         </div>
 
                     </fieldset>

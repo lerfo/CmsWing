@@ -1,4 +1,4 @@
-{% extends "./inc/base.html" %} {% block content %}
+{% extends "./inc/base_reg.html" %} {% block content %}
 <!-- 
 				PAGE HEADER 
 				
@@ -34,7 +34,7 @@
 
 
 <!-- -->
-<section>
+<section style="padding: 180px 0;">
 	<div class="container">
 
 		<div class="row">
@@ -54,14 +54,23 @@
 						<!-- register form 短信注册-->
 						<form class="nomargin sky-form boxed registerpost" action="/uc/public/smsreg" method="post" autocomplete="off">
 							<header>
-								<i class="fa fa-users"></i> {{controller.meta_title}}
+								<!--<i class="fa fa-users"></i>--> {{controller.meta_title}}
 							</header>
 							<fieldset class="nomargin">
-								<label class="input margin-bottom-10">
-									<i class="ico-append fa fa-mobile"></i>
-									<input type="text" maxlength="11" placeholder="输入用于登录的手机号" name="mobile" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();">
-									<b class="tooltip tooltip-bottom-right">输入用于登录的手机号</b>
-								</label>
+								<div class="row" style="margin-bottom: 0px;">
+									<div class="col-md-3">
+										<select style="height: 40px; border-width: 1px; padding: 6px; color: #49b9bb;">
+											<option value="0" selected>+86</option>
+										</select>
+									</div>
+									<div class="col-md-9" style="padding-left: 0px;">
+										<label class="input">
+											<i class="ico-append fa fa-mobile"></i>
+											<input type="text" maxlength="11" placeholder="输入用于登录的手机号" name="mobile" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();">
+											<b class="tooltip tooltip-bottom-right">输入用于登录的手机号</b>
+										</label>
+									</div>
+								</div>
 
 								<!--是否开启验证码-->
 								{%if controller.setup.GEETEST_IS_LOGIN ==1%}
@@ -93,30 +102,33 @@
 									<b class="tooltip tooltip-bottom-right">起一个具有辨识度的用户名</b>
 								</label>
 
+			                    <div class="margin-bottom-10">
+												注：用户名暂不支持更改
+								</div>
 								<label class="input margin-bottom-10">
 									<i class="ico-append fa fa-lock"></i>
 									<input type="password" placeholder="输入8-16位密码,需包含字母与数字" name="password" autocomplete="off">
 									<b class="tooltip tooltip-bottom-right">需包含字母和数字的8-16为字符</b>
 								</label>
 
-								<div class="margin-top-20">
+								<div class="margin-top-10">
 									<label class="checkbox nomargin">
 										<input type="hidden" name="sms_type" value="1">
 										<input class="checked-agree" type="checkbox" name="clause" checked><i></i>我同意 <a href="#" data-toggle="modal" data-target="#termsModal">网站服务条款</a></label>
                             <!--<label class="checkbox nomargin">
                             <input type="checkbox" name="info"><i></i>我想接收新闻和特别优惠信息！</label>-->
                         </div>
+	                    <div class="margin-top-10" style="height: 34px;">
+	                    	<div class="col-md-12" style="padding-left: 0px; padding-right: 0px;">
+	                    		<button type="submit" class="btn btn-primary ajax-post" target-form="registerpost" style="width: 100%; margin: 0;"><i class="fa fa-check"></i> 立即注册</button>
+	                    	</div>
+	                    	
+	                    </div>
+	                    <div class="margin-top-10">
+										已有花生卷账号？<a href="/uc/public/login"  data-target="#termsModal">登录</a>
+						</div>
                     </fieldset>
 
-                    <div class="row margin-bottom-20">
-                    	<div class="col-md-12" style="padding-left: 30px; padding-right: 30px;">
-                    		<button type="submit" class="btn btn-primary ajax-post" target-form="registerpost" style="width: 100%; margin: 0;"><i class="fa fa-check"></i> 立即注册</button>
-                    	</div>
-                    	
-                    </div>
-                    <div class="row margin-bottom-20">
-									已有花生卷账号？<a href="/uc/public/login"  data-target="#termsModal">登录</a>
-					</div>
                 </form>
                 {%else%}
                 <!-- register form 普通注册-->

@@ -1,11 +1,8 @@
 {% extends "../inc/base.html" %}
-{% block style%}
-<link href="/static/assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
-{% endblock %}
 {% block content %}
 {%set cate = category.id|get_cate()%}
-<!-- 
-PAGE HEADER 
+<!--
+PAGE HEADER
 
 CLASSES:
 .page-header-xs	= 20px margins
@@ -21,14 +18,13 @@ CLASSES:
 .shadow-before-3 	= shadow 3 header top
 .shadow-after-3 	= shadow 3 header bottom
 -->
-<section class="page-header dark page-header-xs parallax parallax-2" style="background-image:url('/static/assets/images/demo/thematics/lawyer/slider_bg_4-min.jpg')">
-<div class="overlay dark-2"><!-- dark overlay [1 to 9 opacity] --></div>
+<section class="page-header page-header-xs" >
 <div class="container">
 
 <h1>{{category.title}}</h1>
 
 <!-- breadcrumbs -->
-<ol class="breadcrumb f-14">
+<ol class="breadcrumb">
 <li><a href="/">首页</a></li>
 {%for val in breadcrumb %}
 {% if val.id == category.id %}
@@ -40,11 +36,7 @@ CLASSES:
 {% endfor %}
 </ol><!-- /breadcrumbs -->
 <!-- page tabs -->
-{%if category.pid ==0%}
-    {%column data="column",pid=category.id%}
-    {%else%}
 {%column data="column",pid=category.pid%}
-    {%endif%}
 {%if column%}
 <ul class="page-header-tabs list-inline">
 
@@ -58,13 +50,10 @@ CLASSES:
 </div>
 </section>
 <!-- /PAGE HEADER -->
-
-
-
-
 <!-- -->
-<section>
+<section >
 <div class="container">
+
     <!--分类信息-->
     {%if sort%}
     {%if sort.types|length >1%}
@@ -161,364 +150,263 @@ CLASSES:
     <!--/分类信息-->
 <div class="row">
 
-<!-- RIGHT -->
-<div class="col-lg-10 col-md-10 col-sm-10 col-lg-push-2 col-md-push-2 col-sm-push-2">
-
-{#
-<!-- CAROUSEL -->
-<div class="owl-carousel buttons-autohide controlls-over margin-bottom-30 radius-4" data-plugin-options='{"singleItem": true, "autoPlay": 6000, "navigation": true, "pagination": true, "transitionStyle":"fade"}'>
-<!-- item -->
-<div>
-<div class="caption-slider-default">
-<div class="display-table">
-<div class="display-table-cell vertical-align-middle">
-<div class="caption-container text-left">
-<h2>全场 <strong>限时折扣</strong> &ndash; 50% OFF</h2>
-<p>
-这是一个商城分类页面的广告位<br />
-你可以放置您的推广营销内容.
-</p>
-</div>
-</div>
-</div>
-</div>
-
-<img class="img-responsive radius-4" src="/static/assets/images/demo/shop/banners/top_2.png" width="851" height="335" alt="">
-</div>
-<!-- /item -->
-
-<!-- item -->
-<div>
-
-<div class="caption-slider-default">
-<div class="display-table">
-<div class="display-table-cell vertical-align-middle">
-<div class="caption-container text-left">
-<h2>演示广告位置 <strong>就是这里</strong></h2>
-<p>
-这是一个商城分类页面的广告位<br />
-你可以放置您的推广营销内容.
-</p>
-</div>
-</div>
-</div>
-</div>
-
-<img class="img-responsive radius-4" src="/static/assets/images/demo/shop/banners/top_1.png" width="851" height="335" alt="">
-</div>
-<!-- /item -->
-
-</div>
-<!-- /CAROUSEL -->
-#}
-
-
-<!-- LIST OPTIONS -->
-<div class="clearfix shop-list-options margin-bottom-20">
-<div class="nomargin pull-right">
-{{pagination | safe}}
-</div>
-
-
-<div class="options-left">
-<select>
-<option value="pos_asc">默认排序 高</option>
-<option value="pos_desc">默认排序 低</option>
-<option value="name_asc">销量排序 高</option>
-<option value="name_desc">销量排序 低</option>
-<option value="price_asc">价格排序 高</option>
-<option value="price_desc">价格排序 低</option>
-</select>
-
-<a class="btn active fa fa-th" href="shop-4col-left.html"><!-- grid --></a>
-<a class="btn fa fa-list" href="shop-1col-left.html"><!-- list --></a>
-</div>
-
-</div>
-<!-- /LIST OPTIONS -->
-
-
-<ul class="shop-item-list1 row list-inline nomargin">
-{% for item in list%}
-<!-- ITEM -->
-<li class="col-xs-6 col-lg-3 col-md-3 col-sm-3 ">
-
-<div class="shop-item">
-{% set pic = item.pics|strToArray%}
-<div class="thumbnail">
-<!-- product image(s) -->
-<a class="shop-item-image" href="{{item.name|get_url(item.id)}}" title="{{item.title}}" target="_blank">
-<img class="img-responsive" src="{{pic[0]|get_pic('m=1,w=260,h=260')}}" alt="shop first image" />
-{% if pic|length >1%}
-<img class="img-responsive" src="{{pic[1]|get_pic('m=1,w=260,h=260')}}" alt="shop hover image" />
-{% endif %}
-</a>
-<!-- /product image(s) -->
-
-<!-- hover buttons -->
-<div class="shop-option-over"><!-- replace data-item-id width the real item ID - used by js/view/demo.shop.js -->
-
-<a class="btn btn-default add-wishlist" href="#" data-item-id="1" data-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart nopadding"></i></a>
-<a class="btn btn-default add-compare" href="#" data-item-id="1" data-toggle="tooltip" title="Add To Compare"><i class="fa fa-bar-chart-o nopadding" data-toggle="tooltip"></i></a>
-</div>
-<!-- /hover buttons -->
-<!-- countdown -->
-<div class="shop-item-counter">
-<div class="countdown" data-from="January 31, 2018 15:03:26" data-labels="年,月,周,天,时,分,秒"><!-- Example Date From: December 31, 2018 15:03:26 --></div>
-</div>
-<!-- /countdown -->
-<!-- product more info -->
-<div class="shop-item-info">
-<span class="label label-success">新品</span>
-<span class="label label-danger">热卖</span>
-</div>
-<!-- /product more info -->
-</div>
-
-<div class="shop-item-summary text-center">
-<h2 class="text-intercept"><a class=""  href="{{item.name|get_url(item.id)}}" title="{{item.title}}" target="_blank">{{item.title}}</a></h2>
-
-<!-- rating -->
-<div class="shop-item-rating-line">
-<div class="rating rating-5 size-13"><!-- rating-0 ... rating-5 --></div>
-</div>
-<!-- /rating -->
-
-<!-- price -->
-<div class="shop-item-price text-danger f-16">
-{% if item.price|get_price_format('2') %}<span class="line-through f-14">¥{{item.price|get_price_format('2')}}</span>{%endif%}
-¥{{item.price|get_price_format('1')}}
-</div>
-<!-- /price -->
-</div>
-{% set stock = item.id|getmodelfield(item.model_id,'total_stock') %}
-{% if stock == 0%}
-<!-- buttons -->
-<div class="shop-item-buttons text-center">
-<span class="out-of-stock">已售罄</span><!-- add .clean to remove css characteres -->
-</div>
-<!-- /buttons -->
-{% else %}
-<!-- buttons -->
-<div class="shop-item-buttons text-center">
-<a class="btn btn-default" href="shop-cart.html"><i class="fa fa-cart-plus"></i> 添加到购物车 </a>
-</div>
-<!-- /buttons -->
-{% endif %}
-</div>
-
-</li>
-<!-- /ITEM -->
-{%endfor%}
-
-</ul>
-
-<hr />
-
-<!-- Pagination Default -->
-<div class="text-center">
-{{pagination | safe}}
-</div>
-<!-- /Pagination Default -->
-
-</div>
-
-
 <!-- LEFT -->
-<div class="col-lg-2 col-md-2 col-sm-2 col-lg-pull-10 col-md-pull-10 col-sm-pull-10">
+    <div class="col-md-9 col-sm-9">
+        <div class="text-left">
+            <ul class="nav nav-pills mix-filter">
 
-<!-- CATEGORIES -->
-<div class="side-nav margin-bottom-40">
+                <li class="filter {%if group_id==0%}active{%endif%}"><a href="{{cate.url}}{{http.config('view.file_ext')}}">全部</a></li>
+                {% groups data="groups",cid=category.id%}
+                {%for v in groups%}
+                <li class="filter {%if group_id==v.id%}active{%endif%}"><a href="{{cate.url}}-{{order}}-{{v.id}}{%if sort%}-{{sortid}}{%endif%}{%if sorturl %}-{%endif%}{{sorturl}}{{http.config('view.file_ext')}}">{{v.name}}</a></li>
+                {%endfor%}
+            </ul>
+            <!--投稿按钮-->
+            <div class="btn-group btn-group-sm pull-right">
+                <a {%if model|length> 1 %} data-toggle="dropdown" {% endif %} class="btn btn-primary btn-sm document_add
+                    dropdown-toggle {% if allow == 0 %}disabled{% endif %}" {%if model|length
+                    == 1 %} href="/uc/publish/add/model_id/{{modellist[0].id}}/pid/0/cate_id/{{cate.id}}/group_id/{{group_id}}/sortid/{{sortid}}"{%endif%}
+                    ><span class="fa fa-pencil-square-o"></span> 投稿 {%if model|length > 1 %}<span class="caret"></span>{% endif %}</a>
+                {%if model|length > 1 %}
+                <ul class="dropdown-menu">
 
-<div class="side-nav-head">
-<button class="fa fa-bars"></button>
-<h4>商城分类</h4>
-</div>
+                    {% for val in modellist%}
+                    <li> <a href="/uc/publish/add/model_id/{{val.id}}/pid/0/cate_id/{{cate.id}}/group_id/{{group_id}}/sortid/{{sortid}}"
+                            class="text-info">添加{{val.title}}</a></li>
+                    {% endfor %}
+
+                    <!--<li class="divider"></li>-->
+                    <!--<li><a href="#">添加内容</a></li>-->
+                </ul>
+                {% endif %}
+            </div>
+            <!--//投稿按钮-->
+            <div class="btn-group btn-group-sm pull-right">
+                <a class="btn btn-default height-auto {%if order<2%}active{%endif%}" href="{{cate.url}}-{%if order<2%}{{1-order}}{%else%}0{%endif%}{%if group_id or sort%}-{{group_id}}{%endif%}{%if sort%}-{{sortid}}{%endif%}{%if sorturl %}-{%endif%}{{sorturl}}{{http.config('view.file_ext')}}" >按时间 <span class="glyphicon {%if order ==0%}glyphicon-arrow-down{%elif order==1%}glyphicon-arrow-up{%else%}glyphicon-arrow-down{%endif%}"></span> </a>
+                <a class="btn btn-default height-auto {%if order>=2%}active{%endif%}" href="{{cate.url}}-{%if order>=2%}{%if order ==2%}3{%else%}2{%endif%}{%else%}2{%endif%}{%if group_id or sort%}-{{group_id}}{%endif%}{%if sort%}-{{sortid}}{%endif%}{%if sorturl %}-{%endif%}{{sorturl}}{{http.config('view.file_ext')}}" style="height: auto">按人气<span class="glyphicon  {%if order ==2%}glyphicon-arrow-down{%elif order==3%}glyphicon-arrow-up{%else%}glyphicon-arrow-down{%endif%}"></span></a>
+            </div>
+
+            <div class="divider divider-circle divider-center margin-top-0"><!-- divider -->
+               <a href="#"><i class="fa fa-rss"></i></a>
+            </div>
+        </div>
+
+        {% for val in list %}
+        {% set categoryname = val.category_id|get_cate %}
+        <!-- POST ITEM -->
+        <div class="blog-post-item padding-bottom-20 margin-bottom-20 clearfix">
+
+            <!-- IMAGE -->
+            {% if val.cover_id>0 %}
+            <figure class="blog-item-small-image margin-bottom-0">
+                <img class="img-responsive" src="{{val.cover_id|get_pic('m=1,w=200,h=120')}}" alt="">
+            </figure>
+            {% endif %}
+            <div class="blog-item-small-content">
+                <h2><a href="{{val.name|get_url(val.id)}}" target="_blank" title="{{val.title}}">{{val.title}}</a></h2>
+
+                <ul class="blog-post-info list-inline padding-bottom-10">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-clock-o"></i>
+                            <span class="font-lato">{{val.update_time|dateformat('Y-m-d H:i')}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-comment-o"></i>
+                            <span class="font-lato">{{val.view}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa fa-folder-open-o"></i>
+
+                        <a class="category" href="{{categoryname.url}}">
+                            <span class="font-lato">{{categoryname.name}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-user"></i>
+                            <span class="font-lato">{{val.uid|get_nickname}}</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <p>{{val.description|truncate(90, true, "...")}}</p>
+            </div>
+
+        </div>
+        <!-- /POST ITEM -->
+        {%endfor%}
 
 
-<ul class="list-group list-group-bordered list-group-noicon uppercase">
-<!--{{breadcrumb[1].id}}-->
+        <!-- PAGINATION -->
+        <div class="text-left">
+            <!-- Pagination Default -->
+            {{pagination | safe}}
+            <!-- /Pagination Default -->
+        </div>
+        <!-- /PAGINATION -->
 
-{% column data="list",tree=breadcrumb[0].id %}
-{% for val in list %}
-<!--{%if breadcrumb[1].id == val.id%} active {%endif%}-->
-<li class="list-group-item {%if breadcrumb[1].id == val.id%}active {%endif%} ">
-<a  {% if val.children %}class="dropdown-toggle "{%endif%} href="{{val.url}}">{{val.name}}</a>
-{% if val.children %}
-<ul >
-{% for _val in val.children %}
-<li class="{%if breadcrumb[2].id == _val.id%}active {%endif%}"><a href="{{_val.url}}"><span class="size-11 text-muted pull-right">(123)</span> {{_val.name}}</a></li>
-{%endfor%}
+    </div>
 
-</ul>
-{%endif%}
-</li>
-{%endfor%}
+<!-- RIGHT -->
 
-</ul>
+    <div class="col-md-3 col-sm-3">
 
-</div>
-<!-- /CATEGORIES -->
+        <!-- INLINE SEARCH -->
+        <div class="inline-search clearfix margin-bottom-10">
+            <form action="" method="get" class="widget_search">
+                <input type="search" placeholder="Start Searching..." id="s" name="s" class="serch-input">
+                <button type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+        </div>
+        <!-- /INLINE SEARCH -->
 
-<!-- BRANDS -->
-<div class="side-nav margin-bottom-40 hidden-xs">
+        <hr />
 
-<div class="side-nav-head">
-<button class="fa fa-bars"></button>
-<h4>品牌</h4>
-</div>
-
-<ul class="list-group list-unstyled">
-<li class="list-group-item"><a href="#"><span class="size-11 text-muted pull-right">(21)</span> Armani</a></li>
-<li class="list-group-item"><a href="#"><span class="size-11 text-muted pull-right">(44)</span> Nike</a></li>
-<li class="list-group-item"><a href="#"><span class="size-11 text-muted pull-right">(2)</span> Jolidon</a></li>
-<li class="list-group-item"><a href="#"><span class="size-11 text-muted pull-right">(18)</span> Ralph Lauren</a></li>
-<li class="list-group-item"><a href="#"><span class="size-11 text-muted pull-right">(87)</span> Lotto</a></li>
-<li class="list-group-item"><a href="#"><span class="size-11 text-muted pull-right">(32)</span> Fila</a></li>
-<li class="list-group-item"><a href="#"><span class="size-11 text-muted pull-right">(69)</span> Boss</a></li>
-</ul>
-
-</div>
-<!-- BRANDS -->
+        <!-- side navigation -->
+        {%column data="cates",cid=category.id,isnum="0"%}
+        {%if cates==null%}
+        <div class="side-nav margin-bottom-20 margin-top-20">
+            <div class="side-nav-head">
+                <button class="fa fa-bars"></button>
+                <h4>{{category.title}} 子分类</h4>
+            </div>
+            <ul class="list-group list-group-bordered list-group-noicon uppercase">
+                {%for val in cates%}
+                <li class="list-group-item"><a href="{{val.url}}{{http.config('view.file_ext')}}"><span class="size-11 text-muted pull-right">({{val.doc_num}})</span> {{val.name}}</a></li>
+                {%endfor%}
+            </ul>
+            <!-- /side navigation -->
+        </div>
+        {%endif%}
 
 
-<!-- BANNER ROTATOR -->
-<div class="owl-carousel buttons-autohide controlls-over margin-bottom-40 text-center hidden-xs" data-plugin-options='{"singleItem": true, "autoPlay": 4000, "navigation": true, "pagination": false, "transitionStyle":"goDown"}'>
-<a href="#">
-<img class="img-responsive" src="/static/assets/images/demo/shop/banners/off_1.png" width="270" height="350" alt="">
-</a>
-<a href="#">
-<img class="img-responsive" src="/static/assets/images/demo/shop/banners/off_2.png" width="270" height="350" alt="">
-</a>
-</div>
-<!-- /BANNER ROTATOR -->
+        <!-- JUSTIFIED TAB -->
+        <div class="tabs nomargin-top hidden-xs margin-bottom-10">
 
-{#
-<!-- FEATURED -->
-<div class="margin-bottom-40 hidden-xs">
+            <!-- tabs -->
+            <ul class="nav nav-tabs nav-bottom-border nav-justified">
+                <li class="active">
+                    <a href="#tab_1" data-toggle="tab">
+                        最热
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab_2" data-toggle="tab">
+                        最新
+                    </a>
+                </li>
+            </ul>
 
-<h2 class="owl-featured">FEATURED</h2>
-<div class="owl-carousel featured" data-plugin-options='{"singleItem": true, "stopOnHover":false, "autoPlay":false, "autoHeight": false, "navigation": true, "pagination": false}'>
+            <!-- tabs content -->
+            <div class="tab-content margin-bottom-0 margin-top-10">
 
-<div><!-- SLIDE 1 -->
-<ul class="list-unstyled nomargin nopadding text-left">
+                <!-- POPULAR -->
+                <div id="tab_1" class="tab-pane active">
+                    <!-- /post -->
+                    {% topic data = "hotlist",limit= "5",cid=category.id,type="hot"%}
+                    {%for v in hotlist%}
+                    <div class="row tab-post"><!-- post -->
+                        {%if v.cover_id%}
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <a href="{{v.name|get_url(v.id)}}">
+                                <img src="{{v.cover_id|get_pic('m=1,w=50,h=50')}}" width="50" alt="" />
+                            </a>
+                        </div>
+                        {%endif%}
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <a href="{{v.name|get_url(v.id)}}" class="tab-post-link">{{v.title}}</a>
+                            <small>{{v.update_time|dateformat('Y-m-d H:i')}}</small>
+                        </div>
+                    </div><!-- /post -->
+                    {%endfor%}
 
-<li class="clearfix"><!-- item -->
-<div class="thumbnail featured clearfix pull-left">
-<a href="#">
-<img src="/static/assets/images/demo/shop/products/100x100/p10.jpg" width="80" height="80" alt="featured item">
-</a>
-</div>
+                </div>
+                <!-- /POPULAR -->
 
-<a class="block size-12" href="#">Long Grey Dress - Special</a>
-<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
-<div class="size-18 text-left">$132.00</div>
-</li><!-- /item -->
 
-<li class="clearfix"><!-- item -->
-<div class="thumbnail featured clearfix pull-left">
-<a href="#">
-<img src="/static/assets/images/demo/shop/products/100x100/p2.jpg" width="80" height="80" alt="featured item">
-</a>
-</div>
+                <!-- RECENT -->
+                <div id="tab_2" class="tab-pane">
+                    {% topic data = "newlist",limit= "5",cid=category.id%}
+                    {%for v in newlist%}
+                    <div class="row tab-post"><!-- post -->
+                        {%if v.cover_id%}
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <a href="{{v.name|get_url(v.id)}}">
+                                <img src="{{v.cover_id|get_pic('m=1,w=50,h=50')}}" width="50" alt="" />
+                            </a>
+                        </div>
+                        {%endif%}
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <a href="{{v.name|get_url(v.id)}}" class="tab-post-link">{{v.title}}</a>
+                            <small>{{v.update_time|dateformat('Y-m-d H:i')}}</small>
+                        </div>
+                    </div><!-- /post -->
+                    {%endfor%}
+                    <!-- /post -->
+                </div>
+                <!-- /RECENT -->
 
-<a class="block size-1" href="#">Black Fashion Hat</a>
-<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
-<div class="size-18 text-left">$65.00</div>
-</li><!-- /item -->
+            </div>
 
-<li class="clearfix"><!-- item -->
-<div class="thumbnail featured clearfix pull-left">
-<a href="#">
-<img src="/static/assets/images/demo/shop/products/100x100/p13.jpg" width="80" height="80" alt="featured item">
-</a>
-</div>
+        </div>
+        <!-- JUSTIFIED TAB -->
 
-<a class="block size-1" href="#">Cotton 100% - Pink Dress</a>
-<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
-<div class="size-18 text-left">$77.00</div>
-</li><!-- /item -->
 
-</ul>
-</div><!-- /SLIDE 1 -->
+        <!-- TAGS -->
+        <h3 class="hidden-xs size-16 margin-bottom-10">标签</h3>
+        <div class="hidden-xs margin-bottom-20">
+            {% keywords data ="kws",type="hot"%}
+            {%for key in kws%}
+            <a class="tag" href="{{key.url}}">
+                <span class="txt">{{key.keyname}}</span>
+                <span class="num">{{key.videonum}}</span>
+            </a>
+            {%endfor%}
+        </div>
 
-<div><!-- SLIDE 2 -->
-<ul class="list-unstyled nomargin nopadding text-left">
 
-<li class="clearfix"><!-- item -->
-<div class="thumbnail featured clearfix pull-left">
-<a href="#">
-<img src="/static/assets/images/demo/shop/products/100x100/p12.jpg" width="80" height="80" alt="featured item">
-</a>
-</div>
 
-<a class="block size-12" href="#">Long Grey Dress - Special</a>
-<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
-<div class="size-18 text-left">$132.00</div>
-</li><!-- /item -->
+        <hr />
 
-<li class="clearfix"><!-- item -->
-<div class="thumbnail featured clearfix pull-left">
-<a href="#">
-<img src="/static/assets/images/demo/shop/products/100x100/p6.jpg" width="80" height="80" alt="featured item">
-</a>
-</div>
 
-<a class="block size-1" href="#">Black Fashion Hat</a>
-<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
-<div class="size-18 text-left">$65.00</div>
-</li><!-- /item -->
+        <!-- SOCIAL ICONS -->
+        <div class="hidden-xs margin-top-30 margin-bottom-60">
+            <a href="#" class="social-icon social-icon-border social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
+                <i class="icon-facebook"></i>
+                <i class="icon-facebook"></i>
+            </a>
 
-<li class="clearfix"><!-- item -->
-<div class="thumbnail featured clearfix pull-left">
-<a href="#">
-<img src="/static/assets/images/demo/shop/products/100x100/p14.jpg" width="80" height="80" alt="featured item">
-</a>
-</div>
+            <a href="#" class="social-icon social-icon-border social-twitter pull-left" data-toggle="tooltip" data-placement="top" title="Twitter">
+                <i class="icon-twitter"></i>
+                <i class="icon-twitter"></i>
+            </a>
 
-<a class="block size-1" href="#">Cotton 100% - Pink Dress</a>
-<div class="rating rating-4 size-13 width-100 text-left"><!-- rating-0 ... rating-5 --></div>
-<div class="size-18 text-left">$77.00</div>
-</li><!-- /item -->
+            <a href="#" class="social-icon social-icon-border social-gplus pull-left" data-toggle="tooltip" data-placement="top" title="Google plus">
+                <i class="icon-gplus"></i>
+                <i class="icon-gplus"></i>
+            </a>
 
-</ul>
-</div><!-- /SLIDE 2 -->
+            <a href="#" class="social-icon social-icon-border social-linkedin pull-left" data-toggle="tooltip" data-placement="top" title="Linkedin">
+                <i class="icon-linkedin"></i>
+                <i class="icon-linkedin"></i>
+            </a>
 
-</div>
+            <a href="#" class="social-icon social-icon-border social-rss pull-left" data-toggle="tooltip" data-placement="top" title="Rss">
+                <i class="icon-rss"></i>
+                <i class="icon-rss"></i>
+            </a>
+        </div>
 
-</div>
-<!-- /FEATURED -->
-
-<!-- HTML BLOCK -->
-<div class="margin-bottom-40 hidden-xs">
-<h4>HTML BLOCK</h4>
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non placerat mi. Etiam non tellus eunit.</p>
-
-<form action="#" role="form" method="post">
-<div class="input-group">
-<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-<input type="email" id="email" name="email" class="form-control required" placeholder="Enter your Email">
-<span class="input-group-btn">
-<button class="btn btn-success" type="submit"><i class="glyphicon glyphicon-send"></i></button>
-</span>
-</div>
-</form>
-
-</div>
-<!-- /HTML BLOCK -->
-#}
-</div>
-
+    </div>
 </div>
 
 </div>
 </section>
 <!-- / -->
-
-{% endblock %}
-
-{% block script%}
-<!-- PAGE LEVEL SCRIPTS -->
-<script type="text/javascript" src="/static/assets/js/view/demo.shop.js"></script>
-
 {% endblock %}

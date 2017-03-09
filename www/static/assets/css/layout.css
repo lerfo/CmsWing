@@ -482,7 +482,7 @@ body.bg-grey #wrapper {
 a:active,
 a:focus,
 a:hover { 
-	color: #212121;
+	color: #49b9bb;
 	text-decoration:none;
 }
 
@@ -2681,7 +2681,7 @@ section.dark.page-header ul.page-options a {
 
 		/* on scroll */
 		#header.fixed.translucent{
-			background-color:#fff;
+			background-color:rgba(0,0,0,0.2);
 		}
 		#header.fixed.dark,
 		#header.fixed.dark.translucent {
@@ -2922,6 +2922,19 @@ section.dark.page-header ul.page-options a {
 	#header.fixed #topNav #topMain>li>a {
 		height:60px;
 		line-height:40px;
+	}
+
+	#header.header-md #topNav .container h4 {
+		height:70px;
+		line-height:70px;
+		margin-bottom: 0px;
+		color: #49dddd;
+	}
+	#header.fixed #topNav .container h4 {
+		height:60px;
+		line-height:60px;
+		margin-bottom: 0px;
+		color: #49dddd;
 	}
 
 
@@ -5688,16 +5701,16 @@ section#slider .btn-default {
 	}
 	/* bullets */
 	.tp-bullets.simplebullets.round {
-		bottom:20px !important;
+		bottom:130px !important;
 	}
 	.tp-bullets.simplebullets.round .bullet {
-		background:none;
+/*		background:none;
 		background-color:#fff;
 		height:5px;
-	}
+*/	}
 	.tp-bullets.simplebullets.round .bullet.selected {
-		background-color:#000;
-	}
+/*		background-color:#000;
+*/	}
 	
 	/* revslider 5+ */
 	.rev_slider_wrapper.arrows-bottom .tparrows {
@@ -7191,7 +7204,7 @@ ul.search-history {
 #footer {
 	color: rgba(255,255,255,0.6);
 
-	background: #313131;
+	background: #888888;
 	/*background: -moz-linear-gradient(top, #555555 0%, #313131 100%);*/
 	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1a1d2b), color-stop(100%, #313131));*/
 	/*background: -webkit-linear-gradient(top, #555555 0%, #313131 100%);*/
@@ -7206,10 +7219,10 @@ ul.search-history {
 }
 
 #footer>.copyright {
-	background-color:rgba(0,0,0,0.2);
+	background-color:rgba(0,0,0,0.5);
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 	padding:15px 0;
-	font-size:13px;
+	font-size:12px;
 	display:block;
 }
 
@@ -7483,6 +7496,10 @@ ul.search-history {
 }
 #footer .copyright ul.list-social-icons a.social-icon {
 	margin:0;
+}
+#footer h4 {
+	padding-left: 11px;
+	border-left: 4px solid #2cd;
 }
 	
 	

@@ -405,6 +405,10 @@ export default {
                  */
                 env.addExtension('channel', new channel(), true);
                 /**
+                 * 获取首页帖子
+                 */
+                env.addExtension('question', new question(), true);
+                /**
                  * 获取数据标签
                  */
                 env.addExtension('topic', new topic(), true);

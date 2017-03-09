@@ -91,13 +91,20 @@ export default class extends Base {
     }
 
   }
-  //添加购物车
+
+  /*
+  * 添加购物车
+  * postdata: product_id 产品唯一标示ID
+  *           type 产品类型
+  *           qty:产品购买数量
+  */
   async addcartAction(){
     let data = this.post();
     data = think.extend({},data);
+    //console.log(data);
     // 添加购物车前判断是否有库存
     let stock = await this.model("order").getstock(data.product_id,data.type);
-    //think.log(stock);
+    think.log('stock='+stock,'ADDCART');
     if(data.qty > stock){
       return this.json(false);
     }
@@ -134,7 +141,7 @@ export default class extends Base {
       }
 
     }
-    //console.log(arr);
+    think.log(arr,'ADDCART');
 
     //获取商品详细信息
     //{total:222,data:[{title:"dfd",price:34,pic:2,}]}
@@ -206,6 +213,8 @@ export default class extends Base {
     await this.weblogin();
     let post = this.param("ids");
     let addrid = this.get("addrid");
+    think.log(post,'CART_GETORDERINFO');
+    think.log(addrid,'CART_GETORDERINFO');
     if(think.isEmpty(post)){
       this.http.error = new Error('木有选项要结算的宝贝');
       return think.statusAction(702, this.http);
@@ -219,7 +228,6 @@ export default class extends Base {
     if (!think.isEmpty(addrid) && checkMobile(this.userAgent())) {
       post = JSON.parse(post);
     }
-    this.assign("goodsget",post);
     this.assign("goodsget",post);
     //构造购物车要结算的宝贝
     let ids=[];
@@ -258,7 +266,7 @@ export default class extends Base {
     }
     this.assign("check_goods",check_goods);
     //   console.log(cart_goods);
-    console.log(check_goods);
+    think.log(check_goods,'CART_GETORDERINFO');
     //应付金额
     let parr = [];
     let nums = [];

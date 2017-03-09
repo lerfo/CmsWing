@@ -10,7 +10,7 @@
 	<title>{{controller.meta_title}} | {{controller.setup.WEB_SITE_TITLE}}</title>
 	<meta name="keywords" content="{{controller.keywords}}" />
 	<meta name="description" content="{{controller.description}}" />
-	<meta name="Author" content="zhengqsh[www.peanutroll.com]" />
+	<meta name="Author" content="Arterli [www.peanutroll.com]" />
 	{%if controller.setup.QQ_VALIDATION%}
 	<!--qq互联网站验证-->
 	{{controller.setup.QQ_VALIDATION|safe}}
@@ -37,8 +37,7 @@
 
 	<!-- PAGE LEVEL SCRIPTS -->
 	<link href="/static/assets/css/header-1.css" rel="stylesheet" type="text/css" />
-	<link href="/static/assets/css/color_scheme/blue.css" rel="stylesheet" type="text/css" id="color_scheme" />
-	{% block style %}{% endblock %}
+	<link href="/static/assets/css/color_scheme/blue.css" rel="stylesheet" type="text/css" id="color_scheme" /> {% block style %}{% endblock %}
 	{%if controller.setup.WEB_TONGJI%}
 	<!--统计代码-->
 	{{controller.setup.WEB_TONGJI|safe}}
@@ -68,7 +67,16 @@
 		data-background="assets/images/boxed_background/1.jpg"
 	-->
 
-<body class="smoothscroll enable-animation ">
+	<style type="text/css">
+	#wrapper {
+	   background:url("/static/assets/images/backgrounds/reg_bg.jpg");
+	   filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+	   -moz-background-size:100% 100%;
+	   background-size:100% 100%;
+	}
+	</style>
+
+<body class="smoothscroll enable-animation">
 
 	<!-- SLIDE TOP -->
 	{% include "./slidetop.html" %}
@@ -82,87 +90,86 @@
 		<!-- /Top Bar -->
 
 		<!--HEADER-->
-		{% include "./header.html" %}
+		{% include "./header_reg.html" %}
 		<!--/HEADER-->
 		<!-- REVOLUTION SLIDER -->
 		{% block content %}{% endblock %}
-		<!-- FOOTER -->
-		<footer id="footer" class="" >
-			<div class="container">
-
-				<div class="row">
-
-					<div class="col-md-8">
-						<div class="col-md-3">
-							<!-- Links -->
-							<h4 class="letter-spacing-1">关于我们</h4>
-							<ul class="footer-links list-unstyled">
-								<li><a href="/">花生卷简介</a></li>
-								<li><a href="/about.html">联系我们</a></li>
-								<li><a href="/documentation">合作伙伴</a></li>
-							</ul>
-							<!-- /Links -->
-
-						</div>
-
-						<div class="col-md-3">
-
-							<!-- Links -->
-							<h4 class="letter-spacing-1">加入花生卷</h4>
-							<ul class="footer-links list-unstyled">
-								<li><a href="/">招聘职位</a></li>
-							</ul>
-							<!-- /Links -->
-
-						</div>
-
-						<div class="col-md-3">
-
-							<!-- Links -->
-							<h4 class="letter-spacing-1">网站条款</h4>
-							<!-- /Links -->
-
-						</div>
-
-						<div class="col-md-3">
-
-							<!-- Links -->
-							<h4 class="letter-spacing-1">帮助中心</h4>
-							<ul class="footer-links list-unstyled">
-								<li><a href="/">使用帮助</a></li>
-								<li><a href="/about.html">网站地图</a></li>
-							</ul>
-							<!-- /Links -->
-
-						</div>
-					</div>
-
-					<div class="col-md-4">
-
-						<h2 class="letter-spacing-1" style="margin: 10px 0 14px 0; text-shadow: none;">微信号 <img src="/static/assets/images/qrcode.png"></h2>
-					</div>
-
-				</div>
-
-			</div>
-
-			<div class="copyright">
-				<div class="container">
-					<img src="/static/assets/images/logo.png" style="float: left;">
-					<div style="margin-top: 15px;">
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2004 - <script>document.write(new Date().getFullYear())</script> &copy; 花生卷 &reg; huashengjuan.com All rights reserved. Version v5.57 XICP备12345678号 X公网安备12345678911234 XICP证123456号
-					</div>
-					<div>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;花生卷为旅行者提供原创实用的出境游旅行指南和旅游攻略、旅游社区和问答交流平台，并提供签证、保险、机票、酒店预订、租车等服务。
-					</div>
-				</div>
-			</div>
-		</footer>
-		<!-- /FOOTER -->
 
 	</div>
 	<!-- /wrapper -->
 
+	<!-- FOOTER -->
+	<footer id="footer" class="" >
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col-md-8">
+					<div class="col-md-3">
+						<!-- Links -->
+						<h4 class="letter-spacing-1">关于我们</h4>
+						<ul class="footer-links list-unstyled">
+							<li><a href="/">花生卷简介</a></li>
+							<li><a href="/about.html">联系我们</a></li>
+							<li><a href="/documentation">合作伙伴</a></li>
+						</ul>
+						<!-- /Links -->
+
+					</div>
+
+					<div class="col-md-3">
+
+						<!-- Links -->
+						<h4 class="letter-spacing-1">加入花生卷</h4>
+						<ul class="footer-links list-unstyled">
+							<li><a href="/">招聘职位</a></li>
+						</ul>
+						<!-- /Links -->
+
+					</div>
+
+					<div class="col-md-3">
+
+						<!-- Links -->
+						<h4 class="letter-spacing-1">网站条款</h4>
+						<!-- /Links -->
+
+					</div>
+
+					<div class="col-md-3">
+
+						<!-- Links -->
+						<h4 class="letter-spacing-1">帮助中心</h4>
+						<ul class="footer-links list-unstyled">
+							<li><a href="/">使用帮助</a></li>
+							<li><a href="/about.html">网站地图</a></li>
+						</ul>
+						<!-- /Links -->
+
+					</div>
+				</div>
+
+				<div class="col-md-4">
+
+					<h2 class="letter-spacing-1" style="margin: 10px 0 14px 0; text-shadow: none;">微信号 <img src="/static/assets/images/qrcode.png"></h2>
+				</div>
+
+			</div>
+
+		</div>
+		<div class="copyright">
+			<div class="container">
+				<img src="/static/assets/images/logo.png" style="float: left;">
+				<div style="margin-top: 15px;">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2004 - <script>document.write(new Date().getFullYear())</script> &copy; 花生卷 &reg; huashengjuan.com All rights reserved. Version v5.57 XICP备12345678号 X公网安备12345678911234 XICP证123456号
+				</div>
+				<div>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;花生卷为旅行者提供原创实用的出境游旅行指南和旅游攻略、旅游社区和问答交流平台，并提供签证、保险、机票、酒店预订、租车等服务。
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- /FOOTER -->
 
 	<!--
 			SIDE PANEL
@@ -262,18 +269,11 @@
 #}
 
 	<!-- JAVASCRIPT FILES -->
-
-	<script type="text/javascript" src="/static/assets/plugins/jquery/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript">
 		var plugin_path = '/static/assets/plugins/';
-		$(function () {
-			if($("#topMain.nav-pills>li.active>a")){
-				var w = $("#topMain.nav-pills>li.active>a").width();
-				$("#topMain.nav-pills>li.active>.aline").width(w);
-			}
-
-		})
 	</script>
+	<script type="text/javascript" src="/static/assets/plugins/jquery/jquery-2.1.4.min.js"></script>
+
 	<script type="text/javascript" src="/static/assets/js/scripts.js"></script>
 {#
 	<!-- STYLESWITCHER - REMOVE -->
@@ -285,7 +285,7 @@
 	<script type="text/javascript" src="/static/assets/js/view/demo.revolution_slider.js"></script>
 	{% block script %}{% endblock %}
     <!--[if lte IE 9]>
-    <script src="/static/assets/plugins/jquery-fly/requestAnimationFrame.js"></script>
+<script src="/static/assets/plugins/jquery-fly/requestAnimationFrame.js"></script>
 <![endif]-->
 </body>
 

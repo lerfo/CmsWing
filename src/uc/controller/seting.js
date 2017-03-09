@@ -56,8 +56,11 @@ export default class extends Base {
       province: data.province,
       city: data.city,
       county: data.county,
-      addr: data.addr
-    }
+      addr: data.addr,
+      connect_name:data.connect_name,
+      connect_phone:data.connect_phone,
+      connect_email:data.connect_email
+    } 
 
     //判断浏览客户端
     if (checkMobile(this.userAgent())) {
