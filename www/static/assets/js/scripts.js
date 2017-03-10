@@ -114,6 +114,7 @@
 		// _widget_facebook();
 		_widget_dribbble();
 		_widget_media();
+		//_tourcart();
 		_cart();
 	    //_login();
 	    _swal();
@@ -973,6 +974,104 @@ function _sideNav() {
 	});
 
 }
+    /**tourcart 
+     * 
+     *********************************************************************/
+     function _tourcart() {
+     	var _container =  $('.product-add-booking');
+
+     	if(_container.length > 0) {
+     		loadScript(plugin_path + 'jquery-fly/jquery.fly.min.js', function() { //添加购物车抛物插件
+				var offset = $(".quick-cart").offset();  //结束的地方的元素
+				console.log(offset);
+				$('.product-add-booking').click(function(event) {
+					event.preventDefault();
+					var addcar = $(this);
+					//验证todo
+					//获取商品选择规格
+					var shoptype = $(".icheck");
+					var arr =[]
+					$.each(shoptype,function(k,v) {
+						//console.log(this)
+						var item = $(this).find('input:radio:checked').val()
+						if(item){
+							arr.push(item); 
+						}
+					});
+					console.log(arr.length);
+					console.log(shoptype.length);
+					if(arr.length != shoptype.length){
+						_toastr("添加失败，请选择商品规格!","top-right","error",false);
+						return false;
+					}
+					var img = $("figure").find('img').attr('src');
+					console.log(img);
+					var flyer = $('<img  width="80" src="'+img+'">');
+					flyer.fly({
+						start: {
+							left: event.pageX,
+							top: event.pageY
+						},
+						end: {
+							left: offset.left+10,
+							top: offset.top+10,
+							width: 0,
+							height: 0
+						},
+						onEnd: function(){
+							var str = $(".ichecks").serialize();
+							console.log(str);//product_id=563&type=&qty=1
+							str = str+'&start_date=2017-10-10&adult_quantity=2&kid_quantity=1&baby_quantity=0'
+							//return false;
+							$.ajax({
+								type: "POST",
+								url: "/uc/booking",
+								data: str
+							}).done(function( msg ) {
+								/*
+								if(msg){
+									_toastr("添加购物车成功!","top-right","success",false);
+									$("total").html("￥"+formatCurrency(msg.total));
+									$("#badge-corner").html(msg.num);
+									var html = '';
+									var htmlarr = [];
+									$.each(msg.data,function (k,v) {
+										html='<a href="'+v.url+'">'+
+										'<img src="'+v.pic+'" width="45" height="45" alt="" />'+
+										'<h6><span>'+v.qty+'x</span> '+v.title+'</h6>'+
+										'<small>￥'+formatCurrency(v.price)+' <span class="size-11 text-muted">['+v.type+']</span></small>'+
+										'</a>';
+										htmlarr.push(html);
+									})
+									$(".quick-cart-wrapper").html(htmlarr.join(""));
+								}else {
+									_toastr("该商品已经售罄，请选择其他商品！","top-right","error",false);
+								}*/
+					            console.log(msg);
+					        });
+							//addcar.css("cursor","default").removeClass('orange').unbind('click');
+						}
+					});
+				});	
+			});
+	     }
+
+     	function formatCurrency (num) {
+     		num = num.toString().replace(/\$|\,/g,'');
+     		if(isNaN(num))
+     			num = "0";
+     		var sign = (num == (num = Math.abs(num)));
+     		num = Math.floor(num*100+0.50000000001);
+     		var cents = num%100;
+     		num = Math.floor(num/100).toString();
+     		if(cents<10)
+     			cents = "0" + cents;
+     		for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+     			num = num.substring(0,num.length-(4*i+3))+','+
+     		num.substring(num.length-(4*i+3));
+     		return (((sign)?'':'-') + num + '.' + cents);
+     	}
+     }
 
     /**cart 
      * 

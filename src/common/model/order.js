@@ -144,6 +144,14 @@ export default class extends think.model.base {
         }
         return ressku;
     }
+
+    /*
+    *生成订单编号  在数据库脚本中自动更新order_sn
+    *UPDATE cmswing_order_seq SET order_sn=order_sn+v_cnt WHERE timestr = v_timestr;
+    *INSERT INTO cmswing_order_seq(timestr,order_sn) VALUES(v_timestr,v_cnt);
+    *SELECT CONCAT(v_timestr,LPAD(order_sn,7,0)) AS order_sn FROM cmswing_order_seq WHERE timestr=v_timestr;
+    *
+    */
     async orderid(){
         // let date = new Date();
         // let y = date.getFullYear();

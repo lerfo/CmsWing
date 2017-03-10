@@ -38,7 +38,7 @@
 					<!-- right -->
 					<ul class="top-links list-inline pull-right" style="margin-top: 23px; padding-left: 15px;">
 						{% if controller.is_login %}
-						<li class="text-welcome ">您好, <strong>{{controller.user.username}}</strong></li>
+						<li class="text-welcome" style="color: #fff;">您好, <strong>{{controller.user.username}}</strong></li>
 						<li>
 							<a class="dropdown-toggle no-text-underline" data-toggle="dropdown" href="#"><i class="fa fa-user hidden-xs"></i> 会员中心</a>
 							<ul class="dropdown-menu pull-right">
@@ -148,7 +148,7 @@
 									</li>
 								-->
 								<ul id="topMain" class="nav nav-pills nav-main">
-									{% channel data='channel'%}
+									{% channel data='channel', limit="12" %}
 									{% for val in channel%}
 									{%if val.status > 0%}
 									<li class="{% if val.children %}dropdown{% endif %} {% if category.id|in_Array(val.on) %}active{% endif %}">
