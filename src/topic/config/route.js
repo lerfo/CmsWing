@@ -10,6 +10,7 @@ export default [
     [/^topic\/(.*)$/,"topic/keyword/index?key=:1"],
     [/^topic$/,"topic/keyword/index"],
     [/^search$/,"topic/search/index"],
+    [/^ajax\/(.*)$/,"topic/ajax?action=:1"],
     [/^t\/(.*)$/,"topic/keyword/list?key=:1"],
     [/(.*)$/, "topic/index/route?category=:1"],
     // [/^channel\/(.*)$/, "home/topic/index?category=:1"],

@@ -103,6 +103,7 @@ export default class extends Base {
     console.log(this.get('category'));
     let cate = await this.category(this.get('category').split("-")[0]);
     //console.log(cate);
+
     let type = cate.allow_publish;//allow_publish:栏目发布类型，是否允许发布内容  0封面，1列表
     if(cate.mold == 2){
       type = 'sp';

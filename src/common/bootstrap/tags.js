@@ -126,9 +126,9 @@
         //获取同级栏目
         let map = {};
         if(pid){
-           map.pid=think._.toInteger(pid);
-           arr = think._.filter(column, map)
-       }else if(cid){
+         map.pid=think._.toInteger(pid);
+         arr = think._.filter(column, map)
+     }else if(cid){
         map.pid=think._.toInteger(cid);
         arr = think._.filter(column, map)
     }else if(tree){
@@ -160,17 +160,17 @@
  */
 
  global.channel = function(){
-   this.tags = ['channel'];
-   this.parse = function (parser,nodes,lexer) {
-     var tok = parser.nextToken();
-     var args = parser.parseSignature(null, true);
-     parser.advanceAfterBlockEnd(tok.value);
-     return new nodes.CallExtensionAsync(this, 'run', args)
- };
- this.run = async function (context, args, callback) {
-     let data = think.isEmpty(args.data) ?"data":args.data;
-     let channel = await think.model('channel', think.config("db")).get_channel_cache();
-     channel = arr_to_tree(channel,0);
+     this.tags = ['channel'];
+     this.parse = function (parser,nodes,lexer) {
+       var tok = parser.nextToken();
+       var args = parser.parseSignature(null, true);
+       parser.advanceAfterBlockEnd(tok.value);
+       return new nodes.CallExtensionAsync(this, 'run', args)
+   };
+   this.run = async function (context, args, callback) {
+       let data = think.isEmpty(args.data) ?"data":args.data;
+       let channel = await think.model('channel', think.config("db")).get_channel_cache();
+       channel = arr_to_tree(channel,0);
      //console.log(channel);
      context.ctx[data] = channel;
      return callback(null,'');
@@ -306,10 +306,10 @@
         if(!think.isEmpty(args.type)){
             if(args.type=="hot"){
               type="view DESC"
-          }else if(args.type == "level"){
-            type="level DESC"
+              }else if(args.type == "level"){
+                type="level DESC"
+            }
         }
-    }
         //推荐
         if(!think.isEmpty(args.position)){
             where = think.extend(where,{position:args.position})
