@@ -20,6 +20,8 @@ export default class extends Base {
         console.log(doaction);
         if(doaction == 'topic'){
           this.action('ajax',doaction);
+        }else if(doaction == "question"){
+          this.action('ajax',doaction);
         }else{
           this.http.error = new Error('分类不存在或者被禁用！');
           return think.statusAction(702, this.http);
@@ -119,6 +121,43 @@ export default class extends Base {
         return this.json(topic);
     }
 
+/**
+ * 获取首页社区帖子
+ * {% topic data = "data"%} 
+ * question:标签名称
+ * data:接受返回数据的变量名称，例: data = "list"
+ * page: 设置查询开始页面，从1开始，默认为0，例：page = "2"
+ * limit: 设置查询结果的条数，例: limit="10",limit="3,10"
+ * cid: 栏目id ,单个栏目 cid="1",多个栏目 cid = "1,2,3,4" , 不写调取全部栏目
+ * order: 排序方式,默认按更新时间排序
+ * 示例//{%question data="list",has_img="1",order="is_recommend DESC,update_time DESC",limit="3",page="2" %}
+ */
+  async questionAction(){
+        let args = this.post();
+        console.log(args);
+        let where = {};//{'status':1};
+        let data = think.isEmpty(args.data) ? "data" : args.data;
+        let limit = think.isEmpty(args.limit) ? "4" : args.limit;
+        let page = think.isEmpty(args.page) ? "0" : args.page;
+        //帖子包含图片
+        if(args.has_img == 1){
+            where = think.extend({},where,{'has_img':1});
+        }
+        if(args.cid){
+            where = think.extend({},where,{'category_id':args.cid});
+        }
+        //排序
+        let type='update_time DESC';
+        if(!think.isEmpty(args.order)){
+            type = args.order;
+        }
+        console.log('page:'+page);
+        console.log(where);
+        let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).select();
+
+        console.log(questions)
+        return this.json(questions);
+    }
 
 
 }

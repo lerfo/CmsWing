@@ -194,12 +194,13 @@
 		<div  class=" portfolio-title-over">
 			<div class="row mix-grid">
 				<ul id="destination-ul" style="padding-left: 0px;">
-					{% topic data = "list", limit= "6", cid=135, issub=1, ischild=1, type="level", page=0 %}
+					{% topic data = "list", limit= "6", cid=135, isstu=1, issub=1, ischild=1, type="level", page=0 %}
 					{% for v in list %}
 
 					<li class="mix development"><!-- item -->
 
 						<div class="item-box thumbnail">
+						<a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}">
 							<figure>
 								<span class="item-hover">
 									<span class="overlay dark-5"></span>
@@ -227,6 +228,7 @@
 
 								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=200,h=120')}}"  alt="">
 							</figure>
+						</a>
 						</div>
 
 					</li><!-- /item -->
@@ -237,7 +239,7 @@
 			</div>
 		</div>
 		<div class="more-info text-center margin-top-20">
-			<a href="">点击查看更多》</a>
+			<a href="/youxue{{http.config('view.file_ext')}}">点击查看更多》</a>
 		</div>
 
 	</div>
@@ -262,6 +264,7 @@
 					<li class="mix development"><!-- item -->
 
 						<div class="item-box thumbnail">
+						<a href="{{v.name|get_url(v.id)}}">
 							<figure>
 								<span class="item-hover">
 									<span class="overlay dark-5"></span>
@@ -289,6 +292,7 @@
 
 								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=200,h=120')}}"  alt="">
 							</figure>
+						</a>
 						</div>
 
 					</li><!-- /item -->
@@ -299,7 +303,7 @@
 			</div>
 		</div>
 		<div class="more-info text-center margin-top-10">
-			<a href="">点击查看更多》</a>
+			<a href="/youxue{{http.config('view.file_ext')}}">点击查看更多》</a>
 		</div>
 
 	</div>
@@ -324,6 +328,7 @@
 					<li class="mix development"><!-- item -->
 
 						<div class="item-box thumbnail">
+						<a href="/mod/question/{{v.id}}{{http.config('view.file_ext')}}">
 							<figure>
 								<span class="item-hover">
 									<span class="overlay dark-5"></span>
@@ -351,6 +356,7 @@
 
 								<img class="img-responsive" src="{{imgs[0]}}"  alt="">
 							</figure>
+						</a>
 						</div>
 
 					</li><!-- /item -->
@@ -361,7 +367,7 @@
 			</div>
 		</div>
 		<div class="more-info text-center margin-top-10">
-			<a href="">点击查看更多》</a>
+			<a href="/question">点击查看更多》</a>
 		</div>
 
 	</div>
