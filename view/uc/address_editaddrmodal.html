@@ -5,7 +5,7 @@
 			<!-- header modal -->
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title " id="myLargeModalLabel">编辑收货人信息</h4>
+				<h4 class="modal-title " id="myLargeModalLabel">编辑常用地址信息</h4>
 			</div>
 
 			<!-- body modal -->
@@ -76,7 +76,25 @@
 											</div>
 										</div>
 
+										<div class="row">
+											<div class="form-group">
+												<div class="col-md-6 col-sm-6">
+													<label>地址简称 </label>
+													<input type="text" class="form-control" value="{{info.sortname}}" name="sortname" >
+												</div>
+											</div>
+										</div>
 										
+										<div class="row">
+											<div class="form-group" id="areas">
+												<div class="col-md-3 col-sm-12">
+													<label>固定电话</label>
+													<input type="text" class="form-control " value="{{info.phone_zone}}" name="phone_zone">
+													<input type="text" class="form-control " value="{{info.phone_number}}" name="phone_number">
+													<input type="text" class="form-control " value="{{info.phone_ext}}" name="phone_ext">
+												</div>
+											</div>
+										</div>
 
 										<div class="row">
 											<div class="form-group">

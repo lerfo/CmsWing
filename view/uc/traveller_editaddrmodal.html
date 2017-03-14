@@ -75,7 +75,36 @@
 												</div>
 											</div>
 										</div>
+										<div class="row">
+											<div class="form-group">
+												<div class="col-md-6 col-sm-6">
+													<label>国家代码 </label>
+													<input type="text" class="form-control required" value="{{info.phone_zone}}" name="phone_zone" required>
+												</div>
+												<div class="col-md-6 col-sm-6">
+													<label>非大陆手机号 *</label>
+													<input type="text" class="form-control required" value="{{info.phone_external}}" name="phone_external" required>
+												</div>
+											</div>
+										</div>
+										
+										<div class="row">
+											<div class="form-group" id="areas">
+												<div class="col-md-3 col-sm-12">
+													<label>固定电话</label>
+													<input type="text" class="form-control " value="{{info.tel_zone}}" name="tel_zone">
+													<input type="text" class="form-control " value="{{info.tel_number}}" name="tel_number">
+													<input type="text" class="form-control " value="{{info.tel_ext}}" name="tel_ext">
+												</div>
 
+												<div class="col-md-3 col-sm-12">
+													<label>传真号码</label>
+													<input type="text" class="form-control " value="{{info.fax_zone}}" name="fax_zone">
+													<input type="text" class="form-control " value="{{info.fax_number}}" name="fax_number">
+													<input type="text" class="form-control " value="{{info.fax_ext}}" name="fax_ext">
+												</div>
+											</div>
+										</div>
 										
 
 										<div class="row">

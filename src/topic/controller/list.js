@@ -178,7 +178,7 @@ export default class extends Base {
                 if (!think.isEmpty(arr[i-1])){
                   if(i==1){
                     obj.id = 'd>'+arr[i];
-                    obj.name = '低于'+arr[i];
+                    obj.name = '小于'+arr[i];
                     obj.pid=0
                     searcharr.push(obj);
                   }else {
@@ -191,7 +191,7 @@ export default class extends Base {
                 }
 
               }
-              searcharr.push({id:'u>'+arr[len-1],name:'高于'+arr[len-1],pid:0})
+              searcharr.push({id:'u>'+arr[len-1],name:arr[len-1]+'以上',pid:0})
             }
             //console.log(searcharr);
             val.option.rules = JSON.parse(val.option.rules);

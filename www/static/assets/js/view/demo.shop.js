@@ -402,7 +402,7 @@
             })
         })
 
-         //编辑
+         //编辑个人档案地址
 
              $(document).on( "change","#province1",function (e) {
                  var pid = $("#province1 option:selected").val();
@@ -434,6 +434,24 @@
                   $("#county1").html(province_html);
                  } });
              })
+
+         //编辑个人档案常用出发地
+
+             $(document).on( "change","#start_province1",function (e) {
+                 var pid = $("#start_province1 option:selected").val();
+                  $.ajax({  
+                url: "/uc/address/getarea",
+                data: {"pid":pid}, 
+                success: function(msg){
+                    var province_arr = ['<option value="">--- 市 ---</option>']
+                  $.each(msg,function name(k,v) {
+                      province_arr.push('<option value="'+v.id+'">'+v.name+'</option>')
+                  }) 
+                  province_html = province_arr.join("")
+                  $("#start_city1").html(province_html);
+                 } });
+             })
+
               /**
          * 编辑收货人地址
          */

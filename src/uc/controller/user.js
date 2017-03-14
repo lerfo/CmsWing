@@ -514,7 +514,7 @@ export default class extends Base {
         }
     }
 
-    //更新用户信息
+    //更新用户信息   弃用接口
     async updateinfoAction() {
         //判断是否登陆
         await this.weblogin();

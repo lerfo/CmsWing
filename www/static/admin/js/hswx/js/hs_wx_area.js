@@ -10,7 +10,9 @@ window.onload = function(){
 	hs_province.innerHTML = hs_province_html.join('');
 	
 	hs_province.onchange = function(){
+
 		var _tid = this.value;
+		console.log(_tid);
 		if(_tid == ""){
 			return;
 		}

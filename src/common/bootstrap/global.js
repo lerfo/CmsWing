@@ -1285,3 +1285,24 @@ global.GetDateStr=function (AddDayCount) {
     var d = dd.getDate()<10?"0"+dd.getDate():dd.getDate();//获取当前几号，不足10补0
     return y+"-"+m+"-"+d;
 }
+
+
+/**
+ *生成指定长度随机字符串 randomString
+ * @param catid 要验证的栏目id
+ * @param roleid 用户组
+ * @param action 权限类型
+ * @param is_admin 谁否前台 0前台，1后台
+ * @param type true
+ * @returns {bool} 返回flase 或true false:没权限，true:有权限。
+ */
+ global.randomString=function (len) {
+    len = len || 32;
+    var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+    var maxPos = $chars.length;
+    var pwd = '';
+    for (var i = 0; i < len; i++) {
+        pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return pwd;
+}

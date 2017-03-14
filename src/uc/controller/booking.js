@@ -37,150 +37,147 @@ export default class extends Base {
     //判断是否登陆
     await this.weblogin();
     let data = this.post();
+    let orderinfo = {};
+    let amountinfo = {}
     data = think.extend({},data);
     think.log(data,'BOOKING_INDEX');
     //已存订单，编辑订单
     if(this.get('orderid')){
       //获取订单信息 TODO
-
-      //判断浏览客户端
-      if (checkMobile(this.userAgent())) {
-        return this.display(`mobile/${this.http.controller}/${this.http.action}`)
-      } else {
-        return this.display();
-      } 
+      orderinfo =  await this.model("order_tour").where({id:orderid}).select();
+      this.assign("orderinfo",orderinfo);
     }
-
-    var numbercheck = /^[1-9]*[1-9][0-9]*$/;
-    //输入保护检测
-    if(!data.product_id ){
-      this.http.error = new Error('未指定购买产品');
-      return think.statusAction(702, this.http);
-    }
-    if(!data.start_date){
-      this.http.error = new Error('未指定出发日期');
-      return think.statusAction(702, this.http);
-    }
-    if(data.adult_quantity<=0 && data.kid_quantity<=0 ){
-      this.http.error = new Error('未指定订单数量');
-      return think.statusAction(702, this.http);
-      //return this.fail('未指定订单数量');
-    }
-
-
-    //获取产品详细信息
-    let dataarr = [];
-    let total = [];
-    let num = [];
-    let amountinfo = {}
-    let goods = await this.model('document').find(data.product_id);
-    let table = await this.model('model').get_table_name(goods.model_id);
-    let info = await this.model(table).find(data.product_id);
-    goods = think.extend(goods,info);
-    //think.log(goods,'BOOKING_INDEX');
-
-    //订单信息
-    //let order_amount;//订单金额
-    //let discount_amount = 0;//折扣金额，优惠券抵扣
-    //let real_amount;//实际支付价格 = 订单金额-折扣金额
-    amountinfo.title=goods.title;
-    amountinfo.type = data.type;
-    amountinfo.product_id = data.product_id;
-    amountinfo.product_name = data.product_name;
-    amountinfo.start_date = data.start_date;
-    amountinfo.adult_quantity=Number(data.adult_quantity);
-    amountinfo.kid_quantity=Number(data.kid_quantity);
-    amountinfo.baby_quantity=Number(data.baby_quantity);
-    amountinfo.differences_quantity=Number(data.differences_quantity);
-    amountinfo.totol_quantity = Number(data.adult_quantity) + Number(data.kid_quantity) + Number(data.baby_quantity);
-    //初始化
-    amountinfo.adult_unit_pirce = 0;
-    amountinfo.adult_amount = 0;
-    amountinfo.kid_unit_pirce = 0;
-    amountinfo.kid_amount = 0;
-    amountinfo.baby_unit_pirce = 0;
-    amountinfo.baby_amount = 0;
-    amountinfo.differences_quantity = 0; 
-    amountinfo.differences_amount = 0;
-
-    if(!think.isEmpty(goods.price_adult)){
-      amountinfo.adult_unit_pirce = get_price_format(goods.price_adult,1);//获取实际价格 2为原价
-      if(amountinfo.adult_unit_pirce  <= 0 && Number(data.adult_quantity)>0){
-        this.http.error = new Error('价格异常');
+    if(!orderinfo.id){
+      var numbercheck = /^[1-9]*[1-9][0-9]*$/;
+      //输入保护检测
+      if(!data.product_id ){
+        this.http.error = new Error('未指定购买产品');
         return think.statusAction(702, this.http);
-        //return this.fail('价格异常');
       }
-      amountinfo.adult_amount = (amountinfo.adult_unit_pirce * Number(data.adult_quantity)).toFixed(2);//Number(data.adult_quantity)
+      if(!data.start_date){
+        this.http.error = new Error('未指定出发日期');
+        return think.statusAction(702, this.http);
+      }
+      if(data.adult_quantity<=0 && data.kid_quantity<=0 ){
+        this.http.error = new Error('未指定订单数量');
+        return think.statusAction(702, this.http);
+        //return this.fail('未指定订单数量');
+      }
+
+      //获取产品详细信息
+      let goods = await this.model('document').find(data.product_id);
+      let table = await this.model('model').get_table_name(goods.model_id);
+      let info = await this.model(table).find(data.product_id);
+      goods = think.extend(goods,info);
+      //think.log(goods,'BOOKING_INDEX');
+
+      //订单信息
+      //let order_amount;//订单金额
+      //let discount_amount = 0;//折扣金额，优惠券抵扣
+      //let real_amount;//实际支付价格 = 订单金额-折扣金额
+      amountinfo.title=goods.title;
+      amountinfo.type = data.type;
+      amountinfo.product_id = data.product_id;
+      amountinfo.product_name = data.product_name;
+      amountinfo.start_date = data.start_date;
+      amountinfo.adult_quantity=Number(data.adult_quantity);
+      amountinfo.kid_quantity=Number(data.kid_quantity);
+      amountinfo.baby_quantity=Number(data.baby_quantity);
+      amountinfo.differences_quantity=Number(data.differences_quantity);
+      amountinfo.totol_quantity = Number(data.adult_quantity) + Number(data.kid_quantity) + Number(data.baby_quantity);
+      //初始化
+      amountinfo.adult_unit_pirce = 0;
+      amountinfo.adult_amount = 0;
+      amountinfo.kid_unit_pirce = 0;
+      amountinfo.kid_amount = 0;
+      amountinfo.baby_unit_pirce = 0;
+      amountinfo.baby_amount = 0;
+      amountinfo.differences_quantity = 0; 
+      amountinfo.differences_amount = 0;
+
+      if(!think.isEmpty(goods.price_adult)){
+        amountinfo.adult_unit_pirce = get_price_format(goods.price_adult,1);//获取实际价格 2为原价
+        if(amountinfo.adult_unit_pirce  <= 0 && Number(data.adult_quantity)>0){
+          this.http.error = new Error('价格异常');
+          return think.statusAction(702, this.http);
+          //return this.fail('价格异常');
+        }
+        amountinfo.adult_amount = (amountinfo.adult_unit_pirce * Number(data.adult_quantity)).toFixed(2);//Number(data.adult_quantity)
+      }else{
+        if(data.adult_quantity > 0){
+          this.http.error = new Error('价格未设置，不应当设置购买人数');
+          return think.statusAction(702, this.http);
+          //return think.fail('价格未设置，不应当设置购买人数');
+        }
+        
+      }
+      if(!think.isEmpty(goods.price_kid)){
+        amountinfo.kid_unit_pirce = get_price_format(goods.price_kid,1);//获取实际价格 2为原价
+        if(amountinfo.kid_unit_pirce  <= 0 && Number(data.kid_quantity)>0){
+          this.http.error = new Error('价格异常');
+          return think.statusAction(702, this.http);
+          //return this.fail('价格异常');
+        }
+        amountinfo.kid_amount = (amountinfo.kid_unit_pirce * Number(data.kid_quantity)).toFixed(2);//Number(data.adult_quantity)
+      }else{
+        if(data.kid_quantity > 0){
+          this.http.error = new Error('价格未设置，不应当设置购买人数');
+          return think.statusAction(702, this.http);
+          //return think.fail('价格未设置，不应当设置购买人数');
+        }
+        
+      }
+      if(!think.isEmpty(goods.price_baby)){
+        amountinfo.baby_unit_pirce = get_price_format(goods.price_baby,1);//获取实际价格 2为原价
+        if(amountinfo.baby_unit_pirce  <= 0 && Number(data.baby_quantity)>0){
+          this.http.error = new Error('价格异常');
+          return think.statusAction(702, this.http);
+          //return this.fail('价格异常');
+        }
+        amountinfo.baby_amount = (amountinfo.baby_unit_pirce * Number(data.baby_quantity)).toFixed(2);//Number(data.adult_quantity)
+      }else{
+        if(data.baby_quantity > 0){
+          //return think.fail('价格未设置，不应当设置购买人数');
+          this.http.error = new Error('价格未设置，不应当设置购买人数');
+          return think.statusAction(702, this.http);
+        }
+        
+      }
+      //单人差价
+      if(!think.isEmpty(goods.price_differences)){
+        amountinfo.differences_unit_pirce = get_price_format(goods.price_differences,1);//获取实际价格 2为原价
+        if(amountinfo.differences_unit_pirce  <= 0 && Number(data.differences_quantity)>0){
+          this.http.error = new Error('价格异常');
+          return think.statusAction(702, this.http);
+          //return this.fail('价格异常');
+        }
+        amountinfo.differences_amount = (amountinfo.differences_unit_pirce * Number(data.differences_quantity)).toFixed(2);//Number(data.adult_quantity)
+      }else{
+        if(data.differences_quantity > 0){
+          //return think.fail('价格未设置，不应当设置购买人数');
+          this.http.error = new Error('价格未设置，不应当设置购买人数');
+          return think.statusAction(702, this.http);
+        }
+        
+      }
+
+
+      amountinfo.order_amount = (Number(amountinfo.adult_amount) + Number(amountinfo.kid_amount) + Number(amountinfo.baby_amount) + Number(amountinfo.differences_amount)).toFixed(2);
+      /*
+      //获取折扣价格 
+      if(data.discount_code){
+
+      }
+
+      real_amount = order_amount - discount_amount;
+      */
+      this.assign("amountinfo",amountinfo);
+      think.log(amountinfo,'BOOKING_INDEX');
     }else{
-      if(data.adult_quantity > 0){
-        this.http.error = new Error('价格未设置，不应当设置购买人数');
-        return think.statusAction(702, this.http);
-        //return think.fail('价格未设置，不应当设置购买人数');
-      }
-      
+      this.assign("amountinfo",orderinfo);
+      think.log(orderinfo,'BOOKING_INDEX');
     }
-    if(!think.isEmpty(goods.price_kid)){
-      amountinfo.kid_unit_pirce = get_price_format(goods.price_kid,1);//获取实际价格 2为原价
-      if(amountinfo.kid_unit_pirce  <= 0 && Number(data.kid_quantity)>0){
-        this.http.error = new Error('价格异常');
-        return think.statusAction(702, this.http);
-        //return this.fail('价格异常');
-      }
-      amountinfo.kid_amount = (amountinfo.kid_unit_pirce * Number(data.kid_quantity)).toFixed(2);//Number(data.adult_quantity)
-    }else{
-      if(data.kid_quantity > 0){
-        this.http.error = new Error('价格未设置，不应当设置购买人数');
-        return think.statusAction(702, this.http);
-        //return think.fail('价格未设置，不应当设置购买人数');
-      }
-      
-    }
-    if(!think.isEmpty(goods.price_baby)){
-      amountinfo.baby_unit_pirce = get_price_format(goods.price_baby,1);//获取实际价格 2为原价
-      if(amountinfo.baby_unit_pirce  <= 0 && Number(data.baby_quantity)>0){
-        this.http.error = new Error('价格异常');
-        return think.statusAction(702, this.http);
-        //return this.fail('价格异常');
-      }
-      amountinfo.baby_amount = (amountinfo.baby_unit_pirce * Number(data.baby_quantity)).toFixed(2);//Number(data.adult_quantity)
-    }else{
-      if(data.baby_quantity > 0){
-        //return think.fail('价格未设置，不应当设置购买人数');
-        this.http.error = new Error('价格未设置，不应当设置购买人数');
-        return think.statusAction(702, this.http);
-      }
-      
-    }
-    //单人差价
-    if(!think.isEmpty(goods.price_differences)){
-      amountinfo.differences_unit_pirce = get_price_format(goods.price_differences,1);//获取实际价格 2为原价
-      if(amountinfo.differences_unit_pirce  <= 0 && Number(data.differences_quantity)>0){
-        this.http.error = new Error('价格异常');
-        return think.statusAction(702, this.http);
-        //return this.fail('价格异常');
-      }
-      amountinfo.differences_amount = (amountinfo.differences_unit_pirce * Number(data.differences_quantity)).toFixed(2);//Number(data.adult_quantity)
-    }else{
-      if(data.differences_quantity > 0){
-        //return think.fail('价格未设置，不应当设置购买人数');
-        this.http.error = new Error('价格未设置，不应当设置购买人数');
-        return think.statusAction(702, this.http);
-      }
-      
-    }
-
-
-    amountinfo.order_amount = (Number(amountinfo.adult_amount) + Number(amountinfo.kid_amount) + Number(amountinfo.baby_amount) + Number(amountinfo.differences_amount)).toFixed(2);
-    /*
-    //获取折扣价格 
-    if(data.discount_code){
-
-    }
-
-    real_amount = order_amount - discount_amount;
-    */
-    this.assign("amountinfo",amountinfo);
-    think.log(amountinfo,'BOOKING_INDEX');
+    
 
     //用户保存的旅客信息
     //手机端接收
@@ -213,11 +210,11 @@ export default class extends Base {
    * orderid 已存订单ID
    * postdata: 
    *           amountinfo 产品费用信息 {"title":"成人游学-纽约时尚都市体验+英语学习+文化交流国际游学（两周起）","product_id":"563","start_date":"2017-10-10","adult_quantity":2,"kid_quantity":2,"baby_quantity":3,"differences_quantity":0,"totol_quantity":7,"adult_unit_pirce":"3.00","adult_amount":"6.00","kid_unit_pirce":"4.00","kid_amount":"8.00","baby_unit_pirce":"5.00","baby_amount":"15.00","differences_amount":"6.00","differences_unit_pirce":"6.00","order_amount":"35.00"}
-   *           discont_code 优惠码
+   *           discount_code 优惠码
    *           connectinfo:联系人信息 {connect_name,connect_phone,connect_email}  
-   *           travellersinfo:旅客信息 [{"name_zh":"大王","name_en":"dawang","country":"中国","credentials_type":1,"credentials_value":"123124","sexual":1,"birthday":"2017-03-21T16:00:00.000Z","phone":"123123","type":1},{},{}]
-   *           order_commit:备注信息
-   *          
+   *           travellersinfo:旅客信息 [{"issave":1,"name_zh":"大王","name_en":"dawang","country":"中国","credentials_type":1,"credentials_value":"123124","sexual":1,"birthday":"2017-03-21T16:00:00.000Z","phone":"123123","type":1},{},{}]
+   *           user_remark:备注信息
+   *           temp_order:1 暂存订单 0提交订单
    */
   async createorderAction(){
     await this.weblogin();
@@ -236,7 +233,7 @@ export default class extends Base {
     let goods =JSON.parse(data.amountinfo);
 
     //检查购物车内的宝贝是否有库存
-    let stock = await this.model("order").getstock(goods.product_id,goods.type);
+    let stock = await this.model("order_tour").getstock(goods.product_id,goods.type);
     //think.log(stock);
     if(goods.totol_quantity > stock){
       return this.fail("商品库存不足，创建订单失败！");
@@ -249,81 +246,105 @@ export default class extends Base {
     // let nowtime = new Date().valueOf();
     // let oid =["d",this.user.uid,nowtime]
     // data.order_no = oid.join("");
-    orderinfo.order_no = await this.model("order").orderid();
+    orderinfo.order_no = await this.model("order_tour").orderid();
 
     //验证优惠码
     orderinfo.discount_amount = 0;
-    if(!think.isEmpty(data.discont_code)){
+    if(!think.isEmpty(data.discount_code)){
+
     }
     //应付金额
     orderinfo.real_amount =(Number(data.order_amount) - Number(orderinfo.discount_amount)).toFixed(2);
 
 
     //客户订单备注
-    if(!think.isEmpty(data.order_commit)){
-      orderinfo.order_commit = data.order_commit;
+    if(!think.isEmpty(data.user_remark)){
+      orderinfo.user_remark = data.user_remark;
     }
 
     //联系人信息
-    if(think.isEmpty(data.connectinfo.connect_name) || think.isEmpty(data.connectinfo.connect_phone) || think.isEmpty(data.connectinfo.connect_email)){
+    if( !data.temp_order && (think.isEmpty(data.connectinfo.connect_name) || think.isEmpty(data.connectinfo.connect_phone) || think.isEmpty(data.connectinfo.connect_email))){
       this.http.error = new Error('联系人信息不能为空');
       return think.statusAction(702, this.http);
-    }
-    //todo  信息格式检查
-    orderinfo.connect_name = data.connect_name;
-    orderinfo.connect_phone = data.connect_phone;
-    orderinfo.connect_email = data.connect_email;
+    }else{
+      let member = {
+        connect_name:data.connectinfo.connect_name,
+        connect_phone:data.connectinfo.connect_phone,
+        connect_email:data.connectinfo.connect_email
+      } 
+      let update = await this.model("member").where({id: this.user.uid}).update(member);
+      think.log(update,'BOOKING_CREATEORDER');
+      if (!update ) {
+        think.log('更新联系人信息失败！','BOOKING_CREATEORDER');
+      } 
 
+      //todo  信息格式检查
+      orderinfo.connect_name = data.connect_name;
+      orderinfo.connect_phone = data.connect_phone;
+      orderinfo.connect_email = data.connect_email;
+    }
     //旅客信息
-    if(data.travellersinfo.length != orderinfo.totol_quantity){
+    if(data.travellersinfo.length != orderinfo.totol_quantity && !data.temp_order){
       this.http.error = new Error('旅客信息不完整');
       return think.statusAction(702, this.http);
+    }else{
+      let travellers = {};
+      for (let traveller of data.travellersinfo){
+        //TODO  输入检查
+        let temp_traveller = {};
+        temp_traveller.name_zh = traveller.name_zh;
+        temp_traveller.name_en = traveller.name_en;
+        temp_traveller.country = traveller.country;
+        temp_traveller.credentials_type = traveller.credentials_type;
+        temp_traveller.credentials_value = traveller.credentials_value;
+        temp_traveller.sexual = traveller.sexual;
+        temp_traveller.birthday = traveller.birthday;
+        temp_traveller.phone = traveller.phone;
+        temp_traveller.type = traveller.type;
+        travellers.push(temp_traveller);
+        //保存常用旅客信息，以中文名为关键字
+        if(traveller.issave){ 
+          let  one_traveller = await this.model("traveller").where({name_zh:traveller.name_zh}).find();
+          if(one_traveller.id){
+            res = await this.model("traveller").where({id: one_traveller.id}).update(temp_traveller); 
+          }else{
+            res = await this.model("traveller").add(temp_traveller);
+          }
+        }
+      }
+      orderinfo.travellersinfo  = JSON.stringify(travellers);
     }
-    for (let traveller of data.travellersinfo){
-      //if(traveller.)    
-    }
-
-    //支付状态 pay_stayus 0:未付款 ,1:已付款
+    //支付状态 pay_stayus 0:未付款 ,1:已付款, 2：退款中，3:已退款
     orderinfo.pay_status = 0;
-    //订单状态 status 2:等待审核，3:已审核
-    orderinfo.status = 2;
-    //发货状态 delivery_status 0:未发货，1:已发货
+    //订单状态 status 1,未提交(草稿)2:已提交(待付款)，3:已付款，5,待卖家确认，6:卖家已确认，7:待成团，8:已成团， 10:请求退款,11:确认退款，12,:退款中，13退款成功 16:待评价，17:已评价
+    if(data.temp_order){
+      orderinfo.status = 1;
+    }else{
+      order_amount.status = 2;
+    }
+    //发货状态 delivery_status 0:未成团，1:已成团，2，已出团
     orderinfo.delivery_status = 0;
     //订单创建时间 create_time
     orderinfo.create_time = new Date().valueOf();
+    orderinfo.update_time = new Date().valueOf();
 
 
 
     //生成订单
-    let order_id = await this.model("order").add(data);
+    let order_id = await this.model("order_tour").add(orderinfo);
 
-    //储存宝贝
-    //let order_id = 22;
-    console.log(isgoods);
-    let ngoods = [];
-    for(let goods of isgoods){
-      let newgoods = {};
-      newgoods.order_id = order_id;
-      newgoods.goods_id = goods.product_id;
-      newgoods.goods_price = goods.unit_price;
-      newgoods.goods_real_price = goods.unit_price;
-      newgoods.goods_nums = goods.qty;
-      newgoods.prom_goods = JSON.stringify(goods);
-      ngoods.push(newgoods);
-    }
-    console.log(ngoods);
-    await this.model("order_goods").addMany(ngoods);
-    console.log(data);
-    //减少订单中商品的库存
-    await this.model("order").stock(order_id,true);
+    //减少订单中商品的库存 TODO：需要做事务处理，同时需要确认库存是在下单后减少 还是在支付成功后
+    await this.model("order_tour").stock(order_id,true);
 
     return this.success({name:'订单创建成功，正在跳转支付页面！',url:`/uc/pay/pay?order=${order_id}&setp=3`});
 
   }
+
+
   //实时查询商品库存
   async getstockAction(){
     let data = this.get();
-    let stock = await this.model("order").getstock(data.id,data.type);
+    let stock = await this.model("order_tour").getstock(data.id,data.type);
     return this.json(stock);
   }
 

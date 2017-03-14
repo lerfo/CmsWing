@@ -105,6 +105,32 @@
 											<input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="手机号码">
 										</div></div>
 									<div class="form-group">
+										<label class="col-md-2 control-label">固定电话</label>
+										<div class="col-md-10">
+											<input type="text" name="phone_zone" value="{{userInfo.phone_zone}}" class="form-control "  data-placeholder="区号" placeholder="区号">
+											<input type="text" name="phone_number" value="{{userInfo.phone_number}}" class="form-control "  data-placeholder="电话" placeholder="电话">
+											<input type="text" name="phone_ext" value="{{userInfo.phone_ext}}" class="form-control "  data-placeholder="分机" placeholder="分机">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-2 control-label">常用出发城市</label>
+										<div class="col-md-10">
+											<select class="form-control pointer  " id="start_province1" name="start_province" style="width: 150px;display: inline-block">
+												<option value="">--- 省份/直辖市 ---</option>
+												{% for val in start_province %}
+												<option value="{{val.id}}" {% if userInfo.start_province == val.id %} selected {% endif%}>{{val.name}}</option>
+												{% endfor %}
+											</select>
+											<select class="form-control pointer  " id="start_city1" name="start_city" style="width: 150px;display: inline-block">
+												{% for val in start_city %}
+												<option value="{{val.id}}" {% if userInfo.start_city == val.id %} selected {% endif%}>{{val.name}}</option>
+												{% else %}
+												<option value="">--- 市 ---</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
 										<label class="col-md-2 control-label">所在地区</label>
 										<div class="col-md-10">
 											<select class="form-control pointer  " id="province1" name="province" style="width: 150px;display: inline-block">
