@@ -151,4 +151,27 @@ export default class extends Base {
         //return this.action("article","index");
     }
 
+  async discountdelAction(){
+    let postdata = this.post();
+    if(think.isEmpty(postdata.ids)){
+        return this.fail("参数错误！");
+    }
+    console.log(postdata);
+    let data = [];
+    for(let val of postdata.ids){
+      let tempdata = {};
+      tempdata.id = val;
+      tempdata.is_del = 1;
+      data.push(tempdata);
+      
+    }
+    console.log(data);
+    let datalist = await this.model("discount").updateMany(data);
+
+    this.meta_title = "删除优惠券";
+    return this.success({name:'操作成功'});
+    //return this.action("article","index");
+  }
+
+
 }

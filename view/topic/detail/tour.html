@@ -267,12 +267,36 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		<div class="pull-left text-left">（<a href="/uc/public/login">登录</a>后查看更多优惠）</div>
 	</div>
 	{% endif %}
-	<div class="row margin-bottom-10">
-		<div class="col-lg-6 col-sm-6">
-			<div class="pull-left text-left">编号：{{info.id}}</div>
+	<div class="row">
+		<div class="col-lg-2 col-sm-2">
+			<div class="pull-left text-left bold">产品特色</div>
 		</div>
-		<div class="col-lg-6 col-sm-6">
-			<div class="pull-right text-right">出发地：{{info.departure_place_name}}</div>
+		<div class="col-lg-10 col-sm-10">
+			<div class="">{{info.productshortfeature}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-2 col-sm-2">
+			<div class="pull-left text-left bold">服务保障</div>
+		</div>
+		<div class="col-lg-10 col-sm-10">
+			<div class="">{{info.serviceguarantee}}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-2 col-sm-2">
+			<div class="pull-left text-left bold" style="letter-spacing: 0.5em;">供应商</div>
+		</div>
+		<div class="col-lg-10 col-sm-10">
+			<div class="">{{info.vendor_name}}</div>
+		</div>
+	</div>
+	<div class="row margin-top-20">
+		<div class="col-lg-2 col-sm-2 vertical-center">
+			<img src="/static/assets/images/head1.png">
+		</div>
+		<div class="col-lg-10 col-sm-10">
+			<div class="">{{info.editorrecommend}}</div>
 		</div>
 	</div>
 	{#
@@ -284,6 +308,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	<!-- /countdown -->
 	#}
 
+	{#
 	<!-- FORM -->
 	<form class="clearfix form-inline nomargin ichecks"   data-icheck-info ="{{info.suk}}" method="post" action="/uc/booking">
 		<!--{{info.suk}}-->
@@ -375,7 +400,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
 	</form>
 	<!-- /FORM -->
-
+	#}
 
 	{% if info.description %}
 	<!-- short description -->
@@ -384,7 +409,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	{% endif %}
 
 
-
+	{#
 	<!-- Share -->
 	<div class="pull-right">
 
@@ -415,12 +440,89 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	<!-- rating -->
 	<div class="rating rating-4 size-13 margin-top-10 width-100"><!-- rating-0 ... rating-5 --></div>
 	<!-- /rating -->
+	#}
 
 </div>
 <!-- /ITEM DESC -->
 
 </div>
 
+    <div id="js_order">
+    	<ul class="resource_price_wrap basefix">  
+    		<li class="start_date abc_start_date"> 
+    			<label for="">³ö·¢</label> 
+    			<div class="input_wrap">  
+    				<input readonly="readonly" type="text" id="js-departure-date" value=" ÇëÑ¡Ôñ³ö·¢ÈÕÆÚ"> 
+    				<input readonly="readonly" id="js-depature-date-real" type="text" style="position:absolute;left:0;top:0;z-index:1;filter:alpha(opacity=0);opacity:0;" value="ÇëÑ¡Ôñ³ö·¢ÈÕÆÚ">  
+    				<b></b> 
+    			</div> 
+    		</li>  
+    		<li class="tourist_num"> 
+    			<label for="">³ÉÈË</label> 
+    			<div class="input_wrap"> 
+    				<input type="number" value="2"> 
+    				<b></b> 
+    				<p style="display:none">   
+    					<a href="javascript:void(0)">0</a>     
+    					<a href="javascript:void(0)">1</a>     
+    					<a href="javascript:void(0)">2</a>     
+    					<a href="javascript:void(0)">3</a>     
+    					<a href="javascript:void(0)">4</a>     
+    					<a href="javascript:void(0)">5</a>     
+    					<a href="javascript:void(0)">6</a>     
+    					<a href="javascript:void(0)">7</a>     
+    					<a href="javascript:void(0)">8</a>     
+    					<a href="javascript:void(0)">9</a>      
+    					<a href="javascript:void(0)">&gt;9</a>   
+    				</p> 
+    			</div> 
+    			<span class="base_price" id="J_adusprice" style="display:none"></span> 
+    		</li> 
+    		<li class="children_num">  
+    			<label for="">¶ùÍ¯</label> 
+    			<div class="input_wrap"> 
+    				<input type="number" value="0"> 
+    				<b></b> 
+    				<p style="display:none">   
+    					<a href="javascript:void(0)">0</a>     
+    					<a href="javascript:void(0)">1</a>     
+    					<a href="javascript:void(0)">2</a>     
+    					<a href="javascript:void(0)">3</a>     
+    					<a href="javascript:void(0)">4</a>     
+    					<a href="javascript:void(0)">5</a>     
+    					<a href="javascript:void(0)">6</a>     
+    					<a href="javascript:void(0)">7</a>     
+    					<a href="javascript:void(0)">8</a>     
+    					<a href="javascript:void(0)">9</a>      
+    					<a href="javascript:void(0)">&gt;9</a>   
+    				</p> 
+    			</div> 
+    			<span class="child_tip" id="J_childtip" style="text-decoration: none; cursor: auto;"><i></i>(2-12Ëê)</span>  
+    			<span class="base_price" id="J_chdsprice" style="display:none"></span> 
+    		</li> 
+    		<li class="total_price" id="J_priceBox"> 
+    			<span class="price_name">×Ü¼Û</span> 
+    			<span class="price">--</span> 
+    			<i class="price_icon" id="J_acpricetip" style="display:none"></i> 
+    			<a id="js-submit" class="btn_red_big" href="javascript:void(0);">  ¿ªÊ¼Ô¤¶©  </a> 
+    			<div class="price_alert" id="J_pricealert" style="display:none"></div> 
+    		</li> 
+    	</ul> 
+    	<div class="resource_wrap">  </div> 
+    	<div class="seckill_pop" id="J_countdown" style="display:none"> 
+    		<div class="left_txt"> 
+    			<p> 
+    				<span id="J_countips"></span> 
+    			</p> 
+    		</div> 
+    		<div class="right_txt"> 
+    			<div class="c_box_ico"><i></i></div> 
+    			<p id="J_countime"></p> 
+    		</div> 
+    		<b></b> 
+    	</div>
+    </div>
+    
 
 
 <ul id="myTab" class="nav nav-tabs nav-top-border margin-top-40" role="tablist">

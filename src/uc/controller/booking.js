@@ -251,6 +251,20 @@ export default class extends Base {
     //验证优惠码
     orderinfo.discount_amount = 0;
     if(!think.isEmpty(data.discount_code)){
+      orderinfo.discount_code = data.discount_code;
+      //再次验证优惠券
+      let findData = await this.model("discount").where({code:data.discount_code,is_del:0}).find();
+      if(think.isEmpty(findData.id)){
+        return this.fail("优惠券不存在");
+      }else{
+        if(findData.validity_date < new Date().getTime()){
+          return this.fail("优惠券已失效");
+        }
+        if(findData.status == 1){
+          return this.fail("优惠券已使用");
+        }
+      }
+      orderinfo.discount_amount = findData.price;
 
     }
     //应付金额
@@ -339,7 +353,34 @@ export default class extends Base {
     return this.success({name:'订单创建成功，正在跳转支付页面！',url:`/uc/pay/pay?order=${order_id}&setp=3`});
 
   }
+  //
+    /**
+   * createorder action 查询验证优惠券
+   * @return {Promise} []
+   * code 优惠券代码
+   *  
+   */
+  async discountqueryAction(){
+    let discount_code = this.param("code");
+    if(think.isEmpty(discount_code)){
+        return this.fail("参数错误！");
+    }
+    console.log(discount_code);
+    let findData = await this.model("discount").where({code:discount_code,is_del:0}).find();
+    if(think.isEmpty(findData.id)){
+      return this.fail("优惠券不存在");
+    }else{
+      if(findData.validity_date < new Date().getTime()){
+        return this.fail("优惠券已失效");
+      }
+      if(findData.status == 1){
+        return this.fail("优惠券已使用");
+      }
+    }
 
+    return this.success(findData);
+    //return this.action("article","index");
+}
 
   //实时查询商品库存
   async getstockAction(){

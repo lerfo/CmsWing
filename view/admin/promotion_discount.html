@@ -15,12 +15,12 @@
 
                                 <div class="col-sm-9 m-b-xs">
                                     <a class="btn btn-sm btn-info" data-toggle="modal" data-target=".add-addr-dialog">创建优惠券</a>
-                                    {#
-                                    <a class="btn btn-sm btn-info " href="/admin/model/add">
+                                    
+                                    <a class="btn btn-sm btn-info ajax-post" target-form="ids"  href="/admin/promotion/discountdel">
                                         删除
                                     </a>
-                                    #}
                                     
+                            
                                     <div class="btn-group">
 
                                         <a class="btn btn-sm btn-info {%if status == null %}active{%endif%}" href="/admin/promotion/discount">

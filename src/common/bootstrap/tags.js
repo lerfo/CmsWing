@@ -260,6 +260,7 @@
  * ischild:1:包含子目录，其它：不包含子目录
  * isstu:1:获取副表内容,2:只从主表拿数据,默认只从主表拿
  * group:分组id，单个分组：group="1",多个分组 :group="1,2,3,4",不写调取全部分组。
+ * pid:父分类
  */
  global.topic = function(){
     this.tags = ['topic'];
@@ -275,8 +276,13 @@
         let data = think.isEmpty(args.data) ? "data" : args.data;
         let limit = think.isEmpty(args.limit) ? "10" : args.limit;
         let page = think.isEmpty(args.page) ? "0" : args.page;
-        if(args.ischild != 1){
-            where = think.extend({},where,{'pid':0});
+        
+        if(!think.isEmpty(args.pid)){
+            where = think.extend({},where,{'pid':args.pid});
+        }else{
+            if(args.ischild != 1){
+                where = think.extend({},where,{'pid':0});
+            }
         }
         //获取当前分类的所有子栏目
         if(args.issub!=2){
@@ -332,10 +338,11 @@
                 let table =await think.model("model",think.config("db")).get_table_name(v.model_id);
                 let details = await think.model(table,think.config("db")).find(v.id);
                 topicarr.push(think.extend({},v,details));
+                //console.log(details);
             }
             topic = topicarr;
         }
-        console.log(topic)
+        //console.log(topic)
         context.ctx[data] = topic;
         return callback(null, '');
     }

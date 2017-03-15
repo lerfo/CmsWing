@@ -1,385 +1,594 @@
 {% extends "../inc/base.html" %}
-{% block content %}
-     <!--
-				PAGE HEADER
-
-				CLASSES:
-					.page-header-xs	= 20px margins
-					.page-header-md	= 50px margins
-					.page-header-lg	= 80px margins
-					.page-header-xlg= 130px margins
-					.dark			= dark page header
-
-					.shadow-before-1 	= shadow 1 header top
-					.shadow-after-1 	= shadow 1 header bottom
-					.shadow-before-2 	= shadow 2 header top
-					.shadow-after-2 	= shadow 2 header bottom
-					.shadow-before-3 	= shadow 3 header top
-					.shadow-after-3 	= shadow 3 header bottom
-			-->
-<section class="page-header page-header-xs">
-				<div class="container">
-{#
-					<h1>{{category.title}}</h1>
-#}
-					<!-- breadcrumbs -->
-					<ol class="breadcrumb breadcrumb-inverse">
-                        <li><a href="/">首页 </a></li>
-                        {%for val in breadcrumb %}
-                        {% if val.id == category.id %}
-						<li class="active">{{val.title}}</li>
-                        {% else %}
-                        <li><a href="{{val.url}}">{{val.title}}</a></li>
-						
-                        {% endif %}
-                        {% endfor %}
-					</ol><!-- /breadcrumbs -->
-
-				</div>
-			</section>
-			<!-- /PAGE HEADER -->
-            <!-- -->
-			<section>
-				<div class="container">
-
-					<div class="row">
-
-						<!-- LEFT -->
-
-						<div class="col-md-9 col-sm-9">
-							<!--
-                                                        controlls-over		= navigation buttons over the image
-                                                        buttons-autohide 	= navigation buttons visible on mouse hover only
-
-                                                        data-plugin-options:
-                                                            "singleItem": true
-                                                            "autoPlay": true (or ms. eg: 4000)
-                                                            "navigation": true
-                                                            "pagination": true
-                                                            "transitionStyle":"fadeUp" (fade,backSlide,goDown,fadeUp)
-                                                    -->
-							<div class="owl-carousel buttons-autohide controlls-over" data-plugin-options='{"singleItem": true, "autoPlay": true, "navigation": true, "pagination": true, "transitionStyle":"fade"}'>
-								{% topic data = "slider",limit= "5",cid=category.id,position='2',issub="1",ispic="1"%}
-								{% for v in slider%}
-								<a href="{{v.name|get_url(v.id)}}">
-									<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=848,h=300')}}" alt="{{v.title}}">
-								</a>
-								{%endfor%}
-							</div>
-
-							<ul class="nav nav-tabs nav-button-tabs">
-								<!-- side navigation -->
-								{%column data="cates",cid=category.id%}
-								<li class="active"><a href="#taball" data-toggle="tab">全部</a></li>
-								{%for val in cates%}
-								<li ><a href="#tab{{val.id}}" data-toggle="tab">{{val.name}}</a></li>
-								{%endfor%}
-
-							</ul>
-
-							<div class="tab-content">
-								<div class="tab-pane fade in active" id="taball">
-									{% topic data = "list",limit= "10",cid=category.id,issub=1%}
-									{% for val in list %}
-									{% set categoryname = val.category_id|get_cate %}
-									<!-- POST ITEM -->
-									<div class="blog-post-item padding-bottom-20 margin-bottom-20 clearfix">
-
-										<!-- IMAGE -->
-										{% if val.cover_id>0 %}
-										<figure class="blog-item-small-image margin-bottom-0">
-											<img class="img-responsive" src="{{val.cover_id|get_pic('m=1,w=200,h=120')}}" alt="">
-										</figure>
-										{% endif %}
-										<div class="blog-item-small-content">
-											<h2><a href="{{val.name|get_url(val.id)}}" target="_blank" title="{{val.title}}">{{val.title}}</a></h2>
-
-											<ul class="blog-post-info list-inline padding-bottom-10">
-												<li>
-													<a href="#">
-														<i class="fa fa-clock-o"></i>
-														<span class="font-lato">{{val.update_time|dateformat('Y-m-d H:i')}}</span>
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<i class="fa fa-comment-o"></i>
-														<span class="font-lato">{{val.view}} </span>
-													</a>
-												</li>
-												<li>
-													<i class="fa fa-folder-open-o"></i>
-
-													<a class="category" href="{{categoryname.url}}">
-														<span class="font-lato">{{categoryname.name}}</span>
-													</a>
-													{#
-													<a class="category" href="#">
-														<span class="font-lato">Photography</span>
-													</a>
-													#}
-												</li>
-												<li>
-													<a href="#">
-														<i class="fa fa-user"></i>
-														<span class="font-lato">{{val.uid|get_nickname}}</span>
-													</a>
-												</li>
-											</ul>
-
-											<p>{{val.description|truncate(90, true, "...")}}</p>
-										</div>
-
-									</div>
-									<!-- /POST ITEM -->
-									{%endfor%}
-
-								</div>
-								{%for v in cates%}
-								<div class="tab-pane fade  " id="tab{{v.id}}">
-										{% topic data = "list",limit= "10",cid=v.id%}
-										{% for val in list %}
-									{% set categoryname = val.category_id|get_cate %}
-										<!-- POST ITEM -->
-										<div class="blog-post-item padding-bottom-20 margin-bottom-20 clearfix">
-
-											<!-- IMAGE -->
-											{% if val.cover_id>0 %}
-											<figure class="blog-item-small-image margin-bottom-0">
-												<img class="img-responsive" src="{{val.cover_id|get_pic('m=1,w=200,h=120')}}" alt="">
-											</figure>
-											{% endif %}
-											<div class="blog-item-small-content">
-												<h2><a href="{{val.name|get_url(val.id)}}">{{val.title}}</a></h2>
-
-												<ul class="blog-post-info list-inline padding-bottom-10">
-													<li>
-														<a href="#">
-															<i class="fa fa-clock-o"></i>
-															<span class="font-lato">{{val.update_time|dateformat('Y-m-d H:i')}}</span>
-														</a>
-													</li>
-													<li>
-														<a href="#">
-															<i class="fa fa-comment-o"></i>
-															<span class="font-lato">{{val.view}}</span>
-														</a>
-													</li>
-													<li>
-														<i class="fa fa-folder-open-o"></i>
-
-														<a class="category" href="{{categoryname.url}}">
-															<span class="font-lato">{{categoryname.name}}</span>
-														</a>
-													</li>
-													<li>
-														<a href="#">
-															<i class="fa fa-user"></i>
-															<span class="font-lato">{{val.uid|get_nickname}}</span>
-														</a>
-													</li>
-												</ul>
-
-									<p>{{val.description|truncate(90, true, "...")}}</p>
-								</div>
-
-							</div>
-							<!-- /POST ITEM -->
-							{%endfor%}
-							<!-- PAGINATION -->
-							<div class="text-center">
-								<a href="{{v.url}}" class="btn btn-reveal btn-default">
-									<i class="fa fa-plus"></i>
-									<span>查看全部内容</span>
-								</a>
-							</div>
-							<!-- /PAGINATION -->
-								</div>
-								{%endfor%}
-
-							</div>
-
-						</div>
-						<!-- RIGHT -->
-
-						<div class="col-md-3 col-sm-3">
-
-							<!-- INLINE SEARCH -->
-							<div class="inline-search clearfix margin-bottom-30">
-								<form action="" method="get" class="widget_search">
-									<input type="search" placeholder="Start Searching..." id="s" name="s" class="serch-input">
-									<button type="submit">
-										<i class="fa fa-search"></i>
-									</button>
-								</form>
-							</div>
-							<!-- /INLINE SEARCH -->
-
-							<hr />
-
-							<!-- side navigation -->
-							{%column data="cate",cid=category.id,isnum="1"%}
-							{%if cate%}
-							<div class="side-nav margin-bottom-20 margin-top-20">
-								<div class="side-nav-head">
-									<button class="fa fa-bars"></button>
-									<h4>{{category.title}} 子分类</h4>
-								</div>
-								<ul class="list-group list-group-bordered list-group-noicon uppercase">
-									{%for val in cate%}
-									<li class="list-group-item"><a href="{{val.url}}"><span class="size-11 text-muted pull-right">({{val.doc_num}})</span> {{val.name}}</a></li>
-									{%endfor%}
-								</ul>
-								<!-- /side navigation -->
-							</div>
-							{%endif%}
-
-
-
-							<!-- JUSTIFIED TAB -->
-							<div class="tabs nomargin-top hidden-xs margin-bottom-10">
-
-								<!-- tabs -->
-								<ul class="nav nav-tabs nav-bottom-border nav-justified">
-									<li class="active">
-										<a href="#tab_1" data-toggle="tab">
-											最热
-										</a>
-									</li>
-									<li>
-										<a href="#tab_2" data-toggle="tab">
-											最新
-										</a>
-									</li>
-								</ul>
-
-								<!-- tabs content -->
-								<div class="tab-content margin-bottom-0 margin-top-10">
-
-									<!-- POPULAR -->
-									<div id="tab_1" class="tab-pane active">
-										<!--topic tags test-->
-										{% topic data = "hotlist",limit= "5",cid=category.id,type="hot"%}
-										<!--返回数据赋值给变量data,遍历data-->
-										{%for v in hotlist%}
-										<div class="row tab-post"><!-- post -->
-											{%if v.cover_id%}
-											<div class="col-md-3 col-sm-3 col-xs-3">
-												<a href="{{v.name|get_url(v.id)}}">
-													<img src="{{v.cover_id|get_pic('m=1,w=50,h=50')}}" width="50" alt="" />
-												</a>
-											</div>
-											{%endif%}
-											<div class="col-md-9 col-sm-9 col-xs-9">
-												<a href="{{v.name|get_url(v.id)}}" class="tab-post-link">{{v.title}}</a>
-												<small>{{v.update_time|dateformat('Y-m-d H:i')}}</small>
-											</div>
-										</div><!-- /post -->
-										{%endfor%}
-
-									</div>
-									<!-- /POPULAR -->
-
-
-									<!-- RECENT -->
-									<div id="tab_2" class="tab-pane">
-
-										{% topic data = "newlist",limit= "5",cid=category.id%}
-										{%for v in newlist%}
-										<div class="row tab-post"><!-- post -->
-											{%if v.cover_id%}
-											<div class="col-md-3 col-sm-3 col-xs-3">
-												<a href="{{v.name|get_url(v.id)}}">
-													<img src="{{v.cover_id|get_pic('m=1,w=50,h=50')}}" width="50" alt="" />
-												</a>
-											</div>
-											{%endif%}
-											<div class="col-md-9 col-sm-9 col-xs-9">
-												<a href="{{v.name|get_url(v.id)}}" class="tab-post-link">{{v.title}}</a>
-												<small>{{v.update_time|dateformat('Y-m-d H:i')}}</small>
-											</div>
-										</div><!-- /post -->
-										{%endfor%}
-										<!-- /post -->
-									</div>
-									<!-- /RECENT -->
-
-								</div>
-
-							</div>
-							<!-- JUSTIFIED TAB -->
-
-
-							<!-- TAGS -->
-							<h3 class="hidden-xs size-16 margin-bottom-10">标签</h3>
-							<div class="hidden-xs margin-bottom-20">
-								{% keywords data ="kws",type="hot"%}
-								{%for key in kws%}
-								<a class="tag" href="{{key.url}}">
-									<span class="txt">{{key.keyname}}</span>
-									<span class="num">{{key.videonum}}</span>
-								</a>
-								{%endfor%}
-							</div>
-
-                            {#
-							<!-- TWIITER WIDGET -->
-							<h3 class="hidden-xs size-16 margin-bottom-10">TWITTER FEED</h3>
-							<ul class="hidden-xs widget-twitter margin-bottom-60" data-php="php/twitter/tweet.php" data-username="stepofweb" data-limit="3">
-								<li></li>
-							</ul>
-
-							<!-- FEATURED VIDEO -->
-							<h3 class="hidden-xs size-16 margin-bottom-10">FEATURED VIDEO</h3>
-							<div class="hidden-xs embed-responsive embed-responsive-16by9 margin-bottom-60">
-								<iframe class="embed-responsive-item" src="http://player.youku.com/embed/XMTQ0ODQ2Nzg4OA==" width="800" height="450"></iframe>
-							</div>
-
-							<!-- FLICKR WIDGET -->
-							<h3 class="hidden-xs size-16 margin-bottom-10">FLICKR PHOTO</h3>
-							<div class="hidden-xs widget-flickr clearfix lightbox margin-bottom-60" data-id="37304598@N02" data-limit="16" data-plugin-options='{"delegate": "a", "gallery": {"enabled": true}}'></div>
-
-
-							<!-- FACEBOOK -->
-							<iframe class="hidden-xs" src="http://player.youku.com/embed/XOTA3NzI0NDI4" style="border:none; overflow:hidden; width:263px; height:258px;"></iframe>
-#}
-
-							<hr />
-
-
-							<!-- SOCIAL ICONS -->
-							<div class="hidden-xs margin-top-30 margin-bottom-60">
-								<a href="#" class="social-icon social-icon-border social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
-									<i class="icon-facebook"></i>
-									<i class="icon-facebook"></i>
-								</a>
-
-								<a href="#" class="social-icon social-icon-border social-twitter pull-left" data-toggle="tooltip" data-placement="top" title="Twitter">
-									<i class="icon-twitter"></i>
-									<i class="icon-twitter"></i>
-								</a>
-
-								<a href="#" class="social-icon social-icon-border social-gplus pull-left" data-toggle="tooltip" data-placement="top" title="Google plus">
-									<i class="icon-gplus"></i>
-									<i class="icon-gplus"></i>
-								</a>
-
-								<a href="#" class="social-icon social-icon-border social-linkedin pull-left" data-toggle="tooltip" data-placement="top" title="Linkedin">
-									<i class="icon-linkedin"></i>
-									<i class="icon-linkedin"></i>
-								</a>
-
-								<a href="#" class="social-icon social-icon-border social-rss pull-left" data-toggle="tooltip" data-placement="top" title="Rss">
-									<i class="icon-rss"></i>
-									<i class="icon-rss"></i>
-								</a>
-							</div>
-
-						</div>
-					</div>
-
-
-				</div>
-			</section>
-			<!-- / -->
+{% block style %}
+<link href="/static/assets/css/layout-question.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    .tp-bullets.simplebullets.round {
+        bottom:130px !important;
+    }
+    #destination ul#destination-ul li {
+        margin-bottom: 10px !important;
+    }
+    #studytour ul#studytour-ul li {
+        margin-bottom: 20px !important;
+    }
+    #community ul#community-ul li {
+        margin-bottom: 12px !important;
+    }
+    section.alternate {
+        border-bottom: none;
+    }
+    section.alternate .item-box {
+        width: 100%;
+        height: 100%;
+    }
+    section#destination {
+        background-color: transparent;
+    }
+    section#studytour {
+        background-color: rgba(239,247,249,0.9);
+    }
+    section#community {
+        background-color: transparent;
+    }
+    .item-box figure {
+        height: 100%;
+    }
+    .thumbnail {
+        padding: 0px;
+        border: none;
+        cursor: pointer;
+    }
+    img.img-responsive {
+        width: 100%;
+        height: 100%;
+    }
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    #destination ul#destination-ul .destination-item {
+        width: 33.33%;
+        padding-left: 5px;
+        padding-right: 5px;
+        height: 433px;
+    }
+    .portfolio .item-box-overlay-title h4 {
+        font-size: 25px;
+    }
+    .portfolio header {
+        height: 60px;
+    }
+    .portfolio header h3 {
+        font-size: 32px;
+        float: left;
+    }
+    .portfolio header a {
+        margin-top: 20px;
+        float: right;
+    }
+    #studytour ul#studytour-ul .studytour-item {
+        width: 33.33%;
+        padding-left: 5px;
+        padding-right: 5px;
+        height: 433px;
+    }
+    
+    #community ul#community-ul .community-item {
+        width: 33.33%;
+        padding-left: 5px;
+        padding-right: 5px;
+        height: 433px;
+    }
+    
+</style>
 {% endblock %}
+{% block content %}
+<!-- SLIDER -->
+<section id="slider" class="" style="height: 600px;background-position: center center">
+    <span class="overlay dark-2"><!-- dark overlay [0 to 9 opacity] --></span>
+
+    <div class="display-table">
+        <div class="display-table-cell vertical-align-middle">
+
+            <!-- REVOLUTION SLIDER -->
+            <div class="slider fullwidthbanner-container roundedcorners margin-bottom-30">
+                <div class="fullwidthbanner" data-height="600" data-shadow="3" data-navigationStyle="">
+                    <ul class="">
+                        <!-- SLIDE  -->
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
+                            <img src="/static/assets/images/slider_pic1.jpg" data-lazyload="/static/assets/images/slider_pic1.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
+
+                        </li>
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
+                            <img src="/static/assets/images/slider_pic2.jpg" data-lazyload="/static/assets/images/slider_pic2.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
+
+                        </li>
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
+                            <img src="/static/assets/images/slider_pic3.jpg" data-lazyload="/static/assets/images/slider_pic3.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
+
+                        </li>
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
+                            <img src="/static/assets/images/slider_pic4.jpg" data-lazyload="/static/assets/images/slider_pic4.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
+
+                        </li>
+                    </ul>
+                    <div class="tp-bannertimer"><!-- progress bar --></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="home-search-bar" style="background: url('/static/assets/images/search_bar.png') no-repeat; position: absolute; left: 50%; bottom: 40px; height: 50px; width: 414px; z-index: 100; margin-left: -207px;">
+        
+    </div>
+
+</section>
+<!-- /SLIDER -->
+
+<!-- -->
+<section class="alternate" id="destination">
+    <div class="container portfolio">
+        <header class="section-header margin-bottom-20">
+            <div class="heading-title">
+                <h3>明星产品</h3>
+                <a href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
+            </div>
+        </header>
+        <div  class=" portfolio-title-over">
+            <div class="row mix-grid">
+                <ul id="destination-ul" style="padding-left: 0px;">
+                    {% topic data = "list", limit= "3", cid=130, issub=1, ischild=1, type="level", page=0 %}
+                    {%set i = 1%}
+                    {% for v in list %}
+
+                    <li class="mix development col-md-3 col-sm-3 destination-item"><!-- item -->
+
+                        <div class="item-box thumbnail">
+                        <a href="{{v.name|get_url(v.id)}}">
+                            <figure style="height: 373px;">
+                                <span class="item-hover">
+                                    <span class="overlay dark-5"></span>
+                                </span>
+                                <!-- overlay title -->
+                                <div class="item-box-overlay-title text-center" style="height: 50px;">
+                                    <h4 class="nomargin">{{v.title}}</h4>
+                                </div><!-- /overlay title -->
+                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=373')}}"  alt="">
+                                
+                            </figure>
+                            <!-- overlay title -->
+                                <div class="item-box-overlay-title text-center" style="height: 60px;background-color:#fff ">
+                                    <h4 class="nomargin" style="font-size: 14px; color: #414141; text-overflow:ellipsis;">{{v.title}}</h4>
+                                </div><!-- /overlay title -->
+                        </a>
+                        </div>
+
+                    </li><!-- /item -->
+                    {% set i = i + 1 %}
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+        </div>
+        <
+        <div class="more-info text-center margin-top-20">
+            <a href="/youxue{{http.config('view.file_ext')}}">点击查看更多》</a>
+        </div>
+        
+
+    </div>
+</section>
+<!-- / -->
+
+<!-- -->
+<section class="alternate" id="studytour">
+    <div class="container portfolio">
+        <header class="section-header margin-bottom-20">
+            <div class="heading-title">
+                <h3>学术类</h3>
+                <a href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
+            </div>
+        </header>
+        <div  class=" portfolio-title-over">
+            <div class="row mix-grid">
+                <ul id="studytour-ul" style="padding-left: 0px;">
+                    {% topic data = "list", limit= "6", cid=130, issub=1, ischild=1, type="level", page=0 %}
+                    {%set i = 1%}
+                    {% for v in list %}
+
+                    <li class="mix development col-md-3 col-sm-3 studytour-item"><!-- item -->
+
+                        <div class="item-box thumbnail">
+                        <a href="{{v.name|get_url(v.id)}}">
+                            <figure style="height: 373px;">
+                                <span class="item-hover">
+                                    <span class="overlay dark-5"></span>
+                                    {#
+                                    <span class="inner">
+
+                                        <!-- lightbox -->
+                                        <a class="ico-rounded lightbox" href="/static/dome/s_wenzhang.jpg" data-plugin-options='{"type":"image"}'>
+                                            <span class="glyphicon glyphicon-qrcode size-20"></span>
+                                        </a>
+
+                                        <!-- details -->
+                                        <a class="ico-rounded" href="/wenzhangceshi" target="_blank">
+                                            <span class="glyphicon glyphicon-option-horizontal size-20"></span>
+                                        </a>
+
+                                    </span>
+                                    #}
+                                </span>
+
+                                
+                                <!-- overlay title -->
+                                <div class="item-box-overlay-title text-center" style="height: 50px;">
+                                    <h4 class="nomargin">{{v.title}}</h4>
+                                </div><!-- /overlay title -->
+                            
+                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=226,h=332')}}"  alt="">
+                           
+                            </figure>
+                            <!-- overlay title -->
+                                <div class="item-box-overlay-title text-center" style="height: 64px;background-color:#fff ">
+                                    <h4 class="nomargin" style="font-size: 14px; color: #414141; text-overflow:ellipsis;">{{v.title}}</h4>
+                                </div><!-- /overlay title -->
+                        </a>
+                        </div>
+
+                    </li><!-- /item -->
+                    {% set i = i + 1 %}
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+        </div>
+        
+        <div class="more-info text-center margin-top-10">
+            <a href="/youxue{{http.config('view.file_ext')}}">点击查看更多》</a>
+        </div>
+        
+    </div>
+</section>
+<!-- / -->
+
+<!-- -->
+<section class="alternate" id="community">
+    <div class="container portfolio">
+        <header class="section-header margin-bottom-20">
+            <div class="heading-title">
+                <h3>特色类</h3>
+                <a href="" id="community-change">换一换 <img src="/static/assets/images/change.png"></a>
+            </div>
+        </header>
+        <div  class=" portfolio-title-over">
+            <div class="row mix-grid">
+                <ul id="community-ul" style="padding-left: 0px;">
+                    {% topic data = "list", limit= "6", cid=130, issub=1, ischild=1, type="level", page=0 %}
+                    {%set i = 1%}
+                    {% for v in list %}
+                    <li class="mix development col-md-4 col-sm-4 community-item"><!-- item -->
+
+                        <div class="item-box thumbnail">
+                        <a href="{{v.name|get_url(v.id)}}">
+                            <figure style="height: 373px;">
+                                <span class="item-hover">
+                                    <span class="overlay dark-5"></span>
+                                    {#
+                                    <span class="inner">
+
+                                        <!-- lightbox -->
+                                        <a class="ico-rounded lightbox" href="/static/dome/s_wenzhang.jpg" data-plugin-options='{"type":"image"}'>
+                                            <span class="glyphicon glyphicon-qrcode size-20"></span>
+                                        </a>
+
+                                        <!-- details -->
+                                        <a class="ico-rounded" href="/wenzhangceshi" target="_blank">
+                                            <span class="glyphicon glyphicon-option-horizontal size-20"></span>
+                                        </a>
+
+                                    </span>
+                                    #}
+                                </span>
+
+                                
+                                <!-- overlay title -->
+                                <div class="item-box-overlay-title text-center" style="height: 50px;">
+                                    <h4 class="nomargin">{{v.title}}</h4>
+                                </div><!-- /overlay title -->
+                            
+                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=226,h=332')}}"  alt="">
+                           
+                            </figure>
+                            <!-- overlay title -->
+                                <div class="item-box-overlay-title text-center" style="height: 64px;background-color:#fff ">
+                                    <h4 class="nomargin" style="font-size: 14px; color: #414141; text-overflow:ellipsis;">{{v.title}}</h4>
+                                </div><!-- /overlay title -->
+                        </a>
+                        </div>
+
+                    </li><!-- /item -->
+                    {% set i = i + 1 %}
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+        </div>
+        <div class="more-info text-center margin-top-10">
+            <a href="/question">点击查看更多》</a>
+        </div>
+
+    </div>
+</section>
+<!-- / -->
+{#
+<section>
+    <div class="container">
+
+        <div class="row">
+
+            <!-- RIGHT -->
+            <div class="col-md-9 col-sm-9">
+                <h3 class="page-header weight-300 margin-top-0 margin-bottom-0">
+                    <a href="/question.html" data-toggle="tooltip" title="" data-original-title="互帮互助有问题必达"><i class="fa fa-plus-square-o"></i></a>
+                    社区 <strong>问答</strong>
+                </h3>
+                <div class="timeline">
+                    <div class="timeline-hline"><!-- horizontal line cache='1000'--></div>
+                    {%model data="list",table="question",where='{"has_img":1}',order="update_time DESC",limit="10"%}
+                    {% for val in list %}
+                    {% set categoryname = val.category_id|get_cate %}
+                    {% set imgs= val.detail|img_text_view(200,120)%}
+                    <!-- POST ITEM -->
+                    <div class="blog-post-item blog-post-item-inverse padding-top-20 padding-bottom-20 margin-bottom-0 clearfix">
+                        <div class="timeline-entry" ><!-- .rounded = entry -->
+                            <a href="#"><img src="/uc/index/avatar/uid/{{val.uid}}" style="width: 58px;height: 58px; margin-top: -10px"></a>
+                            <div class="timeline-vline"><!-- vertical line --></div>
+                        </div>
+                        <!-- IMAGE -->
+                        {% if imgs|length==1 %}
+                        <figure class="blog-item-small-image margin-bottom-0">
+                            <img class="img-responsive" src="{{imgs[0]}}" alt="">
+                        </figure>
+                        {% endif %}
+                        <div class="blog-item-small-content">
+                            <h2><a href="/mod/question/{{val.id}}{{http.config('view.file_ext')}}" title="{{val.title}}">{{val.title}}</a></h2>
+                            <ul class="blog-post-info list-inline padding-bottom-10">
+                                <li>
+
+                                    <a class="" href="{{categoryname.url}}">
+                                        <span class="label label-light">{{categoryname.name}}</span>
+                                    </a>
+                                </li>
+                                <li>{%if val.answer_users>0%}
+                                    <a href="#">
+                                        <span class="font-lato">{{val.answer_users|get_nickname}}</span>
+                                    </a>
+                                    <span class="font-lato"> 回复了问题</span>
+                                    {%else%}
+                                    <a href="#">
+                                        <span class="font-lato">{{val.uid|get_nickname}}</span>
+                                    </a>
+                                    <span class="font-lato"> 发起了问题</span>
+                                    {%endif%}
+                                </li>
+                                <li>
+                                <span class="font-lato">
+                                {{val.focus_count}} 人关注
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="font-lato">{{val.answer_count}} 个回复</span>
+
+                                </li>
+                                <li>
+                                    <span class="font-lato">{{val.view}} 次浏览</span>
+                                </li>
+                                <li>
+                                    <span class="font-lato"> {{val.update_time|moment}}</span>
+                                </li>
+
+                            </ul>
+                            {% if imgs|length>1 %}
+                            <div class="row margin-bottom-10">
+                                {%set i = 0%}
+                                {%for img in imgs%}
+                                {%if i< 4 %}
+                                <div class="col-md-3"><img class="img-responsive" src="{{img}}" alt=""></div>
+                                {%endif%}
+                                {%set i=i+1%}
+                                {%endfor%}
+                            </div>
+                            {%endif%}
+                            <p>{{val.detail|delhtmltags|truncate(90, true, "...")|safe}}</p>
+                        </div>
+
+                    </div>
+                    <!-- /POST ITEM -->
+                    {%endfor%}
+
+                </div>
+
+                <!-- PAGINATION -->
+                <a class="btn btn-featured btn-default btn-inverse" href="/question.html" >
+                    <span>今天，你遇到了什么问题呢？进入社区寻求答案！</span>
+                    <i class="et-happy"></i>
+                </a>
+                <!-- /PAGINATION -->
+
+            </div>
+            <!-- LEFT -->
+            <div class="col-md-3 col-sm-3">
+
+                {% if controller.is_login %}
+                <div class="alert alert-info margin-bottom-20"><!-- INFO -->
+                    今天，你遇到了什么问题呢？
+                    <a href="/mod/question/sys/add/cid/123" class="btn btn-primary btn-3d btn-block margin-top-10">提问</a>
+                </div>
+                {%else%}
+                <div class="alert alert-info margin-bottom-20"><!-- INFO -->
+                    你好! 你还没有登录，请先登录.
+                    <a class="btn btn-block btn-social btn-dropbox margin-top-10  " href="/uc/public/login">
+                        <i class="fa fa-sign-in"></i> 登录{{controller.setup.WEB_SITE_TITLE}}
+                    </a>
+                </div>
+                {%endif%}
+
+                <div class="box-inner nopadding  margin-bottom-20">
+                    <h3>
+                        <a class="pull-right size-11 text-warning" href="/topic">更多</a>
+                        热门话题
+                    </h3>
+                    <div class="" >
+                        {% keywords data ="topic",type="hot",limit="5" %}
+                        {%for k in topic%}
+                        <div class="clearfix margin-bottom-10"><!-- discussion item -->
+                            {%if k.pic==0%}
+                            <i class="ico-light ico-60 ico-hover et-chat pull-left margin-bottom-0 margin-top-0" ></i>
+                            {%else%}
+                            <img class="thumbnail pull-left" src="/static/assets/images/demo/people/300x300/4-min.jpg" width="60" height="60" alt="" />
+                            {%endif%}
+                            <h4 class=" nomargin noborder nopadding bold"><a class="tag " href="{{k.url}}">
+                                <span class="txt">{{k.keyname}}</span>
+                                <span class="num"><i class="fa fa-fire"></i></span>
+                            </a>
+                            </h4>
+                            <span class="size-13 text-muted">
+                                {{k.videonum}} 个主题, {{k.focus_count}} 人关注
+                                                </span>
+                        </div><!-- /discussion item -->
+                        {%endfor%}
+
+
+                    </div>
+                </div>
+
+
+                {%model data="data",table="question_user",cache='1000',order="question_count DESC",alias="a",limit="10",join='{"member": {"join": "left","as":"b","on": ["a.uid", "b.id"]}}'%}
+                {%if data.length>0%}
+                <div class="box-inner nopadding  margin-bottom-20">
+                    <h3>
+                        <a class="pull-right size-11 text-warning" href="#">更多</a>
+                        热门用户
+                    </h3>
+                    <div class="" >
+                        {%for user in data%}
+                        <div class="clearfix margin-bottom-10"><!-- squared item -->
+                            <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/{{user.uid}}" width="40" height="40" alt="" />
+                            <h4 class="size-14 nomargin noborder nopadding bold"><a href="#">{{user.username}}</a></h4>
+                            <span class="size-12 text-muted">{{user.question_count}} 个问题, {{user.agree_count}} 次赞同</span>
+                        </div><!-- /squared item -->
+                        {%endfor%}
+
+                    </div>
+                </div>
+
+                {%endif%}
+                <div class="box-inner nopadding  margin-bottom-20">
+                    <h3>
+                        <a class="pull-right size-11 text-warning" href="#">更多</a>
+                        捐赠墙
+                    </h3>
+                    <div class="" >
+                        <div class="clearfix margin-bottom-20"><!-- notification item -->
+                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 5px;padding-right: 5px">
+                                                    <i class="fa fa-rmb"></i>5.00
+                                                </span>
+                            <span class="size-14 text-muted"><b class="weight-500 text-warning">仁伟</b>: 支付宝-转账</span>
+                        </div>
+                        <div class="clearfix margin-bottom-20"><!-- notification item -->
+                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
+                                                    <i class="fa fa-rmb"></i>1500.00
+                                                </span>
+                            <span class="size-14 text-muted"><b class="weight-500 text-warning">伴猪看斜阳</b>: 支付宝-转账</span>
+                        </div>
+                        <div class="clearfix margin-bottom-20"><!-- notification item -->
+                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
+                                                    <i class="fa fa-rmb"></i>500.00
+                                                </span>
+                            <span class="size-14 text-muted"><b class="weight-500 text-warning">张轶军</b>: 微信-转账</span>
+                        </div>
+                        <div class="clearfix margin-bottom-20"><!-- notification item -->
+                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
+                                                    <i class="fa fa-rmb"></i>50.00
+                                                </span>
+                            <span class="size-14 text-muted"><b class="weight-500 text-warning">koala</b>:QQ红包-转账</span>
+                        </div>
+                        <div class="clearfix margin-bottom-20"><!-- notification item -->
+                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
+                                                    <i class="fa fa-rmb"></i>50.00
+                                                </span>
+                            <span class="size-14 text-muted"><b class="weight-500 text-warning">dancingalone</b>:oschina-捐助</span>
+                        </div>
+                        <div class="clearfix margin-bottom-20"><!-- notification item -->
+                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
+                                                    <i class="fa fa-rmb"></i>666.00
+                                                </span>
+                            <span class="size-14 text-muted"><b class="weight-500 text-warning">dancingalone</b>:oschina-捐助</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+</section>
+#}
+
+<section style="padding: 0; border-bottom: none;">
+    <a href="#"><img src="/static/assets/images/home_logo1.jpg" style="width: 100%;height: 100%;"></a>
+</section>
+
+{% endblock %}
+
+{%block script%}
+    <script type="text/javascript">
+        /*jQuery(window).ready(function () {
+            $("#destination ul#destination-ul").children("li").eq(0).addClass("col-md-3 col-sm-3 destination-item-1");
+            $("#destination ul#destination-ul").children("li").eq(1).addClass("col-md-6 col-sm-6 destination-item-2");
+            $("#destination ul#destination-ul").children("li").eq(2).addClass("col-md-3 col-sm-3 destination-item-3");
+            $("#destination ul#destination-ul").children("li").eq(3).addClass("col-md-5 col-sm-5 destination-item-4");
+            $("#destination ul#destination-ul").children("li").eq(4).addClass("col-md-2 col-sm-2 destination-item-5");
+            $("#destination ul#destination-ul").children("li").eq(5).addClass("col-md-5 col-sm-5 destination-item-6");
+
+            $("#studytour ul#studytour-ul").children("li").eq(0).addClass("col-md-7 col-sm-3 studytour-item-1");
+            $("#studytour ul#studytour-ul").children("li").eq(1).addClass("col-md-5 col-sm-6 studytour-item-2");
+            $("#studytour ul#studytour-ul").children("li").eq(2).addClass("col-md-5 col-sm-3 studytour-item-3");
+            $("#studytour ul#studytour-ul").children("li").eq(3).addClass("col-md-7 col-sm-5 studytour-item-4");
+
+            $("#community ul#community-ul").children("li").eq(0).addClass("col-md-4 col-sm-4 community-item-1");
+            $("#community ul#community-ul").children("li").eq(1).addClass("col-md-4 col-sm-4 community-item-2");
+            $("#community ul#community-ul").children("li").eq(2).addClass("col-md-4 col-sm-4 community-item-3");
+            $("#community ul#community-ul").children("li").eq(3).addClass("col-md-12 col-sm-12 community-item-4");
+        });*/
+
+        var destination_page = 0;
+        $("#destination-change").bind("click",function() {
+            console.log("destination-change click");
+            destination_page++;
+            if(destination_page == 10)
+                destination_page = 0;
+            var data = "list&limit=6&cid=135&issub=1&ischild=1&type=level&page=" + destination_page;
+            // $.post("http://180.168.129.230:8360/ajax/topic", "list&limit=6&cid=135&issub=1&ischild=1&type=level&page=" + destination_page, function(result) {
+            //  console.log(result);
+            //  $("#destination-ul").html(result);
+            // }, "application/x-www-form-urlencoded");
+            $.ajax({ 
+                type: "POST", 
+                url: "/ajax/topic",
+                data: data,
+                success: function(result){
+                    console.log(result);
+                } 
+            });
+
+        });
+    </script>
+{%endblock%}
