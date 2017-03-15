@@ -2,6 +2,9 @@
 {% block style %}
 <link href="/static/assets/css/layout-question.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
+	.tp-bullets.simplebullets.round {
+		bottom:130px !important;
+	}
 	#destination ul#destination-ul li {
 		margin-bottom: 10px !important;
 	}
@@ -188,16 +191,17 @@
 		<header class="section-header margin-bottom-20">
 			<div class="heading-title">
 				<h3>热门</h3>
-				<a href="">换一换 <img src="/static/assets/images/change.png"></a>
+				<a href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
 			</div>
 		</header>
 		<div  class=" portfolio-title-over">
 			<div class="row mix-grid">
 				<ul id="destination-ul" style="padding-left: 0px;">
 					{% topic data = "list", limit= "6", cid=135, isstu=1, issub=1, ischild=1, type="level", page=0 %}
+					{%set i = 1%}
 					{% for v in list %}
 
-					<li class="mix development"><!-- item -->
+					<li class="mix development col-md-3 col-sm-3 destination-item-{{i}}"><!-- item -->
 
 						<div class="item-box thumbnail">
 						<a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}">
@@ -225,13 +229,21 @@
 								<div class="item-box-overlay-title">
 									<h4 class="nomargin">{{v.title}}</h4>
 								</div><!-- /overlay title -->
-
-								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=200,h=120')}}"  alt="">
+								{% if i == 1 or i == 3 %}
+								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=307,h=457')}}"  alt="">
+								{% elif i == 2 %}
+								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=506,h=457')}}"  alt="">
+								{% elif i == 4 or i == 6 %}
+								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=438,h=319')}}"  alt="">
+								{% elif i == 5 %}
+								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=244,h=319')}}"  alt="">
+								{% endif %}
 							</figure>
 						</a>
 						</div>
 
 					</li><!-- /item -->
+					{% set i = i + 1 %}
 					{% endfor %}
 
 				</ul>
@@ -252,16 +264,17 @@
 		<header class="section-header margin-bottom-20">
 			<div class="heading-title">
 				<h3>游学</h3>
-				<a href="">换一换 <img src="/static/assets/images/change.png"></a>
+				<a href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
 			</div>
 		</header>
 		<div  class=" portfolio-title-over">
 			<div class="row mix-grid">
 				<ul id="studytour-ul" style="padding-left: 0px;">
 					{% topic data = "list", limit= "4", cid=130, issub=1, ischild=1, type="level", page=0 %}
+					{%set i = 1%}
 					{% for v in list %}
 
-					<li class="mix development"><!-- item -->
+					<li class="mix development col-md-3 col-sm-3 studytour-item-{{i}}"><!-- item -->
 
 						<div class="item-box thumbnail">
 						<a href="{{v.name|get_url(v.id)}}">
@@ -290,12 +303,17 @@
 									<h4 class="nomargin">{{v.title}}</h4>
 								</div><!-- /overlay title -->
 
-								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=200,h=120')}}"  alt="">
+								{% if i == 1 or i == 4 %}
+								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=612,h=324')}}"  alt="">
+								{% elif i == 2 or i == 3 %}
+								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=508,h=324')}}"  alt="">
+								{% endif %}
 							</figure>
 						</a>
 						</div>
 
 					</li><!-- /item -->
+					{% set i = i + 1 %}
 					{% endfor %}
 
 				</ul>
@@ -316,16 +334,21 @@
 		<header class="section-header margin-bottom-20">
 			<div class="heading-title">
 				<h3>社区</h3>
-				<a href="">换一换 <img src="/static/assets/images/change.png"></a>
+				<a href="" id="community-change">换一换 <img src="/static/assets/images/change.png"></a>
 			</div>
 		</header>
 		<div  class=" portfolio-title-over">
 			<div class="row mix-grid">
 				<ul id="community-ul" style="padding-left: 0px;">
 					{%question data="list", has_img="1", order="is_recommend DESC,update_time DESC", limit="4", page="0" %}
+					{%set i = 1%}
 					{% for v in list %}
-					{% set imgs= v.detail|img_text_view(200,120)%}
-					<li class="mix development"><!-- item -->
+					{% if i == 4 %}
+					{% set imgs= v.detail|img_text_view(1140,514)%}
+					{% else %}
+					{% set imgs= v.detail|img_text_view(372,434)%}
+					{% endif %}
+					<li class="mix development {% if i == 4 %}col-md-12 col-sm-12{% else %}col-md-4 col-sm-4{% endif %} community-item-{{i}}"><!-- item -->
 
 						<div class="item-box thumbnail">
 						<a href="/mod/question/{{v.id}}{{http.config('view.file_ext')}}">
@@ -360,6 +383,7 @@
 						</div>
 
 					</li><!-- /item -->
+					{% set i = i + 1 %}
 					{% endfor %}
 
 				</ul>
@@ -599,7 +623,7 @@
 
 {%block script%}
 	<script type="text/javascript">
-		jQuery(window).ready(function () {
+		/*jQuery(window).ready(function () {
 			$("#destination ul#destination-ul").children("li").eq(0).addClass("col-md-3 col-sm-3 destination-item-1");
 			$("#destination ul#destination-ul").children("li").eq(1).addClass("col-md-6 col-sm-6 destination-item-2");
 			$("#destination ul#destination-ul").children("li").eq(2).addClass("col-md-3 col-sm-3 destination-item-3");
@@ -616,6 +640,28 @@
 			$("#community ul#community-ul").children("li").eq(1).addClass("col-md-4 col-sm-4 community-item-2");
 			$("#community ul#community-ul").children("li").eq(2).addClass("col-md-4 col-sm-4 community-item-3");
 			$("#community ul#community-ul").children("li").eq(3).addClass("col-md-12 col-sm-12 community-item-4");
+		});*/
+
+		var destination_page = 0;
+		$("#destination-change").bind("click",function() {
+			console.log("destination-change click");
+			destination_page++;
+			if(destination_page == 10)
+				destination_page = 0;
+			var data = "list&limit=6&cid=135&issub=1&ischild=1&type=level&page=" + destination_page;
+			// $.post("http://180.168.129.230:8360/ajax/topic", "list&limit=6&cid=135&issub=1&ischild=1&type=level&page=" + destination_page, function(result) {
+			// 	console.log(result);
+			// 	$("#destination-ul").html(result);
+			// }, "application/x-www-form-urlencoded");
+	 		$.ajax({ 
+	 			type: "POST", 
+	 			url: "/ajax/topic",
+	 			data: data,
+	 			success: function(result){
+	                console.log(result);
+	            } 
+	        });
+
 		});
 	</script>
 {%endblock%}

@@ -5701,7 +5701,7 @@ section#slider .btn-default {
 	}
 	/* bullets */
 	.tp-bullets.simplebullets.round {
-		bottom:130px !important;
+		bottom:20px !important;
 	}
 	.tp-bullets.simplebullets.round .bullet {
 /*		background:none;

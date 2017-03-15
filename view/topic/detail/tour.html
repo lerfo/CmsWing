@@ -1,7 +1,51 @@
 {% extends "../inc/base.html" %}
 {% block style %}
-<script src="/static/admin/js/udeitor/ueditor.parse.min.js"></script>
 <link href="/static/assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
+<link href="/static/assets/plugins/fullcalendar-3.2.0/lib/cupertino/jquery-ui.min.css" rel="stylesheet" />
+<link href="/static/assets/plugins/fullcalendar-3.2.0/fullcalendar.min.css" rel="stylesheet" />
+<link href="/static/assets/plugins/fullcalendar-3.2.0/fullcalendar.print.min.css" rel="stylesheet"  media='print' />
+
+<style type="text/css">
+.fc-toolbar.fc-header-toolbar {
+	margin-bottom: 0px;
+	background: #1eb6c1;
+}
+.fc-toolbar.fc-header-toolbar h2 {
+	font-size: 15px;
+	margin: 0;
+	color: #fff;
+}
+.ui-widget-header {
+	color: #808080;
+}
+#calendar {
+	border: 2px #1eb6c1 solid;
+}
+div.shop-item-price {
+	margin-top: 0px;
+}
+.text-danger {
+	color: #ff441c !important;
+	font-size: 30px !important;
+}
+.text-danger span {
+	color: #888 !important;
+	font-size: 15px !important;
+}
+.score {
+	color: #1eb6c1 !important;
+	font-size: 30px !important;
+	font-weight: bold;
+}
+.score span {
+	color: #888 !important;
+	font-size: 15px !important;
+	font-weight: normal;
+}
+.fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
+	float: left;
+}
+</style>
 {% endblock %}
 {% block content %}
 <!--
@@ -21,6 +65,7 @@ CLASSES:
 .shadow-before-3 	= shadow 3 header top
 .shadow-after-3 	= shadow 3 header bottom
 -->
+{#
 <section class="page-header dark page-header-xs parallax parallax-2" style="background-image:url('/static/assets/images/demo/thematics/lawyer/slider_bg_4-min.jpg')">
 	<div class="overlay dark-2"><!-- dark overlay [1 to 9 opacity] --></div>
 	<div class="container">
@@ -49,6 +94,37 @@ CLASSES:
 	</div>
 </section>
 <!-- /PAGE HEADER -->
+#}
+
+<!-- SLIDER -->
+<section id="slider" class="" style="height: 600px;background-position: center center">
+	<span class="overlay dark-2"><!-- dark overlay [0 to 9 opacity] --></span>
+
+	<div class="display-table">
+		<div class="display-table-cell vertical-align-middle">
+
+            <!-- REVOLUTION SLIDER -->
+            <div class="slider fullwidthbanner-container roundedcorners margin-bottom-30">
+                <div class="fullwidthbanner" data-height="600" data-shadow="3" data-navigationStyle="">
+                    <ul class="">
+					{% set pic = info.pics|strToArray %}
+					{% for val in pic %}
+                        <!-- SLIDE  -->
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
+                            <img src="{{val|get_pic('m=3,w=1140,h=450')}}" data-lazyload="{{val|get_pic('m=3,w=1140,h=450')}}" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
+
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    <div class="tp-bannertimer"><!-- progress bar --></div>
+                </div>
+            </div>
+		</div>
+	</div>
+
+</section>
+<!-- /SLIDER -->
+
 <!-- -->
 <section>
 	<div class="container">
@@ -56,11 +132,9 @@ CLASSES:
 		<div class="row">
 
 			<!-- RIGHT -->
-			<div class="col-lg-9 col-md-9 col-sm-9 col-lg-push-3 col-md-push-3 col-sm-push-3">
-				<h1 class="blog-post-title size-18">{{info.title}}</h1>
-				<hr>
+			<div class="col-lg-12 col-md-12 col-sm-12 {#col-lg-push-3 col-md-push-3 col-sm-push-3#}">
 				<div class="row">
-
+{#
 					<!-- IMAGE -->
 					<div class="col-lg-6 col-sm-6">
 						{% set pic = info.pics|strToArray%}
@@ -112,10 +186,24 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
 </div>
 <!-- /IMAGE -->
+#}
+<div class="col-lg-6 col-sm-6">
+	<div id='calendar'></div>
+</div>
 
 <!-- ITEM DESC -->
 <div class="col-lg-6 col-sm-6">
 
+	<div class="row margin-bottom-10">
+		<div class="col-lg-6 col-sm-6">
+			<div class="pull-left text-left">编号：{{info.id}}</div>
+		</div>
+		<div class="col-lg-6 col-sm-6">
+			<div class="pull-right text-right">出发地：{{info.departure_place_name}}</div>
+		</div>
+	</div>
+	<h1 class="blog-post-title size-25 bold margin-bottom-10">{{info.title}}</h1>
+	{#
 	<!-- buttons -->
 	<div class="pull-right">
 		<!-- replace data-item-id width the real item ID - used by js/view/demo.shop.js -->
@@ -123,12 +211,27 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		<a class="btn btn-default add-compare" href="#" data-item-id="1" data-toggle="tooltip" title="Add To Compare"><i class="fa fa-bar-chart-o nopadding" data-toggle="tooltip"></i></a>
 	</div>
 	<!-- /buttons -->
+	#}
 
-	<!-- price -->
-	<div class="shop-item-price text-danger">
-		{% if info.price|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price|get_price_format('2')}}</span>{%endif%}
-		¥<price>{{info.price|get_price_format('1')}}</price>
+	<div class="row margin-bottom-10">
+		<div class="col-lg-6 col-sm-6">
+			<div class="shop-item-price text-danger">
+				{% if info.price|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price|get_price_format('2')}}</span>{%endif%}
+				¥<price>{{info.price|get_price_format('1')}}</price><span>/人起</span>
+			</div>
+		</div>
+		<div class="col-lg-2 col-sm-2">
+			<div class="score">{{info.score}}<span>分</span></div>
+		</div>
+		<div class="col-lg-2 col-sm-2">
+			<div class="score"><span>{{info.comment}}条点评</span></div>
+		</div>
+		<div class="col-lg-2 col-sm-2">
+			<div class="score"><span>{{info.ordercount}}人出游</span></div>
+		</div>
 	</div>
+	<!-- price -->
+	{#
 	<div class="shop-item-price text-danger">成人价格
 		{% if info.price_adult|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price_adult|get_price_format('2')}}</span>{%endif%}
 		¥<price>{{info.price_adult|get_price_format('1')}}</price>
@@ -145,23 +248,34 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		{% if info.price_differences|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price_differences|get_price_format('2')}}</span>{%endif%}
 		¥<price>{{info.price_differences|get_price_format('1')}}</price>
 	</div>
+	#}
 	<!-- /price -->
 
-	<hr />
-
-	<div class="clearfix margin-bottom-30" >
+	<div class="clearfix margin-bottom-10" >
 		<div class="pull-right" id="stock">
-			{% if info.total_stock != 0%}
+			{% if info.available_stock != 0%}
 
-			<span class=" text-success" ><i class="fa fa-check"></i> 有货 <span class="badge badge-aqua btn-xs ">{{info.total_stock}}</span></span>
+			<span class=" text-success" ><i class="fa fa-check"></i> 有货 <span class="badge badge-aqua btn-xs ">{{info.available_stock}}</span></span>
 			{% else%}
 			<span class="pull-right text-danger"><i class="glyphicon glyphicon-remove"></i> 无货</span>
 			{% endif %}
 		</div>
 		<strong>商家编码:</strong> {{info.id}}
 	</div>
+	{% if not controller.is_login %}
+	<div class="row margin-bottom-10" style="margin-left: 0px; margin-right: 0px; font-size: 13px;">
+		<div class="pull-left text-left">（<a href="/uc/public/login">登录</a>后查看更多优惠）</div>
+	</div>
+	{% endif %}
+	<div class="row margin-bottom-10">
+		<div class="col-lg-6 col-sm-6">
+			<div class="pull-left text-left">编号：{{info.id}}</div>
+		</div>
+		<div class="col-lg-6 col-sm-6">
+			<div class="pull-right text-right">出发地：{{info.departure_place_name}}</div>
+		</div>
+	</div>
 	{#
-	<hr />
 	<!-- countdown -->
 	<div class="text-center">
 		<h5>折扣时间</h5>
@@ -169,7 +283,6 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	</div>
 	<!-- /countdown -->
 	#}
-	<hr/>
 
 	<!-- FORM -->
 	<form class="clearfix form-inline nomargin ichecks"   data-icheck-info ="{{info.suk}}" method="post" action="/uc/booking">
@@ -264,11 +377,9 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	<!-- /FORM -->
 
 
-	<hr />
 	{% if info.description %}
 	<!-- short description -->
 	<small class="text-muted">{{info.description}}</small>
-	<hr />
 	<!-- /short description -->
 	{% endif %}
 
@@ -774,7 +885,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
 </div>
 
-
+{#
 <!-- LEFT -->
 <div class="col-lg-3 col-md-3 col-sm-3 col-lg-pull-9 col-md-pull-9 col-sm-pull-9">
 
@@ -935,6 +1046,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	<!-- /HTML BLOCK -->
 
 </div>
+#}
 
 </div>
 
@@ -944,7 +1056,39 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 {% endblock %}
 
 {% block script %}
+<script src="/static/admin/js/udeitor/ueditor.parse.min.js"></script>
+<script src="/static/assets/plugins/fullcalendar-3.2.0/lib/moment.min.js"></script>
+<script src="/static/assets/plugins/fullcalendar-3.2.0/fullcalendar.min.js"></script>
+<script src="/static/assets/plugins/fullcalendar-3.2.0/gcal.min.js"></script>
 <script>
+	$(document).ready(function() {
+
+		$('#calendar').fullCalendar({
+			theme: true,
+			header: {
+				left: '',
+				center: 'title',
+				right: ''
+			},
+			monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+            dayNamesShort: ["日", "一", "二", "三", "四", "五", "六"],
+            titleFormat: 'YYYY年MM月',
+			defaultDate: '2017-03-14',
+			// navLinks: true, // can click day/week names to navigate views
+			// editable: true,
+			// eventLimit: true, // allow "more" link when too many events
+			events: [
+				{
+					title: 'Dinner',
+					start: '2017-03-12T20:00:00'
+				}
+			]
+		});
+		
+	});
+
 	uParse('#content', {
 		rootPath: '/static/admin/js/udeitor/'
 	})
@@ -952,4 +1096,5 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
 <!-- PAGE LEVEL SCRIPTS -->
 <script type="text/javascript" src="/static/assets/js/view/demo.shop.js"></script>
+
 {% endblock %}
