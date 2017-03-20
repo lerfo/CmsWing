@@ -184,13 +184,40 @@
 			var data_val = jQuery(this).attr('data-val').trim();
 
 			/* change visual value and hidden input */
-			jQuery("#product-selected-qty>span").empty().append(data_val);
+			jQuery("#product-selected-qty").val(data_val);
 			jQuery("#qty").val(data_val); // UPDATE HIDDEN FIELD
 
 			/* change visual selected */
 			jQuery("#product-qty-dd li").removeClass('active');
 			jQuery(this).parent().addClass('active');
 		});
+
+    jQuery("#product-qty-dd-child li a").bind("click", function(e) {
+      e.preventDefault();
+      
+      var data_val = jQuery(this).attr('data-val').trim();
+
+      /* change visual value and hidden input */
+      jQuery("#product-selected-qty-child").val(data_val);
+      jQuery("#qty").val(data_val); // UPDATE HIDDEN FIELD
+
+      /* change visual selected */
+      jQuery("#product-qty-dd-child li").removeClass('active');
+      jQuery(this).parent().addClass('active');
+    });
+
+    jQuery("#product-qty-dd-qperson li a").bind("click", function(e) {
+      e.preventDefault();
+      
+      var data_val = jQuery(this).attr('data-val').trim();
+
+      /* change visual value and hidden input */
+      jQuery("#product-selected-qty-qperson").val(data_val);
+
+      /* change visual selected */
+      jQuery("#product-qty-dd-qperson li").removeClass('active');
+      jQuery(this).parent().addClass('active');
+    });
 
         /**选择商品类型 */
         

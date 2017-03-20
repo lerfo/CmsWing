@@ -56,8 +56,12 @@ export default class extends Base {
   //获取头像
   async avatarAction() {
     let uid = this.get("uid")||this.user.uid
-    var uploadPath = think.RESOURCE_PATH + '/upload/avatar/' + uid;
-    let path = think.isFile(uploadPath + "/" + "/avatar.png");
+    let path;
+    if(uid != 0 && !think.isEmpty(uid)){
+      var uploadPath = think.RESOURCE_PATH + '/upload/avatar/' + uid;
+      path = think.isFile(uploadPath + "/" + "/avatar.png");
+    // uid 0 遊客採用默認頭像
+    }
     this.type("image/png");
     let pic;
     if (path) {

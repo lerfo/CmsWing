@@ -1,11 +1,16 @@
 {% extends "../inc/base.html" %}
 {% block style %}
+<link rel="stylesheet" href="/static/assets/plugins/wangEditor/css/wangEditor.min.css" type="text/css"/>
 <link href="/static/assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
 <link href="/static/assets/plugins/fullcalendar-3.2.0/lib/cupertino/jquery-ui.min.css" rel="stylesheet" />
 <link href="/static/assets/plugins/fullcalendar-3.2.0/fullcalendar.min.css" rel="stylesheet" />
 <link href="/static/assets/plugins/fullcalendar-3.2.0/fullcalendar.print.min.css" rel="stylesheet"  media='print' />
+<link rel="stylesheet" href="/static/admin/js/datepicker/bootstrap-datetimepicker.min.css" type="text/css">
 
 <style type="text/css">
+ul li, ol li {
+    list-style: none;
+}
 .fc-toolbar.fc-header-toolbar {
 	margin-bottom: 0px;
 	background: #1eb6c1;
@@ -44,6 +49,686 @@ div.shop-item-price {
 }
 .fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
 	float: left;
+}
+
+.resource_price_wrap {
+    background-color: #FFFCF4;
+    padding: 10px 20px;
+    height: 70px;
+    border: 3px solid #1eb6c1;
+    position: relative;
+    z-index: 2;
+}
+.resource_price_wrap {
+    border-bottom: none;
+}
+ul.resource_price_wrap {
+	margin-bottom: 0;
+}
+.resource_price_wrap .abc_start_date {
+    width: 196px;
+}
+.resource_price_wrap .start_date {
+    width: 210px;
+}
+.resource_price_wrap li {
+    float: left;
+    height: 30px;
+    margin-top: 8px;
+    position: relative;
+    display: inherit;
+}
+.resource_price_wrap label {
+    font-size: 13px;
+    font-weight: bold;
+    padding-right: 10px;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    color: #000;
+}
+.resource_price_wrap .input_wrap {
+    float: left;
+    position: relative;
+    z-index: 2;
+}
+.resource_price_wrap .input_wrap input {
+    height: inherit;
+    padding-right: 16px;
+    float: left;
+    color: #333;
+    font-size: 14px;
+    line-height: 22px;
+}
+.resource_price_wrap .start_date input {
+    width: 150px;
+    _padding: 3px;
+    _width: 160px;
+}
+/*.resource_price_wrap .abc_start_date input {
+    width: 132px;
+    _width: 144px;
+}*/
+input[type="text"], input[type="number"] {
+    padding: 3px;
+    border: solid 1px #CCC;
+    box-shadow: 1px 1px 3px #DDDDDD inset;
+    -moz-appearance:textfield;
+}
+input[type="color"], input[type="email"], input[type="number"], input[type="password"], input[type="tel"], input[type="url"] {
+    padding: 3px;
+    border: solid 1px #CCC;
+    box-shadow: 1px 1px 3px #DDDDDD inset;
+}
+.resource_price_wrap .tourist_num, .resource_price_wrap .children_num {
+    padding-left: 14px;
+    zoom: 1;
+}
+.resource_price_wrap .tourist_num input, .resource_price_wrap .children_num input {
+    width: 48px;
+    _padding: 3px;
+    _width: 38px;
+}
+.base_price {
+    font-style: normal;
+    font-family: arial;
+    text-decoration: none;
+}
+.resource_price_wrap .base_price {
+    color: #ff5f00;
+    font-size: 14px;
+    float: left;
+    margin-left: 4px;
+    height: 30px;
+    line-height: 30px;
+}
+.resource_price_wrap .input_wrap p {
+    position: absolute;
+    width: 45px;
+    _width: 46px;
+    border: 1px solid #CCC;
+    background-color: #fff;
+    top: 29px;
+    _top: 31px;
+    left: 0;
+}
+.resource_price_wrap .input_wrap p a {
+    display: block;
+    text-align: center;
+    height: 18px;
+    line-height: 18px;
+    color: #333;
+}
+.resource_price_wrap .total_price {
+    float: right;
+    height: 42px;
+    margin-top: 0;
+    width: 316px;
+    text-align: right;
+    position: relative;
+}
+.resource_price_wrap .total_price .price_name {
+    vertical-align: middle;
+    padding-right: 10px;
+    font-size: 12px;
+    color: #737373;
+}
+.resource_price_wrap .total_price .price {
+    font-size: 32px;
+    color: #1eb6c1;
+    line-height: 42px;
+    vertical-align: middle;
+    padding-right: 30px;
+    font-family: Tahoma, Simsun, sans-serif;
+}
+.resource_price_wrap .total_price .price_icon {
+    width: 17px;
+    height: 17px;
+    position: absolute;
+    background-position: -291px -671px;
+    margin: 12px 0 0 -25px;
+    cursor: pointer;
+}
+.resource_price_wrap li b {
+    float: left;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    line-height: 0;
+    font-size: 0;
+    vertical-align: middle;
+    border-top: 5px solid #666;
+    border-bottom: 0 none;
+    border-left: 5px dashed transparent;
+    border-right: 5px dashed transparent;
+    cursor: text;
+    margin: 13px 0 0 -15px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0; 
+}
+ul.product-qty-dd {
+    min-width: 48px;
+}
+ul.product-qty-dd li {
+	width: 100%;
+	height: 26px;
+	margin-bottom: 1px;
+	margin-top: 0px;
+}
+.dropdown-menu>li>a {
+	padding: 3px;
+}
+th.switch {
+	display: table-cell;
+}
+.resource_price_wrap .child_tip {
+    line-height: 30px;
+    float: left;
+    position: relative;
+    cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-decoration: underline;
+    padding-left: 4px;
+    font-size: 12px;
+    color: #010101;
+    font-weight: bold;
+}
+
+.resource_wrap {
+    border: 3px solid #1eb6c1;
+    border-top: 0 none;
+    background-color: #fff;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+.all_resource {
+    padding: 0 20px;
+}
+.all_resource .flt_htl_resource {
+    padding: 10px 14px 10px 14px;
+    min-height: 80px;
+    _height: 80px;
+}
+.all_resource .flt_resource_detail, .all_resource .htl_resource_detail, .all_resource .other_resource_detail {
+    padding: 10px 0 10px 90px;
+    border-bottom: 1px solid #E4E4E4;
+}
+.resource_detail_title2 {
+    font: normal 18px/24px microsoft yahei, simsun, sans-serif;
+    float: left;
+    position: relative;
+    margin-left: -90px;
+    _display: inline;
+}
+table {
+    border-collapse: collapse;
+}
+.flt_resource_table, .htl_resource_table, .other_resource_table {
+    width: 100%;
+    _width: auto;
+    table-layout: fixed;
+}
+.other_resource_table td {
+    /*padding: 5px 10px;*/
+    vertical-align: top;
+    text-align: center;
+}
+.other_resource_table .col_01 {
+    width: 120px;
+}
+.other_resource_table .col_02 {
+    width: 270px;
+}
+.other_resource_table .col_03 {
+    width: 132px;
+}
+.other_resource_table .col_04 {
+    width: 80px;
+}
+.other_resource_table .col_05 {
+    width: 70px;
+}
+.other_resource_table .col_06 {
+    width: 58px;
+}
+.other_resource_table .col_07 {
+    width: 46px;
+}
+.other_resource_table td.col_btn {
+    text-align: right;
+    padding-right: 0;
+}
+.other_resource_table .other_product {
+    font: bold 12px simsun, sans-serif;
+    height: 24px;
+    /*width: 72px;*/
+    line-height: 24px;
+    text-align: center;
+    background-color: #E7F5FF;
+}
+.other_resource_table .other_name_unclick {
+    font-size: 12px;
+}
+.other_resource_table .other_price {
+    color: #1eb6c1;
+    font-weight: bold;
+    font-size: 12px;
+}
+dfn {
+    font-style: normal;
+    font-size: 12px;
+    font-family: Arial !important;
+}
+.other_resource_table .other_price dfn {
+    font-weight: normal;
+}
+.other_resource_table .room_num, .other_resource_table .use_date {
+    line-height: 26px;
+}
+.other_resource_table .num_input_wrap, .other_resource_table .date_input_wrap {
+    float: left;
+    width: 50px;
+    position: relative;
+}
+.other_resource_table .num_input_wrap input, .other_resource_table .date_input_wrap input {
+    width: 48px;
+    float: left;
+    height: 26px;
+    line-height: 18px;
+    _padding: 3px;
+    padding-right: 10px;
+    margin-right: 4px;
+}
+.other_resource_table .num_input_wrap b, .other_resource_table .date_input_wrap b {
+    float: left;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    line-height: 0;
+    font-size: 0;
+    vertical-align: middle;
+    border-top: 4px solid #666;
+    border-bottom: 0 none;
+    border-left: 4px dashed transparent;
+    border-right: 4px dashed transparent;
+    cursor: text;
+    margin: 12px 0 0 -15px;
+}
+.other_resource_table .num_input_wrap p, .other_resource_table .date_input_wrap p {
+    position: absolute;
+    width: 45px;
+    _width: 47px;
+    border: 1px solid #CCC;
+    background-color: #fff;
+    z-index: 3;
+    clear: both;
+    margin: 25px 0 0 0;
+}
+.cost_detail > ul.list-paddingleft-2 > li {
+	font-size: 16px;
+	font-weight: bold;
+	color: #000;
+	display: inherit;
+}
+.cost_detail > ul.list-paddingleft-2 > ul.list-paddingleft-2 {
+	margin-bottom: 20px;
+}
+.cost_detail > ul.list-paddingleft-2 > ul.list-paddingleft-2 li {
+	list-style: decimal;
+}
+
+#product_detail {
+	border: 1px #ccc solid;
+}
+.abc_detail_col {
+    /*margin: 20px -14px 20px -116px;*/
+    padding: 10px;
+    zoom: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666;
+    position: relative;
+}
+.abc_detail {
+    padding-left: 92px;
+    zoom: 1;
+    overflow: hidden;
+    margin-top: 10px;
+}
+.abc_detail dt {
+    float: left;
+    margin-left: -92px;
+    padding: 0 10px;
+    background: #f7f7f7;
+    color: #333;
+    _display: inline;
+}
+.abc_detail dd {
+    zoom: 1;
+}
+.abc_summary {
+    padding: 1px 0 0 1px;
+}
+.abc_summary li {
+    float: left;
+    width: 33.3333%;
+    height: 60px;
+    border: 1px solid #eee;
+    margin: -1px 0 0 -1px;
+    overflow: hidden;
+    _display: inline;
+}
+.abc_summary .abc_icon {
+    height: 40px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 20px 5px 0 15px;
+}
+.abc_summary .abc_icon i {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+}
+.abc_summary .abc_icon .abc_icon_hotel {
+    background-position: 0 -968px;
+}
+.abc_summary p {
+    display: inline-block;
+    padding-right: 10px;
+    vertical-align: middle;
+    zoom: 1;
+    width: 274px;
+}
+.abc_summary p em {
+    display: block;
+    font-style: normal;
+    font-size: 14px;
+    height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #333;
+    zoom: 1;
+    width: 100%;
+}
+.abc_summary .abc_icon .abc_icon_scenic {
+    background-position: -25px -968px;
+}
+.abc_summary p .abc_summary_tips {
+    font-size: 12px;
+    color: #999;
+    height: 16px;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    zoom: 1;
+    width: 100%;
+}
+.abc_summary .abc_icon .abc_icon_drive {
+    background-position: -50px -968px;
+}
+.abc_summary .abc_icon .abc_icon_repast {
+    background-position: -75px -968px;
+}
+.abc_summary .abc_icon .abc_icon_free {
+    background-position: -100px -968px;
+}
+.abc_summary .abc_icon .abc_icon_fly {
+    background-position: -125px -968px;
+}
+.abc_fly_transfer, .abc_fly_nostop {
+    display: inline-block;
+    border: 1px solid #339900;
+    color: #339900;
+    padding: 0 3px;
+    line-height: 17px;
+    border-radius: 4px;
+    margin-left: 5px;
+    font-size: 12px;
+    vertical-align: 1px;
+}
+.basefix:after, .layoutfix:after {
+    clear: both;
+    content: '.';
+    display: block;
+    height: 0;
+    overflow: hidden;
+}
+
+.detail_tab {
+    height: 39px;
+    border-bottom: 1px solid #D5D5D5;
+/*    width: 1180px;
+    background: url(http://pic.c-ctrip.com/vacation_v1/bg_miancolor.png);
+*/    position: relative;
+    z-index: 2;
+}
+.detail_tab_col {
+    float: left;
+    height: 38px;
+    position: relative;
+    top: 1px;
+    border-right: 1px solid #d5d5d5;
+    padding: 0;
+}
+.detail_tab_col li {
+    float: left;
+    margin-right: -1px;
+    border: 1px solid #d5d5d5;
+    height: 37px;
+    display: inline;
+    border-bottom: none;
+    min-width: 76px;
+}
+.detail_tab_col li a {
+    font-size: 16px;
+    height: 37px;
+    line-height: 37px;
+    padding: 0 15px;
+    color: #666;
+    /*background: #fff;*/
+    display: block;
+    zoom: 1;
+    _display: inline;
+    text-align: center;
+}
+.detail_tab_col li a.current {
+    position: relative;
+    margin-top: -1px;
+    padding-bottom: 2px;
+    height: 34px;
+    line-height: 34px;
+    color: #333;
+    font-weight: bold;
+    border-top: 3px solid #32a1ff;
+}
+.tab_link_help {
+    float: left;
+    line-height: 38px;
+    height: 38px;
+    padding-left: 8px;
+}
+.tab_link_help a {
+    display: block;
+}
+.tab_link_help i {
+    width: 16px;
+    height: 16px;
+    background-position: -115px -325px;
+    margin-right: 5px;
+    _margin-right: 2px;
+    float: left;
+    margin-top: 11px;
+    display: inline;
+}
+.tab_btn_wrap {
+    position: absolute;
+    right: 0;
+}
+.tab_hot_phone {
+    height: 36px;
+    line-height: 36px;
+    display: inline-block;
+    color: #29A2EE;
+    vertical-align: middle;
+    position: relative;
+    padding-left: 27px;
+    font-family: Tahoma;
+    font-size: 18px;
+}
+.tab_hot_phone i {
+    width: 21px;
+    height: 21px;
+    position: absolute;
+    background-position: -287px -541px;
+    top: 8px;
+    left: 0;
+}
+.tab_hot_phone strong {
+    font-weight: normal;
+    font-family: microsoft yahei, simsun, sans-serif;
+    font-size: 16px;
+    padding-right: 6px;
+}
+
+.under_tab_detail {
+    margin-top: -1px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    /*border: 1px solid #d5d5d5;*/
+    background: #fff;
+    /*box-shadow: 1px 1px 1px #ebeef0;*/
+    zoom: 1;
+    position: relative;
+}
+.under_tab_anchor {
+    height: 0;
+    line-height: 0;
+    display: block;
+    width: 0px;
+    margin-top: -37px;
+    padding-top: 37px;
+    overflow: hidden;
+}
+.under_tab_anchor_abc {
+    height: 0;
+    line-height: 0;
+    display: block;
+    width: 0px;
+    margin-top: -85px;
+    padding-top: 85px;
+    overflow: hidden;
+}
+.under_tab_detail .detail_content {
+    padding: 20px 14px 20px 116px;
+    zoom: 1;
+    position: relative;
+    border-top: 3px solid #f1f1f1;
+    min-height: 80px;
+    _height: 80px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: -3px;
+}
+.resource_title {
+    position: absolute;
+    margin-left: -116px;
+    padding-top: 2px;
+    width: 80px;
+    height: 78px;
+    text-align: center;
+    font: normal 16px/28px microsoft yahei, simsun, sans-serif;
+    color: #fff;
+    background: #6bc2fa;
+}
+.resource_title i {
+    position: absolute;
+    left: 20px;
+    bottom: 8px;
+}
+.detail_content .product_feature {
+    margin-bottom: 30px;
+    overflow: hidden;
+    min-height: 80px;
+}
+
+.product_feature > ul {
+	padding-left: 0px;
+}
+.product_feature > ul.list-paddingleft-2 > li {
+	font-size: 16px;
+	font-weight: bold;
+	color: #000;
+}
+#product_expense > ul.list-paddingleft-2 > ul.list-paddingleft-2 {
+	margin-bottom: 20px;
+}
+.product_feature > ul.list-paddingleft-2 > ul.list-paddingleft-2 li {
+	list-style: decimal;
+}
+
+	#destination ul#destination-ul li {
+		margin-bottom: 10px !important;
+		height: 217px;
+	}
+	section.alternate {
+		border-bottom: none;
+	}
+	section.alternate .item-box {
+		width: 100%;
+		height: 100%;
+	}
+	section#destination {
+		background-color: transparent;
+	}
+	.item-box figure {
+		height: 100%;
+	}
+	.thumbnail {
+		padding: 0px;
+		border: none;
+		cursor: pointer;
+	}
+	img.img-responsive {
+		width: 100%;
+		height: 100%;
+	}
+/*	.row {
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+*/	ul#studytour-ul li .item-box-overlay-title h4 {
+		font-size: 12px;
+	}
+	ul#studytour-ul li .item-box {
+		box-shadow: none;
+	}
+	.portfolio .item-box-overlay-title {
+		padding: 3px 12px;
+	}
+	.portfolio .item-box-overlay-title h4 {
+		font-size: 17px;
+	}
+	.portfolio header {
+		height: 60px;
+	}
+	.portfolio header h3 {
+		font-size: 32px;
+		float: left;
+	}
+	.portfolio header a {
+		margin-top: 20px;
+		float: right;
+	}
+
+.wangEditor-menu-container .menu-item {
+	width: 26.5px;
 }
 </style>
 {% endblock %}
@@ -216,14 +901,16 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	<div class="row margin-bottom-10">
 		<div class="col-lg-6 col-sm-6">
 			<div class="shop-item-price text-danger">
-				{% if info.price|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price|get_price_format('2')}}</span>{%endif%}
+				{#
+                {% if info.price|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price|get_price_format('2')}}</span>{%endif%} 
+                #}
 				¥<price>{{info.price|get_price_format('1')}}</price><span>/人起</span>
 			</div>
 		</div>
-		<div class="col-lg-2 col-sm-2">
+		<div class="col-lg-2 col-sm-2" style="padding-right: 0;">
 			<div class="score">{{info.score}}<span>分</span></div>
 		</div>
-		<div class="col-lg-2 col-sm-2">
+		<div class="col-lg-2 col-sm-2" style="padding-right: 0;">
 			<div class="score"><span>{{info.comment}}条点评</span></div>
 		</div>
 		<div class="col-lg-2 col-sm-2">
@@ -260,7 +947,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			<span class="pull-right text-danger"><i class="glyphicon glyphicon-remove"></i> 无货</span>
 			{% endif %}
 		</div>
-		<strong>商家编码:</strong> {{info.id}}
+		<!--<strong>商家编码:</strong> {{info.id}}-->
 	</div>
 	{% if not controller.is_login %}
 	<div class="row margin-bottom-10" style="margin-left: 0px; margin-right: 0px; font-size: 13px;">
@@ -268,34 +955,34 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	</div>
 	{% endif %}
 	<div class="row">
-		<div class="col-lg-2 col-sm-2">
+		<div class="col-lg-3 col-sm-3">
 			<div class="pull-left text-left bold">产品特色</div>
 		</div>
-		<div class="col-lg-10 col-sm-10">
+		<div class="col-lg-9 col-sm-9">
 			<div class="">{{info.productshortfeature}}</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-2 col-sm-2">
+		<div class="col-lg-3 col-sm-3">
 			<div class="pull-left text-left bold">服务保障</div>
 		</div>
-		<div class="col-lg-10 col-sm-10">
+		<div class="col-lg-9 col-sm-9">
 			<div class="">{{info.serviceguarantee}}</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-2 col-sm-2">
+		<div class="col-lg-3 col-sm-3">
 			<div class="pull-left text-left bold" style="letter-spacing: 0.5em;">供应商</div>
 		</div>
-		<div class="col-lg-10 col-sm-10">
+		<div class="col-lg-9 col-sm-9">
 			<div class="">{{info.vendor_name}}</div>
 		</div>
 	</div>
 	<div class="row margin-top-20">
-		<div class="col-lg-2 col-sm-2 vertical-center">
+		<div class="col-lg-3 col-sm-3 vertical-center">
 			<img src="/static/assets/images/head1.png">
 		</div>
-		<div class="col-lg-10 col-sm-10">
+		<div class="col-lg-9 col-sm-9">
 			<div class="">{{info.editorrecommend}}</div>
 		</div>
 	</div>
@@ -447,84 +1134,678 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
 </div>
 
-    <div id="js_order">
-    	<ul class="resource_price_wrap basefix">  
-    		<li class="start_date abc_start_date"> 
-    			<label for="">³ö·¢</label> 
-    			<div class="input_wrap">  
-    				<input readonly="readonly" type="text" id="js-departure-date" value=" ÇëÑ¡Ôñ³ö·¢ÈÕÆÚ"> 
-    				<input readonly="readonly" id="js-depature-date-real" type="text" style="position:absolute;left:0;top:0;z-index:1;filter:alpha(opacity=0);opacity:0;" value="ÇëÑ¡Ôñ³ö·¢ÈÕÆÚ">  
-    				<b></b> 
-    			</div> 
-    		</li>  
-    		<li class="tourist_num"> 
-    			<label for="">³ÉÈË</label> 
-    			<div class="input_wrap"> 
-    				<input type="number" value="2"> 
-    				<b></b> 
-    				<p style="display:none">   
-    					<a href="javascript:void(0)">0</a>     
-    					<a href="javascript:void(0)">1</a>     
-    					<a href="javascript:void(0)">2</a>     
-    					<a href="javascript:void(0)">3</a>     
-    					<a href="javascript:void(0)">4</a>     
-    					<a href="javascript:void(0)">5</a>     
-    					<a href="javascript:void(0)">6</a>     
-    					<a href="javascript:void(0)">7</a>     
-    					<a href="javascript:void(0)">8</a>     
-    					<a href="javascript:void(0)">9</a>      
-    					<a href="javascript:void(0)">&gt;9</a>   
-    				</p> 
-    			</div> 
-    			<span class="base_price" id="J_adusprice" style="display:none"></span> 
-    		</li> 
-    		<li class="children_num">  
-    			<label for="">¶ùÍ¯</label> 
-    			<div class="input_wrap"> 
-    				<input type="number" value="0"> 
-    				<b></b> 
-    				<p style="display:none">   
-    					<a href="javascript:void(0)">0</a>     
-    					<a href="javascript:void(0)">1</a>     
-    					<a href="javascript:void(0)">2</a>     
-    					<a href="javascript:void(0)">3</a>     
-    					<a href="javascript:void(0)">4</a>     
-    					<a href="javascript:void(0)">5</a>     
-    					<a href="javascript:void(0)">6</a>     
-    					<a href="javascript:void(0)">7</a>     
-    					<a href="javascript:void(0)">8</a>     
-    					<a href="javascript:void(0)">9</a>      
-    					<a href="javascript:void(0)">&gt;9</a>   
-    				</p> 
-    			</div> 
-    			<span class="child_tip" id="J_childtip" style="text-decoration: none; cursor: auto;"><i></i>(2-12Ëê)</span>  
-    			<span class="base_price" id="J_chdsprice" style="display:none"></span> 
-    		</li> 
-    		<li class="total_price" id="J_priceBox"> 
-    			<span class="price_name">×Ü¼Û</span> 
-    			<span class="price">--</span> 
-    			<i class="price_icon" id="J_acpricetip" style="display:none"></i> 
-    			<a id="js-submit" class="btn_red_big" href="javascript:void(0);">  ¿ªÊ¼Ô¤¶©  </a> 
-    			<div class="price_alert" id="J_pricealert" style="display:none"></div> 
-    		</li> 
-    	</ul> 
-    	<div class="resource_wrap">  </div> 
-    	<div class="seckill_pop" id="J_countdown" style="display:none"> 
-    		<div class="left_txt"> 
-    			<p> 
-    				<span id="J_countips"></span> 
-    			</p> 
-    		</div> 
-    		<div class="right_txt"> 
-    			<div class="c_box_ico"><i></i></div> 
-    			<p id="J_countime"></p> 
-    		</div> 
-    		<b></b> 
-    	</div>
-    </div>
+<div id="js_order" class="margin-top-20">
+	<ul class="resource_price_wrap basefix">  
+		<li class="start_date abc_start_date"> 
+			<label for="">出发</label> 
+			<div class="input_wrap">  
+				<input readonly="readonly" type="text" class="date" id="datetimepicker" data-date-format="yyyy-mm-dd" value="请选择出发日期"> 
+				{#
+				<input readonly="readonly" id="js-depature-date-real" type="text" style="position:absolute;left:0;top:0;z-index:1;filter:alpha(opacity=0);opacity:0;" value="请选择出发日期">  
+				#}
+				<b></b> 
+			</div> 
+		</li>  
+		<li class="tourist_num"> 
+			<label for="">成人</label> 
+			<div class="input_wrap">
+				{#
+				<button type="button" class="btn btn-default dropdown-toggle product-qty-dd noradius" data-toggle="dropdown">
+					<span class="caret"></span>
+					<small id="product-selected-qty"><span>1</span></small>
+				</button>
+				#}
+				<input type="number" id="product-selected-qty" class="dropdown-toggle product-qty-dd noradius" data-toggle="dropdown" value="0"> 
+				<b></b> 
+
+				<ul id="product-qty-dd" class="product-qty-dd dropdown-menu clearfix" role="menu">
+					<li class="active"><a data-val="0" href="#">0</a></li>
+					<li><a data-val="1" href="#">1</a></li>
+					<li><a data-val="2" href="#">2</a></li>
+					<li><a data-val="3" href="#">3</a></li>
+					<li><a data-val="4" href="#">4</a></li>
+					<li><a data-val="5" href="#">5</a></li>
+					<li><a data-val="6" href="#">6</a></li>
+					<li><a data-val="7" href="#">7</a></li>
+					<li><a data-val="8" href="#">8</a></li>
+					<li><a data-val="9" href="#">9</a></li>
+					<li><a data-val="10" href="#">10</a></li>
+				</ul>
+			</div><!-- /btn-group -->
+			{#
+			<div class="input_wrap"> 
+				<input type="number" value="0"> 
+				<b></b> 
+				<p style="display:none">   
+					<a href="javascript:void(0)">0</a>     
+					<a href="javascript:void(0)">1</a>     
+					<a href="javascript:void(0)">2</a>     
+					<a href="javascript:void(0)">3</a>     
+					<a href="javascript:void(0)">4</a>     
+					<a href="javascript:void(0)">5</a>     
+					<a href="javascript:void(0)">6</a>     
+					<a href="javascript:void(0)">7</a>     
+					<a href="javascript:void(0)">8</a>     
+					<a href="javascript:void(0)">9</a>      
+					<a href="javascript:void(0)">&gt;9</a>   
+				</p> 
+			</div> 
+			#}
+			<span class="base_price" id="J_adusprice" style="display:none"></span> 
+		</li> 
+		<li class="children_num">  
+			<label for="">儿童</label> 
+			<div class="input_wrap"> 
+				<input type="number" id="product-selected-qty-child" class="dropdown-toggle product-qty-dd noradius" data-toggle="dropdown" value="0"> 
+				<b></b> 
+
+				<ul id="product-qty-dd-child" class="product-qty-dd dropdown-menu clearfix" role="menu">
+					<li class="active"><a data-val="0" href="#">0</a></li>
+					<li><a data-val="1" href="#">1</a></li>
+					<li><a data-val="2" href="#">2</a></li>
+					<li><a data-val="3" href="#">3</a></li>
+					<li><a data-val="4" href="#">4</a></li>
+					<li><a data-val="5" href="#">5</a></li>
+					<li><a data-val="6" href="#">6</a></li>
+					<li><a data-val="7" href="#">7</a></li>
+					<li><a data-val="8" href="#">8</a></li>
+					<li><a data-val="9" href="#">9</a></li>
+					<li><a data-val="10" href="#">10</a></li>
+				</ul>
+				{#
+				<input type="number" value="0"> 
+				<b></b> 
+				<p style="display:none">   
+					<a href="javascript:void(0)">0</a>     
+					<a href="javascript:void(0)">1</a>     
+					<a href="javascript:void(0)">2</a>     
+					<a href="javascript:void(0)">3</a>     
+					<a href="javascript:void(0)">4</a>     
+					<a href="javascript:void(0)">5</a>     
+					<a href="javascript:void(0)">6</a>     
+					<a href="javascript:void(0)">7</a>     
+					<a href="javascript:void(0)">8</a>     
+					<a href="javascript:void(0)">9</a>      
+					<a href="javascript:void(0)">&gt;9</a>   
+				</p> 
+				#}
+			</div> 
+			<span class="child_tip" id="J_childtip" style="text-decoration: none; cursor: auto;"><i></i>(2-12岁)</span>  
+			<span class="base_price" id="J_chdsprice" style="display:none"></span> 
+		</li> 
+		<li class="total_price" id="J_priceBox"> 
+			<span class="price_name">总价</span> 
+			<span class="price">--</span> 
+			<i class="price_icon" id="J_acpricetip" style="display:none"></i> 
+			<button class="btn btn-primary" id="js-submit" style="font-size: 18px; margin-top: 3px; padding: 6px 24px;">  开始预订  </button> 
+			<div class="price_alert" id="J_pricealert" style="display:none"></div> 
+		</li> 
+	</ul> 
+	<div class="resource_wrap" id="resource_wrap-temp">  </div> 
+	<div class="resource_wrap" id="resource_wrap" style="display: none;">   
+		<div class="all_resource">    
+			<div class="flt_htl_resource basefix">    
+				<div class="other_resource_detail"> 
+					<h4 class="resource_detail_title2">可选资源</h4> 
+					<table class="other_resource_table"> 
+						<tbody>      
+							<tr class="js-optional" data-only-date="2017-07-23T00:00:00" data-index-in-data="0" data-resource-id="15823316" data-category-id="30" data-price=""> 
+								<td class="col_01" rowspan="1">
+									<h4 class="other_product">单房差</h4> 
+								</td> 
+								<td class="col_02"> 
+									<i class="free_gift" style="display:none"></i>  
+									<div class="other_name_unclick">单房差</div>  
+								</td> 
+								<td class="col_03">  
+									<div><span class="js-ctrip-price other_price"><dfn>¥</dfn>3500</span></div>  
+								</td> 
+								<td class="col_04">  --  </td> 
+								<td class="col_05"> 
+									<div class="room_num"> 
+										<div class="num_input_wrap">   
+						    				<input type="number" id="product-selected-qty-qperson" class="dropdown-toggle product-qty-dd noradius" data-toggle="dropdown" value="0"> 
+						    				<b></b> 
+
+											<ul id="product-qty-dd-qperson" class="product-qty-dd dropdown-menu clearfix" role="menu">
+												<li class="active"><a data-val="0" href="#">0</a></li>
+												<li><a data-val="1" href="#">1</a></li>
+												<li><a data-val="2" href="#">2</a></li>
+											</ul>
+										</div>
+										人 
+									</div> 
+								</td> 
+								<td class="col_06"> 
+									<div><span class="other_price js-total-price"><dfn>¥</dfn>3500</span></div> 
+								</td> 
+								<td class="col_07">  
+									<div class="room_selected" style=""> 
+										<a href="javascript:void(0);">选择</a> 
+									</div>  
+								</td> 
+								<td class="col_btn" rowspan="1">    
+								</td> 
+							</tr>   
+							<tr class="js-baoxian-notice" style="display:none"> 
+								<td colspan="8"> 
+									<div class="luggage_limit_info"><i></i>旅游保险能够给您的出行安全或行程预订带来保障，如您放弃购买，则行程中的风险和损失将由您自行承担。
+									</div> 
+								</td> 
+							</tr>  
+						</tbody> 
+					</table> 
+				</div>  
+			</div>      
+			<div id="js-money-contain" class="flt_htl_resource basefix">     
+				<div class="cost_detail" id="cost_detail" style="border-bottom:0;margin-bottom:0;padding-bottom:0">  
+					{{info.product_expenses}}
+				</div>     
+			</div>  
+		</div>  
+	</div>
+	<div class="seckill_pop" id="J_countdown" style="display:none"> 
+		<div class="left_txt"> 
+			<p> 
+				<span id="J_countips"></span> 
+			</p> 
+		</div> 
+		<div class="right_txt"> 
+			<div class="c_box_ico"><i></i></div> 
+			<p id="J_countime"></p> 
+		</div> 
+		<b></b> 
+	</div>
+</div>
     
+<div id="product_detail" class="margin-top-20">
+	<div class="abc_detail_col">
+	    <dl class="abc_detail">
+	        <dt>产品概要</dt>
+	        <dd>
+	            <ul class="abc_summary basefix">
+	                <li>
+	                    <span class="abc_icon"><i class="abc_icon_hotel"></i></span>
+	                    {% if info.outlinehotel == '' %}
+	                    <p><em>暂无酒店信息</em></p>
+	                    {% else %}
+	                    <p><em>{{info.outlinehotel}}</em></p>
+	                    {% endif %}
+	                </li>
+	                <li>
+	                    <span class="abc_icon"><i class="abc_icon_scenic"></i></span>
+	                    {% if info.outlineview == '' %}
+	                    <p><em>暂无景点信息</em></p>
+	                    {% else %}
+	                    <p><em>{{info.outlineview}}</em></p>
+	                    {% endif %}
+	                </li>
+	                <li>
+	                    <span class="abc_icon"><i class="abc_icon_drive"></i></span>
+	                    {% if info.outlinetraffic == '' %}
+	                    <p><em>暂无交通信息</em></p>
+	                    {% else %}
+	                    <p><em>{{info.outlinetraffic}}</em></p>
+	                    {% endif %}
+	                </li>
+	                <li>
+	                    <span class="abc_icon"><i class="abc_icon_repast"></i></span>
+	                    {% if info.outlinedinner == '' %}
+	                    <p><em>暂无用餐信息</em></p>
+	                    {% else %}
+	                    <p><em>{{info.outlinedinner}}</em></p>
+	                    {% endif %}
+	                </li>
+	                <li>
+	                    <span class="abc_icon"><i class="abc_icon_free"></i></span>
+	                    {% if info.outlineactive == '' %}
+	                    <p><em>暂无自由活动信息</em></p>
+	                    {% else %}
+	                    <p><em>{{info.outlineactive}}</em></p>
+	                    {% endif %}
+	                </li>
+	                <li>
+	                    <span class="abc_icon"><i class="abc_icon_fly"></i></span>
+	                    {% if info.outlineplane == '' %}
+	                    <p><em>暂无航班信息</em></p>
+	                    {% else %}
+	                    <p><em>{{info.outlineplane}}</em></p>
+	                    {% endif %}
+	                </li>
+	            </ul>
+	        </dd>
+	    </dl>
+	</div>
+	<div class="detail_tab_div" style="height: 40px;">
+        <div class="detail_tab basefix" style="z-index: 1;">
+            <ul class="detail_tab_col" id="js_detail_tab">
+                <li><a href="#xcjs" class="current">行程介绍</a></li>
+                <!-- <li id="J_zyld" style="display: none"><a href="#zyld">专业领队</a></li> -->
+                <li style=""><a href="#fy" class="">费用</a></li>
+                <li style=""><a href="#ydxz" class="">预订须知</a></li>
+                <li style=""><a href="#qz" class="">签证/签注</a></li>
+                <!-- <li><a href="#yhdp" class="">用户点评(0)</a></li> -->
+                
+            </ul>
+            {#
+            <div class="tab_link_help">
+                <a href="#how_to_book"><i></i>如何预订</a>
+            </div>
+            <div class="tab_btn_wrap">
+                <span class="tab_hot_phone" id="J_tab_hot_phone" style="display:none"><i></i>                
+                    <strong>热线电话</strong>
+                
+                </span>
+                <a href="javascript:void(0);" class="btn_red_middle" id="J_bar_booking_btn" style="display: none;">开始预订</a>
+            </div>
+            #}
+        </div>
+    </div>
+    <div class="col-lg-9 col-sm-9">
+		<div class="under_tab_detail">
+	        <i class="under_tab_anchor" id="xcjs"></i>
+	        <i class="under_tab_anchor_abc" id="xcjs_abc"></i>
+	        <div id="js_detail" class="detail_content" style="border-top: none;">
+				<!--产品特色-->
+			    <h3 class="resource_title">
+			        产品特色<i class="icon_b icon_b_01"></i>
+			    </h3>
+			    <div class="product_feature" id="product_feature" style="display: none;">
+			    	{{info.product_recommend}}
+			    </div>
+			    {#
+				<div class="fate_link" id="js_route_days" data-mapday="simpleDay2" style="position: fixed; display: block; top: 221px; z-index: 99; left: 105.5px;">
+		            <!--详细行程日期导航-->
+		            <div class="detail">
+			            <a class="" href="#route_day1">第1天<i></i></a>
+			            <a class="" href="#route_day2">第2天<i></i></a>
+			            <a class="" href="#route_day3">第3天<i></i></a>
+			            <a class="" href="#route_day4">第4天<i></i></a>
+			            <a class="" href="#route_day5">第5天<i></i></a>
+			            <a class="" href="#route_day6">第6天<i></i></a>
+			            <a class="" href="#route_day7">第7天<i></i></a>
+			            <a class="" href="#route_day8">第8天<i></i></a>
+			            <a class="" href="#route_day9">第9天<i></i></a>
+			            <a class="" href="#route_day10">第10天<i></i></a>
+			            <a class="" href="#route_day11">第11天<i></i></a>
+			            <a class="" href="#route_day12">第12天<i></i></a>
+			            <a class="" href="#route_day13">第13天<i></i></a>
+
+		            </div>
+		            <!--简单行程日期导航-->
+		            <div style="display: none;" class="simple">
+		                <a class="" href="#simpleDay1">第1天<i></i></a>
+		                <a class="current" href="#simpleDay2">第2天<i></i></a>
+		                <a class="" href="#simpleDay3">第3天<i></i></a>
+		                <a class="" href="#simpleDay4">第4天<i></i></a>
+		                <a class="" href="#simpleDay5">第5天<i></i></a>
+		                <a class="" href="#simpleDay6">第6天<i></i></a>
+		                <a class="" href="#simpleDay7">第7天<i></i></a>
+		                <a class="" href="#simpleDay8">第8天<i></i></a>
+		                <a class="" href="#simpleDay9">第9天<i></i></a>
+		                <a class="" href="#simpleDay10">第10天<i></i></a>
+		                <a class="" href="#simpleDay11">第11天<i></i></a>
+		                <a class="" href="#simpleDay12">第12天<i></i></a>
+		                <a class="" href="#simpleDay13">第13天<i></i></a>
+		            </div>
+		        </div>
+		        #}
+			    <div class="" id="js_detail_travelCtrip" style="display: none;">
+			    	{{info.product_route}}
+			    </div>
+		    </div>
+
+		    <!---- 费用包含占位 ---->
+	        <i class="under_tab_anchor" id="fy"></i>
+	        <i class="under_tab_anchor_abc" id="fy_abc"></i>
+	        <div id="js_expense" class="detail_content">
+				<h3 class="resource_title"> 费&nbsp;&nbsp;用<i class="icon_b icon_b_03"></i> </h3>
+			    <div class="product_feature" id="product_expense" style="display: none;">
+			    	{{info.product_expenses}}
+			    </div>
+		    </div>
+
+		    <!---- 预订须知占位 ---->
+	        <i class="under_tab_anchor" id="ydxz"></i>
+	        <i class="under_tab_anchor_abc" id="ydxz_abc"></i>
+	        <div id="js_order_needknow" class="detail_content">
+				<h3 class="resource_title">预订须知<i class="icon_b icon_b_06"></i></h3>
+			    <div class="product_feature" id="product_booking" style="display: none;">
+			    	{{info.product_booking_info}}
+			    </div>
+		    </div>
+
+		    <!---- 签证占位 ---->
+	        <i class="under_tab_anchor" id="qz"></i>
+	        <i class="under_tab_anchor_abc" id="qz_abc"></i>
+	        <div id="js_visa" class="detail_content">
+				<h3 class="resource_title">签证/签注<i class="icon_b icon_b_07"></i></h3>
+			    <div class="product_feature" id="product_visa" style="display: none;">
+			    	{{info.product_visainfo}}
+			    </div>
+		    </div>
+	    </div>
+    </div>
+    <div class="col-lg-3 col-sm-3">
+    	<h3 class="bold">专属推荐</h3>
+		<ul id="studytour-ul" style="padding-left: 0px;">
+			{% topic data = "list", limit= "4", cid=130, issub=1, ischild=1, type="level", page=0 %}
+			{%set i = 1%}
+			{% for v in list %}
+
+			<li class="mix development col-md-12 col-sm-12" style="padding: 0; margin-bottom: 14px;"><!-- item -->
+
+				<div class="item-box thumbnail">
+				<a href="{{v.name|get_url(v.id)}}">
+					<figure>
+						<div class="col-lg-6 col-sm-6" style="padding: 0;">
+							<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=200,h=120')}}"  alt="">
+						</div>
+						<div class="col-lg-6 col-sm-6" style="padding: 0;">
+							<span class="item-hover">
+								<span class="overlay dark-5"></span>
+								{#
+								<span class="inner">
+
+									<!-- lightbox -->
+									<a class="ico-rounded lightbox" href="/static/dome/s_wenzhang.jpg" data-plugin-options='{"type":"image"}'>
+										<span class="glyphicon glyphicon-qrcode size-20"></span>
+									</a>
+
+									<!-- details -->
+									<a class="ico-rounded" href="/wenzhangceshi" target="_blank">
+										<span class="glyphicon glyphicon-option-horizontal size-20"></span>
+									</a>
+
+								</span>
+								#}
+							</span>
+
+							<!-- overlay title -->
+							<div class="item-box-overlay-title text-center">
+								<h4 class="nomargin">{{v.title}}</h4>
+							</div><!-- /overlay title -->
+
+						</div>
+					</figure>
+				</a>
+				</div>
+
+			</li><!-- /item -->
+			{% set i = i + 1 %}
+			{% endfor %}
+
+		</ul>
+    	<h3>用户评价</h3>
+    </div>
+
+	<div class="container">
+
+		<div class="row">
+
+			<!-- RIGHT -->
+			<div class="col-md-9 col-sm-9">
+				<h3 class="page-header weight-300 margin-top-0 margin-bottom-0">
+					 <strong>咨詢</strong>
+				</h3>
+                {#
+				<div class="timeline">
+					<div class="timeline-hline"><!-- horizontal line cache='1000'--></div>
+					{%model data="list",table="question", cid=132, where='{"has_img":1}',order="update_time DESC",limit="10"%}
+					{% for val in list %}
+					{% set categoryname = val.category_id|get_cate %}
+					{% set imgs= val.detail|img_text_view(200,120)%}
+					<!-- POST ITEM -->
+					<div class="blog-post-item blog-post-item-inverse padding-top-20 padding-bottom-20 margin-bottom-0 clearfix">
+						<div class="timeline-entry" ><!-- .rounded = entry -->
+							<a href="#"><img src="/uc/index/avatar/uid/{{val.uid}}" style="width: 58px;height: 58px; margin-top: -10px"></a>
+							<div class="timeline-vline"><!-- vertical line --></div>
+						</div>
+						<!-- IMAGE -->
+						{% if imgs|length==1 %}
+						<figure class="blog-item-small-image margin-bottom-0">
+							<img class="img-responsive" src="{{imgs[0]}}" alt="">
+						</figure>
+						{% endif %}
+						<div class="blog-item-small-content">
+							<h2><a href="/mod/question/{{val.id}}{{http.config('view.file_ext')}}" title="{{val.title}}">{{val.title}}</a></h2>
+							<ul class="blog-post-info list-inline padding-bottom-10">
+								<li>
+
+									<a class="" href="{{categoryname.url}}">
+										<span class="label label-light">{{categoryname.name}}</span>
+									</a>
+								</li>
+								<li>{%if val.answer_users>0%}
+									<a href="#">
+										<span class="font-lato">{{val.answer_users|get_nickname}}</span>
+									</a>
+									<span class="font-lato"> 回复了问题</span>
+									{%else%}
+									<a href="#">
+										<span class="font-lato">{{val.uid|get_nickname}}</span>
+									</a>
+									<span class="font-lato"> 发起了问题</span>
+									{%endif%}
+								</li>
+								<li>
+                                <span class="font-lato">
+                                {{val.focus_count}} 人关注
+                                    </span>
+								</li>
+								<li>
+									<span class="font-lato">{{val.answer_count}} 个回复</span>
+
+								</li>
+								<li>
+									<span class="font-lato">{{val.view}} 次浏览</span>
+								</li>
+								<li>
+									<span class="font-lato"> {{val.update_time|moment}}</span>
+								</li>
+
+							</ul>
+							{% if imgs|length>1 %}
+							<div class="row margin-bottom-10">
+								{%set i = 0%}
+								{%for img in imgs%}
+								{%if i< 4 %}
+								<div class="col-md-3"><img class="img-responsive" src="{{img}}" alt=""></div>
+								{%endif%}
+								{%set i=i+1%}
+								{%endfor%}
+							</div>
+							{%endif%}
+							<p>{{val.detail|delhtmltags|truncate(90, true, "...")|safe}}</p>
+						</div>
+
+					</div>
+					<!-- /POST ITEM -->
+					{%endfor%}
+
+				</div>
+                #}
+                <!--评论================================-->
+                <div class="box-light margin-top-20 "><!-- .box-light OR .box-dark -->
+
+                    <div class="box-inner">
+                        <h4 class="uppercase size-20 row " style="padding-left: 15px;padding-right: 15px;margin-bottom: -15px;" >{{info.answer_count}} 个回复 <div class="btn-group btn-group-xs pull-right">
+                            <a class="btn btn-default height-auto active" href="#">默认排序</a>
+                            <a class="btn btn-default height-auto " href="#" style="height: auto">时间排序<span class="glyphicon  glyphicon-arrow-down"></span></a>
+                        </div></h4>
+                     
+                        {%model data="list",table="question_answer", page=1, where='{"question_id":'+info.id+',"category_id":'+info.category_id+'}',limit="10"%}
+                        {% for a in list %}
+                        <div class="divider divider-dotted " style="margin:10px -15px"><!-- divider --></div>
+                        <!-- COMMENT -->
+                        <ul class="comment list-unstyled margin-bottom-0">
+                            <li class="comment margin-bottom-0">
+
+                                <!-- avatar -->
+                                <img class="avatar" src="/uc/index/avatar/uid/{{a.uid}}" width="50" height="50" alt="avatar">
+
+                                <!-- comment body -->
+                                <div class="comment-body">
+                                    <a href="#" class="comment-author" style="position: relative;z-index: 10;background-color: #fff">
+                                        <small class="text-muted pull-right">{{a.add_time|dateformat('Y-m-d H:i:s')}} </small>
+                                        <span>{{a.uid|get_nickname}}</span>
+                                    </a>
+                                    <div class="wangEditor-container cmswing-container" style="position: relative;z-index: 9;border: none; top: -10px">
+                                        <div class="wangEditor-txt nopadding">
+                                            {{a.answer_content|safe}}
+                                        </div>
+                                    </div>
+                                </div><!-- /comment body -->
+
+                                <!-- options -->
+                                <ul class="list-inline size-11 margin-top-10">
+                                    <li>
+                                        <a href="#" class="text-success"><i class="fa fa-thumbs-up"></i> 赞同</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-{{a.answer_id}}"> <i class="fa fa-reply"></i> <span id="oc-{{a.answer_id}}">显示</span>全部评论 (<span id="count-{{a.answer_id}}">{{a.ccount}}</span>)</a>
+                                    </li>
+
+                                    {%if controller.user.uid == a.uid or (controller.user.uid|in_Array(http.config('user_administrator'))) %}
+                                    <li class="pull-right">
+                                        <a href="/mod/question/ajax/delanswer/qid/{{info.id}}/id/{{a.answer_id}}" class="text-danger confirm ajax-get">删除</a>
+                                    </li>
+                                    <li class="pull-right">
+                                        <a href="/mod/question/ajax/editanswer/id/{{a.answer_id}}" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='{"type":"ajax", "closeOnBgClick":false}'>编辑</a>
+                                    </li>
+                                    {%endif%}
+                                </ul>
+                            </li><!-- /options -->
+                         <div id="comment-reply-{{a.answer_id}}" class="margin-top-10 ">
+
+                         </div>
+                        </ul>
+
+                        <!-- /COMMENT -->
+                        {% endfor %}
 
 
+
+                    </div>
+
+                </div>
+                <!--评论结束============================-->
+                {#
+                {%if controller.is_login %}
+                #}
+                <form method="post" action="/mod/question/sys/updatetouranswer" class="box-light margin-top-20 padding-0 validate"><!-- .box-light OR .box-dark -->
+                    <div class="box-inner padding-0">
+                        <h4 class="uppercase padding-bottom-0 clearfix margin-bottom-0 noborder row">  <div class="col-md-9 col-sm-9"><div class="clearfix margin-bottom-0"><!-- rounded item -->
+                            {% if controller.user.uid %}
+                            <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/{{controller.user.uid}}" width="40" height="40" alt="">
+                            <h4 class="size-14 nomargin noborder nopadding bold"><a href="#">{{controller.user.uid|get_nickname}}</a></h4>
+                            {% else%}
+                            <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/0" width="40" height="40" alt="">
+                            <h4 class="size-14 nomargin noborder nopadding bold"><a href="#">遊客</a></h4>
+                            
+                            {%endif%}
+                            <span class="size-12 text-muted">....</span>
+                        </div>   </div><div class="col-md-3 col-sm-3"><label class="switch switch-primary margin-top-10 pull-right">
+                            <input type="checkbox" checked="" name="anonymous" value="0">
+                            <span class="switch-label" data-on="不匿" data-off="匿名"></span>
+                        </label></div></h4>
+
+                        <textarea id="detail" name="answer_content"  class="form-control required" style="height: 280px"  placeholder="Type your message here..."></textarea>
+
+                        <input type="hidden" name="question_id" value="{{info.id}}">
+                        <input type="hidden" name="category_id" value="{{info.category_id}}">
+                        <input type="hidden" name="backurl" value="{{http.url}}">
+                        <button type="submit" class="btn btn-primary pull-right margin-top-20"><i class="fa fa-check"></i> 咨询</button>
+                    </div>
+                </form>
+                {#
+                {%else%}
+                #}
+                <div class="alert alert-success margin-bottom-30 margin-top-30"><!-- SUCCESS -->
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    要咨询问题请先 <a class="" href="/uc/public/login">登录</a> 或 <a href="/uc/public/register">注册</a>
+                </div>
+                {#
+                {%endif%}
+                #}
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<!-- -->
+<section class="alternate" id="destination">
+	<div class="portfolio">
+		<header class="section-header margin-bottom-20">
+			<div class="heading-title">
+				<h3>热门</h3>
+				<a href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
+			</div>
+		</header>
+		<div  class=" portfolio-title-over">
+			<div class="row mix-grid">
+				<ul id="destination-ul" style="padding-left: 0px;">
+					{% topic data = "list", limit= "8", cid=135, isstu=1, issub=1, ischild=1, type="level", page=0 %}
+					{%set i = 1%}
+					{% for v in list %}
+
+					<li class="mix development col-md-3 col-sm-3"><!-- item -->
+
+						<div class="item-box thumbnail">
+						<a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}">
+							<figure>
+								<span class="item-hover">
+									<span class="overlay dark-5"></span>
+									{#
+									<span class="inner">
+
+										<!-- lightbox -->
+										<a class="ico-rounded lightbox" href="/static/dome/s_wenzhang.jpg" data-plugin-options='{"type":"image"}'>
+											<span class="glyphicon glyphicon-qrcode size-20"></span>
+										</a>
+
+										<!-- details -->
+										<a class="ico-rounded" href="/wenzhangceshi" target="_blank">
+											<span class="glyphicon glyphicon-option-horizontal size-20"></span>
+										</a>
+
+									</span>
+									#}
+								</span>
+
+								<!-- overlay title -->
+								<div class="item-box-overlay-title">
+									<h4 class="nomargin pull-left text-left">{{v.title}}</h4>
+									<h4 class="nomargin pull-right text-right">{{v.title}}</h4>
+								</div><!-- /overlay title -->
+								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=222,h=217')}}"  alt="">
+							</figure>
+						</a>
+						</div>
+
+					</li><!-- /item -->
+					{% set i = i + 1 %}
+					{% endfor %}
+
+				</ul>
+
+			</div>
+		</div>
+		<div class="more-info text-center margin-top-20">
+			<a href="/youxue{{http.config('view.file_ext')}}">点击查看更多》</a>
+		</div>
+
+	</div>
+</section>
+<!-- / -->
+
+
+{#
 <ul id="myTab" class="nav nav-tabs nav-top-border margin-top-40" role="tablist">
 	<li role="presentation" class="active"><a href="#description" role="tab" data-toggle="tab">商品介绍</a></li>
 	<li role="presentation"><a href="#specs" role="tab" data-toggle="tab">规格参数</a></li>
@@ -986,7 +2267,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 </div>
 
 </div>
-
+#}
 {#
 <!-- LEFT -->
 <div class="col-lg-3 col-md-3 col-sm-3 col-lg-pull-9 col-md-pull-9 col-sm-pull-9">
@@ -1150,9 +2431,6 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 </div>
 #}
 
-</div>
-
-</div>
 </section>
 <!-- / -->
 {% endblock %}
@@ -1162,7 +2440,34 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 <script src="/static/assets/plugins/fullcalendar-3.2.0/lib/moment.min.js"></script>
 <script src="/static/assets/plugins/fullcalendar-3.2.0/fullcalendar.min.js"></script>
 <script src="/static/assets/plugins/fullcalendar-3.2.0/gcal.min.js"></script>
+<script src="/static/admin/js/datepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="/static/admin/js/datepicker/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
 <script>
+	var HtmlUtil = {
+	    /*1.用浏览器内部转换器实现html转码*/
+	    htmlEncode:function (html){
+	        //1.首先动态创建一个容器标签元素，如DIV
+	        var temp = document.createElement ("div");
+	        //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+	        (temp.textContent != undefined ) ? (temp.textContent = html) : (temp.innerText = html);
+	        //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+	        var output = temp.innerHTML;
+	        temp = null;
+	        return output;
+	    },
+	    /*2.用浏览器内部转换器实现html解码*/
+	    htmlDecode:function (text){
+	        //1.首先动态创建一个容器标签元素，如DIV
+	        var temp = document.createElement("div");
+	        //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+	        temp.innerHTML = text;
+	        //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+	        var output = temp.innerText || temp.textContent;
+	        temp = null;
+	        return output;
+	    }
+	};
+
 	$(document).ready(function() {
 
 		$('#calendar').fullCalendar({
@@ -1189,14 +2494,74 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			]
 		});
 		
+    	var feature_str = $("#product_feature").html();
+    	$("#product_feature").html(HtmlUtil.htmlDecode(feature_str));
+    	$("#product_feature").show();
+
+    	var route_str = $("#js_detail_travelCtrip").html();
+    	$("#js_detail_travelCtrip").html(HtmlUtil.htmlDecode(route_str));
+    	$("#js_detail_travelCtrip").show();
+
+    	var expense_str = $("#product_expense").html();
+    	$("#product_expense").html(HtmlUtil.htmlDecode(expense_str));
+    	$("#product_expense").show();
+
+    	var booking_str = $("#product_booking").html();
+    	$("#product_booking").html(HtmlUtil.htmlDecode(booking_str));
+    	$("#product_booking").show();
+
+    	var visa_str = $("#product_visa").html();
+    	$("#product_visa").html(HtmlUtil.htmlDecode(visa_str));
+    	$("#product_visa").show();
+
 	});
+
+	    // $("#js_detail_tab li").each(function() {
+	    // 	console.log(this);
+	    // 	console.log($(this));
+	    // 	$(this).on("click", "a", function(){
+		   //  	console.log("js_detail_tab item click: " + this);
+		   //  });
+	    // });
 
 	uParse('#content', {
 		rootPath: '/static/admin/js/udeitor/'
 	})
+
+	var dateChanged = false;
+    $('#datetimepicker').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        initialDate:new Date(),
+        startDate:"2010-01-01",
+        autoclose:true
+    }).on('changeDate', function(ev){
+    	console.log("changeDate: " + ev);
+    	if(!dateChanged) {
+	    	dateChanged = true;
+	    	$("#resource_wrap").show();
+	    	$("#resource_wrap-temp").hide();
+	    	// $(".resource_price_wrap").css("border", "none");
+	    	// $("#js_order").css("border", "2px solid #1eb6c1");
+	    	var detail_str = $("#cost_detail").html();
+	    	// console.log(detail_str);
+	    	$("#cost_detail").html(HtmlUtil.htmlDecode(detail_str));
+    	}
+    }).on('hide', function(ev){
+    	console.log("hide: " + ev);
+    	if(!dateChanged) {
+    		$('#datetimepicker').val("请选择出发日期");
+    	}
+    });
+
 </script>
 
 <!-- PAGE LEVEL SCRIPTS -->
 <script type="text/javascript" src="/static/assets/js/view/demo.shop.js"></script>
+<script src="/static/assets/plugins/insertContent.js"></script>
+<script src="/static/assets/plugins/wangEditor/js/wangEditor.min.js"></script>
+<script src="/static/admin/js/jQuery-Tags-Input/src/jquery.tagsinput.js"></script>
+<script src="/static/assets/js/question.js"></script>
 
 {% endblock %}

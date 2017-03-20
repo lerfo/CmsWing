@@ -464,6 +464,7 @@
         let order = think.isEmpty(args.order) ? false : args.order;
         let cache = think.isEmpty(args.cache) ? false : args.cache;
         let field = think.isEmpty(args.field) ? false : args.field;
+        let page = think.isEmpty(args.page) ? false : args.page;
         let model =  think.model(table, think.config("db"));
         //表别名
         if(cache){
@@ -497,7 +498,9 @@
         if(join){
             model.join(join);
         }
-
+        if(page){
+            model.page(page);
+        }
         let ret =  await model.select();
 
         console.log(ret);

@@ -265,8 +265,8 @@ CLASSES:
                 </div>
                 {% if controller.is_login %}
                 <div class="alert alert-info margin-bottom-20"><!-- INFO -->
-                    今天，你遇到了什么问题呢？
-                    <a href="/mod/question/sys/add/cid/{{category.id}}" class="btn btn-primary btn-3d btn-block margin-top-10">提问</a>
+                    今天，有什麼開心的事和大家分享么？
+                    <a href="/mod/question/sys/add/cid/{{category.id}}" class="btn btn-primary btn-3d btn-block margin-top-10">發新帖</a>
                 </div>
                 {%else%}
                 <div class="alert alert-info margin-bottom-20"><!-- INFO -->
@@ -280,7 +280,7 @@ CLASSES:
                 {%if rq.length>0%}
                 <div class="box-inner nopadding margin-bottom-20">
                     <h3>
-                        相关问题
+                        相关帖子
                     </h3>
                     <div class="" >
                         {%for r in rq%}
@@ -318,7 +318,7 @@ CLASSES:
 
                 </div>
 
-                <!-- SOCIAL ICONS -->
+                <!-- SOCIAL ICONS 
                 <div class="hidden-xs margin-top-30 margin-bottom-60">
                     <a href="#" class="social-icon social-icon-border social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
                         <i class="icon-facebook"></i>
@@ -345,7 +345,7 @@ CLASSES:
                         <i class="icon-rss"></i>
                     </a>
                 </div>
-
+                -->
             </div>
         </div>
 

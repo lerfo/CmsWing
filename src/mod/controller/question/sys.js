@@ -143,6 +143,7 @@ export default class extends Base {
         //前台登录验证
         await this.weblogin();
         let data = this.post();
+        console.log(data);
         if(think.isEmpty(data.answer_id)){
           data.uid = this.user.uid;
           data.ip = _ip2int(this.ip());
@@ -164,7 +165,37 @@ export default class extends Base {
               this.fail("操作失败！");
             }
           }
+  //添加或编辑回复            不需要登錄
+  async updatetouranswerAction(){
+        //前台登录验证
+        
+        let data = this.post();
+        console.log(data);
+        if(think.isEmpty(data.answer_id)){
+          if(think.isEmpty(this.user.uid)){
+            data.uid = 0;
+          }else{
+            data.uid = this.user.uid;
+          }
+          data.ip = _ip2int(this.ip());
+          data.anonymous = data.anonymous||1;
+        }
+        console.log(data);
+        let res = await this.model('question_answer').updates(data);
+        if (res) {
+            //行为记录
+            if (!res.data.answer_id) {
+                //添加操作日志，可根据需求后台设置日志类型。
+                //await this.model("action").log("add_document", "document", res.id, this.user.uid, this.ip(), this.http.url);
+                this.success({name: "添加成功",data:res});
+              } else {
+                this.success({name: "更新成功",data:res});
+              }
 
+            } else {
+              this.fail("操作失败！");
+            }
+          }
  //管理员推荐主题
  async recommendAction(){
       //前台登录验证

@@ -98,6 +98,7 @@ async ajaxquestionfocusAction(){
         }
         this.json({data:comments,is_login:this.is_login,is_admin:is_admin});
     }
+    //发表评论
     async ajaxanswercommentspostAction(){
         //前端验证登录
         await this.weblogin();
@@ -107,7 +108,7 @@ async ajaxquestionfocusAction(){
         data.time = new Date().getTime();
         let add = await this.model("question_answer_comments").add(data);
         if(add){
-            return this.success({name:"评论成功!"})
+            return this.success({name:"评论成功!"});
         }else {
             return this.fail("评论失败！")
         }
