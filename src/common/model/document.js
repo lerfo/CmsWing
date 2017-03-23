@@ -46,6 +46,10 @@ export default class extends think.model.base {
             this.fail('文档被禁用或已删除！');
             return false;
         }
+        //将position推荐位 的json字符串还原为对象
+        if(!think.isEmpty(info.position)){
+            info.position = JSON.parse(info.position); 
+        }
         //获取模型数据
         let table =await this.model("model").get_table_name(info.model_id);
         let detail = await this.model(table).find(id)
@@ -59,8 +63,12 @@ export default class extends think.model.base {
      * @returns boolean fasle 失败 ， int  成功 返回完整的数据
      */
     async updates(data,time=new Date().getTime()){
-     data.position = data.position||0;
 
+        data.position = data.position||0;
+        if(!think.isEmpty(data.position)){
+            
+            data.position = JSON.stringify(data.position);
+        }
         for(let v in data){
             let vs = v.split("|||");
 
@@ -69,7 +77,7 @@ export default class extends think.model.base {
              data[vs[1]]=(think.isEmpty(data[v])||data[v]==0)?0:new Date(data[v]).getTime();
             };
         }
-        console.log(data);
+        //console.log(data);
         data=data||null;
         //检查文档类型是否符合要求
         let type = data.type||2;
@@ -143,6 +151,7 @@ export default class extends think.model.base {
             }
             //更新关键词
             await this.model("keyword").updatekey(data.keyname,data.id,data.userid,data.model_id,0);
+            console.log(data);
             let status = this.update(data);
             if(!status){
                 this.error = '更新基础内容出错！';

@@ -145,7 +145,7 @@ export default class extends Base {
         if(this.isPost()){
             let data = this.post();
             data.status = 1;
-            //console.log(data);
+            console.log(data);
             //检查同节点下分类标示是否重复
             if(!think.isEmpty(data.name)){
              let check = await this.model("category").where({id:["!=",data.id],name:data.name}).find();

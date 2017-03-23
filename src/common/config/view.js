@@ -128,6 +128,8 @@ export default {
                 })
 
                 env.addFilter("in_Array", function (str, arr) {
+                    console.log('in_Array');
+                    console.log(str+','+arr);
                     arr= arr||0;
                     if (!think.isArray(arr)) {
                         if(think.isNumber(arr)){
@@ -135,7 +137,7 @@ export default {
                         }
                         arr = arr.split(",");
                     }
-                    //console.log(arr);
+                    console.log(arr);
                     return in_array(str, arr);
                 })
 

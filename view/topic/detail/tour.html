@@ -1537,6 +1537,18 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
 		</ul>
     	<h3>用户评价</h3>
+        {% model data="list",table="tour_comment",where='{"product_id":'+info.id+'}',order="add_time DESC",limit="4"%}
+        {% for v in list %}
+        <span>{{v.uid|get_nickname}}</span>
+        <p style="height: 40px"> {{v.score_total | safe }}分
+                                        </p>
+        <p style="height: 40px"> {{v.comment_content | safe }}
+                                        </p>
+                     
+ 
+           
+        {% endfor %}
+
     </div>
 
 	<div class="container">
@@ -2513,6 +2525,8 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
     	var visa_str = $("#product_visa").html();
     	$("#product_visa").html(HtmlUtil.htmlDecode(visa_str));
     	$("#product_visa").show();
+
+
 
 	});
 

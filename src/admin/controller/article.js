@@ -321,7 +321,7 @@ export default class extends Base {
         console.log(field);
         //console.log(1111111);
         if (!think.isEmpty(position)) {
-            map[1] = "position & {$position} = {$position}";
+            map["position"] = ["like",'%"'+position+'"%'];
         }
         if (!think.isEmpty(group_id)) {
             map['group_id'] = group_id;
@@ -647,6 +647,7 @@ export default class extends Base {
         this.assign("sort",sort);
         //获取表单字段排序
         let fields = await this.model("attribute").get_model_attribute(model.id,true);
+        //console.log(fields);
         this.assign('fields', fields);
         //获取当前分类文档的类型
         let type_list = await this.model("category").get_type_bycate(data.category_id)

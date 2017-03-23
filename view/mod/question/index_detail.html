@@ -121,7 +121,7 @@ CLASSES:
 
                     <!--<a data-id="5" data-type="question" class="tex-888 margin-right-15" data-comment-count="0" data-first-click="hide"><i class="fa fa-commenting-o"></i> 添加评论</a>-->
 
-                    <a class="tex-888 margin-right-15"><i class="fa fa-user-plus"></i> 邀请 </a>
+                    <!--<a class="tex-888 margin-right-15"><i class="fa fa-user-plus"></i> 邀请 </a>-->
                     {%if controller.user.uid ==info.uid%}
                     <a class="tex-888 margin-right-15" href="/mod/question/sys/edit/id/{{info.id}}"><i class="fa fa-edit"></i> 编辑</a>
                     {%endif%}
@@ -130,7 +130,7 @@ CLASSES:
                     <!--<a class="tex-888 margin-right-15" href="/mod/question/ajax/ajaxquestionrecommend/cmd/0/id/{{info.id}}"><i class="fa fa-edit"></i> 取消推荐</a>-->
                     <button class="tex-888 margin-right-15 btn_recommend" id="btn_recommend" data-recommend-id={{info.id}}><i class="fa fa-edit"></i> 取消推荐</button>
                     {%else%}
-                    <a class="tex-888 margin-right-15" href="/mod/question/ajax/ajaxquestionrecommend/cmd/1/id/{{info.id}}"><i class="fa fa-edit"></i> 推荐</a>
+                    <a class="tex-888 margin-right-15" href="/mod/question/ajax/ajaxrecommend/cmd/1/id/{{info.id}}"><i class="fa fa-edit"></i> 推荐</a>
                     {%endif%}
                     {%endif%}
                     <!--<a class="tex-888 margin-right-15"><i class="fa fa-link"></i> 相关链接</a>-->
