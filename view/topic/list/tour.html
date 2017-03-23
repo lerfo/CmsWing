@@ -163,10 +163,10 @@ CLASSES:
                     </ul>
                     <!--投稿按钮-->
                     <div class="btn-group btn-group-sm pull-right">
-                        <a {%if model|length> 1 %} data-toggle="dropdown" {% endif %} class="btn btn-primary btn-sm document_add
+                        <!--<a {%if model|length> 1 %} data-toggle="dropdown" {% endif %} class="btn btn-primary btn-sm document_add
                             dropdown-toggle {% if allow == 0 %}disabled{% endif %}" {%if model|length
                             == 1 %} href="/uc/publish/add/model_id/{{modellist[0].id}}/pid/0/cate_id/{{cate.id}}/group_id/{{group_id}}/sortid/{{sortid}}"{%endif%}
-                            ><span class="fa fa-pencil-square-o"></span> 投稿 {%if model|length > 1 %}<span class="caret"></span>{% endif %}</a>
+                            ><span class="fa fa-pencil-square-o"></span> 投稿 {%if model|length > 1 %}<span class="caret"></span>{% endif %}</a>-->
                             {%if model|length > 1 %}
                             <ul class="dropdown-menu">
 

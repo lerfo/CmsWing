@@ -415,6 +415,10 @@ export default {
                  */
                 env.addExtension('topic', new topic(), true);
                 /**
+                 * 获取首页热门标签
+                 */
+                env.addExtension('hotrecommend', new hotrecommend(), true);
+                /**
                  * 获取分类分组
                  */
                 env.addExtension('groups', new groups(), true);

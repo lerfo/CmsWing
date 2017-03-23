@@ -197,7 +197,8 @@
 		<div  class=" portfolio-title-over">
 			<div class="row mix-grid">
 				<ul id="destination-ul" style="padding-left: 0px;">
-					{% topic data = "list", limit= "6", cid=135, isstu=1, issub=1, ischild=1, type="level", page=0 %}
+					
+					{% hotrecommend data = "list", limit= "6", issub=1, ischild=1, page=0 %}
 					{%set i = 1%}
 					{% for v in list %}
 
@@ -250,9 +251,10 @@
 
 			</div>
 		</div>
+		<!--
 		<div class="more-info text-center margin-top-20">
 			<a href="/youxue{{http.config('view.file_ext')}}">点击查看更多》</a>
-		</div>
+		</div>-->
 
 	</div>
 </section>

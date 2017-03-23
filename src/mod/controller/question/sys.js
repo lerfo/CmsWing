@@ -105,7 +105,6 @@ export default class extends Base {
             }else {
               return this.fail("操作失败！");
             }
-
           }
       }else {//修改
         data.userid=this.user.uid;

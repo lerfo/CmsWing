@@ -65,8 +65,9 @@ export default class extends think.model.base {
     async updates(data,time=new Date().getTime()){
 
         data.position = data.position||0;
+        let position = data.position;
         if(!think.isEmpty(data.position)){
-            
+
             data.position = JSON.stringify(data.position);
         }
         for(let v in data){
@@ -190,7 +191,6 @@ export default class extends think.model.base {
                     this.model("typeoptionvar").addMany(sortarr);
                 }
             }
-
         }
 
 
@@ -223,6 +223,26 @@ export default class extends think.model.base {
                 return false;
             }
         }
+        //首页热门推荐，则添加到hot_recommend表
+        let recommendres = await this.model("hot_recommend").where({topic_id:data.id,topic_type:1}).find();
+        console.log(recommendres.id);
+        if(think.isEmpty(recommendres.id) && in_array('1',position)){
+            let hotrecommend ={};
+            hotrecommend.topic_id = data.id;
+            hotrecommend.title = data.title;
+            hotrecommend.cover_id = data.cover_id;
+            hotrecommend.topic_type = 1;
+            hotrecommend.category_id = data.category_id;
+            hotrecommend.add_time = time;
+            console.log(hotrecommend);
+            await this.model("hot_recommend").add(hotrecommend);
+        }else{
+            //如果已推荐，且取消推荐，则删除
+            if(!think.isEmpty(recommendres.id) &&!in_array('1',position)){
+                await this.model("hot_recommend").where({topic_id:data.id}).delete();
+            }
+        }
+     
         return {data:data,id:id};
     }
 

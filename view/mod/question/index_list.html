@@ -227,6 +227,7 @@ CLASSES:
                     <!-- /side navigation -->
                 </div>
                 {%endif%}
+                {#
                 <div class="box-inner nopadding">
                     <h3>
                         <a class="pull-right size-11 text-warning" href="/topic">更多</a>
@@ -255,6 +256,7 @@ CLASSES:
 
                     </div>
                 </div>
+                #}
                 <hr />
                 {%model data="data",table="question_user",cache='1000',order="question_count DESC",alias="a",limit="10",join='{"member": {"join": "left","as":"b","on": ["a.uid", "b.id"]}}'%}
                 {%if data.length>0%}
@@ -276,7 +278,7 @@ CLASSES:
                 </div>
                 <hr />
                 {%endif%}
-                <!-- SOCIAL ICONS -->
+                <!-- SOCIAL ICONS 
                 <div class="hidden-xs margin-top-30 margin-bottom-60">
                     <a href="#" class="social-icon social-icon-border social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
                         <i class="icon-facebook"></i>
@@ -303,7 +305,7 @@ CLASSES:
                         <i class="icon-rss"></i>
                     </a>
                 </div>
-
+                -->
             </div>
         </div>
 

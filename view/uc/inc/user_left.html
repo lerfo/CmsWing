@@ -17,7 +17,9 @@
 
 		<!-- SIDE NAV -->
 		<ul class="side-nav list-group margin-bottom-60" id="sidebar-nav">
-			<li class="list-group-item {% if http.action == 'index' and http.controller == 'index' %}active{%endif%}"><a href="/uc/index"><i class="fa fa-home"></i> 用户主页</a></li>
+			
+			<li class="list-group-item {% if http.action == 'index' and http.controller == 'index' %}active{%endif%}"><a href="/uc/index"><i class="fa fa-home"></i> 账户中心</a></li>
+			{#
 			<li class="list-group-item list-toggle {% if http.action == 'publish' %}active{%endif%}">   <!-- NOTE: "active" to be open on page load -->
 				<a data-toggle="collapse" data-parent="#sidebar-nav" href="#collapse-0"><i class="fa fa-newspaper-o"></i> 内容管理</a>
 				<ul id="collapse-0" class="collapse in" ><!-- NOTE: "collapse in" to be open on page load -->
@@ -25,17 +27,21 @@
 					<li><a href="/uc/publish/approval" class="{% if http.action == 'approval' %}text-danger{%endif%}" ><i class="fa fa-angle-right"></i> 待审稿件</a></li>
 				</ul>
 			</li>
+			#}
 			<li class="list-group-item list-toggle {% if http.action == 'order' %}active{%endif%}">   <!-- NOTE: "active" to be open on page load -->
 				<a data-toggle="collapse" data-parent="#sidebar-nav" href="#collapse-1"><i class="fa fa-shopping-cart"></i> 交易管理</a>
 				<ul id="collapse-1" class="collapse in" ><!-- NOTE: "collapse in" to be open on page load -->
 					<li><a href="/uc/order" class="{% if http.action == 'index' and http.controller == 'order'%}text-danger{%endif%}" ><i class="fa fa-angle-right"></i> 我的订单</a></li>
+					<!--
 					<li>
 
 						<a href="#"><i class="fa fa-angle-right"></i> 退款申请</a>
 					</li>
 					<li><a href="#"><i class="fa fa-angle-right"></i> 我的关注</a></li>
+					-->
 				</ul>
 			</li>
+			{#
 			<li class="list-group-item list-toggle">   <!-- NOTE: "active" to be open on page load -->
 				<a data-toggle="collapse" data-parent="#sidebar-nav" href="#collapse-2" ><i class="fa fa-server"></i> 客户服务</a>
 				<ul id="collapse-2" class="collapse in"><!-- NOTE: "collapse in" to be open on page load -->
@@ -43,10 +49,10 @@
 					<li>
 						<a href="#" ><i class="fa fa-angle-right"></i> 商品评价</a>
 					</li>
-					<li class="active"><a href="#"><i class="fa fa-angle-right"></i> 我的消息</a></li>
-
+					
 				</ul>
 			</li>
+			#}
 			<li class="list-group-item list-toggle
 			 {% if http.action == 'order'
 			    or http.action == 'address'
@@ -59,14 +65,18 @@
 					<li>
 						<a href="/uc/seting" class="{% if http.controller == 'seting' %}text-danger{%endif%}"><i class="fa fa-angle-right"></i> 个人设置</a></li>
 					<li>
-						<a href="/uc/address" class="{% if http.controller == 'address' %}text-danger{%endif%}"><i class="fa fa-angle-right"></i> 收货地址</a>
+						<a href="/uc/address" class="{% if http.controller == 'address' %}text-danger{%endif%}"><i class="fa fa-angle-right"></i> 常用地址</a>
 					</li>
 					<li>
 						<a href="/uc/traveller" class="{% if http.controller == 'traveller' %}text-danger{%endif%}"><i class="fa fa-angle-right"></i> 旅客信息</a>
 					</li>
 					<li><a href="#"><i class="fa fa-angle-right"></i> 我的优惠券</a></li>
-					<li><a href="/uc/account" class="{% if http.action == 'account' %}text-danger{%endif%}"><i class="fa fa-angle-right"></i> 账户金额</a></li>
+					<li><a href="#"><i class="fa fa-angle-right"></i> 我的消息</a></li>
+
+					<!--<li><a href="/uc/account" class="{% if http.action == 'account' %}text-danger{%endif%}"><i class="fa fa-angle-right"></i> 账户金额</a></li>
+					
 					<li><a href="#"><i class="fa fa-angle-right"></i> 我的积分</a></li>
+					-->
 				</ul>
 			</li>
 			<li class="list-group-item"><a href="/uc/public/logout"><i class="fa fa-sign-out"></i> 退出登录</a></li>

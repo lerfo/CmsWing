@@ -75,6 +75,26 @@ async ajaxquestionfocusAction(){
                 //添加操作日志，可根据需求后台设置日志类型。
                 await this.model("action").log("recommendquestion", "question", res.id, this.user.uid, this.ip(), this.http.url);
                 this.success({name: "推荐成功"});
+                //首页热门推荐，则添加到hot_recommend表
+
+                let recommendres = await this.model("hot_recommend").where({topic_id:data.id,topic_type:2}).find();
+                console.log(recommendres.id);
+                if(think.isEmpty(recommendres.id) && cmd==1 ){
+                    let hotrecommend ={};
+                    hotrecommend.topic_id = data.id;
+                    hotrecommend.title = data.title;
+                    hotrecommend.cover_id = data.cover_id;
+                    hotrecommend.topic_type = 2;
+                    hotrecommend.category_id = data.category_id;
+                    hotrecommend.add_time = time;
+                    console.log(hotrecommend);
+                    await this.model("hot_recommend").add(hotrecommend);
+                }else{
+                    //如果已推荐，且取消推荐，则删除
+                    if(!think.isEmpty(recommendres.id) && cmd ==0 ){
+                        await this.model("hot_recommend").where({topic_id:data.id}).delete();
+                    }
+                }
             //}
         } else{
             return this.fail("操作失败！");
