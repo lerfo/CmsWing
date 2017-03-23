@@ -68,9 +68,9 @@ ul.resource_price_wrap {
 .resource_price_wrap .abc_start_date {
     width: 196px;
 }
-.resource_price_wrap .start_date {
+/*.resource_price_wrap .start_date {
     width: 210px;
-}
+}*/
 .resource_price_wrap li {
     float: left;
     height: 30px;
@@ -120,11 +120,11 @@ input[type="color"], input[type="email"], input[type="number"], input[type="pass
     border: solid 1px #CCC;
     box-shadow: 1px 1px 3px #DDDDDD inset;
 }
-.resource_price_wrap .tourist_num, .resource_price_wrap .children_num {
+.resource_price_wrap .tourist_num, .resource_price_wrap .children_num, .resource_price_wrap .baby_num {
     padding-left: 14px;
     zoom: 1;
 }
-.resource_price_wrap .tourist_num input, .resource_price_wrap .children_num input {
+.resource_price_wrap .tourist_num input, .resource_price_wrap .children_num input, .resource_price_wrap .baby_num input {
     width: 48px;
     _padding: 3px;
     _width: 38px;
@@ -303,6 +303,15 @@ table {
     text-align: right;
     padding-right: 0;
 }
+.other_resource_table .room_selected a {
+    display: block;
+    width: 18px;
+    height: 0;
+    padding-top: 18px;
+    overflow: hidden;
+    background-position: 0 -139px;
+    cursor: default;
+}
 .other_resource_table .other_product {
     font: bold 12px simsun, sans-serif;
     height: 24px;
@@ -427,7 +436,7 @@ dfn {
     height: 40px;
     display: inline-block;
     vertical-align: middle;
-    padding: 20px 5px 0 15px;
+    padding: 20px 5px 0 10px;
 }
 .abc_summary .abc_icon i {
     display: inline-block;
@@ -442,7 +451,7 @@ dfn {
     padding-right: 10px;
     vertical-align: middle;
     zoom: 1;
-    width: 274px;
+    width: 80%;
 }
 .abc_summary p em {
     display: block;
@@ -674,7 +683,7 @@ dfn {
 }
 
 	#destination ul#destination-ul li {
-		margin-bottom: 10px !important;
+		margin-bottom: 30px !important;
 		height: 217px;
 	}
 	section.alternate {
@@ -1134,6 +1143,11 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
 </div>
 
+<input type="hidden" id="price-adult" value="{{info.price_adult|get_price_format('1')}}" />
+<input type="hidden" id="price-kid" value="{{info.price_kid|get_price_format('1')}}" />
+<input type="hidden" id="price-baby" value="{{info.price_baby|get_price_format('1')}}" />
+<input type="hidden" id="price-differences" value="{{info.price_differences|get_price_format('1')}}" />
+
 <div id="js_order" class="margin-top-20">
 	<ul class="resource_price_wrap basefix">  
 		<li class="start_date abc_start_date"> 
@@ -1146,6 +1160,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 				<b></b> 
 			</div> 
 		</li>  
+		{% if info.price_adult|get_price_format('1') %}
 		<li class="tourist_num"> 
 			<label for="">成人</label> 
 			<div class="input_wrap">
@@ -1193,6 +1208,8 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			#}
 			<span class="base_price" id="J_adusprice" style="display:none"></span> 
 		</li> 
+		{% endif %}
+		{% if info.price_kid|get_price_format('1') %}
 		<li class="children_num">  
 			<label for="">儿童</label> 
 			<div class="input_wrap"> 
@@ -1233,17 +1250,56 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			<span class="child_tip" id="J_childtip" style="text-decoration: none; cursor: auto;"><i></i>(2-12岁)</span>  
 			<span class="base_price" id="J_chdsprice" style="display:none"></span> 
 		</li> 
+		{% endif %}
+		{% if info.price_baby|get_price_format('1') %}
+		<li class="baby_num">  
+			<label for="">婴儿</label> 
+			<div class="input_wrap"> 
+				<input type="number" id="product-selected-qty-baby" class="dropdown-toggle product-qty-dd noradius" data-toggle="dropdown" value="0"> 
+				<b></b> 
+
+				<ul id="product-qty-dd-baby" class="product-qty-dd dropdown-menu clearfix" role="menu">
+					<li class="active"><a data-val="0" href="#">0</a></li>
+					<li><a data-val="1" href="#">1</a></li>
+					<li><a data-val="2" href="#">2</a></li>
+					<li><a data-val="3" href="#">3</a></li>
+					<li><a data-val="4" href="#">4</a></li>
+					<li><a data-val="5" href="#">5</a></li>
+					<li><a data-val="6" href="#">6</a></li>
+					<li><a data-val="7" href="#">7</a></li>
+					<li><a data-val="8" href="#">8</a></li>
+					<li><a data-val="9" href="#">9</a></li>
+					<li><a data-val="10" href="#">10</a></li>
+				</ul>
+			</div> 
+			<span class="child_tip" id="J_childtip" style="text-decoration: none; cursor: auto;"><i></i>(0-2岁)</span>  
+			<span class="base_price" id="J_chdsprice" style="display:none"></span> 
+		</li> 
+		{% endif %}
 		<li class="total_price" id="J_priceBox"> 
 			<span class="price_name">总价</span> 
-			<span class="price">--</span> 
+			<span class="price" id="total-price">--</span> 
 			<i class="price_icon" id="J_acpricetip" style="display:none"></i> 
-			<button class="btn btn-primary" id="js-submit" style="font-size: 18px; margin-top: 3px; padding: 6px 24px;">  开始预订  </button> 
+			<form class="form-inline nomargin ichecks pull-right"   data-icheck-info ="{{info.suk}}" method="post" action="/uc/booking">
+				<input type="hidden" name="product_id" value="{{info.id}}" />
+				<input type="hidden" id="product_type" name="type" value="0" />
+				<!-- see assets/js/view/demo.shop.js -->
+
+				<!-- <input type="hidden" id="qty" name="qty" value="1" /> -->
+				<input type="hidden" id="adult_quantity" name="adult_quantity" value="0" />
+				<input type="hidden" id="kid_quantity" name="kid_quantity" value="0" />
+				<input type="hidden" id="baby_quantity" name="baby_quantity" value="0" />
+				<input type="hidden" id="differences_quantity" name="differences_quantity" value="0" />
+				<input type="hidden" id="start_date" name="start_date" value="2017-10-10" />
+				<button class="btn btn-primary" id="js-submit" style="font-size: 18px; margin-top: 3px; padding: 6px 24px;">  开始预订  </button> 
+			</form>
 			<div class="price_alert" id="J_pricealert" style="display:none"></div> 
 		</li> 
 	</ul> 
 	<div class="resource_wrap" id="resource_wrap-temp">  </div> 
 	<div class="resource_wrap" id="resource_wrap" style="display: none;">   
-		<div class="all_resource">    
+		<div class="all_resource">   
+			{% if info.price_differences|get_price_format('1') %} 
 			<div class="flt_htl_resource basefix">    
 				<div class="other_resource_detail"> 
 					<h4 class="resource_detail_title2">可选资源</h4> 
@@ -1258,7 +1314,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 									<div class="other_name_unclick">单房差</div>  
 								</td> 
 								<td class="col_03">  
-									<div><span class="js-ctrip-price other_price"><dfn>¥</dfn>3500</span></div>  
+									<div><span class="js-ctrip-price other_price"><dfn>¥</dfn>{{info.price_differences|get_price_format('1')}}</span></div>  
 								</td> 
 								<td class="col_04">  --  </td> 
 								<td class="col_05"> 
@@ -1277,7 +1333,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 									</div> 
 								</td> 
 								<td class="col_06"> 
-									<div><span class="other_price js-total-price"><dfn>¥</dfn>3500</span></div> 
+									<div><span class="other_price js-total-price" id="total-differences-price">--</span></div> 
 								</td> 
 								<td class="col_07">  
 									<div class="room_selected" style=""> 
@@ -1297,9 +1353,10 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 					</table> 
 				</div>  
 			</div>      
+			{% endif %}
 			<div id="js-money-contain" class="flt_htl_resource basefix">     
 				<div class="cost_detail" id="cost_detail" style="border-bottom:0;margin-bottom:0;padding-bottom:0">  
-					{{info.product_expenses}}
+					{{info.product_expenses | safe}}
 				</div>     
 			</div>  
 		</div>  
@@ -1410,8 +1467,8 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			    <h3 class="resource_title">
 			        产品特色<i class="icon_b icon_b_01"></i>
 			    </h3>
-			    <div class="product_feature" id="product_feature" style="display: none;">
-			    	{{info.product_recommend}}
+			    <div class="product_feature" id="product_feature">
+			    	{{info.product_recommend | safe}}
 			    </div>
 			    {#
 				<div class="fate_link" id="js_route_days" data-mapday="simpleDay2" style="position: fixed; display: block; top: 221px; z-index: 99; left: 105.5px;">
@@ -1450,8 +1507,8 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		            </div>
 		        </div>
 		        #}
-			    <div class="" id="js_detail_travelCtrip" style="display: none;">
-			    	{{info.product_route}}
+			    <div class="" id="js_detail_travelCtrip">
+			    	{{info.product_route | safe}}
 			    </div>
 		    </div>
 
@@ -1460,8 +1517,8 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	        <i class="under_tab_anchor_abc" id="fy_abc"></i>
 	        <div id="js_expense" class="detail_content">
 				<h3 class="resource_title"> 费&nbsp;&nbsp;用<i class="icon_b icon_b_03"></i> </h3>
-			    <div class="product_feature" id="product_expense" style="display: none;">
-			    	{{info.product_expenses}}
+			    <div class="product_feature" id="product_expense">
+			    	{{info.product_expenses | safe}}
 			    </div>
 		    </div>
 
@@ -1470,8 +1527,8 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	        <i class="under_tab_anchor_abc" id="ydxz_abc"></i>
 	        <div id="js_order_needknow" class="detail_content">
 				<h3 class="resource_title">预订须知<i class="icon_b icon_b_06"></i></h3>
-			    <div class="product_feature" id="product_booking" style="display: none;">
-			    	{{info.product_booking_info}}
+			    <div class="product_feature" id="product_booking">
+			    	{{info.product_booking_info | safe}}
 			    </div>
 		    </div>
 
@@ -1480,8 +1537,8 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	        <i class="under_tab_anchor_abc" id="qz_abc"></i>
 	        <div id="js_visa" class="detail_content">
 				<h3 class="resource_title">签证/签注<i class="icon_b icon_b_07"></i></h3>
-			    <div class="product_feature" id="product_visa" style="display: none;">
-			    	{{info.product_visainfo}}
+			    <div class="product_feature" id="product_visa">
+			    	{{info.product_visainfo | safe}}
 			    </div>
 		    </div>
 	    </div>
@@ -1734,7 +1791,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
                 {#
                 {%else%}
                 #}
-                <div class="alert alert-success margin-bottom-30 margin-top-30"><!-- SUCCESS -->
+                <div class="alert alert-success margin-bottom-30" style="margin-top: 70px;"><!-- SUCCESS -->
                     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                     要咨询问题请先 <a class="" href="/uc/public/login">登录</a> 或 <a href="/uc/public/register">注册</a>
                 </div>
@@ -2455,30 +2512,30 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 <script src="/static/admin/js/datepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 <script src="/static/admin/js/datepicker/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
 <script>
-	var HtmlUtil = {
-	    /*1.用浏览器内部转换器实现html转码*/
-	    htmlEncode:function (html){
-	        //1.首先动态创建一个容器标签元素，如DIV
-	        var temp = document.createElement ("div");
-	        //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
-	        (temp.textContent != undefined ) ? (temp.textContent = html) : (temp.innerText = html);
-	        //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
-	        var output = temp.innerHTML;
-	        temp = null;
-	        return output;
-	    },
-	    /*2.用浏览器内部转换器实现html解码*/
-	    htmlDecode:function (text){
-	        //1.首先动态创建一个容器标签元素，如DIV
-	        var temp = document.createElement("div");
-	        //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
-	        temp.innerHTML = text;
-	        //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
-	        var output = temp.innerText || temp.textContent;
-	        temp = null;
-	        return output;
-	    }
-	};
+	// var HtmlUtil = {
+	//     /*1.用浏览器内部转换器实现html转码*/
+	//     htmlEncode:function (html){
+	//         //1.首先动态创建一个容器标签元素，如DIV
+	//         var temp = document.createElement ("div");
+	//         //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+	//         (temp.textContent != undefined ) ? (temp.textContent = html) : (temp.innerText = html);
+	//         //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+	//         var output = temp.innerHTML;
+	//         temp = null;
+	//         return output;
+	//     },
+	//     /*2.用浏览器内部转换器实现html解码*/
+	//     htmlDecode:function (text){
+	//         //1.首先动态创建一个容器标签元素，如DIV
+	//         var temp = document.createElement("div");
+	//         //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+	//         temp.innerHTML = text;
+	//         //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+	//         var output = temp.innerText || temp.textContent;
+	//         temp = null;
+	//         return output;
+	//     }
+	// };
 
 	$(document).ready(function() {
 
@@ -2506,27 +2563,25 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			]
 		});
 		
-    	var feature_str = $("#product_feature").html();
-    	$("#product_feature").html(HtmlUtil.htmlDecode(feature_str));
-    	$("#product_feature").show();
+    	// var feature_str = $("#product_feature").html();
+    	// $("#product_feature").html(HtmlUtil.htmlDecode(feature_str));
+    	// $("#product_feature").show();
 
-    	var route_str = $("#js_detail_travelCtrip").html();
-    	$("#js_detail_travelCtrip").html(HtmlUtil.htmlDecode(route_str));
-    	$("#js_detail_travelCtrip").show();
+    	// var route_str = $("#js_detail_travelCtrip").html();
+    	// $("#js_detail_travelCtrip").html(HtmlUtil.htmlDecode(route_str));
+    	// $("#js_detail_travelCtrip").show();
 
-    	var expense_str = $("#product_expense").html();
-    	$("#product_expense").html(HtmlUtil.htmlDecode(expense_str));
-    	$("#product_expense").show();
+    	// var expense_str = $("#product_expense").html();
+    	// $("#product_expense").html(HtmlUtil.htmlDecode(expense_str));
+    	// $("#product_expense").show();
 
-    	var booking_str = $("#product_booking").html();
-    	$("#product_booking").html(HtmlUtil.htmlDecode(booking_str));
-    	$("#product_booking").show();
+    	// var booking_str = $("#product_booking").html();
+    	// $("#product_booking").html(HtmlUtil.htmlDecode(booking_str));
+    	// $("#product_booking").show();
 
-    	var visa_str = $("#product_visa").html();
-    	$("#product_visa").html(HtmlUtil.htmlDecode(visa_str));
-    	$("#product_visa").show();
-
-
+    	// var visa_str = $("#product_visa").html();
+    	// $("#product_visa").html(HtmlUtil.htmlDecode(visa_str));
+    	// $("#product_visa").show();
 
 	});
 
@@ -2551,16 +2606,18 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
         startDate:"2010-01-01",
         autoclose:true
     }).on('changeDate', function(ev){
-    	console.log("changeDate: " + ev);
+    	var date = $('#datetimepicker').val();
+    	console.log("changeDate: " + date);
+    	$("#start_date").val(date);
     	if(!dateChanged) {
 	    	dateChanged = true;
 	    	$("#resource_wrap").show();
 	    	$("#resource_wrap-temp").hide();
 	    	// $(".resource_price_wrap").css("border", "none");
 	    	// $("#js_order").css("border", "2px solid #1eb6c1");
-	    	var detail_str = $("#cost_detail").html();
+	    	// var detail_str = $("#cost_detail").html();
 	    	// console.log(detail_str);
-	    	$("#cost_detail").html(HtmlUtil.htmlDecode(detail_str));
+	    	// $("#cost_detail").html(HtmlUtil.htmlDecode(detail_str));
     	}
     }).on('hide', function(ev){
     	console.log("hide: " + ev);

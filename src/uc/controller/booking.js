@@ -229,7 +229,7 @@ export default class extends Base {
 
     let orderinfo = {};
     orderinfo = think.extend({},data.amountinfo);
-    orderinfo = think.else(orderinfo,data.connectinfo);
+    orderinfo = think.extend(orderinfo,data.connectinfo);
     let goods =JSON.parse(data.amountinfo);
 
     //检查购物车内的宝贝是否有库存

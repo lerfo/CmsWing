@@ -1,8 +1,627 @@
 {% extends "./inc/base.html" %}
 {% block style%}
 <link href="/static/assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.progress_bar {
+    width: 100%;
+    padding: 150px 0 10px;
+}
+ol, ul {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+ul li, ol li {
+    list-style: none;
+}
+.progress_bar li {
+    float: left;
+    width: 25%;
+    border-top: 6px solid #b8d7d9;
+    text-align: center;
+    color: #b8d7d9;
+    position: relative;
+    line-height: 42px;
+}
+.progress_bar li {
+    width: 33.33% !important;
+}
+.progress_bar .complete {
+    color: #1eb6c1;
+    border-top: 6px solid #1eb6c1;
+}
+.progress_bar li i {
+    position: absolute;
+    left: 50%;
+    margin-left: -10px;
+    top: -13px;
+    height: 20px;
+    width: 20px;
+
+    background: url(http://pic.c-ctrip.com/vacation_v1/un_base_common.png?20131118.png) -64px 0 no-repeat;
+}
+.progress_bar .complete i {
+    background-position: -36px 0;
+    background: #1eb6c1;
+    border-radius: 50%;
+}
+.progress_bar li p {
+    position: absolute;
+    left: 50%;
+    margin-left: -6px;
+    top: -10px;
+    height: 12px;
+    width: 12px;
+}
+.progress_bar .complete p {
+    background: #fff;
+    border-radius: 50%;
+}
+.progress_bar .disabled i {
+    background-position: -36px 0;
+    background: #b8d7d9;
+    border-radius: 50%;
+}
+.progress_bar .disabled p {
+    background: #fff;
+    border-radius: 50%;
+}
+
+.book_product {
+    position: relative;
+    background-color: #fff;
+    border: 5px solid #1eb6c1;
+    margin-bottom: 20px;
+    padding: 20px;
+    margin-top: 50px;
+}
+.book_product h2 {
+    font: bold 20px/26px "Microsoft Yahei",simsun;
+    margin-bottom: 10px;
+    color: #333;
+}
+.book_product .book_detail {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #1eb6c1;
+    padding: 2px 5px;
+    color: #fff;
+}
+.book_product .book_detail i {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 2px;
+    margin-top: 8px;
+}
+.book_product .book_detail i.close {
+    border-style: none dashed solid dashed;
+    border-width: 0 5px 5px 5px;
+    border-color: transparent transparent #fff transparent;
+}
+:root .book_product .book_detail i.close {
+    border-width: 0 4px 4px 4px;
+}
+.book_product .book_detail i.up {
+    border-style: solid dashed none dashed;
+    border-width: 4px 4px 0 4px;
+    border-color: #fff transparent transparent transparent;
+}
+.book_product_content {
+    border-top: solid 1px #DFDDDD;
+    padding: 5px 0;
+}
+.book_product_name {
+    float: left;
+    width: 100px;
+    color: #333;
+    font: 20px/26px "Microsoft Yahei",simsun;
+}
+.book_table_list {
+    float: right;
+    width: 790px;
+    table-layout: fixed;
+}
+.book_width_all04 .width01 {
+    width: 90px;
+}
+.book_table_list td {
+    padding: 5px;
+    vertical-align: top;
+}
+.basefix:after, .layoutfix:after {
+    clear: both;
+    content: '.';
+    display: block;
+    height: 0;
+    overflow: hidden;
+}
+
+.input_info {
+    background-color: #fff;
+    /*border: 1px solid #D5D5D5;*/
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.input_info h3 {
+    position: relative;
+    z-index: 3;
+    background-color: #dff4f4;
+    font: 18px/32px "Microsoft Yahei",simsun;
+    font-weight: bold;
+    height: 32px;
+    padding: 0 20px;
+    margin-bottom: 0px;
+}
+.input_info .product_input {
+    margin: -1px 20px 0 20px;
+    padding: 25px 0 10px;
+    position: relative;
+    border-top: #D5D5D5 solid 1px;
+}
+.input_info .product_input h4 {
+    float: left;
+    font: 16px/20px "Microsoft Yahei",simsun;
+    width: 120px;
+}
+.input_info .input_box {
+    float: left;
+    width: 770px;
+}
+.input_info .input_box li {
+    padding-bottom: 15px;
+}
+.input_info .input_box .point {
+    color: #999;
+    font-size: 12px;
+}
+.show_all_info {
+    clear: both;
+    padding-bottom: 10px;
+    padding-left: 120px;
+}
+.show_all_info .btn_item {
+    cursor: pointer;
+}
+.show_all_info a, .show_all_info i {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+}
+.show_all_info a {
+    margin-right: 4px;
+}
+.icon_arrow_down {
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-width: 6px 6px 0;
+    border-color: #0065bb transparent transparent;
+    border-style: solid dashed dashed;
+}
+.input_info .promotion_code {
+    margin: 0 20px 0 138px;
+    border: 0 none;
+    padding: 10px;
+    /*background: #f7f7f7;*/
+}
+.input_info .product_input .except_tit {
+    width: 178px;
+}
+.input_info .promotion_code h4.except_tit {
+    font: 14px/20px "Microsoft Yahei",simsun;
+}
+.input_info .except_list {
+    width: 550px;
+}
+.input_info .coupons li {
+    vertical-align: top;
+    padding-bottom: 10px;
+}
+.input_info .promotion_code .coupons li {
+    /*padding-bottom: 0;*/
+}
+input[type="text"], input[type="number"] {
+    padding: 3px;
+    border: solid 1px #CCC;
+    box-shadow: 1px 1px 3px #DDDDDD inset;
+}
+.input_info .input_box input, .input_info .ticket_search {
+    _height: 14px;
+    _padding: 2px;
+}
+.input_info .input_box input {
+    display: inline-block;
+    vertical-align: middle;
+}
+.input_info .input_box input.input_sale {
+    margin-left: 5px;
+    width: 130px;
+}
+.input_info .input_box input.btn_submit {
+    height: 23px;
+    line-height: 20px;
+    background-color: #f8f9f8;
+    color: #333;
+    border: 1px solid #bbb;
+    text-align: center;
+    display: inline-block;
+    width: 60px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+.input_info .input_box li:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    overflow: hidden;
+}
+
+.linkman_tips {
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+    margin-left: 35px;
+}
+.linkman_info {
+    margin-left: 120px;
+    _display: inline;
+}
+.input_info .product_label {
+    float: left;
+    padding-right: 10px;
+    text-align: right;
+    width: 76px;
+}
+.frm_required {
+    color: #F00;
+    text-align: center;
+    font-family: Arial;
+}
+.input_box li .frm_required {
+    float: left;
+    width: 10px;
+    margin-left: -10px;
+}
+.input_info .input_box .input_m {
+    width: 270px;
+}
+.input_info .input_box .hrs {
+    color: #999;
+    margin-left: 8px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0; 
+}
+
+.input_info h3 .title {
+    float: left;
+    color: #414141;
+}
+.input_info h3 .tips_txt {
+    float: left;
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+    margin-left: 35px;
+}
+.input_info .input_box input, .input_info .ticket_search {
+    _height: 14px;
+    _padding: 2px;
+}
+.input_info .ticket_search {
+	background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
+    _background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book_ie.png?20150619.png);
+    background-repeat: no-repeat;
+    background-position: 124px -64px;
+    margin-left: 30px;
+    margin-top: 4px;
+    vertical-align: 3px;
+    width: 140px;
+    background-color: #fff;
+    color: #999;
+    border: 1px solid #ccc;
+    height: 24px;
+    padding: 3px;
+    font-size: 12px;
+    font-weight: normal;
+}
+.input_info .product_input_border {
+    border-bottom: 1px solid #eaeaea;
+}
+.warm_Tip {
+    padding: 0 20px;
+    line-height: 30px;
+    background: #e8f4ff;
+    margin-bottom: 20px;
+    color: #666;
+}
+.input_info .product_input h4 {
+    float: left;
+    font: 16px/20px "Microsoft Yahei",simsun;
+    width: 120px;
+}
+.input_info .product_input h4 span {
+    display: inline-block;
+    border-radius: 2px;
+    font: 12px/14px simsun;
+    padding: 2px;
+    color: #fff;
+}
+.input_info .product_input h4 .adult {
+    background-color: #60B7FF;
+}
+.input_info .product_input h4 .child {
+    background-color: #FFB947;
+    margin-right: 6px;
+}
+.input_info .input_box a.explain {
+    padding-left: 10px;
+    text-decoration: underline;
+}
+select {
+    padding: 1px;
+    font-family: Arial,Simsun,sans-serif;
+    border: 1px solid #CCC;
+    background-color: #FFF;
+}
+.input_info .input_box select {
+    width: 100px;
+    vertical-align: middle;
+    display: inline-block;
+    height: 29px;
+    border-radius: 0px;
+}
+.input_info .input_box input.input_s {
+    margin-left: 7px;
+    width: 160px;
+}
+.input_info .input_box li .help_block {
+    background: #E8F4FF;
+    border: 1px solid #67A1E2;
+    color: #333;
+    display: block;
+    margin-left: 76px;
+    margin-top: 8px;
+    padding: 2px 6px 3px 20px;
+    position: relative;
+    text-align: left;
+    width: 430px;
+    font-size: 12px;
+}
+.help_block .ico, .help_block_i .ico {
+	background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
+    _background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book_ie.png?20150619.png);
+    background-repeat: no-repeat;
+    left: 4px;
+    position: absolute;
+    top: 6px;
+    background-position: 0 -119px;
+    display: block;
+    overflow: hidden;
+    width: 12px;
+    height: 12px;
+}
+.input_radio {
+    color: #333;
+    margin-right: 10px;
+    display: inline-block;
+}
+.input_radio i {
+    background: url(http://pic.c-ctrip.com/vacation_v1/input_radio.png?20150619.png) no-repeat 0 0;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    vertical-align: bottom;
+    padding-right: 3px;
+    cursor: pointer;
+}
+.input_info .save_wrap {
+    float: left;
+    margin-left: -100px;
+    overflow: hidden;
+    width: 100px;
+    line-height: 16px;
+}
+.input_info .save_wrap .save {
+    color: #333;
+    float: left;
+    height: 16px;
+    line-height: 16px;
+    margin-right: 20px;
+}
+.input_info .save_wrap .save i, .input_info .save_wrap .selected i {
+	background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
+    _background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book_ie.png?20150619.png);
+    background-repeat: no-repeat;
+}
+.input_info .save_wrap .save i {
+    background-position: -55px -46px;
+    display: inline-block;
+    float: left;
+    height: 16px;
+    margin-right: 4px;
+    width: 16px;
+}
+.input_info .save_wrap .selected i {
+    background-position: -37px -46px;
+}
+.input_info .input_box input.input_englishname {
+	width: 130px;
+}
+.reserve_limited {
+    line-height: 20px;
+    color: #6a6a6a;
+    margin: 20px 0;
+    padding: 0 20px;
+}
+.reserve_limited h4 {
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: normal;
+    font-family: 'microsoft yahei';
+    margin-bottom: 5px;
+}
+.input_info .product_input h4 {
+    float: left;
+    font: 16px/20px "Microsoft Yahei",simsun;
+    width: 120px;
+}
+.input_info .input_box .point {
+    color: #999;
+    font-size: 12px;
+}
+.input_info .input_box li.default {
+    padding-left: 80px;
+}
+.input_info .input_box li.default .revise {
+    float: left;
+    margin-left: -80px;
+}
+.input_info .input_box li .invoice_box_con {
+    line-height: 20px;
+}
+.input_info .input_box li.default span {
+    margin-right: 10px;
+}
+.input_info .product_input .more_close, .input_info .product_input .more_close:hover {
+    display: inline-block;
+    padding-bottom: 10px;
+    color: #333;
+    text-decoration: underline;
+}
+.extras_box {
+    float: left;
+    width: 770px;
+}
+.extras_box textarea {
+    width: 460px;
+    height: 70px;
+    margin-top: 10px;
+    padding: 0 5px;
+    font-size: 12px;
+}
+.defray_box {
+    zoom: 1;
+    position: relative;
+    min-height: 56px;
+    _height: 56px;
+    margin-bottom: 20px;
+    background-color: #FFF;
+    /*border: 1px solid #e9eaeb;*/
+}
+.defray_shop_box {
+    height: 56px;
+    line-height: 56px;
+    float: left;
+    width: inherit;
+    border-right: 0 none;
+    overflow: hidden;
+}
+.defray_box .defray_shop_box {
+    float: left;
+}
+.defray_shop_box .prev_stop {
+    float: left;
+    width: 100px;
+    display: inline-block;
+    padding-left: 35px;
+    position: relative;
+    color: #1eb6c1;
+}
+.defray_shop_box .prev_stop b {
+	background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
+    _background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book_ie.png?20150619.png);
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 22px;
+    left: 17px;
+    width: 15px;
+    height: 16px;
+    background-position: 0 -220px;
+    overflow: hidden;
+}
+.defray_box form .prev_stop {
+    float: left;
+    width: 100px;
+    display: inline-block;
+    padding-left: 35px;
+    position: relative;
+    height: 56px;
+    line-height: 56px;
+    color: #1eb6c1;
+}
+.defray_shop_box .total {
+    display: none;
+    float: right;
+    border-left: 1px solid #ffeab8;
+    background-color: #fff8df;
+    height: 56px;
+    width: 173px;
+}
+.btn_proess_big, .btn_proess_big:hover, .btn_proess_big_disabled, .btn_proess_big_disabled:hover {
+    height: 56px;
+    padding: 0 10px;
+    font: 20px/56px 'microsoft yahei',simsun,sans-serif;
+}
+.btn_proess_big {
+    display: inline-block;
+    background-color: #1eb6c1;
+    background-image: -webkit-linear-gradient(top, #1eb6c1, #1eb6c1);
+    background-image: -moz-linear-gradient(top, #1eb6c1, #1eb6c1);
+    background-image: -ms-linear-gradient(top, #1eb6c1, #1eb6c1);
+    background-image: -o-linear-gradient(top, #1eb6c1, #1eb6c1);
+    background-image: linear-gradient(top, #1eb6c1, #1eb6c1);
+    color: #fff;
+    text-align: center;
+    border: 1px solid #1eb6c1;
+    -webkit-box-shadow: inset 0 1px 0 0 #1eb6c1;
+    box-shadow: inset 0 1px 0 0 #1eb6c1;
+}
+.btn_proess_big {
+    float: left;
+    width: 240px;
+    margin-right: -4px;
+    border-radius: 4px;
+}
+.defray_box .btn_proess_big {
+    position: absolute;
+    right: -1px;
+    bottom: 0px;
+    margin: 0;
+}
+a.btn_proess_big:hover, a.btn_proess_big:focus {
+	color: #fff;
+}
+.special_tips {
+    font-size: 16px;
+    font-weight: bold;
+    color: #444;
+    padding: 20px 20px 0;
+}
+.input_info .content_box {
+    margin: 20px;
+    max-height: 400px;
+    _height: 400px;
+    overflow-y: scroll;
+    line-height: 180%;
+}
+.input_radio.selected i {
+    background-position: 0 -16px;
+}
+</style>
 {% endblock %}
 {% block content %}
+{#
     	<!-- 
 				PAGE HEADER 
 				
@@ -35,14 +654,14 @@
 			</section>
 			<!-- /PAGE HEADER -->
 
-
+#}
 
 
 			<!-- CART -->
-             <form class = "form-post" method="post" action="/uc/cart/createorder">
-			<section>
+             <!-- <form class = "form-post" method="post" action="/uc/booking/createorder" style="background: #eff7f9;"> -->
+			<section style="background: #eff7f9;">
 				<div class="container">
-
+{#
 <div class="row process-wizard process-wizard-primary">
 
 	<div class="col-xs-3 process-wizard-step complete">
@@ -74,9 +693,292 @@
 	</div>
 
 </div>
+#}
+	<ol class="progress_bar">
+        <li class="complete"><i></i><p></p>选择产品</li>
+        <li class="complete"><i></i><p></p>填写与核对</li>
+        <li class="disabled"><i></i><p></p>成功提交</li>
+    </ol>
 
+	<div class="book_product" id="productID">
+		<h2>{{amountinfo.title}}</h2>
+		<a href="###" class="book_detail" id="js_options_book">隐藏明细<i class="close"></i></a>
+		<div id="js_options_product">
+			<div class="book_product_content basefix" style="display: block;">
+				<div class="book_product_name">行程</div>
+				<table class="book_table_list book_width_all04">
+					<colgroup>
+						<col class="width01">
+						<col class="width02">
+					</colgroup>
+					<tbody>
+						<tr>
+							<td>2017-07-23</td>
+							<td>13日游套餐</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 
-                    
+<div class="input_info" id="couponID">
+    <h3>优惠信息</h3>
+    <div class="product_input layoutfix" id="J_cplistcnt">
+        <h4>优惠券</h4>
+        <ul class="input_box sale" role="coupon" style="margin: 0; padding: 0;">
+        	<li class="point" style="display:none">温馨提示：优惠券与限额抵用券无法同时使用</li>
+        </ul>
+        <div class="show_all_info" id="J_showallinfo" style="display:none">
+        	<span class="btn_item">
+        		<a href="javascript:void(0)" id="J_coupondown" title="展开更多">展开更多</a>
+        		<i class="icon_arrow_down"></i>
+        	</span>
+        </div>
+    </div>
+    <div class="product_input promotion_code layoutfix" id="J_couponcnt" style="margin-top: -54px;">                        
+    	<h4 class="except_tit">如果您有优惠代码，请输入</h4>                        
+    	<ul class="input_box coupons except_list">                            
+    		<li role="code">                                
+    			<input type="text" value="" class="input_sale" extend="1" id="J_couponCodeInput" role="couponCode" name="discount_code">
+    			<input type="button" value="确定" class="btn_submit" role="checkcode">                                
+    			<span class="tip" style="color:#ff7a17" role="tip"></span>
+    		</li>                        
+    	</ul>                    
+    </div>
+</div>
+
+<div class="input_info">
+    <h3>
+        联系人信息<span class="linkman_tips">为方便携程及时与您联系，请准确填写联系人信息（手机号码，Email）</span>
+    </h3>
+    <div class="product_input layoutfix" id="linkManID">
+    	<ul class="input_box linkman_info" role="contact" style="display: block;">                        
+    		<li>                            
+    			<label class="product_label">姓名</label>                            
+    			<span class="frm_required">*</span>                            
+    			<input type="text" value="" role="ctname" require="1" regex="checkName" class="input_m" name="connect_name">                        
+    		</li>                        
+    		<li>                            
+    			<label for="" class="product_label">手机号码</label>                            
+    			<span class="frm_required">*</span>                            
+    			<input type="number" value="" role="ctmphone" regex="checkMobile" class="input_m" name="connect_phone">                        
+    		</li>                        
+    		<li>                            
+    			<label for="" class="product_label">Email</label>                            
+    			<input type="text" value="" role="ctemail" require="1" regex="checkEmail" placeholder="非必填，用于接收订单确认信息" class="input_m" name="connect_email">                            
+    			<span class="hrs">如不填写，也可至订单详情中查看相关信息。</span>                        
+    		</li>                     
+    	</ul>
+    	<div class="clear:both" style="display: block;"></div>
+    </div>
+</div>
+
+<div style="" id="J_forminfocnt">
+    <!--订单信息填写-->
+    <div class="input_info" id="fillsetID" style="">
+        <h3>
+            <span class="title">旅客信息</span>
+            <span class="tips_txt">为了您能顺利出行，请准确填写以下信息</span>
+            <input type="text" id="searchID" class="ticket_search cq" _cqnotice="查找常用旅客">
+        </h3>
+        <div id="commonersID"></div>
+        <div id="travellersID">
+        	{% for i in range(0, amountinfo.totol_quantity, 1) -%}
+        	<div class="product_input product_input_border layoutfix" ptype="1" filled="f" index="" role="youren">
+        		<div class="warm_Tip"></div>                                                
+        		<h4>旅客{{i+1}}
+        			{% if i < amountinfo.adult_quantity %}                                            
+        			<div><span class="adult">成人</span></div>                                                
+        			{% elif i < amountinfo.adult_quantity + amountinfo.kid_quantity %}                                            
+        			<div><span class="child">儿童</span></div>                                                
+        			{% else %}                                            
+        			<div><span class="child">婴儿</span></div>         
+        			{% endif %}                                       
+        		</h4>                        
+        		<ul class="input_box">
+        			<li>                                
+        				<label for="" class="product_label">中文姓名</label>                                
+        				<span class="frm_required">*</span>                                
+        				<input type="text" data-type="name" class="input_m cq" _cqnotice="证件的中文姓名" value="" role="nameCN" egex="checkCnName" required="" name="travellersinfo[{{i}}].name_zh">
+        				<a href="javascript:;" class="explain">填写说明</a>
+        			</li>
+        			<li class="optional">                                
+        				<label for="" class="product_label">英文姓名</label>                                
+        				<span class="frm_required">*</span>                                
+        				<input type="text" data-type="name" class="input_englishname cq" _cqnotice="姓（拼音或英文）" value="" role="nameEnLast" regex="checkEnNameLast" required="" style="text-transform:Uppercase; margin-right: 7px;">
+        				<input type="text" data-type="name" class="input_englishname input_engnomar cq" _cqnotice="名（拼音或英文）" value="" role="nameEnFirst" regex="checkEnNameFirst" required="" style="text-transform:Uppercase">
+        				<span style="margin-left:10px;color:#999;">请核对姓名确保与证件一致</span>                            
+        			</li>
+        			<li class="optional later" style="">                                
+        				<label for="" class="product_label">国籍</label>                                
+        				<span class="frm_required">*</span>                                
+        				<input mod_value="" type="text" value="" regex="checkNationality" role="national" class="input_m cq nationality" _cqnotice="中文/拼音" required="" autocomplete="on" name="travellersinfo[{{i}}].country">
+        			</li>
+        			<li>                                
+        				<label for="" class="product_label">证件类型</label>                                
+        				<span class="frm_required">*</span>                                
+        				<select name="" value="2" role="idCardType" regex="checkIdCardType" required="" name="travellersinfo[{{i}}].credentials_type">
+	        				<option selected="" value="2">护照</option>
+	        				<option value="10">港澳通行证</option>
+	        				<option value="22">台湾通行证</option>
+	        				<option value="100">稍后提供</option>                                                                
+	        			</select>                                
+	        			<input type="text" value="" role="idCardNo" class="input_s later cq" regex="checkIdCard" _cqnotice="证件号码" note="" required="" name="travellersinfo[{{i}}].credentials_value">
+	        			<span class="hrs" role="passportType" style="">因私护照</span>
+	        			<div class="help_block J_notice" style="">
+	        				<span class="ico"></span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。
+	        			</div>                                                            
+	        		</li>
+	        		<li class="optional" style="">                                
+	        			<label for="" class="product_label">性别</label>                                
+	        			<span class="frm_required">*</span>                                
+	        			<input type="radio" role="gender" regex="checkSex" value="0" required="" style="opacity:0;filter:alpha(opacity=0);height:1px;width:1px;position:absolute" name="travellersinfo[{{i}}].sexual">
+	        			<div class="gdcnt" style="float:left;padding:0 4px 1px 0">                                
+	        				<a href="###" class="J_gender input_radio selected" data-value="0"><i></i> 男</a>
+	        				<a href="###" class="J_gender input_radio " data-value="1"><i></i> 女</a>
+	        			</div>                                                            
+	        		</li>
+	        		<li class="J_loginPhone">                            
+	        			<label for="" class="product_label">手机号码</label>                            
+	        			<span class="frm_required">*</span>                            
+	        			<input type="number" class="input_m" value="" role="mobileNo" regex="checkMobile" required="" name="travellersinfo[{{i}}].phone">
+	        			<span style="margin-left:10px;color:#999;">请至少输入一位出行旅客的手机号码</span>                        
+	        		</li>                                                                        
+	        	</ul>
+	        	<div class="save_wrap">                            
+	        		<a href="###" class="save selected" role="saveId"><i></i>保存</a>                            
+	        		<a href="###" class="clear" role="clear">清空</a>                        
+	        	</div>                   
+	        </div>
+	        {%- endfor %}
+	    </div>
+    	<div class="reserve_limited">
+    		<h4>因服务能力有限，请您核实以下情况，以免造成出行不便。</h4>
+    		<p>★本产品不接受非大陆籍客人预订，敬请谅解！</p>
+    		<p>★本产品适合12岁（含）至17岁（不含）儿童/学生参与。</p>
+    		<p>★报价是按照2人入住1间房计算的价格，如您的订单产生单房，携程将安排您与其他客人拼房入住。如您要求享受单房，请在后续附加产品页面中选择单人房差选项。</p>
+    	</div>
+    </div>
+
+    <!-- 发票配送信息Start -->
+    <div class="input_info" id="bookInfoID" style="">
+        <h3>预订信息</h3>
+        <div class="product_input layoutfix" id="invoiceID">
+            <h4>发票信息</h4>
+        	<div class="input_box">
+			    <ul class="input_box" style="zoom: 1; display: block;">        
+			    	<li class="point">礼品卡等消费券支付的金额不提供报销凭证</li>
+			        <li class="default">
+			            <a href="javascript:;" class="revise">【修改】</a> 
+			            <div class="invoice_box_con">
+			            	<span>不需要发票</span> 
+			            </div>
+			        </li>
+			    </ul>
+			    <div class="invoice_content" style="display: none;">
+				    <ul class="bill_box" role="invoice" style="float:none">
+				        <li class="point">礼品卡等消费券支付的金额不提供报销凭证</li>
+				        <li>
+				            <label for="" class="product_label">是否需要发票</label>
+				            <label for="invoice01" class="radio">
+				                <input role="selectInvo" type="radio" value="1" name="invoice" checked="checked" id="invoice01">是
+				            </label>
+				            <label for="invoice02" class="radio">
+				                <input role="cancelInvo" type="radio" value="0" name="invoice" id="invoice02">否
+				            </label>
+				        </li>
+				    </ul>
+				    
+				    <div class="delivery_content" data-ref="normal">
+				        <div class="delivery">
+				            <b class="tab_00"></b>
+				            <ul class="bill_boxii">
+				                <li role="invoiceli">
+				                    <label for="" class="product_label">发票抬头</label>
+				                    <select id="J_InvoiceType" data-bind="val:InvoiceType">
+										<option value="1">个人</option>
+										<option value="2">公司</option>
+									</select>
+				                    <input type="text" class="num01" value="" placeholder="请输入发票抬头" role="getInvoice" data-bind="val:Title">
+				                </li>
+				                <li role="invoiceli">
+				                    <label for="" class="product_label">发票明细</label>
+				                    <select name="" role="invoiceDetail" data-bind="val:Detail">
+					                    <option value="旅游服务费">旅游服务费</option>
+				                    </select>
+				                </li>
+				                <li id="J_RatepayerCode" style="display:none">
+									<label for="" class="product_label">纳税人识别号</label>
+									<input type="text" class="input_m" value="" id="J_getRatepayerCode" placeholder="选填" data-bind="val:RatepayerCode">
+								</li>
+				            </ul>
+				        </div>
+				        <p class="info_bot" id="J_invoiceTip">*普通发票将于返程后5个工作日开具并邮寄给您，请注意查收。</p>
+				    </div>
+			    </div>
+			</div>
+	    </div>
+	    <!--配送信息 -->
+	    <div class="product_input layoutfix" style="display: none;">
+	        <h4> 配送方式</h4>
+	        <div class="input_box" id="deliveryID"></div>
+	    </div>
+	    <div class="product_input layoutfix" id="extrasID">
+	        <h4><a href="###" class="more_close" role="mores">更多需求&gt;&gt;</a></h4>
+	        <ul class="extras_box" style="display:none" role="extrasInputs">
+	            <li class="default">
+	                <div>
+	                    <textarea role="Remark" class="cq" id="other_remark" _cqnotice="其他特殊说明可以在这里填写"></textarea>
+	                    <p>您的特殊需求，我们会尽量协调。如无法满足，我们不会另行通知，请您见谅！</p>
+	                </div>
+	            </li>
+	        </ul>
+	    </div>
+	</div>
+    <!-- 发票配送信息End -->
+
+    <div id="singleConponID" style="display: none"></div>
+    <!-- 去支付-->
+    <div class="defray_box layoutfix">
+        <div class="defray_shop_box">
+            <a href="" class="prev_stop" id="js_prev_stop"><b></b>上一步</a>
+            {#
+            <div class="total">
+                <span class="tit_price">总价</span>
+                <span class="total_price"><dfn>¥</dfn><span id="totalID">185800</span></span>
+            </div>
+            <div class="corp_account" style="display:" id="MultiPay">
+                <label>
+                    <i class="icon_check"></i>
+                    <span class="account_txt">分笔支付</span>
+                </label>
+                <i class="icon_tips" data-params="{options:{type:'jmp_alert',classNames:{boxType:'jmp_alert'},template:'#jmp_alert', content:{txt:'支付额度不够怎么办？您可以将订单分成多笔支付。'},css:{maxWidth:'470'},alignTo:'cursor'}}" data-role="jmp"></i>
+            </div>
+            #}
+        </div>
+        <form class = "form-post" id="form-order" method="post" action="/uc/booking/createorder">
+			<input type="hidden" id="product_amountinfo" name="amountinfo" value="{{amountinfo | dump}}" />
+			<input type="hidden" id="product_connectinfo" name="connectinfo" value="{{connectinfo | dump}}" />
+			<input type="hidden" id="product_travellersinfo" name="travellersinfo" value="{{travellerlist | dump}}" />
+			<input type="hidden" id="product_discount_code" name="discount_code" value="" >
+			<input type="hidden" id="product_user_remark" name="user_remark" value="" >
+			<input type="hidden" id="product_temp_order" name="temp_order" value="0" >
+            <button type="submit" class="prev_stop" onclick="submit_order(1);">暂存订单</button>
+        	<button type="submit" class="btn_proess_big" id="submitID" onclick="submit_order(0);">同意以下条款，去支付</button>
+        </form>
+    </div>
+</div>
+
+<div class="input_info mt0" id="J_term">
+    <h3>预订须知</h3>
+    <div class="special_tips">
+    	<span class="">为支持绿色环保，我同意接受电子合同并默认其合法有效性，如需签署纸质合同将另行致电携程旅行网客服。</span>
+    </div>
+    <div class="content_box"></div>
+</div>
+
+{#
                     <div class="panel panel-default margin-bottom-0">
 	<div class="panel-body ">
 		<div class="heading-title heading-dotted text-center margin-bottom-15">
@@ -265,39 +1167,39 @@
     <div class="col-md-8 hidden-xs"></div>
     <div class="col-md-4 col-xs-12">
         <div class="table-responsive margin-top-20">
-	<table class="table margin-bottom-0">
-		
-		<tbody>
-			<tr >
-				<td class="text-right"><span class="text-danger">{{nums}}</span> 件商品，总商品金额：</td>
-				<td>¥ <span class="text-danger">{% if real_amount %}{{real_amount|formatCurrency}}{%else%}0.00{%endif%}</span></td>
-				
-			</tr>
-			<tr >
-				<td class="text-right">优惠：</td>
-				<td><span class="text-success">- </span> ¥<span class="text-success">0.00</span></td>
-				
-			</tr>
-			<tr >
-				<td class="text-right">运费：</td>
-				<td id="real_freight">¥ <span class="text-danger">{%if real_freight%}{{real_freight|formatCurrency}}{%else%}0.00{%endif%}</span></td>
-				
-			</tr>
-			<tr class="danger">
-				<td class="text-right text-danger size-18">应付总额：</td>
-				<td class="text-danger size-18" id="order_amount">¥{{order_amount|formatCurrency}}</td>
-				
-			</tr>
+		<table class="table margin-bottom-0">
 			
-		</tbody>
-	</table>
-  
-</div>	
-     </div>	
+			<tbody>
+				<tr >
+					<td class="text-right"><span class="text-danger">{{nums}}</span> 件商品，总商品金额：</td>
+					<td>¥ <span class="text-danger">{% if real_amount %}{{real_amount|formatCurrency}}{%else%}0.00{%endif%}</span></td>
+					
+				</tr>
+				<tr >
+					<td class="text-right">优惠：</td>
+					<td><span class="text-success">- </span> ¥<span class="text-success">0.00</span></td>
+					
+				</tr>
+				<tr >
+					<td class="text-right">运费：</td>
+					<td id="real_freight">¥ <span class="text-danger">{%if real_freight%}{{real_freight|formatCurrency}}{%else%}0.00{%endif%}</span></td>
+					
+				</tr>
+				<tr class="danger">
+					<td class="text-right text-danger size-18">应付总额：</td>
+					<td class="text-danger size-18" id="order_amount">¥{{order_amount|formatCurrency}}</td>
+					
+				</tr>
+				
+			</tbody>
+		</table>
+	  
+		</div>	
+	</div>	
 
 
-				</div>
-      <div class="callout alert alert-default  margin-bottom-60">
+</div>
+<div class="callout alert alert-default  margin-bottom-60">
 
 	<div class="row">
 
@@ -321,11 +1223,13 @@
 	</div>
 
 </div>
+#}
+
 					</div>
 			</section>
-      </form>
+      <!-- </form> -->
 			<!-- /CART -->
-
+{#
 <div class="modal fade add-addr-dialog" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -432,10 +1336,19 @@
 		</div>
 	</div>
 </div>
-
+#}
 {% endblock %}
 
 {% block script%}
 <!-- PAGE LEVEL SCRIPTS -->
 		<script type="text/javascript" src="/static/assets/js/view/demo.shop.js"></script>
+
+<script type="text/javascript">
+	function submit_order(order) {
+		$("#product_temp_order").val(order);
+		$("#product_discount_code").val($("#J_couponCodeInput").val());
+		$("#product_user_remark").val($("#other_remark").val());
+		$("#form-order").submit();
+	}
+</script>
 {% endblock %}

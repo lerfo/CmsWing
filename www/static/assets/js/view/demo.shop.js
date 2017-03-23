@@ -178,6 +178,22 @@
 		/**
 			@QTY SELECTOR 
 		**/
+    function get_total_price() {
+      var price_adult = jQuery("#price-adult").val();
+      var price_kid = jQuery("#price-kid").val();
+      var price_baby = jQuery("#price-baby").val();
+      var price_differences = jQuery("#price-differences").val();
+      // console.log("price: " + price_adult + ", " + price_kid + ", " + price_baby + ", " + price_differences);
+      var count_adult = jQuery("#adult_quantity").val();
+      var count_kid = jQuery("#kid_quantity").val();
+      var count_baby = jQuery("#baby_quantity").val();
+      var count_differences = jQuery("#differences_quantity").val();
+      // console.log("count: " + count_adult + ", " + count_kid + ", " + count_baby + ", " + count_differences);
+      var price_total = price_adult * count_adult + price_kid * count_kid + price_baby * count_baby + price_differences * count_differences;
+      // console.log("price_total: " + price_total);
+      jQuery("#total-price").html("<dfn>¥</dfn>" + price_total);
+    }
+
 		jQuery("#product-qty-dd li a").bind("click", function(e) {
 			e.preventDefault();
 			
@@ -185,7 +201,8 @@
 
 			/* change visual value and hidden input */
 			jQuery("#product-selected-qty").val(data_val);
-			jQuery("#qty").val(data_val); // UPDATE HIDDEN FIELD
+			jQuery("#adult_quantity").val(data_val); // UPDATE HIDDEN FIELD
+      get_total_price();
 
 			/* change visual selected */
 			jQuery("#product-qty-dd li").removeClass('active');
@@ -199,7 +216,8 @@
 
       /* change visual value and hidden input */
       jQuery("#product-selected-qty-child").val(data_val);
-      jQuery("#qty").val(data_val); // UPDATE HIDDEN FIELD
+      jQuery("#kid_quantity").val(data_val); // UPDATE HIDDEN FIELD
+      get_total_price();
 
       /* change visual selected */
       jQuery("#product-qty-dd-child li").removeClass('active');
@@ -213,9 +231,28 @@
 
       /* change visual value and hidden input */
       jQuery("#product-selected-qty-qperson").val(data_val);
+      jQuery("#differences_quantity").val(data_val); // UPDATE HIDDEN FIELD
+      var price_differences = jQuery("#price-differences").val();
+      jQuery("#total-differences-price").html("<dfn>¥</dfn>" + price_differences * data_val);
+      get_total_price();
 
       /* change visual selected */
       jQuery("#product-qty-dd-qperson li").removeClass('active');
+      jQuery(this).parent().addClass('active');
+    });
+
+    jQuery("#product-qty-dd-baby li a").bind("click", function(e) {
+      e.preventDefault();
+      
+      var data_val = jQuery(this).attr('data-val').trim();
+
+      /* change visual value and hidden input */
+      jQuery("#product-selected-qty-baby").val(data_val);
+      jQuery("#baby_quantity").val(data_val); // UPDATE HIDDEN FIELD
+      get_total_price();
+
+      /* change visual selected */
+      jQuery("#product-qty-dd-baby li").removeClass('active');
       jQuery(this).parent().addClass('active');
     });
 
