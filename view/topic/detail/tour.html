@@ -8,679 +8,679 @@
 <link rel="stylesheet" href="/static/admin/js/datepicker/bootstrap-datetimepicker.min.css" type="text/css">
 
 <style type="text/css">
-ul li, ol li {
-    list-style: none;
-}
-.fc-toolbar.fc-header-toolbar {
-	margin-bottom: 0px;
-	background: #1eb6c1;
-}
-.fc-toolbar.fc-header-toolbar h2 {
-	font-size: 15px;
-	margin: 0;
-	color: #fff;
-}
-.ui-widget-header {
-	color: #808080;
-}
-#calendar {
-	border: 2px #1eb6c1 solid;
-}
-div.shop-item-price {
-	margin-top: 0px;
-}
-.text-danger {
-	color: #ff441c !important;
-	font-size: 30px !important;
-}
-.text-danger span {
-	color: #888 !important;
-	font-size: 15px !important;
-}
-.score {
-	color: #1eb6c1 !important;
-	font-size: 30px !important;
-	font-weight: bold;
-}
-.score span {
-	color: #888 !important;
-	font-size: 15px !important;
-	font-weight: normal;
-}
-.fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
-	float: left;
-}
+	ul li, ol li {
+	    list-style: none;
+	}
+	.fc-toolbar.fc-header-toolbar {
+		margin-bottom: 0px;
+		background: #1eb6c1;
+	}
+	.fc-toolbar.fc-header-toolbar h2 {
+		font-size: 15px;
+		margin: 0;
+		color: #fff;
+	}
+	.ui-widget-header {
+		color: #808080;
+	}
+	#calendar {
+		border: 2px #1eb6c1 solid;
+	}
+	div.shop-item-price {
+		margin-top: 0px;
+	}
+	.text-danger {
+		color: #ff441c !important;
+		font-size: 30px !important;
+	}
+	.text-danger span {
+		color: #888 !important;
+		font-size: 15px !important;
+	}
+	.score {
+		color: #1eb6c1 !important;
+		font-size: 30px !important;
+		font-weight: bold;
+	}
+	.score span {
+		color: #888 !important;
+		font-size: 15px !important;
+		font-weight: normal;
+	}
+	.fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
+		float: left;
+	}
 
-.resource_price_wrap {
-    background-color: #FFFCF4;
-    padding: 10px 20px;
-    height: 70px;
-    border: 3px solid #1eb6c1;
-    position: relative;
-    z-index: 2;
-}
-.resource_price_wrap {
-    border-bottom: none;
-}
-ul.resource_price_wrap {
-	margin-bottom: 0;
-}
-.resource_price_wrap .abc_start_date {
-    width: 196px;
-}
-/*.resource_price_wrap .start_date {
-    width: 210px;
-}*/
-.resource_price_wrap li {
-    float: left;
-    height: 30px;
-    margin-top: 8px;
-    position: relative;
-    display: inherit;
-}
-.resource_price_wrap label {
-    font-size: 13px;
-    font-weight: bold;
-    padding-right: 10px;
-    float: left;
-    height: 30px;
-    line-height: 30px;
-    color: #000;
-}
-.resource_price_wrap .input_wrap {
-    float: left;
-    position: relative;
-    z-index: 2;
-}
-.resource_price_wrap .input_wrap input {
-    height: inherit;
-    padding-right: 16px;
-    float: left;
-    color: #333;
-    font-size: 14px;
-    line-height: 22px;
-}
-.resource_price_wrap .start_date input {
-    width: 150px;
-    _padding: 3px;
-    _width: 160px;
-}
-/*.resource_price_wrap .abc_start_date input {
-    width: 132px;
-    _width: 144px;
-}*/
-input[type="text"], input[type="number"] {
-    padding: 3px;
-    border: solid 1px #CCC;
-    box-shadow: 1px 1px 3px #DDDDDD inset;
-    -moz-appearance:textfield;
-}
-input[type="color"], input[type="email"], input[type="number"], input[type="password"], input[type="tel"], input[type="url"] {
-    padding: 3px;
-    border: solid 1px #CCC;
-    box-shadow: 1px 1px 3px #DDDDDD inset;
-}
-.resource_price_wrap .tourist_num, .resource_price_wrap .children_num, .resource_price_wrap .baby_num {
-    padding-left: 14px;
-    zoom: 1;
-}
-.resource_price_wrap .tourist_num input, .resource_price_wrap .children_num input, .resource_price_wrap .baby_num input {
-    width: 48px;
-    _padding: 3px;
-    _width: 38px;
-}
-.base_price {
-    font-style: normal;
-    font-family: arial;
-    text-decoration: none;
-}
-.resource_price_wrap .base_price {
-    color: #ff5f00;
-    font-size: 14px;
-    float: left;
-    margin-left: 4px;
-    height: 30px;
-    line-height: 30px;
-}
-.resource_price_wrap .input_wrap p {
-    position: absolute;
-    width: 45px;
-    _width: 46px;
-    border: 1px solid #CCC;
-    background-color: #fff;
-    top: 29px;
-    _top: 31px;
-    left: 0;
-}
-.resource_price_wrap .input_wrap p a {
-    display: block;
-    text-align: center;
-    height: 18px;
-    line-height: 18px;
-    color: #333;
-}
-.resource_price_wrap .total_price {
-    float: right;
-    height: 42px;
-    margin-top: 0;
-    width: 316px;
-    text-align: right;
-    position: relative;
-}
-.resource_price_wrap .total_price .price_name {
-    vertical-align: middle;
-    padding-right: 10px;
-    font-size: 12px;
-    color: #737373;
-}
-.resource_price_wrap .total_price .price {
-    font-size: 32px;
-    color: #1eb6c1;
-    line-height: 42px;
-    vertical-align: middle;
-    padding-right: 30px;
-    font-family: Tahoma, Simsun, sans-serif;
-}
-.resource_price_wrap .total_price .price_icon {
-    width: 17px;
-    height: 17px;
-    position: absolute;
-    background-position: -291px -671px;
-    margin: 12px 0 0 -25px;
-    cursor: pointer;
-}
-.resource_price_wrap li b {
-    float: left;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-    line-height: 0;
-    font-size: 0;
-    vertical-align: middle;
-    border-top: 5px solid #666;
-    border-bottom: 0 none;
-    border-left: 5px dashed transparent;
-    border-right: 5px dashed transparent;
-    cursor: text;
-    margin: 13px 0 0 -15px;
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
-    margin: 0; 
-}
-ul.product-qty-dd {
-    min-width: 48px;
-}
-ul.product-qty-dd li {
-	width: 100%;
-	height: 26px;
-	margin-bottom: 1px;
-	margin-top: 0px;
-}
-.dropdown-menu>li>a {
-	padding: 3px;
-}
-th.switch {
-	display: table-cell;
-}
-.resource_price_wrap .child_tip {
-    line-height: 30px;
-    float: left;
-    position: relative;
-    cursor: pointer;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    text-decoration: underline;
-    padding-left: 4px;
-    font-size: 12px;
-    color: #010101;
-    font-weight: bold;
-}
+	.resource_price_wrap {
+	    background-color: #FFFCF4;
+	    padding: 10px 20px;
+	    height: 70px;
+	    border: 3px solid #1eb6c1;
+	    position: relative;
+	    z-index: 2;
+	}
+	.resource_price_wrap {
+	    border-bottom: none;
+	}
+	ul.resource_price_wrap {
+		margin-bottom: 0;
+	}
+	.resource_price_wrap .abc_start_date {
+	    width: 196px;
+	}
+	/*.resource_price_wrap .start_date {
+	    width: 210px;
+	}*/
+	.resource_price_wrap li {
+	    float: left;
+	    height: 30px;
+	    margin-top: 8px;
+	    position: relative;
+	    display: inherit;
+	}
+	.resource_price_wrap label {
+	    font-size: 13px;
+	    font-weight: bold;
+	    padding-right: 10px;
+	    float: left;
+	    height: 30px;
+	    line-height: 30px;
+	    color: #000;
+	}
+	.resource_price_wrap .input_wrap {
+	    float: left;
+	    position: relative;
+	    z-index: 2;
+	}
+	.resource_price_wrap .input_wrap input {
+	    height: inherit;
+	    padding-right: 16px;
+	    float: left;
+	    color: #333;
+	    font-size: 14px;
+	    line-height: 22px;
+	}
+	.resource_price_wrap .start_date input {
+	    width: 150px;
+	    _padding: 3px;
+	    _width: 160px;
+	}
+	/*.resource_price_wrap .abc_start_date input {
+	    width: 132px;
+	    _width: 144px;
+	}*/
+	input[type="text"], input[type="number"] {
+	    padding: 3px;
+	    border: solid 1px #CCC;
+	    box-shadow: 1px 1px 3px #DDDDDD inset;
+	    -moz-appearance:textfield;
+	}
+	input[type="color"], input[type="email"], input[type="number"], input[type="password"], input[type="tel"], input[type="url"] {
+	    padding: 3px;
+	    border: solid 1px #CCC;
+	    box-shadow: 1px 1px 3px #DDDDDD inset;
+	}
+	.resource_price_wrap .tourist_num, .resource_price_wrap .children_num, .resource_price_wrap .baby_num {
+	    padding-left: 14px;
+	    zoom: 1;
+	}
+	.resource_price_wrap .tourist_num input, .resource_price_wrap .children_num input, .resource_price_wrap .baby_num input {
+	    width: 48px;
+	    _padding: 3px;
+	    _width: 38px;
+	}
+	.base_price {
+	    font-style: normal;
+	    font-family: arial;
+	    text-decoration: none;
+	}
+	.resource_price_wrap .base_price {
+	    color: #ff5f00;
+	    font-size: 14px;
+	    float: left;
+	    margin-left: 4px;
+	    height: 30px;
+	    line-height: 30px;
+	}
+	.resource_price_wrap .input_wrap p {
+	    position: absolute;
+	    width: 45px;
+	    _width: 46px;
+	    border: 1px solid #CCC;
+	    background-color: #fff;
+	    top: 29px;
+	    _top: 31px;
+	    left: 0;
+	}
+	.resource_price_wrap .input_wrap p a {
+	    display: block;
+	    text-align: center;
+	    height: 18px;
+	    line-height: 18px;
+	    color: #333;
+	}
+	.resource_price_wrap .total_price {
+	    float: right;
+	    height: 42px;
+	    margin-top: 0;
+	    width: 316px;
+	    text-align: right;
+	    position: relative;
+	}
+	.resource_price_wrap .total_price .price_name {
+	    vertical-align: middle;
+	    padding-right: 10px;
+	    font-size: 12px;
+	    color: #737373;
+	}
+	.resource_price_wrap .total_price .price {
+	    font-size: 32px;
+	    color: #1eb6c1;
+	    line-height: 42px;
+	    vertical-align: middle;
+	    padding-right: 30px;
+	    font-family: Tahoma, Simsun, sans-serif;
+	}
+	.resource_price_wrap .total_price .price_icon {
+	    width: 17px;
+	    height: 17px;
+	    position: absolute;
+	    background-position: -291px -671px;
+	    margin: 12px 0 0 -25px;
+	    cursor: pointer;
+	}
+	.resource_price_wrap li b {
+	    float: left;
+	    width: 0;
+	    height: 0;
+	    overflow: hidden;
+	    line-height: 0;
+	    font-size: 0;
+	    vertical-align: middle;
+	    border-top: 5px solid #666;
+	    border-bottom: 0 none;
+	    border-left: 5px dashed transparent;
+	    border-right: 5px dashed transparent;
+	    cursor: text;
+	    margin: 13px 0 0 -15px;
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+	    -webkit-appearance: none !important;
+	    margin: 0; 
+	}
+	ul.product-qty-dd {
+	    min-width: 48px;
+	}
+	ul.product-qty-dd li {
+		width: 100%;
+		height: 26px;
+		margin-bottom: 1px;
+		margin-top: 0px;
+	}
+	.dropdown-menu>li>a {
+		padding: 3px;
+	}
+	th.switch {
+		display: table-cell;
+	}
+	.resource_price_wrap .child_tip {
+	    line-height: 30px;
+	    float: left;
+	    position: relative;
+	    cursor: pointer;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
+	    text-decoration: underline;
+	    padding-left: 4px;
+	    font-size: 12px;
+	    color: #010101;
+	    font-weight: bold;
+	}
 
-.resource_wrap {
-    border: 3px solid #1eb6c1;
-    border-top: 0 none;
-    background-color: #fff;
-    margin-bottom: 20px;
-    font-size: 13px;
-}
-.all_resource {
-    padding: 0 20px;
-}
-.all_resource .flt_htl_resource {
-    padding: 10px 14px 10px 14px;
-    min-height: 80px;
-    _height: 80px;
-}
-.all_resource .flt_resource_detail, .all_resource .htl_resource_detail, .all_resource .other_resource_detail {
-    padding: 10px 0 10px 90px;
-    border-bottom: 1px solid #E4E4E4;
-}
-.resource_detail_title2 {
-    font: normal 18px/24px microsoft yahei, simsun, sans-serif;
-    float: left;
-    position: relative;
-    margin-left: -90px;
-    _display: inline;
-}
-table {
-    border-collapse: collapse;
-}
-.flt_resource_table, .htl_resource_table, .other_resource_table {
-    width: 100%;
-    _width: auto;
-    table-layout: fixed;
-}
-.other_resource_table td {
-    /*padding: 5px 10px;*/
-    vertical-align: top;
-    text-align: center;
-}
-.other_resource_table .col_01 {
-    width: 120px;
-}
-.other_resource_table .col_02 {
-    width: 270px;
-}
-.other_resource_table .col_03 {
-    width: 132px;
-}
-.other_resource_table .col_04 {
-    width: 80px;
-}
-.other_resource_table .col_05 {
-    width: 70px;
-}
-.other_resource_table .col_06 {
-    width: 58px;
-}
-.other_resource_table .col_07 {
-    width: 46px;
-}
-.other_resource_table td.col_btn {
-    text-align: right;
-    padding-right: 0;
-}
-.other_resource_table .room_selected a {
-    display: block;
-    width: 18px;
-    height: 0;
-    padding-top: 18px;
-    overflow: hidden;
-    background-position: 0 -139px;
-    cursor: default;
-}
-.other_resource_table .other_product {
-    font: bold 12px simsun, sans-serif;
-    height: 24px;
-    /*width: 72px;*/
-    line-height: 24px;
-    text-align: center;
-    background-color: #E7F5FF;
-}
-.other_resource_table .other_name_unclick {
-    font-size: 12px;
-}
-.other_resource_table .other_price {
-    color: #1eb6c1;
-    font-weight: bold;
-    font-size: 12px;
-}
-dfn {
-    font-style: normal;
-    font-size: 12px;
-    font-family: Arial !important;
-}
-.other_resource_table .other_price dfn {
-    font-weight: normal;
-}
-.other_resource_table .room_num, .other_resource_table .use_date {
-    line-height: 26px;
-}
-.other_resource_table .num_input_wrap, .other_resource_table .date_input_wrap {
-    float: left;
-    width: 50px;
-    position: relative;
-}
-.other_resource_table .num_input_wrap input, .other_resource_table .date_input_wrap input {
-    width: 48px;
-    float: left;
-    height: 26px;
-    line-height: 18px;
-    _padding: 3px;
-    padding-right: 10px;
-    margin-right: 4px;
-}
-.other_resource_table .num_input_wrap b, .other_resource_table .date_input_wrap b {
-    float: left;
-    width: 0;
-    height: 0;
-    overflow: hidden;
-    line-height: 0;
-    font-size: 0;
-    vertical-align: middle;
-    border-top: 4px solid #666;
-    border-bottom: 0 none;
-    border-left: 4px dashed transparent;
-    border-right: 4px dashed transparent;
-    cursor: text;
-    margin: 12px 0 0 -15px;
-}
-.other_resource_table .num_input_wrap p, .other_resource_table .date_input_wrap p {
-    position: absolute;
-    width: 45px;
-    _width: 47px;
-    border: 1px solid #CCC;
-    background-color: #fff;
-    z-index: 3;
-    clear: both;
-    margin: 25px 0 0 0;
-}
-.cost_detail > ul.list-paddingleft-2 > li {
-	font-size: 16px;
-	font-weight: bold;
-	color: #000;
-	display: inherit;
-}
-.cost_detail > ul.list-paddingleft-2 > ul.list-paddingleft-2 {
-	margin-bottom: 20px;
-}
-.cost_detail > ul.list-paddingleft-2 > ul.list-paddingleft-2 li {
-	list-style: decimal;
-}
+	.resource_wrap {
+	    border: 3px solid #1eb6c1;
+	    border-top: 0 none;
+	    background-color: #fff;
+	    margin-bottom: 20px;
+	    font-size: 13px;
+	}
+	.all_resource {
+	    padding: 0 20px;
+	}
+	.all_resource .flt_htl_resource {
+	    padding: 10px 14px 10px 14px;
+	    min-height: 80px;
+	    _height: 80px;
+	}
+	.all_resource .flt_resource_detail, .all_resource .htl_resource_detail, .all_resource .other_resource_detail {
+	    padding: 10px 0 10px 90px;
+	    border-bottom: 1px solid #E4E4E4;
+	}
+	.resource_detail_title2 {
+	    font: normal 18px/24px microsoft yahei, simsun, sans-serif;
+	    float: left;
+	    position: relative;
+	    margin-left: -90px;
+	    _display: inline;
+	}
+	table {
+	    border-collapse: collapse;
+	}
+	.flt_resource_table, .htl_resource_table, .other_resource_table {
+	    width: 100%;
+	    _width: auto;
+	    table-layout: fixed;
+	}
+	.other_resource_table td {
+	    /*padding: 5px 10px;*/
+	    vertical-align: top;
+	    text-align: center;
+	}
+	.other_resource_table .col_01 {
+	    width: 120px;
+	}
+	.other_resource_table .col_02 {
+	    width: 270px;
+	}
+	.other_resource_table .col_03 {
+	    width: 132px;
+	}
+	.other_resource_table .col_04 {
+	    width: 80px;
+	}
+	.other_resource_table .col_05 {
+	    width: 70px;
+	}
+	.other_resource_table .col_06 {
+	    width: 58px;
+	}
+	.other_resource_table .col_07 {
+	    width: 46px;
+	}
+	.other_resource_table td.col_btn {
+	    text-align: right;
+	    padding-right: 0;
+	}
+	.other_resource_table .room_selected a {
+	    display: block;
+	    width: 18px;
+	    height: 0;
+	    padding-top: 18px;
+	    overflow: hidden;
+	    background-position: 0 -139px;
+	    cursor: default;
+	}
+	.other_resource_table .other_product {
+	    font: bold 12px simsun, sans-serif;
+	    height: 24px;
+	    /*width: 72px;*/
+	    line-height: 24px;
+	    text-align: center;
+	    background-color: #E7F5FF;
+	}
+	.other_resource_table .other_name_unclick {
+	    font-size: 12px;
+	}
+	.other_resource_table .other_price {
+	    color: #1eb6c1;
+	    font-weight: bold;
+	    font-size: 12px;
+	}
+	dfn {
+	    font-style: normal;
+	    font-size: 12px;
+	    font-family: Arial !important;
+	}
+	.other_resource_table .other_price dfn {
+	    font-weight: normal;
+	}
+	.other_resource_table .room_num, .other_resource_table .use_date {
+	    line-height: 26px;
+	}
+	.other_resource_table .num_input_wrap, .other_resource_table .date_input_wrap {
+	    float: left;
+	    width: 50px;
+	    position: relative;
+	}
+	.other_resource_table .num_input_wrap input, .other_resource_table .date_input_wrap input {
+	    width: 48px;
+	    float: left;
+	    height: 26px;
+	    line-height: 18px;
+	    _padding: 3px;
+	    padding-right: 10px;
+	    margin-right: 4px;
+	}
+	.other_resource_table .num_input_wrap b, .other_resource_table .date_input_wrap b {
+	    float: left;
+	    width: 0;
+	    height: 0;
+	    overflow: hidden;
+	    line-height: 0;
+	    font-size: 0;
+	    vertical-align: middle;
+	    border-top: 4px solid #666;
+	    border-bottom: 0 none;
+	    border-left: 4px dashed transparent;
+	    border-right: 4px dashed transparent;
+	    cursor: text;
+	    margin: 12px 0 0 -15px;
+	}
+	.other_resource_table .num_input_wrap p, .other_resource_table .date_input_wrap p {
+	    position: absolute;
+	    width: 45px;
+	    _width: 47px;
+	    border: 1px solid #CCC;
+	    background-color: #fff;
+	    z-index: 3;
+	    clear: both;
+	    margin: 25px 0 0 0;
+	}
+	.cost_detail > ul.list-paddingleft-2 > li {
+		font-size: 16px;
+		font-weight: bold;
+		color: #000;
+		display: inherit;
+	}
+	.cost_detail > ul.list-paddingleft-2 > ul.list-paddingleft-2 {
+		margin-bottom: 20px;
+	}
+	.cost_detail > ul.list-paddingleft-2 > ul.list-paddingleft-2 li {
+		list-style: decimal;
+	}
 
-#product_detail {
-	border: 1px #ccc solid;
-}
-.abc_detail_col {
-    /*margin: 20px -14px 20px -116px;*/
-    padding: 10px;
-    zoom: 1;
-    font-size: 14px;
-    line-height: 1.5;
-    color: #666;
-    position: relative;
-}
-.abc_detail {
-    padding-left: 92px;
-    zoom: 1;
-    overflow: hidden;
-    margin-top: 10px;
-}
-.abc_detail dt {
-    float: left;
-    margin-left: -92px;
-    padding: 0 10px;
-    background: #f7f7f7;
-    color: #333;
-    _display: inline;
-}
-.abc_detail dd {
-    zoom: 1;
-}
-.abc_summary {
-    padding: 1px 0 0 1px;
-}
-.abc_summary li {
-    float: left;
-    width: 33.3333%;
-    height: 60px;
-    border: 1px solid #eee;
-    margin: -1px 0 0 -1px;
-    overflow: hidden;
-    _display: inline;
-}
-.abc_summary .abc_icon {
-    height: 40px;
-    display: inline-block;
-    vertical-align: middle;
-    padding: 20px 5px 0 10px;
-}
-.abc_summary .abc_icon i {
-    display: inline-block;
-    width: 22px;
-    height: 22px;
-}
-.abc_summary .abc_icon .abc_icon_hotel {
-    background-position: 0 -968px;
-}
-.abc_summary p {
-    display: inline-block;
-    padding-right: 10px;
-    vertical-align: middle;
-    zoom: 1;
-    width: 80%;
-}
-.abc_summary p em {
-    display: block;
-    font-style: normal;
-    font-size: 14px;
-    height: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: #333;
-    zoom: 1;
-    width: 100%;
-}
-.abc_summary .abc_icon .abc_icon_scenic {
-    background-position: -25px -968px;
-}
-.abc_summary p .abc_summary_tips {
-    font-size: 12px;
-    color: #999;
-    height: 16px;
-    display: block;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    zoom: 1;
-    width: 100%;
-}
-.abc_summary .abc_icon .abc_icon_drive {
-    background-position: -50px -968px;
-}
-.abc_summary .abc_icon .abc_icon_repast {
-    background-position: -75px -968px;
-}
-.abc_summary .abc_icon .abc_icon_free {
-    background-position: -100px -968px;
-}
-.abc_summary .abc_icon .abc_icon_fly {
-    background-position: -125px -968px;
-}
-.abc_fly_transfer, .abc_fly_nostop {
-    display: inline-block;
-    border: 1px solid #339900;
-    color: #339900;
-    padding: 0 3px;
-    line-height: 17px;
-    border-radius: 4px;
-    margin-left: 5px;
-    font-size: 12px;
-    vertical-align: 1px;
-}
-.basefix:after, .layoutfix:after {
-    clear: both;
-    content: '.';
-    display: block;
-    height: 0;
-    overflow: hidden;
-}
+	#product_detail {
+		border: 1px #ccc solid;
+	}
+	.abc_detail_col {
+	    /*margin: 20px -14px 20px -116px;*/
+	    padding: 10px;
+	    zoom: 1;
+	    font-size: 14px;
+	    line-height: 1.5;
+	    color: #666;
+	    position: relative;
+	}
+	.abc_detail {
+	    padding-left: 92px;
+	    zoom: 1;
+	    overflow: hidden;
+	    margin-top: 10px;
+	}
+	.abc_detail dt {
+	    float: left;
+	    margin-left: -92px;
+	    padding: 0 10px;
+	    background: #f7f7f7;
+	    color: #333;
+	    _display: inline;
+	}
+	.abc_detail dd {
+	    zoom: 1;
+	}
+	.abc_summary {
+	    padding: 1px 0 0 1px;
+	}
+	.abc_summary li {
+	    float: left;
+	    width: 33.3333%;
+	    height: 60px;
+	    border: 1px solid #eee;
+	    margin: -1px 0 0 -1px;
+	    overflow: hidden;
+	    _display: inline;
+	}
+	.abc_summary .abc_icon {
+	    height: 40px;
+	    display: inline-block;
+	    vertical-align: middle;
+	    padding: 20px 5px 0 10px;
+	}
+	.abc_summary .abc_icon i {
+	    display: inline-block;
+	    width: 22px;
+	    height: 22px;
+	}
+	.abc_summary .abc_icon .abc_icon_hotel {
+	    background-position: 0 -968px;
+	}
+	.abc_summary p {
+	    display: inline-block;
+	    padding-right: 10px;
+	    vertical-align: middle;
+	    zoom: 1;
+	    width: 80%;
+	}
+	.abc_summary p em {
+	    display: block;
+	    font-style: normal;
+	    font-size: 14px;
+	    height: 20px;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    color: #333;
+	    zoom: 1;
+	    width: 100%;
+	}
+	.abc_summary .abc_icon .abc_icon_scenic {
+	    background-position: -25px -968px;
+	}
+	.abc_summary p .abc_summary_tips {
+	    font-size: 12px;
+	    color: #999;
+	    height: 16px;
+	    display: block;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
+	    zoom: 1;
+	    width: 100%;
+	}
+	.abc_summary .abc_icon .abc_icon_drive {
+	    background-position: -50px -968px;
+	}
+	.abc_summary .abc_icon .abc_icon_repast {
+	    background-position: -75px -968px;
+	}
+	.abc_summary .abc_icon .abc_icon_free {
+	    background-position: -100px -968px;
+	}
+	.abc_summary .abc_icon .abc_icon_fly {
+	    background-position: -125px -968px;
+	}
+	.abc_fly_transfer, .abc_fly_nostop {
+	    display: inline-block;
+	    border: 1px solid #339900;
+	    color: #339900;
+	    padding: 0 3px;
+	    line-height: 17px;
+	    border-radius: 4px;
+	    margin-left: 5px;
+	    font-size: 12px;
+	    vertical-align: 1px;
+	}
+	.basefix:after, .layoutfix:after {
+	    clear: both;
+	    content: '.';
+	    display: block;
+	    height: 0;
+	    overflow: hidden;
+	}
 
-.detail_tab {
-    height: 39px;
-    border-bottom: 1px solid #D5D5D5;
-/*    width: 1180px;
-    background: url(http://pic.c-ctrip.com/vacation_v1/bg_miancolor.png);
-*/    position: relative;
-    z-index: 2;
-}
-.detail_tab_col {
-    float: left;
-    height: 38px;
-    position: relative;
-    top: 1px;
-    border-right: 1px solid #d5d5d5;
-    padding: 0;
-}
-.detail_tab_col li {
-    float: left;
-    margin-right: -1px;
-    border: 1px solid #d5d5d5;
-    height: 37px;
-    display: inline;
-    border-bottom: none;
-    min-width: 76px;
-}
-.detail_tab_col li a {
-    font-size: 16px;
-    height: 37px;
-    line-height: 37px;
-    padding: 0 15px;
-    color: #666;
-    /*background: #fff;*/
-    display: block;
-    zoom: 1;
-    _display: inline;
-    text-align: center;
-}
-.detail_tab_col li a.current {
-    position: relative;
-    margin-top: -1px;
-    padding-bottom: 2px;
-    height: 34px;
-    line-height: 34px;
-    color: #333;
-    font-weight: bold;
-    border-top: 3px solid #32a1ff;
-}
-.tab_link_help {
-    float: left;
-    line-height: 38px;
-    height: 38px;
-    padding-left: 8px;
-}
-.tab_link_help a {
-    display: block;
-}
-.tab_link_help i {
-    width: 16px;
-    height: 16px;
-    background-position: -115px -325px;
-    margin-right: 5px;
-    _margin-right: 2px;
-    float: left;
-    margin-top: 11px;
-    display: inline;
-}
-.tab_btn_wrap {
-    position: absolute;
-    right: 0;
-}
-.tab_hot_phone {
-    height: 36px;
-    line-height: 36px;
-    display: inline-block;
-    color: #29A2EE;
-    vertical-align: middle;
-    position: relative;
-    padding-left: 27px;
-    font-family: Tahoma;
-    font-size: 18px;
-}
-.tab_hot_phone i {
-    width: 21px;
-    height: 21px;
-    position: absolute;
-    background-position: -287px -541px;
-    top: 8px;
-    left: 0;
-}
-.tab_hot_phone strong {
-    font-weight: normal;
-    font-family: microsoft yahei, simsun, sans-serif;
-    font-size: 16px;
-    padding-right: 6px;
-}
+	.detail_tab {
+	    height: 39px;
+	    border-bottom: 1px solid #D5D5D5;
+	/*    width: 1180px;
+	    background: url(http://pic.c-ctrip.com/vacation_v1/bg_miancolor.png);
+	*/    position: relative;
+	    z-index: 2;
+	}
+	.detail_tab_col {
+	    float: left;
+	    height: 38px;
+	    position: relative;
+	    top: 1px;
+	    border-right: 1px solid #d5d5d5;
+	    padding: 0;
+	}
+	.detail_tab_col li {
+	    float: left;
+	    margin-right: -1px;
+	    border: 1px solid #d5d5d5;
+	    height: 37px;
+	    display: inline;
+	    border-bottom: none;
+	    min-width: 76px;
+	}
+	.detail_tab_col li a {
+	    font-size: 16px;
+	    height: 37px;
+	    line-height: 37px;
+	    padding: 0 15px;
+	    color: #666;
+	    /*background: #fff;*/
+	    display: block;
+	    zoom: 1;
+	    _display: inline;
+	    text-align: center;
+	}
+	.detail_tab_col li a.current {
+	    position: relative;
+	    margin-top: -1px;
+	    padding-bottom: 2px;
+	    height: 34px;
+	    line-height: 34px;
+	    color: #333;
+	    font-weight: bold;
+	    border-top: 3px solid #32a1ff;
+	}
+	.tab_link_help {
+	    float: left;
+	    line-height: 38px;
+	    height: 38px;
+	    padding-left: 8px;
+	}
+	.tab_link_help a {
+	    display: block;
+	}
+	.tab_link_help i {
+	    width: 16px;
+	    height: 16px;
+	    background-position: -115px -325px;
+	    margin-right: 5px;
+	    _margin-right: 2px;
+	    float: left;
+	    margin-top: 11px;
+	    display: inline;
+	}
+	.tab_btn_wrap {
+	    position: absolute;
+	    right: 0;
+	}
+	.tab_hot_phone {
+	    height: 36px;
+	    line-height: 36px;
+	    display: inline-block;
+	    color: #29A2EE;
+	    vertical-align: middle;
+	    position: relative;
+	    padding-left: 27px;
+	    font-family: Tahoma;
+	    font-size: 18px;
+	}
+	.tab_hot_phone i {
+	    width: 21px;
+	    height: 21px;
+	    position: absolute;
+	    background-position: -287px -541px;
+	    top: 8px;
+	    left: 0;
+	}
+	.tab_hot_phone strong {
+	    font-weight: normal;
+	    font-family: microsoft yahei, simsun, sans-serif;
+	    font-size: 16px;
+	    padding-right: 6px;
+	}
 
-.under_tab_detail {
-    margin-top: -1px;
-    padding: 0 20px;
-    margin-bottom: 20px;
-    /*border: 1px solid #d5d5d5;*/
-    background: #fff;
-    /*box-shadow: 1px 1px 1px #ebeef0;*/
-    zoom: 1;
-    position: relative;
-}
-.under_tab_anchor {
-    height: 0;
-    line-height: 0;
-    display: block;
-    width: 0px;
-    margin-top: -37px;
-    padding-top: 37px;
-    overflow: hidden;
-}
-.under_tab_anchor_abc {
-    height: 0;
-    line-height: 0;
-    display: block;
-    width: 0px;
-    margin-top: -85px;
-    padding-top: 85px;
-    overflow: hidden;
-}
-.under_tab_detail .detail_content {
-    padding: 20px 14px 20px 116px;
-    zoom: 1;
-    position: relative;
-    border-top: 3px solid #f1f1f1;
-    min-height: 80px;
-    _height: 80px;
-    font-size: 14px;
-    line-height: 1.6;
-    margin-top: -3px;
-}
-.resource_title {
-    position: absolute;
-    margin-left: -116px;
-    padding-top: 2px;
-    width: 80px;
-    height: 78px;
-    text-align: center;
-    font: normal 16px/28px microsoft yahei, simsun, sans-serif;
-    color: #fff;
-    background: #6bc2fa;
-}
-.resource_title i {
-    position: absolute;
-    left: 20px;
-    bottom: 8px;
-}
-.detail_content .product_feature {
-    margin-bottom: 30px;
-    overflow: hidden;
-    min-height: 80px;
-}
+	.under_tab_detail {
+	    margin-top: -1px;
+	    padding: 0 20px;
+	    margin-bottom: 20px;
+	    /*border: 1px solid #d5d5d5;*/
+	    background: #fff;
+	    /*box-shadow: 1px 1px 1px #ebeef0;*/
+	    zoom: 1;
+	    position: relative;
+	}
+	.under_tab_anchor {
+	    height: 0;
+	    line-height: 0;
+	    display: block;
+	    width: 0px;
+	    margin-top: -37px;
+	    padding-top: 37px;
+	    overflow: hidden;
+	}
+	.under_tab_anchor_abc {
+	    height: 0;
+	    line-height: 0;
+	    display: block;
+	    width: 0px;
+	    margin-top: -85px;
+	    padding-top: 85px;
+	    overflow: hidden;
+	}
+	.under_tab_detail .detail_content {
+	    padding: 20px 14px 20px 116px;
+	    zoom: 1;
+	    position: relative;
+	    border-top: 3px solid #f1f1f1;
+	    min-height: 80px;
+	    _height: 80px;
+	    font-size: 14px;
+	    line-height: 1.6;
+	    margin-top: -3px;
+	}
+	.resource_title {
+	    position: absolute;
+	    margin-left: -116px;
+	    padding-top: 2px;
+	    width: 80px;
+	    height: 78px;
+	    text-align: center;
+	    font: normal 16px/28px microsoft yahei, simsun, sans-serif;
+	    color: #fff;
+	    background: #6bc2fa;
+	}
+	.resource_title i {
+	    position: absolute;
+	    left: 20px;
+	    bottom: 8px;
+	}
+	.detail_content .product_feature {
+	    margin-bottom: 30px;
+	    overflow: hidden;
+	    min-height: 80px;
+	}
 
-.product_feature > ul {
-	padding-left: 0px;
-}
-.product_feature > ul.list-paddingleft-2 > li {
-	font-size: 16px;
-	font-weight: bold;
-	color: #000;
-}
-#product_expense > ul.list-paddingleft-2 > ul.list-paddingleft-2 {
-	margin-bottom: 20px;
-}
-.product_feature > ul.list-paddingleft-2 > ul.list-paddingleft-2 li {
-	list-style: decimal;
-}
+	.product_feature > ul {
+		padding-left: 0px;
+	}
+	.product_feature > ul.list-paddingleft-2 > li {
+		font-size: 16px;
+		font-weight: bold;
+		color: #000;
+	}
+	#product_expense > ul.list-paddingleft-2 > ul.list-paddingleft-2 {
+		margin-bottom: 20px;
+	}
+	.product_feature > ul.list-paddingleft-2 > ul.list-paddingleft-2 li {
+		list-style: decimal;
+	}
 
 	#destination ul#destination-ul li {
 		margin-bottom: 30px !important;
@@ -708,11 +708,12 @@ dfn {
 		width: 100%;
 		height: 100%;
 	}
-/*	.row {
-		margin-left: 0px;
-		margin-right: 0px;
-	}
-*/	ul#studytour-ul li .item-box-overlay-title h4 {
+	/*	.row {
+			margin-left: 0px;
+			margin-right: 0px;
+		}
+	*/	
+	ul#studytour-ul li .item-box-overlay-title h4 {
 		font-size: 12px;
 	}
 	ul#studytour-ul li .item-box {
@@ -736,9 +737,43 @@ dfn {
 		float: right;
 	}
 
-.wangEditor-menu-container .menu-item {
-	width: 26.5px;
-}
+	.wangEditor-menu-container .menu-item {
+		width: 26.5px;
+	}
+
+	.tuna_jmpinfo {
+	    margin: 20px;
+	    color: #333;
+	    font: 12px/2 Arial,Tahoma,simsun;
+	    -webkit-text-size-adjust: none;
+	}
+	.tuna_jmpinfo .jmp_alert {
+	    border: 1px solid #ffb533;
+	    background: #fff5d1;
+	}
+	.tuna_jmpinfo .base_jmp_l {
+	    margin-left: 18px;
+	}
+	.tuna_jmpinfo .base_jmp b {
+	    position: absolute;
+	    width: 16px;
+	    height: 16px;
+	    background-image: url(http://pic.c-ctrip.com/common/un_jmp_tri.png);
+	    background-repeat: no-repeat;
+	    overflow: hidden;
+	    border-top: none;
+	}
+	.tuna_jmpinfo .base_jmp_l b {
+	    margin-top: 10px;
+	    left: 9px;
+	}
+	.tuna_jmpinfo .jmp_alert .tri_l {
+	    background-position: -16px -48px;
+	}
+	.tuna_jmpinfo .jmp_bd {
+	    padding: 2px 3px;
+	}
+
 </style>
 {% endblock %}
 {% block content %}
@@ -926,26 +961,6 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			<div class="score"><span>{{info.ordercount}}人出游</span></div>
 		</div>
 	</div>
-	<!-- price -->
-	{#
-	<div class="shop-item-price text-danger">成人价格
-		{% if info.price_adult|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price_adult|get_price_format('2')}}</span>{%endif%}
-		¥<price>{{info.price_adult|get_price_format('1')}}</price>
-	</div>
-	<div class="shop-item-price text-danger">儿童价格
-		{% if info.price_kid|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price_kid|get_price_format('2')}}</span>{%endif%}
-		¥<price>{{info.price_kid|get_price_format('1')}}</price>
-	</div>
-	<div class="shop-item-price text-danger">婴儿价格
-		{% if info.price_baby|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price_baby|get_price_format('2')}}</span>{%endif%}
-		¥<price>{{info.price_baby|get_price_format('1')}}</price>
-	</div>
-	<div class="shop-item-price text-danger">单人房差
-		{% if info.price_differences|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price_differences|get_price_format('2')}}</span>{%endif%}
-		¥<price>{{info.price_differences|get_price_format('1')}}</price>
-	</div>
-	#}
-	<!-- /price -->
 
 	<div class="clearfix margin-bottom-10" >
 		<div class="pull-right" id="stock">
@@ -953,7 +968,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
 			<span class=" text-success" ><i class="fa fa-check"></i> 有货 <span class="badge badge-aqua btn-xs ">{{info.available_stock}}</span></span>
 			{% else%}
-			<span class="pull-right text-danger"><i class="glyphicon glyphicon-remove"></i> 无货</span>
+			<span class="pull-right text-danger" style="font-size: 20px !important;"><i class="glyphicon glyphicon-remove"></i> 无货</span>
 			{% endif %}
 		</div>
 		<!--<strong>商家编码:</strong> {{info.id}}-->
@@ -1280,7 +1295,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			<span class="price_name">总价</span> 
 			<span class="price" id="total-price">--</span> 
 			<i class="price_icon" id="J_acpricetip" style="display:none"></i> 
-			<form class="form-inline nomargin ichecks pull-right"   data-icheck-info ="{{info.suk}}" method="post" action="/uc/booking">
+			<form class="form-inline nomargin ichecks pull-right" id="form-tour"  data-icheck-info ="{{info.suk}}" method="post" action="/uc/booking">
 				<input type="hidden" name="product_id" value="{{info.id}}" />
 				<input type="hidden" id="product_type" name="type" value="0" />
 				<!-- see assets/js/view/demo.shop.js -->
@@ -1291,10 +1306,19 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 				<input type="hidden" id="baby_quantity" name="baby_quantity" value="0" />
 				<input type="hidden" id="differences_quantity" name="differences_quantity" value="0" />
 				<input type="hidden" id="start_date" name="start_date" value="2017-10-10" />
-				<button class="btn btn-primary" id="js-submit" style="font-size: 18px; margin-top: 3px; padding: 6px 24px;">  开始预订  </button> 
+				<button class="btn btn-primary" id="js-submit" style="font-size: 18px; margin-top: 3px; padding: 6px 24px;" onclick="submit_tour();return false;">  开始预订  </button> 
 			</form>
 			<div class="price_alert" id="J_pricealert" style="display:none"></div> 
 		</li> 
+		<div id="tour_warning" class="tuna_jmpinfo" group="no_group" style="min-width: 170px; max-width: 260px; display: none; z-index: 999; margin: 0px; padding: 0px; left: 31%; top: 18px; overflow: hidden; position: absolute; width: auto !important; border-radius: 5px;">
+			<div class="base_jmp jmp_alert base_jmp_l" id="boxId" style="border-radius: 5px;">
+				<b class="tri_l" id="arrowId" style="display: block; left: 12px; margin-top: 10px;"></b>
+				<div class="" id="loadingId"></div>
+				<div class="jmp_content" id="contentId">
+					<div class="jmp_bd">订单总人数不可少于1人</div>
+				</div>
+			</div>
+		</div>
 	</ul> 
 	<div class="resource_wrap" id="resource_wrap-temp">  </div> 
 	<div class="resource_wrap" id="resource_wrap" style="display: none;">   
@@ -1594,17 +1618,16 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
 		</ul>
     	<h3>用户评价</h3>
-        {% model data="list",table="tour_comment",where='{"product_id":'+info.id+'}',order="add_time DESC",limit="4"%}
-        {% for v in list %}
-        <span>{{v.uid|get_nickname}}</span>
-        <p style="height: 40px"> {{v.score_total | safe }}分
-                                        </p>
-        <p style="height: 40px"> {{v.comment_content | safe }}
-                                        </p>
-                     
- 
-           
-        {% endfor %}
+	    <div class="col-md-12 col-sm-12" style="background: #eff7f9; padding-top: 15px;">
+	        {% model data="list",table="tour_comment",where='{"product_id":'+info.id+'}',order="add_time DESC",limit="4"%}
+	        {% for v in list %}
+	        <div class="clearfix" style="height: auto; background: #fff; margin-bottom: 15px; padding: 4px 6px 0 6px;">
+		        <p class="margin-bottom-20"> {{v.comment_content | safe }}</p>
+		        <span class="pull-left">{{v.uid|get_nickname}}</span>
+		        <p class="pull-right text-right"> {{v.score_total | safe }}分</p>
+	        </div>
+	        {% endfor %}
+	    </div>
 
     </div>
 
@@ -1738,7 +1761,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
                                     {%if controller.user.uid == a.uid or (controller.user.uid|in_Array(http.config('user_administrator'))) %}
                                     <li class="pull-right">
-                                        <a href="/mod/question/ajax/delanswer/qid/{{info.id}}/id/{{a.answer_id}}" class="text-danger confirm ajax-get">删除</a>
+                                        <a href="/mod/question/ajax/delanswer/qid/{{info.id}}/id/{{a.answer_id}}" class="text-danger confirm ajax-get" style="font-size: 20px !important;">删除</a>
                                     </li>
                                     <li class="pull-right">
                                         <a href="/mod/question/ajax/editanswer/id/{{a.answer_id}}" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='{"type":"ajax", "closeOnBgClick":false}'>编辑</a>
@@ -2626,6 +2649,36 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
     	}
     });
 
+	function submit_tour() {
+		var count_adult = parseInt($("#adult_quantity").val());
+		var count_kid = parseInt($("#kid_quantity").val());
+		var count_baby = parseInt($("#baby_quantity").val());
+		var total_count = count_adult + count_kid + count_baby;
+		console.log("total_count: " + total_count);
+		if(total_count > 0 && dateChanged)
+			$("#form-tour").submit();
+		else {
+			if (total_count == 0) {
+				$("#tour_warning").show();
+				event.stopPropagation();
+			}
+			else {
+				$("#datetimepicker").datetimepicker("show");
+				$(".datetimepicker").css({"left":"241.5px", "top":"1083px"});
+			}
+		}
+	}
+
+	$(function(){ 
+		$(document).bind("click",function(e){ 
+			// console.log("click");
+			var target = $(e.target); 
+			if(target.closest("#tour_warning").length == 0){ 
+				// console.log("hide");
+				$("#tour_warning").hide(); 
+			} 
+		}) 
+	})
 </script>
 
 <!-- PAGE LEVEL SCRIPTS -->
