@@ -169,22 +169,22 @@
                                         </div>
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-info ajax-post" target-form="ids" href="/admin/article/setstatus/status/1" target-form="ids">
-                            启用
-                        </a>
+                                                启用
+                                            </a>
                                             <a class="btn btn-sm btn-info ajax-post" href="/admin/article/setstatus/status/0" target-form="ids">
-                            禁用
-                        </a>
+                                                禁用
+                                            </a>
                                         </div>
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-info todo" target-form="ids" href="#">
                                             移动
-                                        </a>
+                                            </a>
                                             <a class="btn btn-sm btn-info todo" target-form="ids" href="#">
                                             复制
-                                        </a>
+                                            </a>
                                             <a class="btn btn-sm btn-info todo" target-form="ids" href="#">
                                             粘贴
-                                        </a>
+                                            </a>
                                         </div>
                                        
                                         <a class="btn btn-sm btn-info ajax-post confirm" target-form="ids" href="/admin/article/setstatus/status/-1">
@@ -200,8 +200,8 @@
                                         <input type="text" class="input-sm form-control" name="{{model.search_key|default('title', true)}}" placeholder="请输入关键字"
                                         value="{{http.get('title')}}">
                                         <span class="input-group-btn">
-                        <button class="btn btn-sm btn-default" type="button" id="search" url="/admin/article/index/pid/{{pid}}{%if cate_id >0%}/cate_id/{{cate_id}}{%endif%}">搜索</button>
-                      </span>
+                                            <button class="btn btn-sm btn-default" type="button" id="search" url="/admin/article/index/pid/{{pid}}{%if cate_id >0%}/cate_id/{{cate_id}}{%endif%}">搜索</button>
+                                          </span>
                                     </div>
                                 </div>
                             </div>

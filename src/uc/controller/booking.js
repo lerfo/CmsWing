@@ -85,6 +85,13 @@ export default class extends Base {
       amountinfo.baby_quantity=Number(data.baby_quantity);
       amountinfo.differences_quantity=Number(data.differences_quantity);
       amountinfo.totol_quantity = Number(data.adult_quantity) + Number(data.kid_quantity) + Number(data.baby_quantity);
+      //供应商信息
+      amountinfo.vendor_name = data.vendor_name;
+      amountinfo.vendor_phone = data.vendor_phone;
+      amountinfo.vendor_linkman = data.vendor_linkman;
+      amountinfo.vendor_addr = data.vendor_addr;
+      //预定条款
+      amountinfo.clause = data.caluse;
       //初始化
       amountinfo.adult_unit_pirce = 0;
       amountinfo.adult_amount = 0;
@@ -92,7 +99,6 @@ export default class extends Base {
       amountinfo.kid_amount = 0;
       amountinfo.baby_unit_pirce = 0;
       amountinfo.baby_amount = 0;
-      amountinfo.differences_quantity = 0; 
       amountinfo.differences_amount = 0;
 
       if(!think.isEmpty(goods.price_adult)){

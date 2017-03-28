@@ -83,18 +83,22 @@
         height: 273px;
     }
     .portfolio .item-box-overlay-title h4 {
-        font-size: 25px;
+        font-size: 28px;
     }
     .portfolio header {
         height: 60px;
     }
-    .portfolio header h3 {
-        font-size: 32px;
-        float: left;
-    }
     .portfolio header a {
+    	display:block;
         margin-top: 20px;
         float: right;
+        padding:0 10px 0 10px;
+    }
+    .portfolio header a.country-list {
+        display:block;
+        margin-top: 20px;
+        float: left;
+        padding:0 10px 0 10px;
     }
     #studytour ul#studytour-ul .studytour-item {
         width: 25%;
@@ -139,6 +143,95 @@
         padding-left: 0px;
         padding-right: 0px;
         height: 514px;
+    }
+    .clear:after{
+    	content:"";
+    	display:table;;
+    	clear:both;
+    }
+    .heading-title a,
+    .community-ul li a{
+    	color:#403d39;
+    	font-size:15.5px;
+    }
+    .community-ul li{
+    	padding:0;
+    }
+    @media screen and (max-width:767px){
+    	.community-ul{
+	    	margin:0;
+	    	padding-left:15px !important;
+	    	padding-right:15px !important;
+	    	padding-top:30px;
+	    	padding-bottom:40px;
+	    }
+	    .header-country{
+	    	padding-left:15px;
+	    	padding-right:15px;
+	    }
+        .portfolio header h3 {
+            font-size: 25px;
+            padding-right:50px;
+            float: left;
+            color:#2c2621;
+        }
+    }
+    @media screen and (min-width:768px) and (max-width:991px){
+    	.community-ul{
+	    	margin:0;
+	    	padding-left:60px !important;
+	    	padding-right:60px !important;
+	    	padding-top:30px;
+	    	padding-bottom:40px;
+    	}
+    	.header-country{
+	    	padding-left:60px;
+	    	padding-right:60px;
+	    }
+        .portfolio header h3 {
+            font-size: 25px;
+            padding-right:230px;
+            float: left;
+            color:#2c2621;
+        }
+    }
+    @media screen and (min-width:991px) {
+    	.community-ul{
+	    	margin:0;
+	    	padding-left:182.5px !important;
+	    	padding-right:182.5px !important;
+	    	padding-top:30px;
+	    	padding-bottom:40px;
+    	}
+    	.header-country{
+	    	padding-left:182.5px;
+	    	padding-right:182.5px;
+    	}
+        .portfolio header h3 {
+            font-size: 25px;
+            padding-right:400px;
+            float: left;
+            color:#2c2621;
+        }
+    }
+    .community-ul>li>div{
+    	background:transparent;
+    }
+
+    .title_country,
+    .title_country a{
+    	color:#403d39;
+    	font-size:18.5px;
+    	margin-bottom:25px;
+    }
+    .country-box ul:nth-child(even){
+    	background:rgba(239,247,249,0.9);
+    }
+    #destination{
+    	padding-bottom:75px;
+    }
+    #studytour{
+    	padding-bottom:55px;
     }
 </style>
 {% endblock %}
@@ -190,8 +283,8 @@
     <div class="container portfolio">
         <header class="section-header margin-bottom-20">
             <div class="heading-title">
-                <h3>热门</h3>
-                <a href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
+                <h3 style="font-size:34px;color:#62605e">热门</h3>
+                <a href="###" id="destination-change"  style="font-size:13.5px;color:#565656">换一换 <img src="/static/assets/images/change.png"></a>
             </div>
         </header>
         <div  class=" portfolio-title-over">
@@ -201,7 +294,7 @@
                     {%set i = 1%}
                     {% for v in list %}
 
-                    <li class="mix development col-md-3 col-sm-3 destination-item-{{i}}"><!-- item -->
+                    <li class="mix development col-xs-3 destination-item-{{i}}"><!-- item -->
 
                         <div class="item-box thumbnail">
                         <a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}">
@@ -265,8 +358,8 @@
     <div class="container portfolio">
         <header class="section-header margin-bottom-20">
             <div class="heading-title">
-                <h3>热门产品</h3>
-                <a href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
+                <h3 style="font-size:34px;color:#62605e;background:transparent">热门产品</h3>
+                <a href="" id="studytour-change" style="font-size:13.5px;color:#565656">换一换 <img src="/static/assets/images/change.png"></a>
             </div>
         </header>
         <div  class=" portfolio-title-over">
@@ -276,7 +369,7 @@
                     {%set i = 1%}
                     {% for v in list %}
 
-                    <li class="mix development col-md-3 col-sm-3 studytour-item"><!-- item -->
+                    <li class="mix development col-xs-3 studytour-item"><!-- item -->
 
                         <div class="item-box thumbnail">
                         <a href="{{v.name|get_url(v.id)}}">
@@ -332,22 +425,32 @@
 
 <!-- -->
 <section class="alternate" id="community">
-    <div class="container portfolio">
-        <header class="section-header margin-bottom-20">
+    <div class="portfolio">
+    	{% topic data = "list", limit= "200", cid=135, issub=1, isstu=1, pid=0, type="level", page=0 %}
+        <header class="section-header margin-bottom-20 header-country">
             <div class="heading-title">
                 <h3>国家列表</h3>
-                {% topic data = "list", limit= "200", cid=135, issub=1, isstu=1, pid=0, type="level", page=0 %}
+                
+                 <a href="" id="all" class="country-list"> 全部 </a>
                 {% for v in list %}
-                <a href="" id="community-change">{{v.title}} {{v.name_en}} </a>
+                <a href="" id="community-change{{v.id}}" class="country-list">{{v.title}}</a>
                 {% endfor %}
+               
             </div>
         </header>
         <div  class=" portfolio-title-over">
-            <div class="row mix-grid">
-                <ul id="community-ul" style="padding-left: 0px;">
-                    {% topic data = "list", limit= "200", cid=135, issub=1, isstu=1, pid=322, type="level", page=0 %}
+            <div class="row mix-grid country-box">
+            	{% for v in list %}
+                <ul id="community-ul{{v.id}}" style="padding-left: 0px;" class="clear community-ul">
+                	<div class="title_country">
+						<a href="">
+							{{v.title}} {{v.name_en}}
+						</a>
+                	</div>
+                    {% topic data = "list", limit= "200", cid=135, issub=1, isstu=1, pid=v.id, type="", page=0 %}
                     {% for v in list %}
-                    <li class="mix development col-md-3 col-sm-3 destination-item-{{i}}"><!-- item -->
+                    <li class="mix development col-xs-6 col-sm-3 destination-item-{{i}}"><!-- item -->
+          
                         <div class="item-box thumbnail">
                         <a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}">
                             {{v.title}} {{v.name_en}}
@@ -355,7 +458,10 @@
                         </div>
                     </li><!-- /item -->
                     {% endfor %}
+
+                    {{country}}
                 </ul>
+                {% endfor %}
 
             </div>
         </div>
@@ -633,5 +739,70 @@
             });
 
         });
+        //文字过多改为+"..."
+        let sub = $(".nomargin");
+
+        //console.log(sub);
+
+        for(var i=0;i<sub.length;i++){
+        	let arr = sub[i].innerHTML;
+        	if(arr.length>23){
+        		arr = arr.substring(0,23)+"......";
+        	}
+        	sub[i].innerHTML = arr;
+        }
+
+
+        //绑定单击事件
+        $(".heading-title").on("click","a",function(e){
+        	if(e&&e.preventDefault)
+        		e.preventDefault();
+        	window.event.returnValues=false;
+        	let id=$(this).attr("id")
+        	if($(this).attr("id")=="community-change320"){
+        		//var m = $("#community-ul320").siblings();
+        		//console.log(m)
+        		$("#community-ul320").css("display","block");
+        		$("#community-ul320").siblings().css("display","none");
+        	}else if($(this).attr("id")=="community-change321"){
+        		$("#community-ul321").css("display","block");
+        		$("#community-ul321").siblings().css("display","none");	
+        	}else if($(this).attr("id")=="community-change322"){
+        		$("#community-ul322").css("display","block");
+        		$("#community-ul322").siblings().css("display","none");	
+        	}else if($(this).attr("id")=="community-change323"){
+        		$("#community-ul323").css("display","block");
+        		$("#community-ul323").siblings().css("display","none");	
+        	}else if($(this).attr("id")=="community-change324"){
+        		$("#community-ul324").css("display","block");
+        		$("#community-ul324").siblings().css("display","none");	
+        	}else if($(this).attr("id")=="community-change325"){
+        		$("#community-ul325").css("display","block");
+        		$("#community-ul325").siblings().css("display","none");	
+        	}else if($(this).attr("id")=="community-change326"){
+        		$("#community-ul326").css("display","block");
+        		$("#community-ul326").siblings().css("display","none");	
+        	}else if($(this).attr("id")=="all"){
+        		$("#community-ul326").css("display","block");
+        		$("#community-ul326").siblings().css("display","block");	
+        	}
+
+        	let sub1 = $(".country-box ul");
+        	var n=0;
+        	for(var i=0;i<sub1.length;i++){
+        		 if(sub1[i].style.display=="block"){
+        		 	n++;
+        		 }
+        	}
+        	if(n!==1){
+               let m = $(".community-ul:odd").css("background","rgba(239,247,249,0.9)")
+            }else{
+                 
+               $(".community-ul").css("background","#fff")
+            }
+   
+        })
+
+
     </script>
 {%endblock%}

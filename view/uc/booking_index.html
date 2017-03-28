@@ -818,158 +818,158 @@
         </h3>
         <div id="commonersID"></div>
         <div id="travellersID">
-        	{% if status == 0 %}
+        	{% if amountinfo.status == 1 %}
+            {% for info in travellerlist %}
+            <div class="product_input product_input_border layoutfix" ptype="1" filled="f" index="" role="youren">
+                <div class="warm_Tip"></div>                                                
+                <h4>旅客{{loop.index}}
+                    {% if info.type == 1 %}                                            
+                    <div><span class="adult">成人</span></div>                                                
+                    {% elif info.type == 2 %}                                            
+                    <div><span class="child">儿童</span></div>                                                
+                    {% else %}                                            
+                    <div><span class="child">婴儿</span></div>         
+                    {% endif %} 
+                </h4>                        
+                <ul class="input_box">
+                    <li>                                
+                        <label for="" class="product_label">中文姓名</label>                                
+                        <span class="frm_required">*</span>                                
+                        <input type="text" data-type="name" class="input_m cq" _cqnotice="证件的中文姓名" role="nameCN" egex="checkCnName" required="" value="{{info.name_zh}}" name="name_zh">
+                        <a href="javascript:;" class="explain">填写说明</a>
+                    </li>
+                    <li class="optional">                                
+                        <label for="" class="product_label">英文姓名</label>                                
+                        <span class="frm_required">*</span>                                
+                        <input type="text" data-type="name" class="input_englishname cq" _cqnotice="姓（拼音或英文）" value="{{info.name_en_last}}" role="nameEnLast" regex="checkEnNameLast" required="" style="text-transform:Uppercase; margin-right: 7px;" name="name_en_last">
+                        <input type="text" data-type="name" class="input_englishname input_engnomar cq" _cqnotice="名（拼音或英文）" value="{{info.name_en_first}}" role="nameEnFirst" regex="checkEnNameFirst" required="" style="text-transform:Uppercase" name="name_en_first">
+                        <span style="margin-left:10px;color:#999;">请核对姓名确保与证件一致</span>                            
+                    </li>
+                    <li class="optional later" style="">                                
+                        <label for="" class="product_label">国籍</label>                                
+                        <span class="frm_required">*</span>                                
+                        <input mod_value="" type="text" value="{{info.country}}" regex="checkNationality" role="national" class="input_m cq nationality" _cqnotice="中文/拼音" required="" autocomplete="on" name="country">
+                    </li>
+                    <li>                                
+                        <label for="" class="product_label">证件类型</label>                                
+                        <span class="frm_required">*</span>                                
+                        <select value="{{info.credentials_type}}" role="idCardType" regex="checkIdCardType" required="" name="credentials_type">
+                            <option selected="" value="0">护照</option>
+                            <option value="1">港澳通行证</option>
+                            <option value="2">台湾通行证</option>
+                            <!-- <option value="100">稍后提供</option> -->
+                        </select>                                
+                        <input type="text" value="{{info.credentials_value}}" role="idCardNo" class="input_s later cq" regex="checkIdCard" _cqnotice="证件号码" note="" required="" name="credentials_value">
+                        <span class="hrs" role="passportType" style="">因私护照</span>
+                        <div class="help_block J_notice" style="">
+                            <span class="ico"></span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。
+                        </div>                                                            
+                    </li>
+                    <li class="optional" style="">                                
+                        <label for="" class="product_label">性别</label>                                
+                        <span class="frm_required">*</span>                                
+                        <input type="radio" role="gender" regex="checkSex" value="{{info.sexual}}" required="" style="opacity:0;filter:alpha(opacity=0);height:1px;width:1px;position:absolute" name="sexual">
+                        <div class="gdcnt" style="float:left;padding:0 4px 1px 0">                                
+                            <a href="###" class="J_gender input_radio {% if info.sexual == 0 %}selected{% endif %}" data-value="0"><i></i> 男</a>
+                            <a href="###" class="J_gender input_radio {% if info.sexual == 1 %}selected{% endif %}" data-value="1"><i></i> 女</a>
+                        </div>                                                            
+                    </li>
+                    <li class="optional later" style="">                                
+                        <label for="" class="product_label">出生日期</label>                                
+                        <input mod_value="" type="text" value="{{info.birthday}}" regex="checkNationality" role="national" class="input_m cq nationality" _cqnotice="中文/拼音" autocomplete="on" name="birthday">
+                        <span style="margin-left:10px;color:#999;">（可稍后提供）</span>                            
+                    </li>
+                    <li class="J_loginPhone">                            
+                        <label for="" class="product_label">手机号码</label>                            
+                        <span class="frm_required">*</span>                            
+                        <input type="number" class="input_m" value="{{info.phone}}" role="mobileNo" regex="checkMobile" required="" name="phone">
+                        <span style="margin-left:10px;color:#999;">请至少输入一位出行旅客的手机号码</span>                        
+                    </li> 
+                    <input type="hidden" id="product_issave" name="issave" value="1" >
+                    <input type="hidden" id="product_type" name="type" value="{{info.type}}" >
+                </ul>
+                <div class="save_wrap">                            
+                    <a href="###" class="save selected" role="saveId"><i></i>保存</a>
+                    <a href="###" class="clear" role="clear">清空</a>
+                </div>                   
+            </div>
+            {% endfor %}
+        	{% else %}
         	{% for i in range(0, amountinfo.totol_quantity, 1) -%}
-        	<div class="product_input product_input_border layoutfix" ptype="1" filled="f" index="" role="youren">
-        		<div class="warm_Tip"></div>                                                
-        		<h4>旅客{{i+1}}
-        			{% if i < amountinfo.adult_quantity %}                                            
-        			<div><span class="adult">成人</span></div>                                                
-        			{% elif i < amountinfo.adult_quantity + amountinfo.kid_quantity %}                                            
-        			<div><span class="child">儿童</span></div>                                                
-        			{% else %}                                            
-        			<div><span class="child">婴儿</span></div>         
-        			{% endif %}                                       
-        		</h4>                        
-        		<ul class="input_box">
-        			<li>                                
-        				<label for="" class="product_label">中文姓名</label>                                
-        				<span class="frm_required">*</span>                                
-        				<input type="text" data-type="name" class="input_m cq" _cqnotice="证件的中文姓名" value="" role="nameCN" egex="checkCnName" required="" name="name_zh">
-        				<a href="javascript:;" class="explain">填写说明</a>
-        			</li>
-        			<li class="optional">                                
-        				<label for="" class="product_label">英文姓名</label>                                
-        				<span class="frm_required">*</span>                                
-        				<input type="text" data-type="name" class="input_englishname cq" _cqnotice="姓（拼音或英文）" value="" role="nameEnLast" regex="checkEnNameLast" required="" style="text-transform:Uppercase; margin-right: 7px;" name="name_en_last">
-        				<input type="text" data-type="name" class="input_englishname input_engnomar cq" _cqnotice="名（拼音或英文）" value="" role="nameEnFirst" regex="checkEnNameFirst" required="" style="text-transform:Uppercase" name="name_en_first">
-        				<span style="margin-left:10px;color:#999;">请核对姓名确保与证件一致</span>                            
-        			</li>
-        			<li class="optional later" style="">                                
-        				<label for="" class="product_label">国籍</label>                                
-        				<span class="frm_required">*</span>                                
-        				<input mod_value="" type="text" value="" regex="checkNationality" role="national" class="input_m cq nationality" _cqnotice="中文/拼音" required="" autocomplete="on" name="country">
-        			</li>
-        			<li>                                
-        				<label for="" class="product_label">证件类型</label>                                
-        				<span class="frm_required">*</span>                                
-        				<select value="0" role="idCardType" regex="checkIdCardType" required="" name="credentials_type">
-	        				<option selected="" value="0">护照</option>
-	        				<option value="1">港澳通行证</option>
-	        				<option value="2">台湾通行证</option>
-	        				<!-- <option value="100">稍后提供</option>                                                                 -->
-	        			</select>                                
-	        			<input type="text" value="" role="idCardNo" class="input_s later cq" regex="checkIdCard" _cqnotice="证件号码" note="" required="" name="credentials_value">
-	        			<span class="hrs" role="passportType" style="">因私护照</span>
-	        			<div class="help_block J_notice" style="">
-	        				<span class="ico"></span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。
-	        			</div>                                                            
-	        		</li>
-	        		<li class="optional" style="">                                
-	        			<label for="" class="product_label">性别</label>                                
-	        			<span class="frm_required">*</span>                                
-	        			<input type="radio" role="gender" regex="checkSex" value="" required="" style="opacity:0;filter:alpha(opacity=0);height:1px;width:1px;position:absolute" name="sexual">
-	        			<div class="gdcnt" style="float:left;padding:0 4px 1px 0">                                
-	        				<a href="###" class="J_gender input_radio " data-value="0"><i></i> 男</a>
-	        				<a href="###" class="J_gender input_radio " data-value="1"><i></i> 女</a>
-	        			</div>                                                            
-	        		</li>
-        			<li class="optional later" style="">                                
-        				<label for="" class="product_label">出生日期</label>                                
-        				<input mod_value="" type="text" value="" regex="checkNationality" role="national" class="input_m cq nationality" _cqnotice="中文/拼音" autocomplete="on" name="birthday">
-        				<span style="margin-left:10px;color:#999;">（可稍后提供）</span>                            
-        			</li>
-	        		<li class="J_loginPhone">                            
-	        			<label for="" class="product_label">手机号码</label>                            
-	        			<span class="frm_required">*</span>                            
-	        			<input type="number" class="input_m" value="" role="mobileNo" regex="checkMobile" required="" name="phone">
-	        			<span style="margin-left:10px;color:#999;">请至少输入一位出行旅客的手机号码</span>                        
-	        		</li>                                                                        
-	        		<input type="hidden" id="product_issave" name="issave" value="1" >
-	        		<input type="hidden" id="product_type" name="type" value="{% if i < amountinfo.adult_quantity %}1{% elif i < amountinfo.adult_quantity + amountinfo.kid_quantity %}2{% else %}3{% endif %}" >
-	        	</ul>
-	        	<div class="save_wrap">                            
-	        		<a href="###" class="save selected" role="saveId"><i></i>保存</a>                            
-	        		<a href="###" class="clear" role="clear">清空</a>                        
-	        	</div>                   
-	        </div>
-	        {%- endfor %}
-        	{% elif status == 1 %}
-        	{% for info in travellerlist %}
-        	<div class="product_input product_input_border layoutfix" ptype="1" filled="f" index="" role="youren">
-        		<div class="warm_Tip"></div>                                                
-        		<h4>旅客{{loop.index}}
-        			{% if info.type == 1 %}                                            
-        			<div><span class="adult">成人</span></div>                                                
-        			{% elif info.type == 2 %}                                            
-        			<div><span class="child">儿童</span></div>                                                
-        			{% else %}                                            
-        			<div><span class="child">婴儿</span></div>         
-        			{% endif %} 
-        		</h4>                        
-        		<ul class="input_box">
-        			<li>                                
-        				<label for="" class="product_label">中文姓名</label>                                
-        				<span class="frm_required">*</span>                                
-        				<input type="text" data-type="name" class="input_m cq" _cqnotice="证件的中文姓名" role="nameCN" egex="checkCnName" required="" value="{{info.name_zh}}" name="name_zh">
-        				<a href="javascript:;" class="explain">填写说明</a>
-        			</li>
-        			<li class="optional">                                
-        				<label for="" class="product_label">英文姓名</label>                                
-        				<span class="frm_required">*</span>                                
-        				<input type="text" data-type="name" class="input_englishname cq" _cqnotice="姓（拼音或英文）" value="{{info.name_en_last}}" role="nameEnLast" regex="checkEnNameLast" required="" style="text-transform:Uppercase; margin-right: 7px;" name="name_en_last">
-        				<input type="text" data-type="name" class="input_englishname input_engnomar cq" _cqnotice="名（拼音或英文）" value="{{info.name_en_first}}" role="nameEnFirst" regex="checkEnNameFirst" required="" style="text-transform:Uppercase" name="name_en_first">
-        				<span style="margin-left:10px;color:#999;">请核对姓名确保与证件一致</span>                            
-        			</li>
-        			<li class="optional later" style="">                                
-        				<label for="" class="product_label">国籍</label>                                
-        				<span class="frm_required">*</span>                                
-        				<input mod_value="" type="text" value="{{info.country}}" regex="checkNationality" role="national" class="input_m cq nationality" _cqnotice="中文/拼音" required="" autocomplete="on" name="country">
-        			</li>
-        			<li>                                
-        				<label for="" class="product_label">证件类型</label>                                
-        				<span class="frm_required">*</span>                                
-        				<select value="{{info.credentials_type}}" role="idCardType" regex="checkIdCardType" required="" name="credentials_type">
-	        				<option selected="" value="0">护照</option>
-	        				<option value="1">港澳通行证</option>
-	        				<option value="2">台湾通行证</option>
-	        				<!-- <option value="100">稍后提供</option> -->
-	        			</select>                                
-	        			<input type="text" value="{{info.credentials_value}}" role="idCardNo" class="input_s later cq" regex="checkIdCard" _cqnotice="证件号码" note="" required="" name="credentials_value">
-	        			<span class="hrs" role="passportType" style="">因私护照</span>
-	        			<div class="help_block J_notice" style="">
-	        				<span class="ico"></span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。
-	        			</div>                                                            
-	        		</li>
-	        		<li class="optional" style="">                                
-	        			<label for="" class="product_label">性别</label>                                
-	        			<span class="frm_required">*</span>                                
-	        			<input type="radio" role="gender" regex="checkSex" value="{{info.sexual}}" required="" style="opacity:0;filter:alpha(opacity=0);height:1px;width:1px;position:absolute" name="sexual">
-	        			<div class="gdcnt" style="float:left;padding:0 4px 1px 0">                                
-	        				<a href="###" class="J_gender input_radio {% if info.sexual == 0 %}selected{% endif %}" data-value="0"><i></i> 男</a>
-	        				<a href="###" class="J_gender input_radio {% if info.sexual == 1 %}selected{% endif %}" data-value="1"><i></i> 女</a>
-	        			</div>                                                            
-	        		</li>
-        			<li class="optional later" style="">                                
-        				<label for="" class="product_label">出生日期</label>                                
-        				<input mod_value="" type="text" value="{{info.birthday}}" regex="checkNationality" role="national" class="input_m cq nationality" _cqnotice="中文/拼音" autocomplete="on" name="birthday">
-        				<span style="margin-left:10px;color:#999;">（可稍后提供）</span>                            
-        			</li>
-	        		<li class="J_loginPhone">                            
-	        			<label for="" class="product_label">手机号码</label>                            
-	        			<span class="frm_required">*</span>                            
-	        			<input type="number" class="input_m" value="{{info.phone}}" role="mobileNo" regex="checkMobile" required="" name="phone">
-	        			<span style="margin-left:10px;color:#999;">请至少输入一位出行旅客的手机号码</span>                        
-	        		</li> 
-	        		<input type="hidden" id="product_issave" name="issave" value="1" >
-	        		<input type="hidden" id="product_type" name="type" value="{{info.type}}" >
-	        	</ul>
-	        	<div class="save_wrap">                            
-	        		<a href="###" class="save selected" role="saveId"><i></i>保存</a>
-	        		<a href="###" class="clear" role="clear">清空</a>
-	        	</div>                   
-	        </div>
-	        {% endfor %}
+            <div class="product_input product_input_border layoutfix" ptype="1" filled="f" index="" role="youren">
+                <div class="warm_Tip"></div>                                                
+                <h4>旅客{{i+1}}
+                    {% if i < amountinfo.adult_quantity %}                                            
+                    <div><span class="adult">成人</span></div>                                                
+                    {% elif i < amountinfo.adult_quantity + amountinfo.kid_quantity %}                                            
+                    <div><span class="child">儿童</span></div>                                                
+                    {% else %}                                            
+                    <div><span class="child">婴儿</span></div>         
+                    {% endif %}                                       
+                </h4>                        
+                <ul class="input_box">
+                    <li>                                
+                        <label for="" class="product_label">中文姓名</label>                                
+                        <span class="frm_required">*</span>                                
+                        <input type="text" data-type="name" class="input_m cq" _cqnotice="证件的中文姓名" value="" role="nameCN" egex="checkCnName" required="" name="name_zh">
+                        <a href="javascript:;" class="explain">填写说明</a>
+                    </li>
+                    <li class="optional">                                
+                        <label for="" class="product_label">英文姓名</label>                                
+                        <span class="frm_required">*</span>                                
+                        <input type="text" data-type="name" class="input_englishname cq" _cqnotice="姓（拼音或英文）" value="" role="nameEnLast" regex="checkEnNameLast" required="" style="text-transform:Uppercase; margin-right: 7px;" name="name_en_last">
+                        <input type="text" data-type="name" class="input_englishname input_engnomar cq" _cqnotice="名（拼音或英文）" value="" role="nameEnFirst" regex="checkEnNameFirst" required="" style="text-transform:Uppercase" name="name_en_first">
+                        <span style="margin-left:10px;color:#999;">请核对姓名确保与证件一致</span>                            
+                    </li>
+                    <li class="optional later" style="">                                
+                        <label for="" class="product_label">国籍</label>                                
+                        <span class="frm_required">*</span>                                
+                        <input mod_value="" type="text" value="" regex="checkNationality" role="national" class="input_m cq nationality" _cqnotice="中文/拼音" required="" autocomplete="on" name="country">
+                    </li>
+                    <li>                                
+                        <label for="" class="product_label">证件类型</label>                                
+                        <span class="frm_required">*</span>                                
+                        <select value="0" role="idCardType" regex="checkIdCardType" required="" name="credentials_type">
+                            <option selected="" value="0">护照</option>
+                            <option value="1">港澳通行证</option>
+                            <option value="2">台湾通行证</option>
+                            <!-- <option value="100">稍后提供</option>                                                                 -->
+                        </select>                                
+                        <input type="text" value="" role="idCardNo" class="input_s later cq" regex="checkIdCard" _cqnotice="证件号码" note="" required="" name="credentials_value">
+                        <span class="hrs" role="passportType" style="">因私护照</span>
+                        <div class="help_block J_notice" style="">
+                            <span class="ico"></span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。
+                        </div>                                                            
+                    </li>
+                    <li class="optional" style="">                                
+                        <label for="" class="product_label">性别</label>                                
+                        <span class="frm_required">*</span>                                
+                        <input type="radio" role="gender" regex="checkSex" value="" required="" style="opacity:0;filter:alpha(opacity=0);height:1px;width:1px;position:absolute" name="sexual">
+                        <div class="gdcnt" style="float:left;padding:0 4px 1px 0">                                
+                            <a href="###" class="J_gender input_radio " data-value="0"><i></i> 男</a>
+                            <a href="###" class="J_gender input_radio " data-value="1"><i></i> 女</a>
+                        </div>                                                            
+                    </li>
+                    <li class="optional later" style="">                                
+                        <label for="" class="product_label">出生日期</label>                                
+                        <input mod_value="" type="text" value="" regex="checkNationality" role="national" class="input_m cq nationality" _cqnotice="中文/拼音" autocomplete="on" name="birthday">
+                        <span style="margin-left:10px;color:#999;">（可稍后提供）</span>                            
+                    </li>
+                    <li class="J_loginPhone">                            
+                        <label for="" class="product_label">手机号码</label>                            
+                        <span class="frm_required">*</span>                            
+                        <input type="number" class="input_m" value="" role="mobileNo" regex="checkMobile" required="" name="phone">
+                        <span style="margin-left:10px;color:#999;">请至少输入一位出行旅客的手机号码</span>                        
+                    </li>                                                                        
+                    <input type="hidden" id="product_issave" name="issave" value="1" >
+                    <input type="hidden" id="product_type" name="type" value="{% if i < amountinfo.adult_quantity %}1{% elif i < amountinfo.adult_quantity + amountinfo.kid_quantity %}2{% else %}3{% endif %}" >
+                </ul>
+                <div class="save_wrap">                            
+                    <a href="###" class="save selected" role="saveId"><i></i>保存</a>                            
+                    <a href="###" class="clear" role="clear">清空</a>                        
+                </div>                   
+            </div>
+            {%- endfor %}
         	{% endif %}
 	    </div>
     	<div class="reserve_limited">

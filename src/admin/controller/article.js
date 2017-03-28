@@ -279,8 +279,18 @@ export default class extends Base {
             // console.log(subcate);
             subcate.push(cate_id);
             map.category_id = ['IN', subcate];
+        }else{
+            // 未指定分类信息是，只显示允许显示的分类信息
+            let acategoryids = await this.model('category').where({status:1,pid:0}).getField('id');
+            map.category_id = ['IN', acategoryids];
+            for (let acategory of acategoryids) {
+                //获取当前分类的所有子栏目
+                let subcate = await this.model('category').get_sub_category(cate_id);
+                // console.log(subcate);
+                subcate.push(cate_id);
+            }
         }
-        // console.log(map);
+        console.log(map);
         map.pid = this.param('pid') || 0;
         //console.log(map.pid);
         if (map.pid != 0) { // 子文档列表忽略分类

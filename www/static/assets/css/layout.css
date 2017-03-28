@@ -2861,14 +2861,14 @@ section.dark.page-header ul.page-options a {
 
 	/* Medium Height : 70 */
 	#header.header-md #topNav a.logo {
-		height:70px;
+		height:66px;
 		line-height:50px;
 	}
 	#header.header-md #topNav a.logo>img {
-		height:70px;
+		height:66px;
 	}
 	#header.header-md #topNav #topMain>li>a {
-		height:70px;
+		height:66px;
 		line-height:50px;
 	}
 	@media only screen and (max-width: 992px) {
@@ -6267,7 +6267,7 @@ section.dark #portfolio h3 {
 		max-width:100%;
 	}
 	section.alternate .item-box {
-		background-color:rgba(0,0,0,0.05);
+		/*background-color:rgba(0,0,0,0.05);*/
 	}
 
 
