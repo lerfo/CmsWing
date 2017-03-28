@@ -282,13 +282,16 @@ export default class extends Base {
         }else{
             // 未指定分类信息是，只显示允许显示的分类信息
             let acategoryids = await this.model('category').where({status:1,pid:0}).getField('id');
-            map.category_id = ['IN', acategoryids];
+            let categoryids = [];
             for (let acategory of acategoryids) {
                 //获取当前分类的所有子栏目
-                let subcate = await this.model('category').get_sub_category(cate_id);
-                // console.log(subcate);
-                subcate.push(cate_id);
+                let subcate = await this.model('category').get_sub_category(acategory);
+                console.log(subcate);
+                categoryids.push(subcate);
+                console.log(categoryids);
+                categoryids.push(acategory);
             }
+            map.category_id = ['IN', categoryids];
         }
         console.log(map);
         map.pid = this.param('pid') || 0;
