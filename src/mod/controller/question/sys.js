@@ -46,7 +46,7 @@ export default class extends Base {
         //console.log(info);
         this.assign("info",info);
         //后台管理员跳过验证
-        if(!in_array(parseInt(this.user.uid), this.config('user_administrator'))){
+        if(!in_array(parseInt(this.user.uid), this.config('user_administrator')) && !in_array(parseInt(this.user.uid), this.config('user_editor'))){
            //await this.c_verify("edit");
            //安全判断
            if(info.uid !=this.user.uid){

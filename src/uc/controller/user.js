@@ -41,7 +41,7 @@ export default class extends Base {
         //获取用户信息
         let userInfo = await this.model("member").join({
             table: "customer",
-            jion: "left",
+            join: "left",
             on: ["id", "user_id"]
         }).find(this.user.uid);
         this.assign("userInfo", userInfo);
@@ -339,7 +339,7 @@ export default class extends Base {
         //获取用户信息
         let userInfo = await this.model("member").join({
             table: "customer",
-            jion: "left",
+            join: "left",
             on: ["id", "user_id"]
         }).find(this.user.uid);
         this.assign("userInfo", userInfo);
@@ -484,7 +484,7 @@ export default class extends Base {
         //获取用户信息
         let userInfo = await this.model("member").join({
             table: "customer",
-            jion: "left",
+            join: "left",
             on: ["id", "user_id"]
         }).find(this.user.uid);
         //console.log(userInfo);

@@ -122,6 +122,8 @@
             data: {id: id},
             success: function (msg) {
                 /* 展示生成的HTML */
+                console.log(msg.node_list);
+                console.log(msg.main_rules);
                 $("#category_tree").html(category_to_html(msg.node_list, msg.main_rules));
 
             }

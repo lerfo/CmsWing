@@ -29,6 +29,7 @@ export default class extends Base {
     try
     {
       let cxt  = think.require("mod/controller/"+this.mod.name+"/admin");
+      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       let cc =new cxt(this.http)
       await this.action(cc,"index")
     }

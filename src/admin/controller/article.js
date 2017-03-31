@@ -286,10 +286,7 @@ export default class extends Base {
             for (let acategory of acategoryids) {
                 //获取当前分类的所有子栏目
                 let subcate = await this.model('category').get_sub_category(acategory);
-                console.log(subcate);
-                categoryids.push(subcate);
-                console.log(categoryids);
-                categoryids.push(acategory);
+                categoryids = categoryids.concat(subcate);
             }
             map.category_id = ['IN', categoryids];
         }

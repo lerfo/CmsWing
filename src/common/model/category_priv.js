@@ -21,7 +21,7 @@ export default class extends think.model.base {
         console.log('catid='+catid+',is_admin='+is_admin+',roleid = '+roleid+',action='+action);
         //先查询该栏目在前台或者后台的权限组,如果查询为空，则标示没设置权限，默认开放
         let isadd = think._.filter(list, {catid:Number(catid),is_admin:Number(is_admin)});
-        //console.log(isadd);
+        console.log(isadd);
         if(think.isEmpty(isadd)&&type){//
             res =1;
         }else {  //如果查询到，则过滤改用户角色是否有该权限

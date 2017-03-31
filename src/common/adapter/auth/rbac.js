@@ -79,7 +79,7 @@ export default class extends think.adapter.base {
       name = name.split(',');
     }
     let authList =await this.getAuthList();
-
+    //console.log(authList);
     if (name.length === 1) {
       return authList.indexOf(name[0]) > -1;
     }

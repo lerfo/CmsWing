@@ -234,6 +234,7 @@ export default class extends think.model.base {
             hotrecommend.topic_type = 1;
             hotrecommend.category_id = data.category_id;
             hotrecommend.add_time = time;
+            hotrecommend.level = data.level;
             console.log(hotrecommend);
             await this.model("hot_recommend").add(hotrecommend);
         }else{

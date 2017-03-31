@@ -22,7 +22,7 @@ export default class extends Base {
     async updaterules() {
         //需要新增的节点必然位于$nodes
         let nodes = await this.returnnodes(false);
-        //think.log(nodes);
+        think.log(nodes);
         let AuthRule = this.model('auth_rule');
         let map = {'module': 'admin', 'type': ['in', [1, 2]]};//status全部取出,以进行更新
         //需要更新和删除的节点必然位于$rules
@@ -47,7 +47,7 @@ export default class extends Base {
             data[url] = temp;
 
         })
-        //console.log(rules);
+        console.log(rules);
         let update = [];//保存需要更新的节点
         let ids = [];//保存需要删除的节点的id
         let diff = {};
@@ -336,6 +336,7 @@ export default class extends Base {
         let node_list = await this.returnnodes();
         let map       = {module:"admin",type:['IN',[1,2]],status:1};
         let main_rules=await this.model('auth_rule').where(map).field("name,id").select();
+        console.log(main_rules);
         //let nap       = {module:"admin",type:1,status:1};
         //let child_rules =await this.model('auth_rule').where(nap).field('name,id').select();
         let this_role = {};
@@ -355,6 +356,7 @@ export default class extends Base {
             "node_list":node_list,
             "this_role":this_role
         }
+        //console.log(data);
         return this.json(data);
     }
 

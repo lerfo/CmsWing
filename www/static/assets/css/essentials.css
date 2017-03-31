@@ -4679,7 +4679,7 @@ div.heading-title {
 	div.heading-title h6 {
 		margin:0;
 		padding:0;
-		background-color:#fff;
+		/*background-color:#fff;*/
 		position:relative;
 		display:inline-block;
 		padding-left: 0;

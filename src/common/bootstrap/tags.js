@@ -311,9 +311,11 @@
         let type='update_time DESC';
         if(!think.isEmpty(args.type)){
             if(args.type=="hot"){
-              type="view DESC"
-              }else if(args.type == "level"){
-                type="level DESC"
+              type="view DESC";
+            }else if(args.type == "level"){
+                type="level DESC";
+            }else if(args.type == "none"){
+            	type="";
             }
         }
         //推荐
@@ -331,7 +333,23 @@
 
         console.log(where);
         let topic = await think.model('document', think.config("db")).where(where).page(page,limit).order(type).select();
+		/*
+        let table =await think.model("model",think.config("db")).get_table_name(topic[0].model_id);
+        console.log(table);
         //副表数据
+        if(args.isstu == 1){
+            
+            topic = await this.model("document", think.config("db")).join({
+	            table: table,
+	            join: "left",
+	            as: "alldoc",
+            	on: ["id", "id"]
+	        }).where(where).page(page,limit).order(type).select();
+            console.log(topic);
+        } else{
+        	console.log("dasfasdfads");
+        }*/
+        
         if(args.isstu == 1){
             let topicarr = []
             for(let v of topic){
@@ -342,6 +360,7 @@
             }
             topic = topicarr;
         }
+        
         //console.log(topic)
         context.ctx[data] = topic;
         return callback(null, '');
@@ -544,11 +563,11 @@
         let limit = think.isEmpty(args.limit) ? "6" : args.limit;
         let page = think.isEmpty(args.page) ? "0" : args.page;
         //热门推荐中游学占4个
-        if(limit >= 6){
+        /*if(limit >= 6){
             limit = 6;
         }else{
             limit = 2;
-        }
+        }*/
         if(!think.isEmpty(args.pid)){
             where = think.extend({},where,{'pid':args.pid});
         }else{
@@ -653,3 +672,5 @@
         return callback(null, '');
     }
 }
+
+

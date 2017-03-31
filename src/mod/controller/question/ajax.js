@@ -74,31 +74,39 @@ async ajaxquestionfocusAction(){
             //if (res.data.id) {
                 //添加操作日志，可根据需求后台设置日志类型。
                 await this.model("action").log("recommendquestion", "question", res.id, this.user.uid, this.ip(), this.http.url);
-                this.success({name: "推荐成功"});
                 //首页热门推荐，则添加到hot_recommend表
 
                 let recommendres = await this.model("hot_recommend").where({topic_id:data.id,topic_type:2}).find();
-                console.log(recommendres.id);
+                //console.log(recommendres.id);
                 if(think.isEmpty(recommendres.id) && cmd==1 ){
-                    let hotrecommend ={};
-                    hotrecommend.topic_id = data.id;
-                    hotrecommend.title = data.title;
-                    hotrecommend.cover_id = data.cover_id;
-                    hotrecommend.topic_type = 2;
-                    hotrecommend.category_id = data.category_id;
-                    hotrecommend.add_time = time;
-                    console.log(hotrecommend);
-                    await this.model("hot_recommend").add(hotrecommend);
+                    let questionInfo = await this.model('question').where({id:question_id}).find()
+                    //console.log(questionInfo);
+                    if(!think.isEmpty(questionInfo)){
+                        let hotrecommend ={};
+                        hotrecommend.topic_id = questionInfo.id;
+                        hotrecommend.title = questionInfo.title;
+                        hotrecommend.cover_id = questionInfo.cover_id;
+                        hotrecommend.topic_type = 2;
+                        hotrecommend.category_id = questionInfo.category_id;
+                        hotrecommend.level = questionInfo.level;
+                        hotrecommend.add_time = new Date().getTime();
+                        //console.log(hotrecommend);
+                        await this.model("hot_recommend").add(hotrecommend);
+                    }
+                    
                 }else{
                     //如果已推荐，且取消推荐，则删除
                     if(!think.isEmpty(recommendres.id) && cmd ==0 ){
                         await this.model("hot_recommend").where({topic_id:data.id}).delete();
                     }
                 }
+
+                this.success({name: "操作成功"});
             //}
         } else{
             return this.fail("操作失败！");
         }
+
       }
     }
 
@@ -140,7 +148,7 @@ async ajaxquestionfocusAction(){
         let answer_id = this.get("id");
         let answer = await this.model("question_answer").where({answer_id:answer_id}).find();
         //后台管理员跳过验证
-        if(!in_array(parseInt(this.user.uid), this.config('user_administrator'))){
+        if(!in_array(parseInt(this.user.uid), this.config('user_administrator')) && !in_array(parseInt(this.user.uid), this.config('user_editor'))){
             //await this.c_verify("edit");
             //安全判断
             if(answer.uid !=this.user.uid){
@@ -159,7 +167,7 @@ async ajaxquestionfocusAction(){
         let answer_id = this.get("id");
         let answer = await this.model("question_answer").where({answer_id:answer_id}).find();
         //后台管理员跳过验证
-        if(!in_array(parseInt(this.user.uid), this.config('user_administrator'))){
+        if(!in_array(parseInt(this.user.uid), this.config('user_administrator')) && !in_array(parseInt(this.user.uid), this.config('user_editor'))){
             //await this.c_verify("edit");
             //安全判断
             if(answer.uid !=this.user.uid){
@@ -181,7 +189,7 @@ async ajaxquestionfocusAction(){
         let id = this.get("id");
         let comments = await this.model("question_answer_comments").where({id:id}).find();
         //后台管理员跳过验证
-        if(!in_array(parseInt(this.user.uid), this.config('user_administrator'))){
+        if(!in_array(parseInt(this.user.uid), this.config('user_administrator')) && !in_array(parseInt(this.user.uid), this.config('user_editor'))){
             //await this.c_verify("edit");
             //安全判断
             if(comments.uid !=this.user.uid){

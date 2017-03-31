@@ -290,14 +290,14 @@
         <div  class=" portfolio-title-over">
             <div class="row mix-grid">
                 <ul id="destination-ul" style="padding-left: 0px;">
-                    {% topic data = "list", limit= "6", cid=135, isstu=1, issub=1, ischild=1, type="level", page=0 %}
+                    {% hotrecommend data = "list", limit= "6", issub=1, ischild=1, page=0 %}
                     {%set i = 1%}
                     {% for v in list %}
 
                     <li class="mix development col-xs-3 destination-item-{{i}}"><!-- item -->
 
                         <div class="item-box thumbnail">
-                        <a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}">
+                        <a href="{{v.name|get_url(v.id)}}">
                             <figure>
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
@@ -431,7 +431,7 @@
             <div class="heading-title">
                 <h3>国家列表</h3>
                 
-                 <a href="" id="all" class="country-list"> 全部 </a>
+                <a href="" id="all" class="country-list"> 全部 </a>
                 {% for v in list %}
                 <a href="" id="community-change{{v.id}}" class="country-list">{{v.title}}</a>
                 {% endfor %}
@@ -447,7 +447,7 @@
 							{{v.title}} {{v.name_en}}
 						</a>
                 	</div>
-                    {% topic data = "list", limit= "200", cid=135, issub=1, isstu=1, pid=v.id, type="", page=0 %}
+                    {% topic data = "list", limit= "200", cid=135, pid=v.id,type="none",page=0 %}
                     {% for v in list %}
                     <li class="mix development col-xs-6 col-sm-3 destination-item-{{i}}"><!-- item -->
           
@@ -459,7 +459,6 @@
                     </li><!-- /item -->
                     {% endfor %}
 
-                    {{country}}
                 </ul>
                 {% endfor %}
 
@@ -636,50 +635,7 @@
                 </div>
 
                 {%endif%}
-                <div class="box-inner nopadding  margin-bottom-20">
-                    <h3>
-                        <a class="pull-right size-11 text-warning" href="#">更多</a>
-                        捐赠墙
-                    </h3>
-                    <div class="" >
-                        <div class="clearfix margin-bottom-20"><!-- notification item -->
-                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 5px;padding-right: 5px">
-                                                    <i class="fa fa-rmb"></i>5.00
-                                                </span>
-                            <span class="size-14 text-muted"><b class="weight-500 text-warning">仁伟</b>: 支付宝-转账</span>
-                        </div>
-                        <div class="clearfix margin-bottom-20"><!-- notification item -->
-                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
-                                                    <i class="fa fa-rmb"></i>1500.00
-                                                </span>
-                            <span class="size-14 text-muted"><b class="weight-500 text-warning">伴猪看斜阳</b>: 支付宝-转账</span>
-                        </div>
-                        <div class="clearfix margin-bottom-20"><!-- notification item -->
-                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
-                                                    <i class="fa fa-rmb"></i>500.00
-                                                </span>
-                            <span class="size-14 text-muted"><b class="weight-500 text-warning">张轶军</b>: 微信-转账</span>
-                        </div>
-                        <div class="clearfix margin-bottom-20"><!-- notification item -->
-                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
-                                                    <i class="fa fa-rmb"></i>50.00
-                                                </span>
-                            <span class="size-14 text-muted"><b class="weight-500 text-warning">koala</b>:QQ红包-转账</span>
-                        </div>
-                        <div class="clearfix margin-bottom-20"><!-- notification item -->
-                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
-                                                    <i class="fa fa-rmb"></i>50.00
-                                                </span>
-                            <span class="size-14 text-muted"><b class="weight-500 text-warning">dancingalone</b>:oschina-捐助</span>
-                        </div>
-                        <div class="clearfix margin-bottom-20"><!-- notification item -->
-                            <span class="label label-success label-square pull-left" style="width: auto;padding-left: 10px;padding-right: 10px">
-                                                    <i class="fa fa-rmb"></i>666.00
-                                                </span>
-                            <span class="size-14 text-muted"><b class="weight-500 text-warning">dancingalone</b>:oschina-捐助</span>
-                        </div>
-                    </div>
-                </div>
+             
 
             </div>
 

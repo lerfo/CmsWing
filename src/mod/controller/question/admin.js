@@ -15,6 +15,7 @@ export default class extends Base {
   async indexAction(){
     let cate_id = this.get('cate_id') || null;
     let group_id =  this.get('group_id') || 0;
+    console.log(cate_id);
     if(think.isEmpty(cate_id)){
       this.http.error = new Error('该栏目不存在！');
       return think.statusAction(702, this.http);
@@ -63,6 +64,8 @@ export default class extends Base {
       this.assign('group_id', group_id);
     return this.modtemp(this.mod.name);
   }
+
+
   //删除
   async delAction(){
     let ids = this.post("ids");

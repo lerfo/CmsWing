@@ -21,17 +21,21 @@ export default class extends think.controller.base {
         if (!is_login) {
            return this.redirect('/admin/public/signin');
         }
-
+        console.log('------------enter admin/base __before---------------------');
         //用户信息
         this.user = await this.session('userInfo');
         this.assign("userinfo", this.user);
+        console.log('------------1---------------------');
         this.roleid = await this.model("member").where({id:this.user.uid}).getField('groupid', true);
+        console.log('------------2---------------------');
         //网站配置
         this.setup = await this.model("setup").getset();
         // console.log(this.setup);
+        console.log('------------3---------------------');
         this.is_admin = await this.isadmin();
         //后台菜单
         this.adminmenu = await this.model('menu').getallmenu(this.user.uid,this.is_admin);
+        console.log('------------4---------------------');
         //console.log(this.adminmenu);
         this.assign("setup", this.setup);
         //菜单当前状态
@@ -44,10 +48,11 @@ export default class extends think.controller.base {
 
         //console.log(is_admin);
         let url = `${this.http.module}/${this.http.controller}/${this.http.action}`;
-        //console.log(url);
-        if (!this.is_admin) {
+        console.log(url);
+        if (!this.is_admin && !in_array(this.user.uid,this.config("user_editor"))) {
             let Auth = think.adapter("auth", "rbac");
             let auth = new Auth(this.user.uid);
+            //console.log(auth);
             let res = await auth.check(url);
             if (!res) {
                 //return this.fail('未授权访问!');
