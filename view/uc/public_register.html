@@ -30,8 +30,14 @@
 </section>-->
 <!-- /PAGE HEADER -->
 
+{% block style %}
+<style>
+	.gt_holder .gt_ajax_tip{
+		right:-28px;
+	}
+</style>
 
-
+{% endblock %}
 
 <!-- -->
 <section style="padding: 180px 0;">
@@ -89,7 +95,7 @@
 											<b class="tooltip tooltip-bottom-right">点击右侧按钮获取验证码</b>
 										</label>
 									</div>
-									<div class="col-md-6"><a href="#" class="btn btn-3d btn-sm btn-reveal btn-white" style="margin-left: 0; padding-left: 32px; padding-right: 32px;" id="verifycodesend" data-type="1">
+									<div class="col-md-6"><a href="#" class="btn btn-3d btn-sm btn-reveal btn-white" style="margin-left: 0; padding-left: 24px; padding-right: 24px;" id="verifycodesend" data-type="1">
 										<i class="fa fa-send-o"></i>
 										<span class="qian">获取短信验证码</span>
 										<span class="hou" style="display: none"><m id="wait" class="">60</m>秒后重新获取</span>

@@ -149,6 +149,7 @@
             }
         }
         context.ctx[data] = arr;
+        console.log(arr);
         return callback(null,'');
     };
 

@@ -23,6 +23,9 @@ export default class extends Base {
       return;
     }
     this.setCorsHeader();
+
+    let queryword = this.get('q');
+    this.assign('queryword',queryword);
     let get = this.get('category') || 0;
     console.log('args category:'+get);
     let id=0;
@@ -224,7 +227,11 @@ export default class extends Base {
           }else if(!think.isEmpty(vv[0])&&!think.isEmpty(vv[1])){
             map["t."+qarr[0]] = ["BETWEEN", Number(vv[0]), Number(vv[1])];
           }else {
-            map["t."+qarr[0]] = qarr[1];
+             if(qarr[0] == "tourdest"){  //  游学地址采用100.101的方式，所以要做特殊处理
+              map["t."+qarr[0]] = ["like",`%${qarr[1]}%`]; 
+            }else{
+              map["t."+qarr[0]] = qarr[1];
+            }
           }
 
         }

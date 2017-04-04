@@ -1,162 +1,328 @@
-<!DOCTYPE html>
-<!--[if IE 8]>			<html class="ie ie8"> <![endif]-->
-<!--[if IE 9]>			<html class="ie ie9"> <![endif]-->
-<!--[if gt IE 9]><!-->	<html> <!--<![endif]-->
-<head>
-    <meta charset="utf-8" />
-    <title>{{controller.meta_title}} | {{controller.setup.WEB_SITE_TITLE}}</title>
-    <meta name="keywords" content="{{controller.keywords}}" />
-    <meta name="description" content="{{controller.description}}" />
-    <meta name="Author" content="Arterli [www.peanutroll.com]" />
-
-    <!-- mobile settings -->
-    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
-    <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-
-    <!-- CORE CSS -->
-    <link href="/static/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-
-    <!-- THEME CSS -->
-    <link href="/static/assets/css/essentials.css" rel="stylesheet" type="text/css" />
-    <link href="/static/assets/css/layout.css" rel="stylesheet" type="text/css" />
-
-    <!-- PAGE LEVEL SCRIPTS -->
-    <link href="/static/assets/css/header-1.css" rel="stylesheet" type="text/css" />
-    <link href="/static/assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
-</head>
-
+{% extends "../inc/base.html" %}
+{% block content %}
+{%set cate = category.id|get_cate()%}
 <!--
-    AVAILABLE BODY CLASSES:
+PAGE HEADER
 
-    smoothscroll 			= create a browser smooth scroll
-    enable-animation		= enable WOW animations
+CLASSES:
+.page-header-xs = 20px margins
+.page-header-md = 50px margins
+.page-header-lg = 80px margins
+.page-header-xlg= 130px margins
+.dark           = dark page header
 
-    bg-grey					= grey background
-    grain-grey				= grey grain background
-    grain-blue				= blue grain background
-    grain-green				= green grain background
-    grain-blue				= blue grain background
-    grain-orange			= orange grain background
-    grain-yellow			= yellow grain background
-
-    boxed 					= boxed layout
-    pattern1 ... patern11	= pattern background
-    menu-vertical-hide		= hidden, open on click
-
-    BACKGROUND IMAGE [together with .boxed class]
-    data-background="assets/images/boxed_background/1.jpg"
+.shadow-before-1    = shadow 1 header top
+.shadow-after-1     = shadow 1 header bottom
+.shadow-before-2    = shadow 2 header top
+.shadow-after-2     = shadow 2 header bottom
+.shadow-before-3    = shadow 3 header top
+.shadow-after-3     = shadow 3 header bottom
 -->
-<body class="enable-animation">
+<!-- SLIDER -->
+<section id="slider" class="" style="height: 560px;background-position: center center">
+    <span class="overlay dark-2"><!-- dark overlay [0 to 9 opacity] --></span>
 
+    <div class="display-table">
+        <div class="display-table-cell vertical-align-middle">
 
-<!-- wrapper -->
-<div id="wrapper">
+            <!-- REVOLUTION SLIDER -->
+            <div class="slider fullwidthbanner-container roundedcorners margin-bottom-30">
+                <div class="fullwidthbanner" data-height="560" data-shadow="3" data-navigationStyle="">
+                    <ul class="">
+                        <!-- SLIDE  -->
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
+                            <img src="/static/assets/images/slider_search.jpg" data-lazyload="/static/assets/images/slider_search.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
 
-    <!-- HEADER -->
-    <div id="header" class="sticky dark header-md transparent noborder clearfix">
-        <!-- TOP NAV -->
-
-        <header id="topNav">
-            <div class="container">
-
-                <!-- Mobile Menu Button -->
-                <button class="btn btn-mobile" id="sidepanel_btn" >
-                    <i class="fa fa-bars"></i>
-                </button>
-
-
-
-                <!-- Logo -->
-                <a class="logo pull-left" href="/">
-                    <img src="/static/assets/images/logo_light.png" alt="" />
-                </a>
-
-
-                <div class="navbar-collapse pull-right nav-main-collapse collapse submenu-dark">
-                    <nav class="nav-main">
-
-
-                        <ul id="topMain" class="nav nav-pills nav-main">
-                            {% channel data='channel'%}
-                            {% for val in channel%}
-                            {%if val.status > 0%}
-                            <li class="{% if val.children %}dropdown{% endif %} {% if (category.id|in_Array(val.on)) or (val.url === controller.active) %}active{% endif %}">
-
-                                <a {% if val.children%}class="dropdown-toggle" {% endif %} href="{{val.url}}" {%if val.target ==1%} target="_blank"{%endif%}>{{val.title}}</a> {% if val.children%}
-                                <ul class="dropdown-menu">
-                                    {% for _val in val.children%}
-                                    {%if _val.status > 0%}
-                                    <li class="{% if _val.children%}dropdown{% endif %} {% if category.id|in_Array(_val.on) %}active{% endif %}">
-                                        <a {% if _val.children%}class="dropdown-toggle" {% endif %} href="{{_val.url}}" {%if _val.target ==1%} target="_blank"{%endif%}>{{_val.title}}</a> {% if _val.children%}
-                                        <ul class="dropdown-menu">
-                                            {% for __val in _val.children%}
-                                            {%if __val.status > 0%}
-                                            <li class="{% if category.id|in_Array(__val.on) %}active{% endif %}"><a href="{{__val.url}}" {%if __val.target ==1%} target="_blank"{%endif%}>{{__val.title}}</a></li>
-                                            {% endif%}
-                                            {% endfor %}
-                                        </ul>
-                                        {% endif %}
-                                    </li>
-                                    {% endif%}
-                                    {% endfor %}
-                                </ul>
-                                {% endif %}
-                                <span class="aline"></span>
-                            </li>
-                            {%endif%}
-                            {% endfor%}
-
-                        </ul>
-                    </nav>
-                </div>
-
-            </div>
-        </header>
-        <!-- /Top Nav -->
-    </div>
-    <!-- /HEADER -->
-
-
-
-    <!-- -->
-    <section id="slider" class="fullheight" style="background:url('/static/assets/images/backgrounds/18-min.jpg');">
-        <div class="overlay dark-5"><!-- dark overlay [0 to 9 opacity] --></div>
-
-        <div class="display-table">
-            <div class="display-table-cell vertical-align-middle">
-                <div class="container text-center">
-
-                    <h1 class="margin-bottom-20 size-40 ">站内搜索</h1>
-                    <div style="max-width:600px; margin:auto;">
-
-                        <form class="nomargin" action="/search" method="get" >
-                            <div class="input-group">
-                                <!--<span class="input-group-addon"><i class="fa fa-envelope"></i></span>-->
-                                <input type="text"  name="q" class="form-control required input-lg" placeholder="Enter keywords">
-                                <span class="input-group-btn">
-											<button class="btn btn-success btn-lg" type="submit">搜一下</button>
-										</span>
-                            </div>
-                        </form>
-
-                    </div>
-
+                        </li>
+                        <!--
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
+                            <img src="/static/assets/images/slider_pic2.jpg" data-lazyload="/static/assets/images/slider_pic2.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
+                        </li>
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
+                            <img src="/static/assets/images/slider_pic3.jpg" data-lazyload="/static/assets/images/slider_pic3.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
+                        </li>
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
+                            <img src="/static/assets/images/slider_pic4.jpg" data-lazyload="/static/assets/images/slider_pic4.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
+                        </li>
+                        -->
+                    </ul>
+                    <div class="tp-bannertimer"><!-- progress bar --></div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="home-search-bar" style="background: url('/static/assets/images/search_bar.png') no-repeat; position: absolute; left: 50%; bottom: 40px; height: 50px; width: 414px; z-index: 100; margin-left: -207px;">
+        
+    </div>
+
+</section>
+
+<!-- /SLIDER -->
+<section class="page-header page-header-xs" >
+    <div class="container">
+
+       
+
+        <!-- page tabs -->
+    
+        <ul class="page-header-tabs list-inline">
+
+            <!--<li class="active"><a href="portfolio-masonry-3-columns.html">With Gutter</a></li>-->
+            <li  ><a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{val.id}}">学校</a></li>
+            <li  class="active"><a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{val.id}}">游学</a></li>
+            <li  ><a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{val.id}}">游记攻略</a></li>
+            <li  ><a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{val.id}}">问答</a></li>
+        </ul>
+  
+        <!-- /page tabs -->
+    </div>
+</section>
+
+<!-- /PAGE HEADER -->
+<!-- -->
+<section >
+    <div class="container">
+
+        <!--分类信息-->
+        {%if sort%}
+        {%if sort.types|length >1%}
+        <ul class="nav nav-tabs">
+            {%for val in sort.types%}
+            <li class="{%if sortid == val.enable%}active{%endif%}"><a href="search{{http.config('view.file_ext')}}?value={{cate.id}}-{{order}}-{{group_id}}-{{val.enable}}" >{{val.name}}</a></li>
+            {%endfor%}
+
+        </ul>
+        {%endif%}
+        <div class="tab-content table-bordered" style="padding: 0; margin-bottom: 20px; margin-top: -1px">
+            <table class="table table-hover  m-b-none" style="margin-top: -1px">
+                <tbody>
+                    {% set typenum = 1%}
+                    {%for val in typevar%}
+                    {%if val.search > 1%}
+                    <tr {% if typenum > 3 %} class="type_tr_m"  style="display:none"{%endif%} >
+                        <td style="width: 120px" class="text-right">
+                            {{val.option.title}}:
+                        </td>
+                        <td>
+                            {%if 0 == nsobj[val.option.identifier] or null == nsobj[val.option.identifier]%}
+                            <span class="btn btn-danger btn-xs relative">全部</span>
+                            {%else%}
+                            <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{0|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >全部</a>
+                            {%endif%}
+
+                            {%for v in val.rules %}
+                            {%if v.id|sort_act(nsobj[val.option.identifier])%}
+                            <span class="btn btn-danger btn-xs relative" >{{v.name}}{{val.option.unit}}</span>
+                            {%else%}
+                            <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >{{v.name}}{{val.option.unit}}</a>
+                            {%endif%}
+                            {%endfor%}
+                            <!--子栏目-->
+                            {%for v in val.rules %}
+                            {%if v.id|sort_act(nsobj[val.option.identifier])%}
+                                {% if v.children%}
+                                    <div class="subtsm">
+                                        {%if v.id == nsobj[val.option.identifier] %}
+                                        <span class="btn btn-danger btn-xs relative">全部</span>
+                                        {%else%}
+                                        <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >全部</a>
+                                        {%endif%}
+
+                                        {% for v_ in v.children %}  
+                                        {%if v_.id|sort_act(nsobj[val.option.identifier])%}
+                                        <span class="btn btn-danger btn-xs relative" >{{v_.name}}{{val.option.unit}}</span>
+                                        {%else%}
+                                        <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v_.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative">{{v_.name}}{{val.option.unit}}</a>
+                                        {%endif%}
+                                        {% endfor %}
+                                    </div>
+                                {%endif%}
+                            {%endif%}
+                            {%endfor%}
+                            <!--子栏目-->
+                            {%for v in val.rules %}
+                            {%if v.id|sort_act(nsobj[val.option.identifier])%}
+                            {% if v.children%}
+
+                            {% for v_ in v.children %}
+                            {%if v_.id|sort_act(nsobj[val.option.identifier])%}
+                            {% if v_.children%}
+                            <div class="subtsm">
+                                {% for v__ in v_.children %}
+
+                                {%if v__.id|sort_act(nsobj[val.option.identifier])%}
+
+                                <span class="btn btn-danger btn-xs relative" >{{v__.name}}{{val.option.unit}}</span>
+                                {%else%}
+                                <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v__.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >{{v__.name}}{{val.option.unit}}</a>
+
+                                {%endif%}
+                                {%endfor%}
+                            </div>
+                            {%endif%}
+                            {%endif%}
+                            {% endfor %}
+
+                            {%endif%}
+                            {%endif%}
+                            {%endfor%}
+                        </td>
+
+                    </tr>
+                    {% set typenum = typenum+1%}
+                    {%endif%}
+                    {%endfor%}
+
+                </tbody>
+            </table>
+            {% if typenum > 4%}
+            <a href="javascript:;" class="center-block btn btn-xs btn-white type_tr_b1" style="border-top: 1px solid #cfd8e1; display: block"><span class="fa fa-chevron-down"></span></a>
+            <a href="javascript:;" class="center-block btn btn-xs btn-white type_tr_b2" style="border-top: 1px solid #cfd8e1; display: none"><span class="fa fa-chevron-up"></span></a>
+            {%endif%}
+        </div>
+
+        {%endif%}
+        <!--/分类信息-->
+        <!--正文信息-->
+        <div class="row">
+
+            <!-- LEFT -->
+            <div class="col-md-9 col-sm-9">
+                <div class="text-left">
+                    <ul class="nav nav-pills mix-filter">
+
+                        <li class="filter {%if group_id==0%}active{%endif%}"><a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}">全部</a></li>
+                        {% groups data="groups",cid=category.id%}
+                        {%for v in groups%}
+                        <li class="filter {%if group_id==v.id%}active{%endif%}"><a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{v.id}}{%if sort%}-{{sortid}}{%endif%}{%if sorturl %}-{%endif%}{{sorturl}}">{{v.name}}</a></li>
+                        {%endfor%}
+                    </ul>
+                    <!--投稿按钮-->
+                    <div class="btn-group btn-group-sm pull-right">
+                        <!--<a {%if model|length> 1 %} data-toggle="dropdown" {% endif %} class="btn btn-primary btn-sm document_add
+                            dropdown-toggle {% if allow == 0 %}disabled{% endif %}" {%if model|length
+                            == 1 %} href="/uc/publish/add/model_id/{{modellist[0].id}}/pid/0/cate_id/{{cate.id}}/group_id/{{group_id}}/sortid/{{sortid}}"{%endif%}
+                            ><span class="fa fa-pencil-square-o"></span> 投稿 {%if model|length > 1 %}<span class="caret"></span>{% endif %}</a>-->
+                            {%if model|length > 1 %}
+                            <ul class="dropdown-menu">
+
+                                {% for val in modellist%}
+                                <li> <a href="/uc/publish/add/model_id/{{val.id}}/pid/0/cate_id/{{cate.id}}/group_id/{{group_id}}/sortid/{{sortid}}"
+                                    class="text-info">添加{{val.title}}</a></li>
+                                    {% endfor %}
+
+                                    <!--<li class="divider"></li>-->
+                                    <!--<li><a href="#">添加内容</a></li>-->
+                                </ul>
+                                {% endif %}
+                            </div>
+                            <!--//投稿按钮-->
+                            <div class="btn-group btn-group-sm pull-right">
+                                <a class="btn btn-default height-auto {%if order<2%}active{%endif%}" href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{%if order<2%}{{1-order}}{%else%}0{%endif%}{%if group_id or sort%}-{{group_id}}{%endif%}{%if sort%}-{{sortid}}{%endif%}{%if sorturl %}-{%endif%}{{sorturl}}" >按时间 <span class="glyphicon {%if order ==0%}glyphicon-arrow-down{%elif order==1%}glyphicon-arrow-up{%else%}glyphicon-arrow-down{%endif%}"></span> </a>
+                                <a class="btn btn-default height-auto {%if order>=2%}active{%endif%}" href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{%if order>=2%}{%if order ==2%}3{%else%}2{%endif%}{%else%}2{%endif%}{%if group_id or sort%}-{{group_id}}{%endif%}{%if sort%}-{{sortid}}{%endif%}{%if sorturl %}-{%endif%}{{sorturl}}" style="height: auto">按人气<span class="glyphicon  {%if order ==2%}glyphicon-arrow-down{%elif order==3%}glyphicon-arrow-up{%else%}glyphicon-arrow-down{%endif%}"></span></a>
+                            </div>
+
+                            <div class="divider divider-circle divider-center margin-top-0"><!-- divider -->
+                             <a href="#"><i class="fa fa-rss"></i></a>
+                         </div>
+                     </div>
+
+                     {% for val in list %}
+                         {% set categoryname = val.category_id|get_cate %}
+                         <!-- POST ITEM -->
+                         <div class="blog-post-item padding-bottom-20 margin-bottom-20 clearfix">
+                            <!-- IMAGE -->
+                            {% if val.cover_id>0 %}
+                            <figure class="blog-item-small-image margin-bottom-0">
+                                <img class="img-responsive" src="{{val.cover_id|get_pic('m=1,w=200,h=120')}}" alt="">
+                            </figure>
+                            {% endif %}
+                            <div class="blog-item-small-content">
+                                <h2><a href="{{val.name|get_url(val.id)}}" target="_blank" title="{{val.title}}">{{val.title}}</a></h2>
+
+                                <ul class="blog-post-info list-inline padding-bottom-10">
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-clock-o"></i>
+                                            <span class="font-lato">{{val.update_time|dateformat('Y-m-d H:i')}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-comment-o"></i>
+                                            <span class="font-lato">{{val.view}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-folder-open-o"></i>
+
+                                        <a class="category" href="{{categoryname.id}}">
+                                            <span class="font-lato">{{categoryname.name}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-user"></i>
+                                            <span class="font-lato">{{val.uid|get_nickname}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <p>{{val.description|truncate(90, true, "...")}}</p>
+                            </div>
+                        </div>
+                        <!-- /POST ITEM -->
+                    {%endfor%}
 
 
+                    <!-- PAGINATION -->
+                    <div class="text-left">
+                        <!-- Pagination Default -->
+                        {{pagination | safe}}
+                        <!-- /Pagination Default -->
+                    </div>
+                    <!-- /PAGINATION -->
+
+                </div>
+
+                <!-- RIGHT -->
+
+                <div class="col-md-3 col-sm-3">
+
+                    <!-- INLINE SEARCH -->
+                    <div class="inline-search clearfix margin-bottom-10">
+                        <form action="" method="get" class="widget_search">
+                            <input type="search" placeholder="Start Searching..." id="s" name="s" class="serch-input">
+                            <button type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <!-- /INLINE SEARCH -->
+
+                    <hr />
+
+                    <!-- side navigation -->
+                    {%column data="cates",cid=category.id,isnum="0"%}
+                    {%if cates==null%}
+                    <div class="side-nav margin-bottom-20 margin-top-20">
+                        <div class="side-nav-head">
+                            <button class="fa fa-bars"></button>
+                            <h4>{{category.title}} 子分类</h4>
+                        </div>
+                        <ul class="list-group list-group-bordered list-group-noicon uppercase">
+                            {%for val in cates%}
+                            <li class="list-group-item"><a href="{{val.id}}{{http.config('view.file_ext')}}"><span class="size-11 text-muted pull-right">({{val.doc_num}})</span> {{val.name}}</a></li>
+                            {%endfor%}
+                        </ul>
+                        <!-- /side navigation -->
+                    </div>
+                    {%endif%}
+                </div>
+            </div>
+
+        </div>
     </section>
     <!-- / -->
-
-</div>
-<!-- /wrapper -->
-
-<!-- JAVASCRIPT FILES -->
-<script type="text/javascript">var plugin_path = '/static/assets/plugins/';</script>
-<script type="text/javascript" src="/static/assets/plugins/jquery/jquery-2.1.4.min.js"></script>
-
-<script type="text/javascript" src="/static/assets/js/scripts.js"></script>
-
-</body>
-</html>
+    {% endblock %}

@@ -170,6 +170,9 @@ export default {
                 })
                 //解析分类信息当前状态
                 env.addFilter("sort_act",function (id,getid) {
+                    //console.log('-------------------------------');
+                    //console.log(id);
+                    //console.log(getid);
                     //console.log(in_array(id, sanjiao(getid.split("."))));
                     if(!think.isEmpty(getid)){
                         return in_array(id,sanjiao(getid.split(".")));

@@ -233,6 +233,34 @@
     #studytour{
     	padding-bottom:55px;
     }
+    .show-one{
+        display:block;
+        white-space:nowrap; 
+        overflow:hidden; 
+        text-overflow:ellipsis;
+    }
+   /* .show-two{
+        position:relative;
+        line-height:1.4em;
+        height:2.8em;
+        overflow:hidden;
+    }
+    .show-two:after{
+
+        content:"...";
+        font-weight:bold;
+        position:absolute;
+        bottom:0;
+        right:0;
+        padding:0 20px 1px 45px;
+    }*/
+    .show-two{
+        overflow : hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
 </style>
 {% endblock %}
 {% block content %}
@@ -319,7 +347,7 @@
                                 </span>
 
                                 <!-- overlay title -->
-                                <div class="item-box-overlay-title">
+                                <div class="item-box-overlay-title" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                                     <h4 class="nomargin">{{v.title}}</h4>
                                 </div><!-- /overlay title -->
                                 {% if i == 1 or i == 3 %}
@@ -401,7 +429,7 @@
                             </figure>
                             <!-- overlay title -->
                                 <div class="item-box-overlay-title text-center" style="height: 64px;background-color:#fff ">
-                                    <h4 class="nomargin" style="font-size: 14px; color: #414141; text-overflow:ellipsis;">{{v.title}}</h4>
+                                    <h4 class="nomargin show-two" style="font-size: 14px; color: #414141; text-overflow:ellipsis;">{{v.title}}</h4>
                                 </div><!-- /overlay title -->
                         </a>
                         </div>
@@ -695,18 +723,18 @@
             });
 
         });
-        //文字过多改为+"..."
-        let sub = $(".nomargin");
+        // //文字过多改为+"..."
+        // let sub = $(".nomargin");
 
-        //console.log(sub);
+        // //console.log(sub);
 
-        for(var i=0;i<sub.length;i++){
-        	let arr = sub[i].innerHTML;
-        	if(arr.length>23){
-        		arr = arr.substring(0,23)+"......";
-        	}
-        	sub[i].innerHTML = arr;
-        }
+        // for(var i=0;i<sub.length;i++){
+        // 	let arr = sub[i].innerHTML;
+        // 	if(arr.length>23){
+        // 		arr = arr.substring(0,23)+"......";
+        // 	}
+        // 	sub[i].innerHTML = arr;
+        // }
 
 
         //绑定单击事件
