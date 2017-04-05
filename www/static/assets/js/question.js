@@ -65,31 +65,82 @@ $(function () {
         //ajax
         $.ajax({
             url:"/mod/question/ajax/ajaxanswercomments/answer_id/"+id,
-            success:function (res) {
+            // success:function (res) {
+            //     var count = (res.data).length;
+            //     if(count>0){
+            //         $.each(res.data,function (k,v) {
+            //             rhtml+='<li class="comment comment-reply">'+
+            //                 '<img class="avatar" src="/uc/index/avatar/uid/'+v.uid+'" width="50" height="50" alt="avatar">'+
+            //                 '<div class="comment-body">'+
+            //                 '<a href="#" class="comment-author">'+
+            //                 '<small class="text-muted pull-right">'+v.time+'</small>'+
+            //                 '<span>'+v.username+'</span>'+
+            //                 '</a>'+
+            //                 '<p>'+v.message+'</p>'+
+            //                 '</div>';
+            //                     if(res.is_login){
+            //                         rhtml+=  '<ul class="list-inline size-11 margin-top-10">'+
+            //                 '<li>'+
+            //                 '<a href="#" class="text-info commentreyplay" data-name="@'+v.username+':" data-id="'+id+'"><i class="fa fa-reply"></i> 回复</a>'+
+            //                 '</li>';
+            //             if(res.is_login==v.uid || res.is_admin){
+            //             rhtml+='<li class="pull-right">'+
+            //                 '<a href="/mod/question/ajax/delcomments/id/'+v.id+'" class="text-danger confirm ajax-get">删除</a>'+
+            //                 '</li>';
+            //             }
+            //             rhtml+=  '</li></ul>';
+            //                     }
+            //             rhtml+= '</li>';
+            //         })
+            //     }else {
+            //         rhtml += '<div class="alert alert-mini alert-warning margin-bottom-10 text-center">'+
+            //             '暂无评论'+
+            //             '</div>';
+            //     }
+            //     if(res.is_login){
+            //         rhtml +=' <li>'+
+            //             '<div class="input-group">'+
+            //             '<input id="btn-input-'+id+'" type="text" class="form-control" placeholder="评论一下...">'+
+            //             '<span class="input-group-btn">'+
+            //             '<button class="btn btn-primary btn-chat" id="btn-chat-'+id+'" data-btn-id="'+id+'">'+
+            //             '<i class="fa fa-reply"></i> 评论'+
+            //             '</button>'+
+            //             '</span>'+
+            //             '</div>'+
+            //             '</li>';
+            //     }
+
+            //     $('#comment-reply-'+id).html(rhtml);
+            //     $('#comment-reply-'+id).addClass("isopen");
+            //     $("#count-"+id).text(count);
+            // }
+        
+
+           success:function (res) {
                 var count = (res.data).length;
                 if(count>0){
                     $.each(res.data,function (k,v) {
                         rhtml+='<li class="comment comment-reply">'+
+                            '<b class="triangle"></b>'+
                             '<img class="avatar" src="/uc/index/avatar/uid/'+v.uid+'" width="50" height="50" alt="avatar">'+
                             '<div class="comment-body">'+
                             '<a href="#" class="comment-author">'+
-                            '<small class="text-muted pull-right">'+v.time+'</small>'+
                             '<span>'+v.username+'</span>'+
+                            '<small class="text-muted">'+v.time+'</small>'+
                             '</a>'+
                             '<p>'+v.message+'</p>'+
                             '</div>';
-                                if(res.is_login){
-                                    rhtml+=  '<ul class="list-inline size-11 margin-top-10">'+
-                            '<li>'+
-                            '<a href="#" class="text-info commentreyplay" data-name="@'+v.username+':" data-id="'+id+'"><i class="fa fa-reply"></i> 回复</a>'+
-                            '</li>';
-                        if(res.is_login==v.uid || res.is_admin){
-                        rhtml+='<li class="pull-right">'+
-                            '<a href="/mod/question/ajax/delcomments/id/'+v.id+'" class="text-danger confirm ajax-get">删除</a>'+
-                            '</li>';
-                        }
-                        rhtml+=  '</li></ul>';
-                                }
+                            
+                                
+        
+                                if(res.is_login==v.uid || res.is_admin){
+                                    rhtml+= '<ul class="list-inline size-11 margin-top-10 clear">'+
+                                                '<li class="pull-right">'+
+                                                    '<a href="/mod/question/ajax/delcomments/id/'+v.id+'" class="edit-delete confirm ajax-get">删除</a>'+
+                                                '</li>';
+                                    }
+                                rhtml+=  '</li></ul>';
+                            
                         rhtml+= '</li>';
                     })
                 }else {
@@ -98,7 +149,7 @@ $(function () {
                         '</div>';
                 }
                 if(res.is_login){
-                    rhtml +=' <li>'+
+                    rhtml +=' <li id="write-reply-'+id+'">'+
                         '<div class="input-group">'+
                         '<input id="btn-input-'+id+'" type="text" class="form-control" placeholder="评论一下...">'+
                         '<span class="input-group-btn">'+
@@ -111,9 +162,11 @@ $(function () {
                 }
 
                 $('#comment-reply-'+id).html(rhtml);
-                $('#comment-reply-'+id).addClass("isopen");
+                $('#write-reply-'+id).addClass("isopen");
                 $("#count-"+id).text(count);
-            }
+            } 
+
+
         })
     }
     $(".comment-reply").on("click",function () {
@@ -124,7 +177,7 @@ $(function () {
         if(isopen){
             $('#'+rid).html("");
             $('#'+rid).removeClass("isopen");
-            $("#oc-"+id).text("显示");
+            $("#oc-"+id).text("回复");
         }else {
 
             addhtml(id)
@@ -132,6 +185,8 @@ $(function () {
         }
 
     })
+
+
     //提交评论
     $(document).on("click",'.btn-chat',function () {
         var id = $(this).attr("data-btn-id");

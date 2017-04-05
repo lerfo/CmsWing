@@ -32,9 +32,33 @@
 
 {% block style %}
 <style>
-	.gt_holder .gt_ajax_tip{
-		right:-28px;
+	.register-box{
+		background:rgba(248, 242, 252, 0.5);
+		min-width:377px;
 	}
+	#verifycodesend{
+		background:#1eb6c1;
+	}
+	#verifycodesend span{
+		color:#fff;
+	}
+
+
+	input::-webkit-input-placeholder { /* WebKit browsers */ 
+		color: #1eb6c1;  
+	} 
+	input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+		color: #1eb6c1;  
+	} 
+	input::-moz-placeholder { /* Mozilla Firefox 19+ */ 
+		color: #1eb6c1;  
+	} 
+	input:-ms-input-placeholder { /* Internet Explorer 10+ */ 
+		color: #1eb6c1; 
+	} 
+
+
+
 </style>
 
 {% endblock %}
@@ -46,7 +70,7 @@
 		<div class="row">
 
 			<!-- LOGIN -->
-			<div class="col-md-4 col-sm-4" style="margin-left: auto; margin-right: auto; float: none;">
+			<div class="col-md-4 col-sm-4 register-box" style="margin-left: auto; margin-right: auto; float: none;">
 
 				<!-- ALERT -->
                 <!--
@@ -95,11 +119,14 @@
 											<b class="tooltip tooltip-bottom-right">点击右侧按钮获取验证码</b>
 										</label>
 									</div>
-									<div class="col-md-6"><a href="#" class="btn btn-3d btn-sm btn-reveal btn-white" style="margin-left: 0; padding-left: 24px; padding-right: 24px;" id="verifycodesend" data-type="1">
-										<i class="fa fa-send-o"></i>
-										<span class="qian">获取短信验证码</span>
-										<span class="hou" style="display: none"><m id="wait" class="">60</m>秒后重新获取</span>
-									</a></div>
+									<div class="col-md-6">
+
+										<a href="#" class="btn btn-3d btn-sm btn-reveal " style="margin-left: 0; padding-left: 24px; padding-right: 24px;" id="verifycodesend" data-type="1">
+											<!-- <i class="fa fa-send-o"></i> -->
+											<span class="qian">获取短信验证码</span>
+											<span class="hou" style="display: none"><m id="wait" class="">60</m>秒后重新获取</span>
+										</a>
+									</div>
 								</div>
 
 								<label class="input margin-bottom-10">
@@ -117,22 +144,27 @@
 									<b class="tooltip tooltip-bottom-right">需包含字母和数字的8-16为字符</b>
 								</label>
 
-								<div class="margin-top-10">
+								<div class="margin-top-10" style="float:left">
 									<label class="checkbox nomargin">
 										<input type="hidden" name="sms_type" value="1">
 										<input class="checked-agree" type="checkbox" name="clause" checked><i></i>我同意 <a href="#" data-toggle="modal" data-target="#termsModal">网站服务条款</a></label>
                             <!--<label class="checkbox nomargin">
                             <input type="checkbox" name="info"><i></i>我想接收新闻和特别优惠信息！</label>-->
                         </div>
+
+						 <div class="" style="float:right;margin-top:14px">
+										已有花生卷账号？<a href="/uc/public/login"  data-target="#termsModal">登录</a>
+						</div>
+
 	                    <div class="margin-top-10" style="height: 34px;">
 	                    	<div class="col-md-12" style="padding-left: 0px; padding-right: 0px;">
-	                    		<button type="submit" class="btn btn-primary ajax-post" target-form="registerpost" style="width: 100%; margin: 0;"><i class="fa fa-check"></i> 立即注册</button>
+	                    		<button type="submit" class="btn btn-primary ajax-post" target-form="registerpost" style="width: 100%; margin: 15px 0 0 0;"><i class="fa fa-check"></i> 立即注册</button>
 	                    	</div>
 	                    	
 	                    </div>
-	                    <div class="margin-top-10">
+	                   <!--  <div class="margin-top-10">
 										已有花生卷账号？<a href="/uc/public/login"  data-target="#termsModal">登录</a>
-						</div>
+						</div> -->
                     </fieldset>
 
                 </form>

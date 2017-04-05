@@ -70,9 +70,19 @@ export default class extends Base {
       await this.session('webuser', userInfo);
       return this.success({name:"注册成功,登录中!",url:"/uc/index"});
     }else {
-      this.meta_title = "用户注册";
+      this.meta_title = "手机注册";
       return this.display();
     }
+
+  }
+    /**
+   * 注册引导页面
+   */
+  async startregisterAction() {
+ 
+    this.meta_title = "注册花生卷账号";
+    return this.display();
+    
 
   }
   //   登陆页面

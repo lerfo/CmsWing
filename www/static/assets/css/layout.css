@@ -6755,7 +6755,7 @@ li.comment .comment-body {
 }
 li.comment.comment-reply {
 	margin-left:60px;
-	background-color:rgba(0,0,0,0.04);
+	background-color:#F3F8FB;
 	padding:6px;
 	margin-bottom:6px;
 }
