@@ -49,7 +49,49 @@ export default class extends Base {
       return this.display();
     }
   }
-
+  /**
+   * 查询旅客信息
+   * @returns {PreventPromise}
+   */
+  async queryAction() {
+    //判断是否登陆
+    let islogin = await this.jsonlogin();
+    if(!islogin){
+      return this.fail("未登录");
+    }
+    let data = await this.model("traveller").where({user_id: this.user.uid}).page(this.get('page')).order("id DESC").countSelect();
+    let html = pagination(data, this.http, {
+      desc: false, //show description
+      pageNum: 2,
+      url: '', //page url, when not set, it will auto generated
+      class: 'nomargin', //pagenation extra class
+      text: {
+        next: '下一页',
+        prev: '上一页',
+        total: 'count: ${count} , pages: ${pages}'
+      }
+    });
+    //think.log(data,'TRAVELLER_INDEX');
+    this.assign('pagination', html);
+    if (!think.isEmpty(data.data)) {
+      for (let val of data.data) {
+        let credentials_name = ['护照','港澳通行证','台湾通行证'];
+        let traveller_type = ['成人','儿童','婴儿'];
+        val.credentials_type_name = credentials_name[val.credentials_type];
+        val.type_name = traveller_type[val.type];
+        //val.province_num = val.province;
+        //val.city_num = val.city;
+        //val.county_num = val.county;
+        //val.province = await this.model("area").where({id: val.province}).getField("name", true);
+        //val.city = await this.model("area").where({id: val.city}).getField("name", true);
+        //val.county = await this.model("area").where({id: val.county}).getField("name", true);
+      }
+    }
+    data.html =html;
+    this.assign("list", data.data);
+    this.meta_title = "旅客信息";
+    return this.json(data);
+  }
 
   //添加或者更新联系人地址
   async addaddrAction(){

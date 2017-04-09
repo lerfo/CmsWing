@@ -46,6 +46,48 @@ export default class extends Base {
     }
   }
 
+  /**
+   * 查询常用地址
+   * @returns {PreventPromise}
+   */
+  async queryAction() {
+    //判断是否登陆
+    let islogin = await this.jsonlogin();
+    if(!islogin){
+      return this.fail("未登录");
+    }
+    let data = await this.model("address").where({user_id: this.user.uid}).page(this.get('page')).order("is_default DESC,id DESC").countSelect();
+    let html = pagination(data, this.http, {
+      desc: false, //show description
+      pageNum: 2,
+      url: '', //page url, when not set, it will auto generated
+      class: 'nomargin', //pagenation extra class
+      text: {
+        next: '下一页',
+        prev: '上一页',
+        total: 'count: ${count} , pages: ${pages}'
+      }
+    });
+    //think.log(data);
+    this.assign('pagination', html);
+    if (!think.isEmpty(data.data)) {
+      for (let val of data.data) {
+        val.province_num = val.province;
+        val.city_num = val.city;
+        val.county_num = val.county;
+        val.province = await this.model("area").where({id: val.province}).getField("name", true);
+        val.city = await this.model("area").where({id: val.city}).getField("name", true);
+        val.county = await this.model("area").where({id: val.county}).getField("name", true);
+      }
+    }
+    data.html = html;
+    this.assign("list", data.data);
+    this.meta_title = "收货地址";
+    //判断浏览客户端
+    return this.json(data);
+  }
+
+
   //获取省市三级联动
   async getareaAction(){
 

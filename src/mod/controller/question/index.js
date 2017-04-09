@@ -12,9 +12,9 @@ export default class extends Base {
   indexAction(){
     //console.log(this);
     //auto render template file index_index.html
-
-   this.end(2222)
-   return this.display();
+   
+    this.end(2222)
+    return this.display();
   }
 
   /**

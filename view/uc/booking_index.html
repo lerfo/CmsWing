@@ -865,10 +865,24 @@
                             <span class="ico"></span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。
                         </div>                                                            
                     </li>
+                    <!--
                     <li class="optional" style="">                                
                         <label for="" class="product_label">性别</label>                                
                         <span class="frm_required">*</span>                                
                         <input type="radio" role="gender" regex="checkSex" value="{{info.sexual}}"  required=""  style="opacity:0;filter:alpha(opacity=0);height:1px;width:1px;position:absolute" name="sexual">
+                        <div class="gdcnt" style="float:left;padding:0 4px 1px 0">                                
+                            <a href="###" class="J_gender input_radio selected {% if info.sexual == 0 %}selected{% endif %}" data-value="0"><i></i> 男</a>
+                            <a href="###" class="J_gender input_radio {% if info.sexual == 1 %}selected{% endif %}" data-value="1"><i></i> 女</a>
+                        </div>                                                            
+                    </li>-->
+                    <li class="optional" style="">                                
+                        <label for="" class="product_label">性别</label>                                
+                        <span class="frm_required">*</span>      
+                        <label class="radio-inline i-checks">
+                                <input type="radio" value="0" name="sexual" {% if info.sexual == 0 %}checked{%endif%} ><i></i> {{v}}
+                            </label>                          
+                        <input type="radio" role="gender" regex="checkSex" value="0" name="sexual" required="" {% if info.sexual == 0 %}checked{%endif%} style="opacity:0;filter:alpha(opacity=0);height:1px;width:1px;position:absolute" name="sexual">男
+                        <input type="radio" role="gender" regex="checkSex" value="1" name="sexual" required="" {% if info.sexual == 1 %}checked{%endif%} style="opacity:0;filter:alpha(opacity=0);height:1px;width:1px;position:absolute" name="sexual">女
                         <div class="gdcnt" style="float:left;padding:0 4px 1px 0">                                
                             <a href="###" class="J_gender input_radio selected {% if info.sexual == 0 %}selected{% endif %}" data-value="0"><i></i> 男</a>
                             <a href="###" class="J_gender input_radio {% if info.sexual == 1 %}selected{% endif %}" data-value="1"><i></i> 女</a>
@@ -941,14 +955,27 @@
                             <span class="ico"></span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。
                         </div>                                                            
                     </li>
+                   <!--
                     <li class="optional" style="">                                
                         <label for="" class="product_label">性别</label>                                
                         <span class="frm_required">*</span>                                
-                        <input type="radio" role="gender" regex="checkSex" value="" required="" style="opacity:0;filter:alpha(opacity=0);height:1px;width:1px;position:absolute" name="sexual">
+                        <input type="radio" role="gender" regex="checkSex" value="{{info.sexual}}"  required=""  style="opacity:0;filter:alpha(opacity=0);height:1px;width:1px;position:absolute" name="sexual">
                         <div class="gdcnt" style="float:left;padding:0 4px 1px 0">                                
-                            <a href="###" class="J_gender input_radio " data-value="0"><i></i> 男</a>
-                            <a href="###" class="J_gender input_radio " data-value="1"><i></i> 女</a>
+                            <a href="###" class="J_gender input_radio selected {% if info.sexual == 0 %}selected{% endif %}" data-value="0"><i></i> 男</a>
+                            <a href="###" class="J_gender input_radio {% if info.sexual == 1 %}selected{% endif %}" data-value="1"><i></i> 女</a>
                         </div>                                                            
+                    </li>-->
+                    <li class="optional" style="">                                
+                        <label for="" class="product_label">性别</label>                                
+                        <span class="frm_required">*</span>   
+
+                        <label class="radio-inline i-checks">
+                            <input type="radio" value="0" name="sexual" {% if info.sexual == 0 %}checked{%endif%} >男
+                        </label> 
+                        <label class="radio-inline i-checks">
+                            <input type="radio" value="1" name="sexual" {% if info.sexual == 1 %}checked{%endif%} >女
+                        </label> 
+                                                           
                     </li>
                     <li class="optional later" style="">                                
                         <label for="" class="product_label">出生日期</label>                                

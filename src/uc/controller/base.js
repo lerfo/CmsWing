@@ -89,7 +89,9 @@ export default class extends think.controller.base {
 
     }
   }
-
+  async jsonlogin(){
+    return await this.islogin();
+  }
   //获取分类信息
   async category(id, field) {
     id = id || 0;

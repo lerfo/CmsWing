@@ -1141,15 +1141,15 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		<ul>
 			<li>
 				<i class="glyphicon glyphicon-star"></i>
-				{{info.editorrecommend}}
+				{{info.description | get_text_line(0)}}
 			</li>
 			<li>
 				<i class="glyphicon glyphicon-star"></i>
-				{{info.editorrecommend}}
+				{{info.description | get_text_line(1)}}
 			</li>
 			<li>
 				<i class="glyphicon glyphicon-star"></i>
-				{{info.editorrecommend}}
+				{{info.description | get_text_line(2)}}
 			</li>
 		</ul>
 		
@@ -1257,11 +1257,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	<!-- /FORM -->
 	#}
 
-	{% if info.description %}
-	<!-- short description -->
-	<small class="text-muted">{{info.description}}</small>
-	<!-- /short description -->
-	{% endif %}
+	
 
 
 	{#
@@ -1441,7 +1437,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			<i class="price_icon" id="J_acpricetip" style="display:none"></i> 
 			<form class="form-inline nomargin ichecks pull-right" id="form-tour"  data-icheck-info ="{{info.suk}}" method="post" action="/uc/booking">
 				<input type="hidden" name="product_id" value="{{info.id}}" />
-				<input type="hidden" id="product_type" name="type" value="0" />
+				<input type="hidden" id="product_type" name="type" value="" />
 				<!-- see assets/js/view/demo.shop.js -->
 
 				<!-- <input type="hidden" id="qty" name="qty" value="1" /> -->

@@ -2925,8 +2925,8 @@ section.dark.page-header ul.page-options a {
 	}
 
 	#header.header-md #topNav .container h4 {
-		height:70px;
-		line-height:70px;
+		height:66px;
+		line-height:66px;
 		margin-bottom: 0px;
 		color: #49dddd;
 	}
@@ -3171,7 +3171,7 @@ section.dark.page-header ul.page-options a {
 			margin-top:20px;
 		}
 		#header.header-md ul.nav-second-main {
-			margin-top:23px;
+			margin-top:25px;
 		}
 	#header ul.nav-second-main li {
 		padding-top:33px;

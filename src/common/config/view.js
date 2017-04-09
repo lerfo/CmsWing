@@ -285,7 +285,7 @@ export default {
                     callback(null, data);
                 }, true)
                 //价格格式化
-                env.addFilter("get_price_format", function (price, type) {
+                env.addFilter("get_price_format", function (price, type,callback) {
                     return get_price_format(price, type);
                 })
                 /**
@@ -385,8 +385,29 @@ export default {
                  * @returns []
                  */
                 env.addFilter('img_text_view',(html,w=200,h=200)=>{
-                    return img_text_view(html,w,h)
+                    return img_text_view(html,w,h);
                 })
+                /**
+                 * 提取文本内容中的换行内容
+                 * @param html 文本内容
+                 * @param w kuan 高
+                 * @returns []
+                 */
+                env.addFilter('get_text_line',async(textstr,index=0,callback)=>{
+                    console.log(textstr);
+                    console.log(index);
+                    if(think.isEmpty(textstr)){
+                        callback(null,'');
+                    }
+                    let strs= new Array(); //定义一数组 
+                    strs = textstr.split("\r\n"); //字符分割 
+                    console.log(strs[index]);
+                    if(index < strs.length ){
+                        callback(null,strs[index]);
+                    }else{
+                        callback(null,'');
+                    }
+                },true)
                 /**
                  *缓存权限列表 all_priv
                  * @param catid 要验证的栏目id

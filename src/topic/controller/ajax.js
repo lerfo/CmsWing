@@ -22,6 +22,8 @@ export default class extends Base {
           this.action('ajax',doaction);
         }else if(doaction == "question"){
           this.action('ajax',doaction);
+        }else if(doaction == "search"){
+          this.action('ajax',doaction);
         }else{
           this.http.error = new Error('分类不存在或者被禁用！');
           return think.statusAction(702, this.http);
@@ -46,7 +48,7 @@ export default class extends Base {
  * isstu:1:获取副表内容,2:只从主表拿数据,默认只从主表拿
  * group:分组id，单个分组：group="1",多个分组 :group="1,2,3,4",不写调取全部分组。
  */
-  async topicAction(){
+async topicAction(){
         let args = this.post();
         console.log(args);
         let where = {'status':1};
@@ -132,7 +134,7 @@ export default class extends Base {
  * order: 排序方式,默认按更新时间排序
  * 示例//{%question data="list",has_img="1",order="is_recommend DESC,update_time DESC",limit="3",page="2" %}
  */
-  async questionAction(){
+async questionAction(){
         let args = this.post();
         console.log(args);
         let where = {};//{'status':1};
@@ -159,5 +161,287 @@ export default class extends Base {
         return this.json(questions);
     }
 
+  //列表页[核心]
+async searchAction() {
 
+    //跨域
+    let method = this.http.method.toLowerCase();
+    if(method === "options"){
+      this.setCorsHeader();
+      this.end();
+      return;
+    }
+    this.setCorsHeader();
+    //0.获取查询关键字
+    let searchword = [];
+    let q = this.get("q");
+    if(!think.isEmpty(q)){
+      this.assign("queryword",q);
+      let segment = new Segment();
+      // 使用默认的识别模块及字典，载入字典文件需要1秒，仅初始化时执行一次即可
+      await segment.useDefault();
+      // 开始分词
+      let segment_q= await segment.doSegment(q, {
+          simple: true,
+          stripPunctuation: true
+      });
+      console.log(segment_q);
+      for (let k=0; k<segment_q.length ;k++){
+          searchword.push("%"+segment_q[k]+"%");
+      }
+    }
+
+    //1.获取分类栏目
+    let get = this.get('value') || 'youxue'; //默认显示游学搜索
+    console.log('args:'+get);
+    let id=0;
+    let query = get.split("-");
+    if(get != 0){
+      id = query[0];
+    }
+    if(id == '0'){
+
+        let where = {};//{'status':1};
+        let limit = this.config("db.nums_per_page");
+        let page = think.isEmpty(this.param('page')) ? "0" : this.param('page');
+        //帖子包含图片
+        where = think.extend({},where,{'has_img':1});
+        
+        if(this.param('cid')){
+            where = think.extend({},where,{'category_id':this.param('cid')});
+        }
+        //排序
+        let type='update_time DESC';
+        if(!think.isEmpty(this.param('order'))){
+            type = this.param('order');
+        }
+        console.log('page:'+page);
+        console.log('limit:'+limit);
+        console.log(where);
+        let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).countSelect();
+        //console.log(questions);
+        return this.json(questions);
+    }
+
+    let cate = await this.category(id);
+    cate = think.extend({}, cate);
+    
+    //2.访问控制
+    let roleid=8;//游客
+    if(this.is_login){
+      roleid = await this.model("member").where({id:this.is_login}).getField('groupid', true);
+    }
+    let priv = await this.model("category_priv").priv(cate.id,roleid,'visit');
+    if(!priv){
+      this.http.error = new Error('您所在的用户组,禁止访问本栏目！');
+      return this.fail("您所在的用户组,禁止访问本栏目!")
+    }
+
+    //4.获取当前分类的所有子栏目
+    let subcate = await this.model('category').get_sub_category(cate.id);
+    subcate.push(cate.id);
+
+
+    //5.设置查询条件
+    let map = {
+      'pid':0,
+      'status': 1,
+      'category_id': ['IN', subcate]
+    };
+    //5.1排序
+    let o = {};
+    o.level = 'DESC';
+    let order = query[1]||0;
+    //console.log('order:'+order);
+    order = Number(order);
+    switch (order){
+      case 1:
+      o.update_time = 'ASC';
+      break;
+      case 2:
+      o.view = 'DESC';
+      break;
+      case 3:
+      o.view = 'ASC';
+      break;
+      case 4:
+      map.create_time = {">": new Date(GetDateStr(0)+" "+"00:00:00").getTime(), "<": new Date(GetDateStr(0)+" "+"23:59:59").getTime()}
+      o.update_time = 'DESC';
+      break;
+      case 5:
+      map.create_time = {">": new Date(GetDateStr(1)+" "+"00:00:00").getTime(), "<": new Date(GetDateStr(5)+" "+"23:59:59").getTime()}
+      o.update_time = 'DESC';
+      break;
+      case 6:
+      map.create_time = {"<": new Date().getTime()}
+      map.deadline = {">": new Date().getTime()}
+      o.update_time = 'DESC';
+      break;
+      case 7:
+      map.deadline = {"<": new Date().getTime()}
+      o.update_time = 'DESC';
+      break;
+      default:
+      o.update_time = 'DESC';
+    }
+    //this.assign('order',order);
+    //5.2获取模型对应的排序分类信息132-0-0-17
+    let sortid = query[3]||0;
+    console.log('sortid:'+sortid);
+    if(!think.isEmpty(sortid)){
+      map.sort_id = sortid;
+    }
+    let sortarr = query[4]||null;
+    let nsobj = {};
+    let sort = await this.model("category").get_category(cate.id, 'documentsorts');
+    console.log('got category document sorts:'+sort);
+    if (sort) {
+      this.assign("sorturl",get.split("-")[4])
+      sort = JSON.parse(sort);
+      if(sortid==0){
+        sortid=sort.defaultshow;
+      }
+      let typevar = await this.model("typevar").where({sortid:sortid}).order('displayorder ASC').select();
+      for (let val of typevar){
+
+        val.option= await this.model("typeoption").where({optionid:val.optionid}).find();
+        if(val.option.type == 'select' ||val.option.type == 'radio'){
+          if(!think.isEmpty(val.option.rules)){
+            val.option.rules = JSON.parse(val.option.rules);
+            val.rules=parse_type_attr(val.option.rules.choices);
+            val.option.rules.choices = parse_config_attr(val.option.rules.choices);
+            //console.log(val.rules);
+          }
+
+        }else if(val.option.type == 'checkbox'){
+          if(!think.isEmpty(val.option.rules)){
+            val.option.rules = JSON.parse(val.option.rules);
+            val.rules=parse_type_attr(val.option.rules.choices);
+            console.log(val.rules);
+            for(let v of val.rules){
+              v.id = "l>"+v.id
+            }
+            val.option.rules.choices = parse_config_attr(val.option.rules.choices);
+            //console.log(val.rules);
+          }
+        }else if(val.option.type == 'range'){
+          if(!think.isEmpty(val.option.rules)){
+            let searchtxt = JSON.parse(val.option.rules).searchtxt;
+            let searcharr = []
+            if(!think.isEmpty(searchtxt)){
+              let arr = searchtxt.split(",");
+              let len = arr.length;
+              for (var i=0;i<len;i++)
+              {
+                let obj = {}
+                if (!think.isEmpty(arr[i-1])){
+                  if(i==1){
+                    obj.id = 'd>'+arr[i];
+                    obj.name = '小于'+arr[i];
+                    obj.pid=0
+                    searcharr.push(obj);
+                  }else {
+                    obj.id = arr[i-1]+'>'+arr[i];
+                    obj.name = arr[i-1]+"-"+arr[i];
+                    obj.pid=0
+                    searcharr.push(obj)
+                  }
+
+                }
+
+              }
+              searcharr.push({id:'u>'+arr[len-1],name:arr[len-1]+'以上',pid:0})
+            }
+            //console.log(searcharr);
+            val.option.rules = JSON.parse(val.option.rules);
+            val.rules=searcharr;
+            // val.option.rules.choices = parse_config_attr(val.option.rules.choices);
+
+          }
+        }
+      }
+      console.log(typevar);
+      this.assign("typevar",typevar);
+    }
+    //5.3解析URL中的分类排序参数信息tourdest_100.102|tourtype_0|tourfeature_0|tourdays_0|tourmonth_0
+    if(!think.isEmpty(sortarr)) {
+      sortarr = sortarr.split("|");
+      let optionidarr = [];
+      let valuearr = [];
+      for (let v of sortarr) {
+        let qarr = v.split("_");
+        nsobj[qarr[0]] = qarr[1];
+        if(qarr[1] !=0){
+          let vv = qarr[1].split(">");
+          //console.log(vv);
+          if(vv[0]=="d" && !think.isEmpty(vv[1])){
+            map["t."+qarr[0]] = ["<",vv[1]];
+          }else if(vv[0]=="u" && !think.isEmpty(vv[1])){
+            map["t."+qarr[0]] = [">",vv[1]];
+          }else if(vv[0]=="l" && !think.isEmpty(vv[1])){
+            map["t."+qarr[0]] = ["like",`%"${vv[1]}"%`];
+          }else if(!think.isEmpty(vv[0])&&!think.isEmpty(vv[1])){
+            map["t."+qarr[0]] = ["BETWEEN", Number(vv[0]), Number(vv[1])];
+          }else {
+            if(qarr[0] == "tourdest"){  //  游学地址采用100.101的方式，所以要做特殊处理
+              map["t."+qarr[0]] = ["like",`%${qarr[1]}%`]; 
+            }else{
+              map["t."+qarr[0]] = qarr[1];
+            }
+          }
+        }
+      }
+      map.fid = cate.id;
+    }
+
+    //5.4获取分组信息132-0-0-17
+    let group_id = 0;
+    if(!think.isEmpty(query[2]) && query[2] !=0){
+      map.group_id=query[2];
+      group_id = map.group_id;
+    }
+    //this.assign("group_id",group_id)
+    //5.5获取查询关键字
+
+    if(searchword.length > 0){
+      map.title = ["like",searchword]
+    }
+    //5.6 获取查询数量
+    let num;
+    if(cate.list_row>0){
+      num = cate.list_row;
+    } else if(cate.model.split(",").length == 1){
+      let pagenum=await this.model('model').get_model(cate.model,"list_row");
+      if(pagenum !=0){
+        num = pagenum;
+      }
+    }else {
+      num =this.config("db.nums_per_page");
+    }
+    if(checkMobile(this.userAgent())){
+      num=10;
+    }
+
+    console.log(map);
+    let data;
+    if(!think.isEmpty(sortarr)){
+      data = await this.model('document').join({
+        table: "type_optionvalue"+sortid,
+        join: "left", // 有 left,right,inner 3 个值
+        as: "t",
+        on: ["id", "tid"]
+
+      }).where(map).page(this.param('page'),num).order(o).countSelect();
+    }else {
+      data = await this.model('document').where(map).page(this.param('page'),num).order(o).countSelect();
+    }
+    for(let val of data.data){
+        console.log(val.cover_id);
+        val.cover_url = await get_pic(val.cover_id,1,200,120);
+        val.price = await get_price(val.price,1);
+        
+    }
+    return this.json(data);
+
+  }
 }

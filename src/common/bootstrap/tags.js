@@ -233,11 +233,11 @@
         if(!think.isEmpty(args.order)){
             type = args.order;
         }
-        console.log('page:'+page);
-        console.log(where);
+        //console.log('page:'+page);
+        //console.log(where);
         let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).select();
 
-        console.log(questions)
+        //console.log(questions)
         context.ctx[data] = questions;
         return callback(null, '');
     }

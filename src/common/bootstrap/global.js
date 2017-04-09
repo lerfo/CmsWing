@@ -1190,19 +1190,14 @@ global.get_cate=async(cid)=>{
  * @param arr
  */
 global.sort_url = (id,val,arr,http)=>{
-    //console.log(val);
-    //console.log(arr);
-    //console.log(http);
-
+    //console.log(http.get(val))
     let url;
-
         url=`${val}_${id}`;
         for(let v of arr){
             if(v.option.identifier != val){
                 url += `|${v.option.identifier}_${http[v.option.identifier]||0}`
             }
         }
-
     //console.log(url);
     return url;
 }

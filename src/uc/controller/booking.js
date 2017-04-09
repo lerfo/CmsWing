@@ -7,6 +7,7 @@
 // +----------------------------------------------------------------------
 'use strict';
 import Base from './base.js';
+import pagination from 'think-pagination';
 export default class extends Base {
   init(http){
     super.init(http);
@@ -22,7 +23,7 @@ export default class extends Base {
    *           kid_quantity:儿童数量
    *           baby_quantity:婴儿数量
    *           differences_quantity:婴儿数量
-   *           type:产品类型
+   *           type:产品类型 需要置为空
    *
    *return:
    *        
@@ -222,10 +223,17 @@ export default class extends Base {
    *           user_remark:备注信息
    *           temp_order:1 暂存订单 0提交订单
    */
+   //TODO  如何防止重复提交订单？？
   async createorderAction(){
     await this.weblogin();
     let data = this.post();
     think.log(data,'BOOKING_CREATEORDER');
+
+    data.amountinfo = JSON.parse(data.amountinfo);
+    data.connectinfo = JSON.parse(data.connectinfo);
+    data.travellersinfo = JSON.parse(data.travellersinfo);
+    //TODO 简单的防重复提交机制：同一个产品一定周期内只能提交一次订单
+
     // return false;
     let order_amount;//订单金额
     let payable_amount;//应付金额，商品的原价
@@ -236,11 +244,14 @@ export default class extends Base {
     let orderinfo = {};
     orderinfo = think.extend({},data.amountinfo);
     orderinfo = think.extend(orderinfo,data.connectinfo);
-    let goods =JSON.parse(data.amountinfo);
+    console.log(orderinfo);
+    let goods =data.amountinfo;
 
     //检查购物车内的宝贝是否有库存
+    console.log(goods.type);
     let stock = await this.model("order_tour").getstock(goods.product_id,goods.type);
     //think.log(stock);
+    console.log(stock);
     if(goods.totol_quantity > stock){
       return this.fail("商品库存不足，创建订单失败！");
     }
@@ -253,7 +264,7 @@ export default class extends Base {
     // let oid =["d",this.user.uid,nowtime]
     // data.order_no = oid.join("");
     orderinfo.order_no = await this.model("order_tour").orderid();
-
+    console.log(orderinfo.order_no);
     //验证优惠码
     orderinfo.discount_amount = 0;
     if(!think.isEmpty(data.discount_code)){
@@ -273,8 +284,12 @@ export default class extends Base {
       orderinfo.discount_amount = findData.price;
 
     }
-    //应付金额
-    orderinfo.real_amount =(Number(data.order_amount) - Number(orderinfo.discount_amount)).toFixed(2);
+    //应付金额，支付金额低于金额优惠为0
+    if(Number(orderinfo.order_amount) <=  Number(orderinfo.discount_amount)){
+      orderinfo.real_amount= 0.00;
+    }else{
+      orderinfo.real_amount =(Number(orderinfo.order_amount) - Number(orderinfo.discount_amount)).toFixed(2);
+    }
 
 
     //客户订单备注
@@ -282,33 +297,31 @@ export default class extends Base {
       orderinfo.user_remark = data.user_remark;
     }
 
-    //联系人信息
+    //联系人信息      //todo  信息格式检查
     if( !data.temp_order && (think.isEmpty(data.connectinfo.connect_name) || think.isEmpty(data.connectinfo.connect_phone) || think.isEmpty(data.connectinfo.connect_email))){
       this.http.error = new Error('联系人信息不能为空');
       return think.statusAction(702, this.http);
     }else{
+      console.log(data.connectinfo.connect_name);
       let member = {
         connect_name:data.connectinfo.connect_name,
         connect_phone:data.connectinfo.connect_phone,
         connect_email:data.connectinfo.connect_email
       } 
+      console.log(member);
       let update = await this.model("member").where({id: this.user.uid}).update(member);
       think.log(update,'BOOKING_CREATEORDER');
       if (!update ) {
         think.log('更新联系人信息失败！','BOOKING_CREATEORDER');
       } 
 
-      //todo  信息格式检查
-      orderinfo.connect_name = data.connect_name;
-      orderinfo.connect_phone = data.connect_phone;
-      orderinfo.connect_email = data.connect_email;
     }
     //旅客信息
     if(data.travellersinfo.length != orderinfo.totol_quantity && !data.temp_order){
       this.http.error = new Error('旅客信息不完整');
       return think.statusAction(702, this.http);
     }else{
-      let travellers = {};
+      let travellers = [];
       for (let traveller of data.travellersinfo){
         //TODO  输入检查
         let temp_traveller = {};
@@ -326,9 +339,9 @@ export default class extends Base {
         if(traveller.issave){ 
           let  one_traveller = await this.model("traveller").where({name_zh:traveller.name_zh}).find();
           if(one_traveller.id){
-            res = await this.model("traveller").where({id: one_traveller.id}).update(temp_traveller); 
+            let res = await this.model("traveller").where({id: one_traveller.id}).update(temp_traveller); 
           }else{
-            res = await this.model("traveller").add(temp_traveller);
+            let res = await this.model("traveller").add(temp_traveller);
           }
         }
       }
@@ -356,9 +369,147 @@ export default class extends Base {
     //减少订单中商品的库存 TODO：需要做事务处理，同时需要确认库存是在下单后减少 还是在支付成功后
     await this.model("order_tour").stock(order_id,true);
 
-    return this.success({name:'订单创建成功，正在跳转支付页面！',url:`/uc/pay/pay?order=${order_id}&setp=3`});
+    return this.success({name:'订单创建成功，正在跳转支付页面！',orderinfo,url:`/uc/pay/pay?order=${order_id}&setp=3`});
 
   }
+
+  /**
+   * createorder action 查询订单
+   * @return {Promise} []
+   * /uc/booking/query/status/4 
+   * status
+   */
+  async queryAction() {
+    //判断是否登陆
+    let islogin = await this.jsonlogin();
+    if(!islogin){
+      return this.fail("未登录");
+    }
+    let status = this.param("status") || null;
+    //console.log(status);
+    let map;
+
+    //当前位置
+    if (!think.isEmpty(status)) {
+      this.assign('status', status);
+    }
+    //筛选订单
+
+    if (status == 0) {//未付款的订单
+      map = {
+        type: 0,
+        pay_status: 0,
+        delivery_status: ["!=", 1],
+        status: ["NOTIN", [4, 6]],
+        is_del: 0,
+        user_id: this.user.uid,
+      }
+    } else if (status == 1) {//代收货的订单
+      //(item.pay_status == 1 or item.status ==3) and item.delivery_status != 1 and item.status != 6 and item.status != 4
+      //item.delivery_status == 1 and item.status != 6 and item.status != 4
+      // map={
+      //     status: ["NOTIN", [4, 6]],
+      //     delivery_status: ["!=", 1],
+      //     is_del: 0,
+      //     user_id: this.user.uid,
+      //     _complex:{
+      //         pay_status: 1,
+      //         status: 3,
+      //         _logic: "or"
+      //     }
+      // }
+      map = {
+        type: 0,
+        status: ["NOTIN", [4, 6]],
+        delivery_status: 1,
+        is_del: 0,
+        user_id: this.user.uid,
+      }
+    } else {
+      map = {
+        type: 0,
+        is_del: 0,
+        user_id: this.user.uid,
+      }
+    }
+
+
+    console.log(map);
+    // this.config("db.nums_per_page",20)
+    let data = await this.model("order_tour").where(map).page(this.param('page')).order("create_time DESC").countSelect();
+    let html = pagination(data, this.http, {
+      desc: false, //show description
+      pageNum: 2,
+      url: '', //page url, when not set, it will auto generated
+      class: 'nomargin', //pagenation extra class
+      text: {
+        next: '下一页',
+        prev: '上一页',
+        total: 'count: ${count} , pages: ${pages}'
+      }
+    });
+    //console.log(data);
+    this.assign('pagination', html);
+    data.html = html;
+    for (let val of data.data) {
+      switch (val.payment) {
+        case 100:
+          val.channel = "预付款支付";
+          break;
+        case 1001:
+          val.channel = "货到付款";
+          break;
+        default:
+          val.channel = await this.model("pingxx").where({id: val.payment}).getField("title", true);
+      }
+      val.province = await this.model("area").where({id: val.province}).getField("name", true);
+      val.city = await this.model("area").where({id: val.city}).getField("name", true);
+      val.county = await this.model("area").where({id: val.county}).getField("name", true);
+      //未付款订单倒计时
+      if (val.pay_status == 0) {
+        val.end_time = date_from(val.create_time + (Number(this.setup.ORDER_DELAY) * 60000))
+      }
+      //console.log(this.setup.ORDER_DELAY_BUND)
+      //查出订单里面的商品列表
+      val.goods = await this.model("order_goods").where({order_id: val.id}).select();
+      let numarr=[];
+      for (let v of val.goods) {
+        v.prom_goods = JSON.parse(v.prom_goods);
+        numarr.push(v.goods_nums);
+        v = think.extend(v, v.prom_goods);
+        delete v.prom_goods;
+      }
+      //console.log(val.goods)
+      val.nums = eval(numarr.join("+"));
+    }
+    //未付款统计
+    let nopaid = await this.model("order").where({
+      type: 0,
+      pay_status: 0,
+      delivery_status: ["!=", 1],
+      status: ["NOTIN", [4, 6]],
+      is_del: 0,
+      user_id: this.user.uid,
+    }).count("id");
+    this.assign("nopaid", nopaid);
+    //未付款统计
+    let receipt = await this.model("order").where({
+      type: 0,
+      status: ["NOTIN", [4, 6]],
+      delivery_status: 1,
+      is_del: 0,
+      user_id: this.user.uid,
+    }).count("id");
+    this.assign("nopaid", nopaid);
+    this.assign("receipt", receipt);
+    //console.log(data.data);
+    this.assign("count",data.count);
+    this.assign('list', data.data);
+    this.meta_title = "我的订单";
+
+    return this.json(data);
+  }
+
   //
     /**
    * createorder action 查询验证优惠券
@@ -366,7 +517,7 @@ export default class extends Base {
    * code 优惠券代码
    *  
    */
-  async discountqueryAction(){
+  async discountcheckAction(){
     let discount_code = this.param("code");
     if(think.isEmpty(discount_code)){
         return this.fail("参数错误！");
@@ -386,7 +537,69 @@ export default class extends Base {
 
     return this.success(findData);
     //return this.action("article","index");
-}
+  }
+
+  /**
+   * discountAddAction 添加优惠券
+   * @return {Promise} []
+   * code 优惠券代码
+   *  
+   */
+  async discountaddAction(){
+    await this.weblogin();
+    //let data = this.post();
+    let data = {};
+    data.discount_code = this.get("code");
+    console.log(this.get("code"));
+    if(think.isEmpty(data.discount_code)){
+        return this.fail("参数为空！");
+    }
+    console.log(data.discount_code);
+    let findData = await this.model("discount").where({code:data.discount_code,is_del:0}).find();
+    if(think.isEmpty(findData.id)){
+      return this.fail("优惠券不存在");
+    }else{
+      let member={};
+      let discountlist = await this.model("member").where({id: this.user.uid}).getField("discountlist", true);
+      if(think.isEmpty(discountlist)){
+        discountlist = [];
+        //let discountOne = {};
+        //discountOne.code = data.discount_code;
+        discountlist.push(data.discount_code);
+        discountlist = JSON.stringify(discountlist);
+      }else{
+        discountlist = JSON.parse(discountlist);
+        discountlist.push(data.discount_code);
+        discountlist = JSON.stringify(discountlist);
+      }
+      member.discountlist = discountlist;
+      console.log(discountlist);
+      let update = await this.model("member").where({id: this.user.uid}).update(member);
+      return this.success('添加优惠券成功');
+    }
+    //return this.action("article","index");
+  }
+
+  /**
+   * discountAddAction 查询优惠券
+   * @return {Promise} []
+   * code 优惠券代码
+   *  
+   */
+  async discountqueryAction(){
+    await this.weblogin();
+    let discountlist = await this.model("member").where({id: this.user.uid}).getField("discountlist", true);
+    if(think.isEmpty(discountlist)){
+        discountlist = [];
+        
+      }else{
+        discountlist = JSON.parse(discountlist);
+        console.log(discountlist);
+        discountlist = await this.model("discount").where({code:["IN", discountlist],is_del:0}).select();
+      }
+      return this.json(discountlist);
+    //return this.action("article","index");
+  }
 
   //实时查询商品库存
   async getstockAction(){
