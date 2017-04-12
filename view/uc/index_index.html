@@ -1,4 +1,372 @@
-{% extends "./inc/base.html" %} {% block content %}
+{% extends "./inc/base.html" %} 
+
+
+ {% block style %}
+ <link href="/static/assets/plugins/jquery-html5-upload/cropper/cropper.min.css" rel="stylesheet">
+<link href="/static/assets/plugins/jquery-html5-upload/sitelogo/sitelogo.css" rel="stylesheet">
+  <style>
+      p{
+        margin:0;
+      }
+      .bg{
+        background:url(/static/assets/images/uc-background.jpg) 50% 50% / cover no-repeat;
+        border-bottom:0px;
+      }
+      .clear:after{
+        content:"";
+        display:block;
+        clear:both;
+      }
+      .aside-left{
+        min-width:15%;
+        padding-bottom:40px;
+        background: -webkit-linear-gradient(#425575, #8E8693 30%,#38628B 100%); /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(#425575, #8E8693 30%,#38628B 100%); /* Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(#425575, #8E8693 30%,#38628B 100%); /* Firefox 3.6 - 15 */
+        background: linear-gradient(#425575, #8E8693 30%,#38628B 100%); /* 标准的语法 */
+      }
+      .aside-left,
+      .aside-right{
+        float:left;
+      }
+      ul,li{
+        margin:0;
+        padding:0;
+        list-style:none;
+      }
+      .aside-left div a,
+      .aside-left ul li a{
+        color:#fff;
+      }
+      .menu-box{
+        background:transparent;
+      }
+     .uc-title a{
+        font-family: "Microsoft Yahei",Regular;
+        font-size:22px;
+        font-weight:bold;
+     }
+     .uc-title{
+        padding:25px 10px 25px 10px;
+        border-bottom:3px solid #fff;
+     }
+     .aside-list li{
+        padding:20px 0 0 20px;
+     }
+     .aside-list>li>a{
+        font-size:16px;
+        display:inline-block;
+        width:100%;
+        height:100%;
+     }
+     .drop-down{
+        position:relative;
+     }
+     .aside-list>li>i{
+        float:right;
+        display:inline-block;
+        width:17px;
+        height:0px;
+        border:6px solid transparent;
+        border-left:13px solid #fff;
+        position:absolute;
+        top:26px;
+        left:116px;
+        transition:all linear 0.3s;
+    }
+    .rotate{
+      transform:rotate(90deg);
+      transform-origin:31% 50%;
+    }
+    .apply{
+      font-size:20px;
+       margin-left:50%;
+    }
+    .aside-right{
+      float:right;
+      width:84%;
+    }
+    .order-box-header,
+    .person-header,
+    .head-title,
+    .address-title,
+    .information-title,
+    .security-title,
+    .order-title,
+    .order-table,
+    .archives-header,
+    .coupon-title,
+    .detail-title{
+      padding:10px 0 10px 20px;
+      background: -webkit-linear-gradient(left,#425575, #8E8693 30%,#38628B 100%); /* Safari 5.1 - 6.0 */
+      background: -o-linear-gradient(left,#425575, #8E8693 30%,#38628B 100%); /* Opera 11.1 - 12.0 */
+      background: -moz-linear-gradient(left,#425575, #8E8693 30%,#38628B 100%); /* Firefox 3.6 - 15 */
+      background: linear-gradient(left,#425575, #8E8693 30%,#38628B 100%); /* 标准的语法 */
+    }
+    .order-box-header span{
+      display:inline-block;
+      padding:0 0 0 15px;
+      color:#fff;
+      font-size:16px;
+    }
+  
+    .table-responsive,
+    .document,
+    .add-picture,
+    .information,
+    .security-box,
+    .archives,
+    .detail-content{
+      padding-bottom:20px;
+      background: -webkit-linear-gradient(left,#6D8DB3, #9DB7D8); /* Safari 5.1 - 6.0 */
+      background: -o-linear-gradient(left,#6D8DB3, #9DB7D8); /* Opera 11.1 - 12.0 */
+      background: -moz-linear-gradient(left,#6D8DB3, #9DB7D8); /* Firefox 3.6 - 15 */
+      background: linear-gradient(left,#6D8DB3, #9DB7D8); /* 标准的语法 */
+    }
+    .table-list{
+      background:#fff;
+    }
+    .table-list a{
+      display:inline-block;
+      width:24.5%;
+      text-align:center;
+      font-size:16px;
+      color:#000;
+      padding:10px 0 10px 0;
+    }
+    table tr td{
+      padding:8px;
+    }
+    .order-table{
+      padding:10px 20px 10px 20px;;
+    }
+    .order-table table{
+      margin:20px 0 0 0;
+      border:2px solid #DAE3E8;
+      width:100%;
+      background: #fff;
+    }
+    .goodsItem{
+      display:inline-block;
+      width:220px;
+    }
+   
+    /*.order-box>div>table.order-tb>tr:first-child{
+      background:transparent;
+    }*/
+    .order-box>div>table.order-tb>tbody>.tr-header{
+      background:#F3F8FB;
+      border-bottom:2px solid #DAE3E8;
+    }
+    .order-box>div>table.order-tb>tbody>tr{
+      background:#fff;
+    }
+    .tr-header td{
+      font-size:16px;
+      text-align: center;
+    }
+    table.order-tb>tbody>tr>td{
+      vertical-align:middle;
+      text-align: center;
+    }
+    .order-tb .goods-item {
+      margin-right: 20px;
+      width:auto;
+      float: left;
+    }
+    .order-tb .goods-item .p-msg {
+      width: 220px;
+    }
+    .person-header,
+    .head-title{
+      color:#fff;
+      font-size:20px;
+    }
+    .upload{
+      color:#fff;
+      font-size:;
+    }
+    b.upload{
+      padding-left:30px;
+    }
+    span.upload{
+      padding-left:220px;
+    }
+    .landline-telephone{
+
+    }
+    .area,
+    .extension{
+      display:inline-block;
+      width:70px;
+      height:34px;
+      padding:6px 12px;
+      font-size:14px;
+      line-height: 1.42857143;
+      color: #555;
+      background-color: #fff;
+      border: #ddd 1px solid;
+      border-radius:3px;
+    }
+    .telephone{
+      display:inline-block;
+      height:34px;
+      padding:6px 12px;
+      font-size:14px;
+      line-height: 1.42857143;
+      color: #555;
+      background-color: #fff;
+      border: #ddd 1px solid;
+      border-radius:3px;
+    }
+    .form-group label{
+      color:#fff;
+    }
+    .uname{
+      color:#fff;
+      font-size:14px;
+    }
+    .security-title{
+      font-size:20px;
+      color:#fff;
+    }
+    .information-title span{
+      color:#fff;
+      padding-right:10px;
+      font-size:20px;
+    }
+    .information-title button,
+    .address-title button,
+    .coupon-title div button{
+      font-size:16px;
+      color:#fff;
+      background:#179BD7;
+      padding:5px 12px;
+      border-radius:7px;
+      margin-left:10px;
+    }
+    .order-select button{
+      font-size:14px;
+      color:#fff;
+      background:#179BD7;
+      padding:3px 8px;
+      border-radius:7px;
+      margin:2px;
+    }
+    .address-title span{
+      color:#fff;
+      padding-right:10px;
+      font-size:20px;
+    }
+    .alter{
+      font-size:18px;
+      color:#fff;
+      padding:15px 0 15px 30px;
+    }
+    .coupon-title{
+      padding-right:50px;
+    }
+    .coupon-title div{
+      float:right;
+    }
+    .coupon-title>span{
+      font-size:20px;
+      color:#fff;
+    }
+    .coupon-title>div>span{
+      font-size:16px;
+      color:#fff;
+    }
+    .coupon-count{
+      padding:15px;
+    }
+    .coupon-count b{
+      font-size:18px;
+      font-weight:normal;
+      color:#fff;
+    }
+    .coupon-count span,
+    .coupon-count span a{
+      color:#fff;
+    }
+    .coupon table,
+    .coupon-list{
+      width:100%;
+      margin:0 auto;
+    }
+    .coupon table{
+      margin-bottom:7px;
+      background:#fff;
+    }
+    .coupon table tr td{
+      width:25%;
+      text-align:center;
+      padding:10px 0;
+    }
+    .detail-title{
+      font-size:20px;
+      color:#fff;
+    }
+    .detail-title span{
+      font-size:18px;
+    }
+    .detail-content{
+      padding:20px 60px 20px 60px;
+    }
+    .detail-content p{
+      font-size:16px;
+      color:#fff;
+    }
+    .detail-content p span,
+    .detail-content ul li{
+      font-size:14px;
+      color:#fff;
+    }
+   .detail-content ul li b{
+      font-weight:normal;
+      display:inline-block;
+      min-width: 120px;
+      text-align: right;
+      padding-right:15px;
+    }
+    .detail-content ul{
+      padding-left:100px;
+    }
+    .order-select{
+      float:right;
+    }
+    .order-state{
+      float:left;
+    }
+    .order-information{
+      text-align: center;
+    }
+    .traveller-num{
+      float:left;
+    }
+    .traveller-num span{
+      color:#fff;
+    }
+
+
+    
+    .min-height{
+      min-height: 550px;
+    }
+    .in{
+      display:block;
+    }
+    .out{
+      display:none;
+    }
+  </style>
+ {% endblock %} 
+
+
+
+
+
+{% block content %}
 <!-- 
 				PAGE HEADER 
 				
@@ -16,7 +384,13 @@
 					.shadow-before-3 	= shadow 3 header top
 					.shadow-after-3 	= shadow 3 header bottom
 			-->
-<section class="page-header page-header-xs">
+
+
+
+
+
+{#
+<section class="page-header">
   <div class="container">
     <!-- breadcrumbs -->
     <ol class="breadcrumb breadcrumb-inverse">
@@ -30,121 +404,702 @@
 </section>
 <!-- /PAGE HEADER -->
 
-
-
-
-<!-- -->
-<section>
-  <div class="container">
-    <div class="row">
-      <!-- LEFT -->
-      {% include "./inc/user_left.html" %}
-      <!-- RIGHT -->
-      <div class="col-lg-10 col-md-10 col-sm-8">
-
-        <!-- FLIP BOX -->
-        <div class="box-flip box-icon box-icon-center box-icon-round box-icon-large text-center nomargin">
-          <div class="front1">
-            <div class="box1 noradius">
-              <div class="box-icon-title text-center">
-                <img src="/uc/index/avatar"  class=" rounded" alt="{{controller.user.username}}" style="width: 65px" />
-                <h2>尊敬的会员 <span class="text-danger">{{controller.user.username}}</span>  ，欢迎您！</h2>
-              </div>
-              <p>最后一次登录：{{controller.user.last_login_time|dateformat('Y-m-d H:i:s')}}</p>
-            </div>
-          </div>
-
-          <div class="back hide">
-            <div class="box2 noradius">
-              <h4>WHO AM I?</h4>
-              <hr />
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas metus nulla, commodo a sodales sed, dignissim pretium nunc. Nam et lacus neque. Ut enim massa, sodales tempor convallis et, iaculis ac massa. Maecenas metus nulla, commodo a sodales sed, dignissim pretium nunc. Nam et lacus neque.</p>
-            </div>
-          </div>
-        </div>
-        {#
-        <!-- /FLIP BOX -->
-        <div class="box-light margin-top-20"><!-- .box-light OR .box-dark -->
-          <div class="box-inner">
-            <ul class="row clearfix testimonial-dotted list-unstyled">
-              <li class="col-md-4">
-                <div class="testimonial">
-                  <figure class="pull-left">
-                    <i class="ico-light ico-rounded ico-hover icon-wallet"></i>
-                  </figure>
-                  <div class="testimonial-content">
-                    <h5 class="margin-bottom-8">账户余额： </h5>
-                    ￥<span class="text-danger">{%if userInfo.balance %}{{userInfo.balance|formatCurrency}}{%else%}0.00{%endif%}</span>
-                  </div>
-                </div>
-              </li>
-              <li class="col-md-4">
-                <div class="testimonial">
-                  <figure class="pull-left">
-                    <i class="ico-light ico-rounded ico-hover et-calendar"></i>
-                  </figure>
-                  <div class="testimonial-content">
-                    <h5 class="margin-bottom-8">订单交易总金额： </h5>
-                    ￥<span class="text-danger">{%if orderTotal %}{{orderTotal|formatCurrency}}{%else%}0.00{%endif%}</span>
-                  </div>
-                </div>
-              </li>
-              <li class="col-md-4">
-                <div class="testimonial">
-                  <figure class="pull-left">
-                    <i class="ico-light ico-rounded ico-hover icon-diamond"></i>
-                  </figure>
-                  <div class="testimonial-content">
-                    <h5 class="margin-bottom-8">我的积分： </h5>
-                    <span class="text-danger">{%if userInfo.score %}{{userInfo.score}}{%else%}0{%endif%}</span>
-
-                  </div>
-                </div>
-              </li>
-              <li class="col-md-4">
-                <div class="testimonial">
-                  <figure class="pull-left">
-                    <i class="ico-light ico-rounded ico-hover fa fa-star-half-full "></i>
-                  </figure>
-                  <div class="testimonial-content">
-                    <h5 class="margin-bottom-8">会员级别： </h5>
-                    <span class="text-danger">{{userInfo.name}}</span>
-                  </div>
-                </div>
-              </li>
-              <li class="col-md-4">
-                <div class="testimonial">
-                  <figure class="pull-left">
-                    <i class="ico-light ico-rounded ico-hover fa fa-hourglass-half"></i>
-                  </figure>
-                  <div class="testimonial-content">
-                    <h5 class="margin-bottom-8">进行中的订单： </h5>
-                    <span class="text-danger">{{onOrder}}</span> 笔
-                  </div>
-                </div>
-              </li>
-              <li class="col-md-4">
-                <div class="testimonial">
-                  <figure class="pull-left">
-                    <i class="ico-light ico-rounded ico-hover fa fa-balance-scale"></i>
-                  </figure>
-                  <div class="testimonial-content">
-                    <h5 class="margin-bottom-8">待评价的商品： </h5>
-                    0
-
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        #}
+<section class="bg">
+  <div class="uc-box clear container">
+    <div class="aside-left">
+      <div class="uc-title">
+        <a href="">我的花生卷</a>
       </div>
+      <ul class="aside-list">
+          <li><a id="orderbx" class="category" href="a01">订单</a></li>
+          <li><a class="category" href="a02">个人档案</a></li>
+          <li><a class="category" href="a03">头像设置</a></li>
+          <li><a class="category" href="a04">我的社区主页</a></li>
+          <li><a class="category" href="a05">账号安全</a></li>
+          <li><a class="category" href="a06">收藏</a></li>
+          <li class="drop-down">
+            <a class="formation" data-toggle="collapse" href="#drop-menu">常用信息</a>
+            <i></i>
+            <div class="navbar-default menu-box">
+            
+                 <div id="drop-menu" class="collapse">
+                  <ul>
+                    <li><a class="category" href="a07">常用旅客信息</a></li>
+                    <li><a class="category" href="a08">常用地址</a></li>
+                  </ul>
+                 </div>
+            </div>
+          </li>
+          <li><a class="category" href="a09">优惠券</a></li>
+          <li><a class="category" href="a10">消息</a></li>
+          
+      </ul>
+    </div>
+    <div class="aside-rightqq">
+        <div class="order-box out">
+          <div class="order-box-header">
+              <img src="/uc/index/avatar"  class=" rounded" alt="{{controller.user.username}}" style="width: 65px" />
+              <span>{{controller.user.username}}</span>
+              <a class="btn btn-info apply" href="">申请成为商家</a>
+          </div>
+          <div class="table-responsive">
+            <div class="table-list">
+                <a>全部订单</a>
+                <a>未出行</a>
+                <a href="/uc/order/index/status/0">待付款</a>
+                <a>待评价</a>
+            </div>		
+             
+					<table class="table table-bordered  order-tb all">
+                  
+                  {% for item in list %}
+      
+                    <tbody>
+                    <!-- <tr class="sep-row">
+                        <td class="height-10" colspan="6"></td>
+
+                    </tr> -->
+            
+                    <tr class="active tr-header">
+                        <!-- <td colspan="5">
+                            {%if item.status == 4 or item.status== 6%}
+                            <a href="/uc/order/delorder/id/{{item.id}}" class="btn btn-default btn-xs pull-right nomargin confirm ajax-get"><i class="fa fa-trash-o nopadding"></i></a>
+                            {%endif%}
+                            {%if item.pay_status ==0 and item.status != 6%}
+                            <div class=" pull-right">
+                                <i class="fa fa-hourglass-half"></i> 剩余 <span class="countdown countdown-inline" data-from="{{item.end_time}}" data-labels="年,月,周,天,小时,分,秒"></span>
+                            </div>
+                            {%endif%}
+                            <h5 class="margin-bottom-0">
+                                <small>{{item.create_time|dateformat('Y-m-d H:i:s')}}</small>
+                                <span class="margin-left-20">订单<a href="#" target="_blank">{{item.order_no}}</a></span></h5>
+                            </span>
+
+
+                        </td> -->
+                        <td>
+                          订单号：<a href="#" target="_blank">{{item.order_no}}</a>
+                        </td>
+                        <td>姓名</td>
+                        <td>出发日期</td>
+                        <td>总金额</td>
+                        <td>订单状态</td>
+                        <td>操作</td>
+                    </tr>
+                    {%set i=0%}
+                    {% for v in item.goods%}
+                    {% if i==0 %}
+                    <tr>
+                        <td>
+                            <div class="goods-item">
+                                <!-- <div class="p-img">
+                                    <a href="{{v.url}}" target="_blank">
+                                        <img class="" src="{{v.pic}}" title="{{v.title}}" data-lazy-img="done" height="100%" width="60">
+                                    </a>
+                                </div> -->
+                                <div class="p-msg">
+                                    <div class="p-name">{%if v.type%}<span class="text-info">[{{v.type}}]</span> {%endif%}<a href="{{v.url}}" class="a-link" target="_blank" title="{{v.title}}">{{v.title}}</a></div>
+                                </div>
+                            </div>
+
+                           <!--  <div class="goods-number">
+                                x{{v.goods_nums}}
+                            </div> -->
+
+
+                           <!--  <div class="goods-repair">
+                                <a href="#{{item.id}}" target="_blank" >返修/退换货</a>
+                            </div> -->
+
+                        </td>
+                        <td style="border-bottom: none"><a href="javascript:;" type="button"
+                                                           data-container="body"
+                                                           data-toggle="popover"
+                                                           data-placement="left"
+                                                           data-content=" {{item.accept_name}} {{item.mobile}}<br>{{item.province}}{{item.city}}{{item.county}}{{item.addr}}"
+                                                           data-original-title="" title="">
+                             {{item.accept_name}}</a></td>
+                        <td style="border-bottom: none">
+                            <!-- <div class="amount">
+                                <span class="text-danger">总额 ¥{{item.order_amount|formatCurrency}}</span> <br>
+                                <span class="ftx-13">{{item.channel}}</span>
+                            </div> -->
+                                {{item.create_time|dateformat('Y-m-d H:i:s')}}
+                        </td>
+                        <td style="border-bottom: none">
+                          <div class="amount">
+                              <span class="text-danger">总额 ¥{{item.order_amount|formatCurrency}}</span> <br>
+                              <!-- <span class="ftx-13">{{item.channel}}</span> -->
+                          </div>
+                            <!-- <div class="status">
+
+                                {%if item.pay_status == 0 and item.delivery_status != 1 and item.status != 6 and item.status != 4%}
+                                <span class="text-warning">等待付款</span>
+                                {%elif (item.pay_status == 1 or item.status ==3) and item.delivery_status != 1 and item.status != 6 and item.status != 4%}
+                                <span class="text-warning">等待发货</span>
+                                {%elif item.delivery_status == 1 and item.status != 6 and item.status != 4 %}
+                                <span class="text-success">等待收货</span>
+                                {%elif item.status == 6%}
+                                <span class="text-danger">已作废</span>
+                                {%elif item.status == 4%}
+                                <span class="text-default">已完成</span>
+                                {%endif%}
+
+                            <br>
+                            <a target="_blank" href="#{{item.id}}">订单详情</a>
+                            </div> -->
+                        </td>
+                        <td>
+                            <div class="status">
+
+                                {%if item.pay_status == 0 and item.delivery_status != 1 and item.status != 6 and item.status != 4%}
+                                <span class="text-warning">等待付款</span>
+                                {%elif (item.pay_status == 1 or item.status ==3) and item.delivery_status != 1 and item.status != 6 and item.status != 4%}
+                                <span class="text-warning">等待发货</span>
+                                {%elif item.delivery_status == 1 and item.status != 6 and item.status != 4 %}
+                                <span class="text-success">等待收货</span>
+                                {%elif item.status == 6%}
+                                <span class="text-danger">已作废</span>
+                                {%elif item.status == 4%}
+                                <span class="text-default">已完成</span>
+                                {%endif%}
+
+                            <br>
+                            <a target="_blank" href="#{{item.id}}">订单详情</a>
+                            </div>
+                        </td>
+                        <td style="vertical-align: middle;border-bottom: none">
+                            {%if item.pay_status == 0 and item.delivery_status != 1 and item.status != 6 and item.status != 4%}
+                            <a class="btn btn-danger btn-xs" href="/uc/pay/pay?order={{item.id}}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
+                            {%elif (item.pay_status == 1 or item.status ==3) and item.delivery_status != 1 and item.status != 6 and item.status != 4%}
+                            <a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
+                            {%elif item.delivery_status == 1 and item.status != 6 and item.status != 4 %}
+                            <a class="btn btn-success btn-xs confirm ajax-get" href="/uc/order/confirmreceipt/id/{{item.id}}"><i class="fa fa-cart-plus white"></i>确认收货 </a>
+                            {%elif item.status == 4 or item.status == 6%}
+                            <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
+                            {%endif%}
+
+                        </td>
+
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td>
+                           <!--  <div class="goods-item">
+                                <div class="p-img">
+                                    <a href="{{v.url}}" target="_blank">
+                                        <img class="" src="{{v.pic}}" title="{{v.title}}" data-lazy-img="done" height="100%" width="60">
+                                    </a>
+                                </div>
+                                <div class="p-msg">
+                                    <div class="p-name">{%if v.type%}<span class="text-info">[{{v.type}}]</span> {%endif%} <a href="{{v.url}}" class="a-link" target="_blank" title="{{v.title}}">{{v.title}}</a></div>
+                                </div>
+                            </div>
+
+                            <div class="goods-number">
+                                x{{v.goods_nums}}
+                            </div>
+
+
+                            <div class="goods-repair">
+                                <a href="#{{item.id}}" target="_blank" >返修/退换货</a>
+                            </div> -->
+                            <div class="goods-item">
+                                <!-- <div class="p-img">
+                                    <a href="{{v.url}}" target="_blank">
+                                        <img class="" src="{{v.pic}}" title="{{v.title}}" data-lazy-img="done" height="100%" width="60">
+                                    </a>
+                                </div> -->
+                                <div class="p-msg">
+                                    <div class="p-name">{%if v.type%}<span class="text-info">[{{v.type}}]</span> {%endif%}<a href="{{v.url}}" class="a-link" target="_blank" title="{{v.title}}">{{v.title}}</a></div>
+                                </div>
+
+                        </td>
+                        <td style="border-top: none;border-bottom: none"></td>
+                        <td style="border-top: none;border-bottom: none"></td>
+                        <td style="border-top: none;border-bottom: none"></td>
+                        <td style="border-top: none;border-bottom: none"></td>
+                        <td style="border-top: none;border-bottom: none"></td>
+
+                    </tr>
+                    {% endif %}
+                    {%set i=i+1%}
+                    {%endfor%}
+                    </tbody>
+                    {% else %}
+                    <tbody>
+                    <tr class="sep-row">
+                        <td class="height-10" colspan="5"></td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <div class="alert alert-warning alert-block">
+                                <button data-dismiss="alert" class="close" type="button">×</button>
+                                <p>This would display if the 'item' collection were empty</p>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    {% endfor %}
+              </table>
+              
+
+              <!-- PAGINATION -->
+            <div class="text-right">
+                <!-- Pagination Default -->
+                {{pagination | safe}}
+                <!-- /Pagination Default -->
+            </div>
+          </div>
+
+        </div>
+        <div class="person-document in">
+            <div class="person-header">
+                个人档案
+            </div>
+            <div class="document">
+              <div class="tab-pane fade in active" id="info">
+                <form role="form" action="/uc/seting/updateinfo" method="post" class="form-horizontal form-info">
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">昵称</label>
+                    <div class="col-md-10">
+                      <p class="form-control-static uname">{{controller.user.username}}</p>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">姓名</label>
+                    <div class="col-md-4">
+                    <input type="text" placeholder="真实姓名" class="form-control" name="real_name" value="{{userInfo.real_name}}">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">性别</label>
+                    <div class="col-md-10">
+
+                      <label class="radio" style="margin-top: 3px;padding-top: 3px">
+                        <input type="radio" {%if userInfo.sex == 1 %} checked="checked"{%endif%} value="1" name="sex">
+                        <i></i> 男
+                      </label>
+                      <label class="radio" style="margin-top: 3px;padding-top: 3px">
+                      <input type="radio" {%if userInfo.sex == 2 %} checked="checked"{%endif%} value="2" name="sex">
+                      <i></i> 女
+                    </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">生日</label>
+                    <div class="col-md-4">
+                      <input type="text" name="birthday" value="{{userInfo.birthday|dateformat('Y-m-d')}}" class="form-control masked" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">手机号码</label>
+                    <div class="col-md-4">
+                      <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="手机号码">
+                    </div></div>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">固定电话</label>
+                    <div class="col-md-10   landline-telephone">
+                      <input type="text" name="phone_zone" value="{{userInfo.phone_zone}}" class="area"  data-placeholder="区号" placeholder="区号">
+                      <input type="text" name="phone_number" value="{{userInfo.phone_number}}" class="telephone"  data-placeholder="电话" placeholder="电话">
+                      <input type="text" name="phone_ext" value="{{userInfo.phone_ext}}" class="extension"  data-placeholder="分机" placeholder="分机">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-2 control-label">常用出发城市</label>
+                    <div class="col-md-10">
+                      <select class="form-control pointer  " id="start_province1" name="start_province" style="width: 150px;display: inline-block">
+                        <option value="">--- 省份/直辖市 ---</option>
+                        {% for val in start_province %}
+                        <option value="{{val.id}}" {% if userInfo.start_province == val.id %} selected {% endif%}>{{val.name}}</option>
+                        {% endfor %}
+                      </select>
+                      <select class="form-control pointer  " id="start_city1" name="start_city" style="width: 150px;display: inline-block">
+                        {% for val in start_city %}
+                        <option value="{{val.id}}" {% if userInfo.start_city == val.id %} selected {% endif%}>{{val.name}}</option>
+                        {% else %}
+                        <option value="">--- 市 ---</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  
+                 
+                
+                  
+
+                  <div class="form-group margin-top-30">
+                    <div class="col-md-4 col-md-offset-2">
+                      <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" ><i class="fa fa-check"></i> 保存更改 </button>
+                      </div>
+
+                  </div>
+                </form>
+              </div>
+
+            </div>
+        </div>
+        <!-- <div class="head-portrait out">
+            <div class="head-title">
+              头像设置
+            </div>
+            <div class="add-picture">
+              
+
+                <div class="" id="avatar-modal" aria-labelledby="avatar-modal-label" >
+                  <div class="">
+                    <div class="">
+                      <form class="avatar-form" action="/uc/seting/updateavatar" enctype="multipart/form-data" method="post">
+
+                        <div class="modal-body">
+                          <div class="avatar-body">
+                            <div class="avatar-upload">
+                              <input class="avatar-src" name="avatar_src" type="hidden">
+                              <input class="avatar-data" name="avatar_data" type="hidden">
+
+                              </div>
+                            <div class="fancy-file-upload fancy-file-primary">
+                              <b class="upload">头像</b>
+                              
+                              <input type="file" class="form-control avatar-input" id="avatarInput" name="file" onchange="jQuery(this).next('input').val(this.value);" />
+                              
+                              <span class="button">上传图片</span>
+                              <span class="upload">仅支持jpg.gif.png格式图片,且文件小于2M</span>
+                            </div>
+                            <div class="row">
+
+                              <div class="col-md-6 col-md-offset-1">
+                                <div class="avatar-wrapper"></div>
+                              </div>
+                              <div class="col-md-4" style="vertical-align: bottom">
+                                <div class="avatar-preview preview-lg"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
+                                <div class="avatar-preview preview-md"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
+                                <div class="avatar-preview preview-sm"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
+                              </div>
+
+                            </div>
+                            <div class="row avatar-btns">
+                              <div class="col-md-3">
+                                <button class="btn btn-primary btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
+                              </div>
+                              <div class="col-md-9">
+                                <div class="btn-group">
+                                  <button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
+                                </div>
+                                <div class="btn-group">
+                                  <button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+            
+            </div>
+        </div> -->
+        <div class="common-address out">
+          <div class="address-title">
+            <span>关键字</span>
+            <input type="text" placeholder="地址收件人/简称">
+            <button>查询</button>
+            <button>新增</button>
+          </div>
+          <div class="address-list">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-vertical-middle">
+                <thead>
+                <tr>
+                  <th >收货人</th>
+                  <th>所在地区</th>
+                  <th>街道地址</th>
+                  <th>邮编</th>
+                  <th>手机</th>
+                  <th></th>
+                  <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%for item in list %}
+                <tr>
+                  <td >{{item.accept_name}}</td>
+                  <td>{{item.province}},{{item.city}},{{item.county}}</td>
+                  <td>{{item.addr}}</td>
+                  <td>
+                    {{item.zip}}
+                  </td>
+                  <td>
+                  {{item.mobile}}
+                  </td>
+                  <td>{%if item.is_default == 1%}<span class="label label-primary">默认地址 </span>{%else%}<a class="btn btn-default btn-xs ajax-get" href="/uc/address/addrisdefault/id/{{item.id}}"><i class="fa fa-check white"></i>设为默认地址 </a>{%endif%}</td>
+                  <td><a class="btn btn-default btn-xs" data-toggle="ajaxModal" href="/uc/address/editaddrmodal/id/{{item.id}}/type/1"><i class="fa fa-edit white"></i>编辑 </a>
+                    <a class="btn btn-default btn-xs confirm ajax-get" href="/uc/address/deladdr/id/{{item.id}}"><i class="fa fa-times white"></i>删除 </a></td>
+                </tr>
+                {%endfor%}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="passenger-information out">
+           <div class="information-title">
+               <span>旅客姓名</span>
+              <input type="text" placeholder="中文/英文">
+              <button>查询</button>
+              <button>新增</button>
+           </div>
+           <div class="information">
+              <div class="table-responsive">
+              <table class="table table-bordered table-striped table-vertical-middle">
+                <thead>
+                <tr>
+                  <th>中文姓名</th>
+                  <th>英文姓名</th>
+                  <th>国际</th>
+                  <th>证件</th>
+                  <th>手机</th>
+                  <th>类型</th>
+                  <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%for item in list %}
+                <tr>
+                  <td >{{item.name_zh}}</td>
+                  <td>{{item.name_en_last}} {{item.name_en_first}}</td>
+                  <td>{{item.country}}</td>
+                  <td>{{item.credentials_type_name}}:{{item.credentials_value}}</td>
+                  <td>{{item.phone}}</td>
+                  <td>{{item.type_name}}</td>
+                  <td><a class="btn btn-default btn-xs" data-toggle="ajaxModal" href="/uc/traveller/editaddrmodal/id/{{item.id}}/type/1"><i class="fa fa-edit white"></i>编辑 </a>
+                    <a class="btn btn-default btn-xs confirm ajax-get" href="/uc/traveller/deladdr/id/{{item.id}}"><i class="fa fa-times white"></i>删除 </a></td>
+                </tr>
+                {%endfor%}
+
+                </tbody>
+              </table>
+            </div>
+            <!-- PAGINATION -->
+            <div class="text-right">
+              <!-- Pagination Default -->
+              {{pagination | safe}}
+              <!-- /Pagination Default -->
+            </div>
+           </div>
+        </div>
+        <div class="account-security out">
+          <div class="security-title">
+            账号安全
+          </div>
+          <div class="security-box">
+            <div class="alter">
+              修改登录密码
+            </div>
+            <form class="form-password form-horizontal" action="/uc/seting/updatepassword" method="post">
+
+                    <div class="form-group">
+                      <label class="control-label col-md-2">旧密码</label>
+                      <div class="col-md-4">
+                      <input type="password" class="form-control" name="oldpassword" placeholder="输入旧密码">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2">新密码</label>
+                      <div class="col-md-4">
+                      <input type="password" class="form-control" name="password" placeholder="密码长度6-20个字符">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-2">确认密码</label>
+                      <div class="col-md-4">
+                      <input type="password" class="form-control" name="repassword" placeholder="密码长度6-20个字符">
+                        </div>
+                    </div>
+
+                    <div class="form-group margin-top-30">
+                      <div class="col-md-4 col-md-offset-2">
+                        <button class="btn btn-primary ajax-post" target-form="form-password" type="submit" ><i class="fa fa-check"></i> 确认修改 </button>
+                      </div>
+
+                    </div>
+            </form>
+          </div>
+        </div>
     </div>
   </div>
+
+
 </section>
+#}
+
+
+
+
+
+<section class="user-center page-header bg">
+	<div class="uc-box clear container">
+		<div class="aside-left">
+			<div class="uc-title">
+				<a href="">我的花生卷</a>
+			</div>
+			<ul class="aside-list">
+				<li><a class="uc-order" href="">订单</a></li>
+				<li><a class="uc-archives" href="">个人档案</a></li>
+				<li><a class="uc-portrait" href="">头像设置</a></li>
+				<li><a class="uc-community" href="">我的社区主页</a></li>
+				<li><a class="uc-account" href="">账号安全</a></li>
+				<li><a class="uc-collection" href="">收藏</a></li>
+				<li class="drop-down">
+		    		<a class="formation" data-toggle="collapse" href="#dropdown-menu">常用信息</a>
+		    		<i></i>
+			    	<div class="navbar-default menu-box">
+						<div id="dropdown-menu" class="collapse">
+	          	<ul>
+		            <li><a class="uc-traveller" href="">常用旅客信息</a></li>
+		            <li><a class="uc-address" href="">常用地址</a></li>
+							</ul>
+						</div>
+		    		</div>
+	  			</li>
+				<li><a class="uc-coupon" href="">优惠券</a></li>
+				<li><a class="uc-message" href="">消息</a></li>
+			</ul>
+    	</div>
+    	<div class="aside-right">
+         
+
+        <div class="detail-box">
+          <div>
+            <div class="detail-title">
+              订单详情
+            </div>
+            <div class="detail-content clear">
+              <div class="order-state">
+                <p>订单状态:未提交 </p>
+                <p>订单编号:1111111111111111</p>
+              </div>
+              <div class="order-select">
+                <button>继续预定</button> 
+                <br>                            
+                <button>取消订单</button> 
+              </div>             
+            </div>
+          </div>
+          <div>
+            <div class="detail-title">
+              <span>订单信息</span>
+            </div>
+            <div class="detail-content order-information">
+              <p>
+                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+              </p>
+              <p>
+                <span>出发城市上海</span>
+                <span>出发日期2017-02-22</span>
+                <span>返回日期2017-05-11</span>
+                <span>2成人</span>
+                <span>金额:￥11111</span>
+              </p>
+            </div>
+          </div>
+          <div>
+            <div class="detail-title">
+              <span>联系人</span>
+            </div>
+            <div class="detail-content">
+              <ul>
+                <li>
+                  <b>姓名</b>
+                  <span>xxx</span>
+                </li>
+                <li>
+                  <b>Email</b>
+                  <span>123456789@qq.com</span>
+                </li>
+                <li>
+                  <b>手机号码</b>
+                  <span>111111111111</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <div class="detail-title">
+              <span>旅客</span>
+            </div>
+            <div class="detail-content">
+
+              <div>
+                <div class="traveller-num">
+                  <p>旅客</p>
+                  <span>成人</span>
+                </div>             
+                <ul>
+                  <li>
+                    <b>中文姓名</b><span>xxxxxxx</span>
+                  </li>
+                  <li>
+                    <b>英文姓名</b><span>xxxxxxx</span>
+                  </li>
+                  <li>
+                    <b>国籍</b><span>xxxxxxx</span>
+                  </li>
+                  <li>
+                    <b>证件类型</b><span>xxxxxxx</span>
+                  </li>
+                  <li>
+                    <b>性别</b><span>xxxxxxx</span>
+                  </li>
+                  <li>
+                    <b>出生日期</b><span>xxxxxxx</span>
+                  </li>
+                  <li>
+                    <b>联系电话</b><span>xxxxxxx</span>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+
+    	</div>
+  	</div>
+</section>
+
+
+
+
+
+
+
+
+
+
 <!-- / -->
 {% endblock %}
 {% block script %}
+<script type="text/javascript" src="/static/assets/js/view/demo.shop.js"></script>
+<script src="/static/assets/plugins/jquery-html5-upload/cropper/cropper.min.js"></script>
+<script src="/static/assets/plugins/jquery-html5-upload/sitelogo/sitelogo.js"></script>
+<script src="/static/assets/js/uc.js"></script>
+  <script>
+    $(".drop-down").on("click","a.formation",function(){
+      if( $(".aside-list>li>i").attr("class")=="rotate")
+        $(".aside-list>li>i").removeClass("rotate");
+      else
+        $(".aside-list>li>i").addClass("rotate")
+    })
 
+  </script>
 {% endblock %}

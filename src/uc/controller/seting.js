@@ -61,7 +61,7 @@ export default class extends Base {
     let userInfo = await this.model("member").find(this.user.uid);
       console.log(userInfo);
       //console.log(userInfo);
-    this.assign("userInfo", userInfo);
+    //this.assign("userInfo", userInfo);
     let province, city, county, start_city;
     //获取省份
     if (checkMobile(this.userAgent())) {
