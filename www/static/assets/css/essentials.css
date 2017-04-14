@@ -5547,7 +5547,7 @@ section.dark .box-static .box-title {
 /** Box Colors */
 .box-light {
 	padding:15px;
-	background-color:rgba(0,0,0,0.05);
+	/*background-color:rgba(0,0,0,0.05);*/
 }
 .box-dark {
 	color:#fff;

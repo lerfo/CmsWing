@@ -1123,6 +1123,7 @@ global.image_view=(str,w,m)=>{
         return str;
     }
 }
+
 global.img_text_view=(str,w,h)=>{
     //console.log(info);
     let imgReg = /<img.*?(?:>|\/>)/gi;
@@ -1147,6 +1148,17 @@ global.img_text_view=(str,w,h)=>{
         return narr;
     }else {
         return [];
+    }
+}
+/**
+* 过滤html标签
+*
+*/
+global.delhtmltags=(str)=>{
+    if(!think.isEmpty(str)) {
+        return str.replace(/<[^>]+>/g, "");//去掉所有的html标记
+    }else {
+        return '';
     }
 }
 /**

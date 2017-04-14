@@ -7,6 +7,7 @@
 // +----------------------------------------------------------------------
 'use strict';
 import moment from "moment"
+import Segment from 'segment';
 moment.locale('zh-cn');
 import Base from './base.js';
 export default class extends Base {
@@ -153,10 +154,49 @@ async questionAction(){
         if(!think.isEmpty(args.order)){
             type = args.order;
         }
+        //0.获取查询关键字
+        let searchword = [];
+        let q = this.get("q");
+        
+        if(!think.isEmpty(q)){
+          let segment = new Segment();
+          // 使用默认的识别模块及字典，载入字典文件需要1秒，仅初始化时执行一次即可
+          await segment.useDefault();
+          // 开始分词
+          let segment_q= await segment.doSegment(q, {
+              simple: true,
+              stripPunctuation: true
+          });
+          for (let k=0; k<segment_q.length ;k++){
+              searchword.push("%"+segment_q[k]+"%");
+          }
+
+          if(searchword.length > 0){
+            where = think.extend({},where,{'title':["like",searchword]});
+          }
+        }
+        console.log(searchword);
+        //查询时间
+        let days = this.get("day");
+        if(!think.isEmpty(days) && days>0){
+          let search_time = new Date().getTime() - 86400000*days;
+          where = think.extend({},where,{'create_time':['>',search_time]});
+        }
+        //查询分类
+        let cid = this.get("cid");
+        if(!think.isEmpty(cid)){
+          where = think.extend({},where,{'category_id':cid});
+        }
+
+        
         console.log('page:'+page);
         console.log(where);
         let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).select();
-
+        for(let val of questions){
+          val.imgurl = await img_text_view(val.detail,233,150);
+          val.detailtext = await delhtmltags(val.detail);
+          //console.log(val.detailtext);
+        }
         console.log(questions)
         return this.json(questions);
     }

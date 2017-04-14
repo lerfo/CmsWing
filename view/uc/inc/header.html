@@ -41,7 +41,7 @@
 						{% if controller.is_login %}
 						<!--<li class="text-welcome" style="color: #fff;">您好, <strong>{{controller.user.username}}</strong></li>-->
 						<li>
-							<a class="dropdown-toggle no-text-underline" data-toggle="dropdown" href="#"><i class="fa fa-user hidden-xs"></i> <strong>{{controller.user.username}}</strong></a>
+							<a class="dropdown-toggle no-text-underline"  href="/uc"><i class="fa fa-user hidden-xs"></i> <strong>{{controller.user.username}}</strong></a>
 							<ul class="dropdown-menu pull-right">
 								<li><a tabindex="-1" href="/uc"><i class="fa fa-bank"></i>我的中心</a></li>
 								<li class="divider"></li>
@@ -68,9 +68,9 @@
 								<i class="fa fa-search"></i>
 							</a>
 							<div class="search-box">
-								<form action="page-search-result-1.html" method="get">
+								<form action="/search" method="get">
 									<div class="input-group">
-										<input type="text" name="src" placeholder="Search" class="form-control" />
+										<input type="text" name="q" placeholder="Search" class="form-control" />
 										<span class="input-group-btn">
 											<button class="btn btn-primary" type="submit">Search</button>
 										</span>

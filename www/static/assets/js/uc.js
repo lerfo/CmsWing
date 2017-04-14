@@ -6,9 +6,9 @@ $(function(){
           	//console.log("ok")
           	var html="";
      		$.ajax({
-     			url:"/uc/order/query",
+     			url:"/uc/order/query?page=1",
      			success:function(result){
-     				console.log(result.data);
+     				//console.log(result)
      				html=
 	          			'<div class="order-handing">'+
 							'<div class="order-title">'+
@@ -26,789 +26,284 @@ $(function(){
 				        		'<div class="table-responsive order-table">'								
 				        		;
      				$.each(result.data,function(k,v){
-     					var list = v.goods;
-						//console.log(list)
-						if(list.length<=1){
-	     					html+=`
-	     						<table>
-									<tr>
-										<td>
-				                          	订单号：<a href="#" target="_blank">${v.order_no}</a>
-				                        </td>
-				                        <td>姓名</td>
-				                        <td>出发日期</td>
-				                        <td>总金额</td>
-				                        <td>订单状态</td>
-				                        <td>操作</td>
-									</tr><tr>
-								`;
-							
-						
-							$.each(list,function(k,goods){
-								html+=`									
-										<td>
-				                          	<a class="goodsItem" href="">${v.title}</a>
-				                        </td>
-				                        <td>
-											<a href="">${v.connect_name}</a>
-				                        </td>
-				                        <td>${v.create_time}</td>
-				                        <td>￥${v.order_amount}</td>
-						            `;
-						        if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-						        	html+=`
-											<td>
-												<span class="text-warning">等待付款</span>
-												<br />
-												<a class="order-detail" href="">订单详情</a>
-											</td>
-							                <td>
-												<a class="btn btn-danger btn-xs" href="/uc/pay/pay?order=${v.id}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
-							                </td>
-											</tr>
-											</table>													
-						        	`;
-						        }else if((v.pay_status == 1 || v.status ==3) && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-						        	html+=`
-										<td>
-											<span class="text-warning">等待发货</span>
-											<br />
-											<a class="order-detail" href="">订单详情</a>
-										</td>
-						                <td>
-											<a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
-						                </td>
-									</tr>	
-									</table>												
-						        	`;
-						        }else if(v.delivery_status == 1 && v.status != 6 && v.status != 4){
-						        	html+=`
-										<td>
-											<span class="text-success">等待收货</span>
-											<br />
-											<a class="order-detail" href="">订单详情</a>
-										</td>
-						                <td>
-											<a class="btn btn-success btn-xs confirm ajax-get" href="/uc/order/confirmreceipt/id/${v.id}"><i class="fa fa-cart-plus white"></i>确认收货 </a>
-						                </td>
-									</tr>
-									</table>													
-						        	`;
-						        }else if(v.status == 6){
-						        	html+=`
-										<td>
-											<span class="text-danger">已取消</span>
-											<br />
-											<a class="order-detail" href="">订单详情</a>
-										</td>
-						                <td>
-											 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-						                </td>
-									</tr>
-									</table>													
-						        	`;
-						        }else if( v.status == 4){
-						        	html+=`
-										<td>
-											<span class="text-default">已完成</span>
-											<br />
-											<a class="order-detail" href="">订单详情</a>
-										</td>
-						                <td>
-											 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-						                </td>
-									</tr>
-									</table>													
-						        	`;
-						        }					                   
-							})
-						}else if(list.length>1){
-							$.each(list,function(k,goods){
-								html+=`
-								<table>
-									<tr>
-										<td>
-				                          	订单号：<a href="#" target="_blank">${v.order_no}</a>
-				                        </td>
-				                        <td>姓名</td>
-				                        <td>出发日期</td>
-				                        <td>总金额</td>
-				                        <td>订单状态</td>
-				                        <td>操作</td>
-									</tr>
-									<tr>	
-										<td>
-				                          	<a class="goodsItem" href="">${goods.title}</a>
-				                        </td>
-				                        <td>
-											<a href="">${v.accept_name}</a>
-				                        </td>
-				                        <td>${v.create_time}</td>
-				                        <td>￥${v.order_amount}</td>
-						            `;
-						        if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-						        	html+=`
-											<td>
-												<span class="text-warning">等待付款</span>
-												<br />
-												<a class="order-detail" href="">订单详情</a>
-											</td>
-							                <td>
-												<a class="btn btn-danger btn-xs" href="/uc/pay/pay?order=${v.id}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
-							                </td>
-											</tr>
-											</table>													
-						        	`;
-						        }else if((v.pay_status == 1 || v.status ==3) && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-						        	html+=`
-										<td>
-											<span class="text-warning">等待发货</span>
-											<br />
-											<a class="order-detail" href="">订单详情</a>
-										</td>
-						                <td>
-											<a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
-						                </td>
-									</tr>	
-									</table>												
-						        	`;
-						        }else if(v.delivery_status == 1 && v.status != 6 && v.status != 4){
-						        	html+=`
-										<td>
-											<span class="text-success">等待收货</span>
-											<br />
-											<a class="order-detail" href="">订单详情</a>
-										</td>
-						                <td>
-											<a class="btn btn-success btn-xs confirm ajax-get" href="/uc/order/confirmreceipt/id/${v.id}"><i class="fa fa-cart-plus white"></i>确认收货 </a>
-						                </td>
-									</tr>
-									</table>													
-						        	`;
-						        }else if(v.status == 6){
-						        	html+=`
-										<td>
-											<span class="text-danger">已取消</span>
-											<br />
-											<a class="order-detail" href="">订单详情</a>
-										</td>
-						                <td>
-											 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-						                </td>
-									</tr>
-									</table>													
-						        	`;
-						        }else if( v.status == 4){
-						        	html+=`
-										<td>
-											<span class="text-default">已完成</span>
-											<br />
-											<a class="order-detail" href="">订单详情</a>
-										</td>
-						                <td>
-											 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-						                </td>
-									</tr>
-									</table>													
-						        	`;
-						        }					                   
-							})
-						}
+     					html+=resultEach(v);
      				})
      				html+=`							
 							</div>
 			          	</div>
 			        </div>
      				`;
-     				$(".aside-right").html(html);
-
-     				$(".obligation-order").on("click",function(e){
-						e.preventDefault();
-				      	window.event.returnValue=false;
-				      	console.log("ok")
-				      	var html="";
-				          	$.ajax({
-				          		url:"/uc/order/query",
-				          		success:function(result){
-				          			$.each(result.data,function(k,v){
-				          				if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-				          					var list = v.goods;
-				          					if(list.length<=1){
-				          						html+=`
-					     						<table>
-													<tr>
-														<td>
-								                          	订单号：<a href="#" target="_blank">${v.order_no}</a>
-								                        </td>
-								                        <td>姓名</td>
-								                        <td>出发日期</td>
-								                        <td>总金额</td>
-								                        <td>订单状态</td>
-								                        <td>操作</td>
-													</tr>
-													<tr>
-												`;
-												$.each(list,function(k,goods){
-													html+=`									
-																<td>
-										                          	<a class="goodsItem" href="">${goods.title}</a>
-										                        </td>
-										                        <td>
-																	<a href="">${v.accept_name}</a>
-										                        </td>
-										                        <td>${v.create_time}</td>
-										                        <td>￥${v.order_amount}</td>
-										                        <td>
-																	<span class="text-warning">等待付款</span>
-																	<br />
-																	<a class="order-detail" href="">订单详情</a>
-																</td>
-												                <td>
-																	<a class="btn btn-danger btn-xs" href="/uc/pay/pay?order=${v.id}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
-												                </td>
-															</tr>
-														</table>	
-										            `;
-												})
-				          					}else if(list.length>1){
-				          						$.each(list,function(k,goods){
-				          							html+=`
-														<table>
-															<tr>
-																<td>
-										                          	订单号：<a href="#" target="_blank">${v.order_no}</a>
-										                        </td>
-										                        <td>姓名</td>
-										                        <td>出发日期</td>
-										                        <td>总金额</td>
-										                        <td>订单状态</td>
-										                        <td>操作</td>
-															</tr>
-															<tr>	
-																<td>
-										                          	<a class="goodsItem" href="">${goods.title}</a>
-										                        </td>
-										                        <td>
-																	<a href="">${v.accept_name}</a>
-										                        </td>
-										                        <td>${v.create_time}</td>
-										                        <td>￥${v.order_amount}</td>								      
-																<td>
-																	<span class="text-warning">等待付款</span>
-																	<br />
-																	<a class="order-detail" href="">订单详情</a>
-																</td>
-												                <td>
-																	<a class="btn btn-danger btn-xs" href="/uc/pay/pay?order=${v.id}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
-												                </td>
-															</tr>
-														</table>													
-										        	`;         			
-				          						})
-				          					}
-				          					
-				          				}
-				          			})
-				          		$(".order-table").html(html)
-				          		}
-				          	})
-					})
-					$(".all-order").on("click",function(e){
-						if(e&&e.preventDefault)
-				          	e.preventDefault();
-				          	window.event.returnValue=false;
-				          	//console.log("ok")
-				          	var html="";
-				        $.ajax({
-				        	url:"/uc/order/query",
-				        	success:function(result){				        			          			
-			     				$.each(result.data,function(k,v){
-			     					var list = v.goods;
-									//console.log(list)
-									if(list.length<=1){
-				     					html+=`
-				     						<table>
-												<tr>
-													<td>
-							                          	订单号：<a href="#" target="_blank">${v.order_no}</a>
-							                        </td>
-							                        <td>姓名</td>
-							                        <td>出发日期</td>
-							                        <td>总金额</td>
-							                        <td>订单状态</td>
-							                        <td>操作</td>
-												</tr><tr>
-											`;
-									
-										$.each(list,function(k,goods){
-											html+=`									
-													<td>
-							                          	<a class="goodsItem" href="">${goods.title}</a>
-							                        </td>
-							                        <td>
-														<a href="">${v.accept_name}</a>
-							                        </td>
-							                        <td>${v.create_time}</td>
-							                        <td>￥${v.order_amount}</td>
-									            `;
-									        if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-									        	html+=`
-														<td>
-															<span class="text-warning">等待付款</span>
-															<br />
-															<a class="order-detail" href="">订单详情</a>
-														</td>
-										                <td>
-															<a class="btn btn-danger btn-xs" href="/uc/pay/pay?order=${v.id}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
-										                </td>
-														</tr>
-														</table>													
-									        	`;
-									        }else if((v.pay_status == 1 || v.status ==3) && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-									        	html+=`
-													<td>
-														<span class="text-warning">等待发货</span>
-														<br />
-														<a class="order-detail" href="">订单详情</a>
-													</td>
-									                <td>
-														<a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
-									                </td>
-												</tr>	
-												</table>												
-									        	`;
-									        }else if(v.delivery_status == 1 && v.status != 6 && v.status != 4){
-									        	html+=`
-													<td>
-														<span class="text-success">等待收货</span>
-														<br />
-														<a class="order-detail" href="">订单详情</a>
-													</td>
-									                <td>
-														<a class="btn btn-success btn-xs confirm ajax-get" href="/uc/order/confirmreceipt/id/${v.id}"><i class="fa fa-cart-plus white"></i>确认收货 </a>
-									                </td>
-												</tr>
-												</table>													
-									        	`;
-									        }else if(v.status == 6){
-									        	html+=`
-													<td>
-														<span class="text-danger">已取消</span>
-														<br />
-														<a class="order-detail" href="">订单详情</a>
-													</td>
-									                <td>
-														 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-									                </td>
-												</tr>
-												</table>													
-									        	`;
-									        }else if( v.status == 4){
-									        	html+=`
-													<td>
-														<span class="text-default">已完成</span>
-														<br />
-														<a class="order-detail" href="">订单详情</a>
-													</td>
-									                <td>
-														 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-									                </td>
-												</tr>
-												</table>													
-									        	`;
-									        }					                   
-										})
-									}else if(list.length>1){
-										$.each(list,function(k,goods){
-											html+=`
-											<table>
-												<tr>
-													<td>
-							                          	订单号：<a href="#" target="_blank">${v.order_no}</a>
-							                        </td>
-							                        <td>姓名</td>
-							                        <td>出发日期</td>
-							                        <td>总金额</td>
-							                        <td>订单状态</td>
-							                        <td>操作</td>
-												</tr>
-												<tr>	
-													<td>
-							                          	<a class="goodsItem" href="">${goods.title}</a>
-							                        </td>
-							                        <td>
-														<a href="">${v.accept_name}</a>
-							                        </td>
-							                        <td>${v.create_time}</td>
-							                        <td>￥${v.order_amount}</td>
-									            `;
-									        if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-									        	html+=`
-														<td>
-															<span class="text-warning">等待付款</span>
-															<br />
-															<a class="order-detail" href="">订单详情</a>
-														</td>
-										                <td>
-															<a class="btn btn-danger btn-xs" href="/uc/pay/pay?order=${v.id}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
-										                </td>
-														</tr>
-														</table>													
-									        	`;
-									        }else if((v.pay_status == 1 || v.status ==3) && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-									        	html+=`
-													<td>
-														<span class="text-warning">等待发货</span>
-														<br />
-														<a class="order-detail" href="">订单详情</a>
-													</td>
-									                <td>
-														<a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
-									                </td>
-												</tr>	
-												</table>												
-									        	`;
-									        }else if(v.delivery_status == 1 && v.status != 6 && v.status != 4){
-									        	html+=`
-													<td>
-														<span class="text-success">等待收货</span>
-														<br />
-														<a class="order-detail" href="">订单详情</a>
-													</td>
-									                <td>
-														<a class="btn btn-success btn-xs confirm ajax-get" href="/uc/order/confirmreceipt/id/${v.id}"><i class="fa fa-cart-plus white"></i>确认收货 </a>
-									                </td>
-												</tr>
-												</table>													
-									        	`;
-									        }else if(v.status == 6){
-									        	html+=`
-													<td>
-														<span class="text-danger">已取消</span>
-														<br />
-														<a class="order-detail" href="">订单详情</a>
-													</td>
-									                <td>
-														 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-									                </td>
-												</tr>
-												</table>													
-									        	`;
-									        }else if( v.status == 4){
-									        	html+=`
-													<td>
-														<span class="text-default">已完成</span>
-														<br />
-														<a class="order-detail" href="">订单详情</a>
-													</td>
-									                <td>
-														 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-									                </td>
-												</tr>
-												</table>													
-									        	`;
-									        }					                   
-										})
-									}
-			     				})
-			     				
-			     				$(".order-table").html(html);
-							}
-				        })
-					})
-					$(".not-start").on("click",function(e){
-						e.preventDefault();
-				      	window.event.returnValue=false;
-				      	console.log("ok")
-				      	var html="";
-				          	$.ajax({
-				          		url:"/uc/order/query",
-				          		success:function(result){
-				          			$.each(result.data,function(k,v){
-				          				if((v.pay_status == 1 || v.status ==3) && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-				          					var list = v.goods;
-				          					if(list.length<=1){
-				          						html+=`
-					     						<table>
-													<tr>
-														<td>
-								                          	订单号：<a href="#" target="_blank">${v.order_no}</a>
-								                        </td>
-								                        <td>姓名</td>
-								                        <td>出发日期</td>
-								                        <td>总金额</td>
-								                        <td>订单状态</td>
-								                        <td>操作</td>
-													</tr>
-													<tr>
-												`;
-												$.each(list,function(k,goods){
-													html+=`									
-																<td>
-										                          	<a class="goodsItem" href="">${goods.title}</a>
-										                        </td>
-										                        <td>
-																	<a href="">${v.accept_name}</a>
-										                        </td>
-										                        <td>${v.create_time}</td>
-										                        <td>￥${v.order_amount}</td>
-										                       	<td>
-																	<span class="text-warning">等待发货</span>
-																	<br />
-																	<a class="order-detail" href="">订单详情</a>
-																</td>
-												                <td>
-																	<a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
-												                </td>
-															</tr>	
-														</table>		
-										            `;
-												})
-				          					}else if(list.length>1){
-				          						$.each(list,function(k,goods){
-				          							html+=`
-														<table>
-															<tr>
-																<td>
-										                          	订单号：<a href="#" target="_blank">${v.order_no}</a>
-										                        </td>
-										                        <td>姓名</td>
-										                        <td>出发日期</td>
-										                        <td>总金额</td>
-										                        <td>订单状态</td>
-										                        <td>操作</td>
-															</tr>
-															<tr>	
-																<td>
-										                          	<a class="goodsItem" href="">${goods.title}</a>
-										                        </td>
-										                        <td>
-																	<a href="">${v.accept_name}</a>
-										                        </td>
-										                        <td>${v.create_time}</td>
-										                        <td>￥${v.order_amount}</td>								      
-																<td>
-																	<span class="text-warning">等待发货</span>
-																	<br />
-																	<a class="order-detail" href="">订单详情</a>
-																</td>
-												                <td>
-																	<a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
-												                </td>
-															</tr>	
-														</table>									
-										        	`;         			
-				          						})
-				          					}
-				          					
-				          				}
-				          			})
-				          		$(".order-table").html(html)
-				          		}
-				          	})
-					})
-					$(".pending-evaluation").on("click",function(e){
-						e.preventDefault();
-				      	window.event.returnValue=false;
-				      	console.log("ok")
-				      	var html="";
-				          	$.ajax({
-				          		url:"/uc/order/query",
-				          		success:function(result){
-				          			$.each(result.data,function(k,v){
-				          				if(v.status == 4){
-				          					var list = v.goods;
-				          					if(list.length<=1){
-				          						html+=`
-					     						<table>
-													<tr>
-														<td>
-								                          	订单号：<a href="#" target="_blank">${v.order_no}</a>
-								                        </td>
-								                        <td>姓名</td>
-								                        <td>出发日期</td>
-								                        <td>总金额</td>
-								                        <td>订单状态</td>
-								                        <td>操作</td>
-													</tr>
-													<tr>
-												`;
-												$.each(list,function(k,goods){
-													html+=`									
-																<td>
-										                          	<a class="goodsItem" href="">${goods.title}</a>
-										                        </td>
-										                        <td>
-																	<a href="">${v.accept_name}</a>
-										                        </td>
-										                        <td>${v.create_time}</td>
-										                        <td>￥${v.order_amount}</td>
-										                       <td>
-																	<span class="text-default">已完成</span>
-																	<br />
-																	<a class="order-detail" href="">订单详情</a>
-																</td>
-												                <td>
-																	 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-												                </td>
-															</tr>
-														</table>
-										            `;
-												})
-				          					}else if(list.length>1){
-				          						$.each(list,function(k,goods){
-				          							html+=`
-														<table>
-															<tr>
-																<td>
-										                          	订单号：<a href="#" target="_blank">${v.order_no}</a>
-										                        </td>
-										                        <td>姓名</td>
-										                        <td>出发日期</td>
-										                        <td>总金额</td>
-										                        <td>订单状态</td>
-										                        <td>操作</td>
-															</tr>
-															<tr>	
-																<td>
-										                          	<a class="goodsItem" href="">${goods.title}</a>
-										                        </td>
-										                        <td>
-																	<a href="">${v.accept_name}</a>
-										                        </td>
-										                        <td>${v.create_time}</td>
-										                        <td>￥${v.order_amount}</td>								      
-																<td>
-																	<span class="text-default">已完成</span>
-																	<br />
-																	<a class="order-detail" href="">订单详情</a>
-																</td>
-												                <td>
-																	 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-												                </td>
-															</tr>
-														</table>							
-										        	`;         			
-				          						})
-				          					}
-				          					
-				          				}
-				          			})
-				          		$(".order-table").html(html)
-				          		}
-				          	})
-					})
-					$(".order-detail").on("click",function(e){
-						if(e&&e.preventDefault)
-				          	e.preventDefault();
-				          	window.event.returnValue=false;
-				          	//console.log("ok")
-				          	var html="";
-				          	$.ajax({
-				          		url:"/uc/order/query",
-				          		success:function(result){
-				          			html+=`
-										<div class="detail-box">
-									        <div>
-									            <div class="detail-title">
-									              订单详情
-									            </div>
-									            <div class="detail-content clear">
-									              <div class="order-state">
-									                <p>订单状态:未提交 </p>
-									                <p>订单编号:1111111111111111</p>
-									              </div>
-									              <div class="order-select">
-									                <button>继续预定</button> 
-									                <br>                            
-									                <button>取消订单</button> 
-									              </div>             
-									            </div>
-									          </div>
-									          <div>
-									            <div class="detail-title">
-									              <span>订单信息</span>
-									            </div>
-									            <div class="detail-content order-information">
-									              <p>
-									                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-									              </p>
-									              <p>
-									                <span>出发城市上海</span>
-									                <span>出发日期2017-02-22</span>
-									                <span>返回日期2017-05-11</span>
-									                <span>2成人</span>
-									                <span>金额:￥11111</span>
-									              </p>
-									            </div>
-									          </div>
-									          <div>
-									            <div class="detail-title">
-									              <span>联系人</span>
-									            </div>
-									            <div class="detail-content">
-									              <ul>
-									                <li>
-									                  <b>姓名</b>
-									                  <span>xxx</span>
-									                </li>
-									                <li>
-									                  <b>Email</b>
-									                  <span>123456789@qq.com</span>
-									                </li>
-									                <li>
-									                  <b>手机号码</b>
-									                  <span>111111111111</span>
-									                </li>
-									              </ul>
-									            </div>
-									          </div>
-									          <div>
-									            <div class="detail-title">
-									              <span>旅客</span>
-									            </div>
-									            <div class="detail-content">
-
-									              <div>
-									                <div class="traveller-num">
-									                  <p>旅客</p>
-									                  <span>成人</span>
-									                </div>             
-									                <ul>
-									                  <li>
-									                    <b>中文姓名</b><span>xxxxxxx</span>
-									                  </li>
-									                  <li>
-									                    <b>英文姓名</b><span>xxxxxxx</span>
-									                  </li>
-									                  <li>
-									                    <b>国籍</b><span>xxxxxxx</span>
-									                  </li>
-									                  <li>
-									                    <b>证件类型</b><span>xxxxxxx</span>
-									                  </li>
-									                  <li>
-									                    <b>性别</b><span>xxxxxxx</span>
-									                  </li>
-									                  <li>
-									                    <b>出生日期</b><span>xxxxxxx</span>
-									                  </li>
-									                  <li>
-									                    <b>联系电话</b><span>xxxxxxx</span>
-									                  </li>
-									                </ul>
-									              </div>
-
-									            </div>
-									          </div>
-									        </div>
-				          			`;
-				          		$(".aside-right").html(html);
-				          		}
-				          	})				          	
-					})
+     				$(".aside-right").html(html);     				
      			}
      		})	
+	})
+
+	$(".aside-right").on("click","a.obligation-order",function(e){
+		if(e&&e.preventDefault)
+      	e.preventDefault();
+      	window.event.returnValue=false;
+      	var html="";
+      	$.ajax({
+      		url:"/uc/order/query",
+      		success:function(result){
+      			$.each(result.data,function(k,v){
+      				if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
+          				html+=resultEach(v);
+          			}
+      			})
+      			$(".order-table").html(html)
+      		}
+      	})
+	})
+	$(".aside-right").on("click","a.all-order",function(e){
+		if(e&&e.preventDefault)
+      	e.preventDefault();
+      	window.event.returnValue=false;
+      	var html="";
+      	$.ajax({
+      		url:"/uc/order/query",
+      		success:function(result){
+      			$.each(result.data,function(k,v){      				
+      				html+= resultEach(v);	
+      			})
+      			$(".order-table").html(html);
+      		}
+      	})
+	})
+	$(".aside-right").on("click","a.not-start",function(e){
+		if(e&&e.preventDefault)
+      	e.preventDefault();
+      	window.event.returnValue=false;
+      	var html="";
+      	$.ajax({
+      		url:"/uc/order/query",
+      		success:function(result){
+      			$.each(result.data,function(k,v){
+      				if(v.delivery_status == 1 && v.status != 6 && v.status != 4){
+          				html+=resultEach(v);
+          			}
+      			})
+      			$(".order-table").html(html);
+      		}
+      	})
+	})
+	$(".aside-right").on("click","a.pending-evaluation",function(e){
+		if(e&&e.preventDefault)
+      	e.preventDefault();
+      	window.event.returnValue=false;
+      	var html="";
+      	$.ajax({
+      		url:"/uc/order/query",
+      		success:function(result){
+      			$.each(result.data,function(k,v){
+      				if(v.status == 4){
+      					html+=resultEach(v);
+      				}
+      			})
+      			$(".order-table").html(html);
+      		}
+      	})
+	})
+
+	function resultEach(v){		
+		var h="";
+		h+=`
+			<table>
+			<tr>
+				<td>
+                  	订单号：<a href="#" target="_blank">${v.order_no}</a>
+                </td>
+                <td>姓名</td>
+                <td>出发日期</td>
+                <td>总金额</td>
+                <td>订单状态</td>
+                <td>操作</td>
+			</tr>
+			<tr>
+			<td>
+              	<a class="goodsItem" href="">${v.titile}</a>
+            </td>
+            <td>
+				<a href="">${v.accept_name}</a>
+            </td>
+            <td>${v.start_date}</td>
+            <td>￥${v.order_amount}</td>
+		`;
+		if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
+        	h+=`
+				<td>
+					<span class="text-warning">等待付款</span>
+					<br />
+					<a class="order-detail" href="">订单详情</a>
+				</td>
+                <td>
+					<a class="btn btn-danger btn-xs" href="/uc/pay/pay?order=${v.id}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
+                </td>
+				</tr>
+				</table>													
+        	`;
+        }else if((v.pay_status == 1 || v.status ==3) && v.delivery_status != 1 && v.status != 6 && v.status != 4){
+        	h+=`
+				<td>
+					<span class="text-warning">等待发货</span>
+					<br />
+					<a class="order-detail" href="">订单详情</a>
+				</td>
+                <td>
+					<a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
+                </td>
+			</tr>	
+			</table>												
+        	`;
+        }else if(v.delivery_status == 1 && v.status != 6 && v.status != 4){
+        	h+=`
+				<td>
+					<span class="text-success">等待收货</span>
+					<br />
+					<a class="order-detail" href="">订单详情</a>
+				</td>
+                <td>
+					<a class="btn btn-success btn-xs confirm ajax-get" href="/uc/order/confirmreceipt/id/${v.id}"><i class="fa fa-cart-plus white"></i>确认收货 </a>
+                </td>
+			</tr>
+			</table>													
+        	`;
+        }else if(v.status == 6){
+        	h+=`
+				<td>
+					<span class="text-danger">已取消</span>
+					<br />
+					<a class="order-detail" href="">订单详情</a>
+				</td>
+                <td>
+					 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
+                </td>
+			</tr>
+			</table>													
+        	`;
+        }else if( v.status == 4){
+        	h+=`
+				<td>
+					<span class="text-default">已完成</span>
+					<br />
+					<a class="order-detail" href="">订单详情</a>
+				</td>
+                <td>
+					 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
+                </td>
+			</tr>
+			</table>													
+        	`;
+        }
+		return h;		
+	}
+	$(".aside-right").on("click","a.order-detail",function(e){
+		if(e&&e.preventDefault)
+          	e.preventDefault();
+          	window.event.returnValue=false;
+          	var html="";
+          	$.ajax({
+          		url:"/uc/order/query",
+          		success:function(result){
+          			html+=`
+						<div class="detail-box">
+					        <div>
+					            <div class="detail-title">
+					              订单详情
+					            </div>
+					            <div class="detail-content clear">
+					              <div class="order-state">
+					                <p>订单状态:未提交 </p>
+					                <p>订单编号:1111111111111111</p>
+					              </div>
+					              <div class="order-select">
+					                <button>继续预定</button> 
+					                <br>                            
+					                <button>取消订单</button> 
+					              </div>             
+					            </div>
+					          </div>
+					          <div>
+					            <div class="detail-title">
+					              <span>订单信息</span>
+					            </div>
+					            <div class="detail-content order-information">
+					              <p>
+					                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+					              </p>
+					              <p>
+					                <span>出发城市上海</span>
+					                <span>出发日期2017-02-22</span>
+					                <span>返回日期2017-05-11</span>
+					                <span>2成人</span>
+					                <span>金额:￥11111</span>
+					              </p>
+					            </div>
+					          </div>
+					          <div>
+					            <div class="detail-title">
+					              <span>联系人</span>
+					            </div>
+					            <div class="detail-content">
+					              <ul>
+					                <li>
+					                  <b>姓名</b>
+					                  <span>xxx</span>
+					                </li>
+					                <li>
+					                  <b>Email</b>
+					                  <span>123456789@qq.com</span>
+					                </li>
+					                <li>
+					                  <b>手机号码</b>
+					                  <span>111111111111</span>
+					                </li>
+					              </ul>
+					            </div>
+					          </div>
+					          <div>
+					            <div class="detail-title">
+					              <span>旅客</span>
+					            </div>
+					            <div class="detail-content">
+
+					              <div>
+					                <div class="traveller-num">
+					                  <p>旅客</p>
+					                  <span>成人</span>
+					                </div>             
+					                <ul>
+					                  <li>
+					                    <b>中文姓名</b><span>xxxxxxx</span>
+					                  </li>
+					                  <li>
+					                    <b>英文姓名</b><span>xxxxxxx</span>
+					                  </li>
+					                  <li>
+					                    <b>国籍</b><span>xxxxxxx</span>
+					                  </li>
+					                  <li>
+					                    <b>证件类型</b><span>xxxxxxx</span>
+					                  </li>
+					                  <li>
+					                    <b>性别</b><span>xxxxxxx</span>
+					                  </li>
+					                  <li>
+					                    <b>出生日期</b><span>xxxxxxx</span>
+					                  </li>
+					                  <li>
+					                    <b>联系电话</b><span>xxxxxxx</span>
+					                  </li>
+					                </ul>
+					              </div>
+
+					            </div>
+					          </div>
+					        </div>
+	      			`;
+	      			$(".aside-right").html(html);
+          		}
+          	})
 	})
 	
 	$(".uc-archives").on("click",function(e){
@@ -819,7 +314,7 @@ $(function(){
           	$.ajax({
           		url:"/uc/seting/query",
           		success:function(data){
-          			//console.log(data)
+          			console.log(data)
           			html+=`
 						<div class="person-archives">
 							<div class="archives-header">
@@ -828,6 +323,14 @@ $(function(){
 							<div class="archives min-height">
 				              	<div class="tab-pane fade in active" id="info">
 				                	<form role="form" action="/uc/seting/updateinfo" method="post" class="form-horizontal form-info">
+
+										<div class="form-group">
+					                    	<label class="col-md-2 control-label">手机</label>
+					                    	<div class="col-md-4">
+					                    		<p class="form-control-static uname">${data.phone_number}</p>
+					                      		
+					                    	</div>
+					                    </div>
 				                  		<div class="form-group">
 				                    		<label class="col-md-2 control-label">昵称</label>
 					                    	<div class="col-md-10">
@@ -837,7 +340,7 @@ $(function(){
 				                  		<div class="form-group">
 				                    		<label class="col-md-2 control-label">姓名</label>
 				                    		<div class="col-md-4">
-				                    			<input type="text" placeholder="真实姓名" class="form-control" name="real_name" value="">
+				                    			<input type="text" placeholder="真实姓名" class="form-control" name="real_name" value="${data.real_name}">
 				                    		</div>
 				                  		</div>
 				        `;
@@ -875,42 +378,49 @@ $(function(){
 				    	`;
 				    }
 				    html+=`     		
-		                  		<div class="form-group">
-				                    <label class="col-md-2 control-label">生日</label>
-				                    <div class="col-md-4">
-				                      	<input type="text" name="birthday" value="" class="form-control masked" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
-				                    </div>
-		                  		</div>
-			                  	<div class="form-group">
-			                    	<label class="col-md-2 control-label">手机号码</label>
-			                    	<div class="col-md-4">
-			                      		<input type="text" name="mobile" value="${data.mobile}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="手机号码">
-			                    	</div>
-			                    </div>
-		                  		<div class="form-group">
-		                    		<label class="col-md-2 control-label">固定电话</label>
-		                    		<div class="col-md-10   landline-telephone">
-		                      			<input type="text" name="phone_zone" value="${data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
-		                      			<input type="text" name="phone_number" value="${data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
-		                      			<input type="text" name="phone_ext" value="${data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
-		                    		</div>
-		                  		</div>
-								<div class="form-group">
-			                    		<label class="col-md-2 control-label">常用出发城市</label>
-			                    		<div class="col-md-10">
-				                      		<select class="form-control pointer  " id="start_province1" name="start_province" style="width: 150px;display: inline-block">
-				                        		<option value="">--- 省份/直辖市 ---</option>
-				                        		{% for val in start_province %}
-				                        		<option value="{{val.id}}" {% if userInfo.start_province == val.id %} selected {% endif%}>{{val.name}}</option>
-				                        		{% endfor %}
+                  		<div class="form-group">
+		                    <label class="col-md-2 control-label">生日</label>
+		                    <div class="col-md-4">
+		                      	<input type="text" name="birthday" value="${data.birthday}" class="form-control masked" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
+		                    </div>
+                  		</div>
+                  		<div class="form-group">
+                    		<label class="col-md-2 control-label">固定电话</label>
+                    		<div class="col-md-10   landline-telephone">
+                      			<input type="text" name="phone_zone" value="${data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
+                      			<input type="text" name="phone_number" value="${data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
+                      			<input type="text" name="phone_ext" value="${data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+                    		</div>
+                  		</div>
+						<div class="form-group">
+	                    		<label class="col-md-2 control-label">常用出发城市</label>
+	                    		<div class="col-md-10">
+		                      		<select class="form-control pointer  " id="start_province1" name="start_province" style="width: 150px;display: inline-block">
+		                        		<option value="">--- 省份/直辖市 ---</option>
+		                        		`;
+				    let area = getprovince();
+				    $.each(area,function(k,n){
+				    	html+=`
+							
+                    		<option value="${n.id}">${n.name}</option>
+                    		
+				    	`;
+				    }) 
+				    
+				    html+=`                  		
+                  		</select>
+                  		<select class="form-control pointer  " id="start_city1" name="start_city" style="width: 150px;display: inline-block">
+                  	`;
+				    let m = $("#start_province1 option:selected").val;
+				    let city2 = getcity(m);
+				    $.each(city2,function(k,n){
+				    	html+=`                    		
+                    		<option value="${n.id}">${n.name}</option>                   		
+				    	`;
+				    })
+				    html+=`
 				                      		</select>
-				                      		<select class="form-control pointer  " id="start_city1" name="start_city" style="width: 150px;display: inline-block">
-				                        		{% for val in start_city %}
-				                        		<option value="{{val.id}}" {% if userInfo.start_city == val.id %} selected {% endif%}>{{val.name}}</option>
-				                        		{% else %}
-				                        		<option value="">--- 市 ---</option>
-				                        		{% endfor %}
-				                      		</select>
+				                      		<p class="arhcives-state">为了更好地帮助您查询、使用花生卷提供的产品，您可以在此设置您的常用出发城市。</p>
 			                    		</div>
 			                  		</div> 		
 			                  		<div class="form-group margin-top-30">
@@ -927,7 +437,31 @@ $(function(){
           		}
           	})
 	})
-	
+	function getprovince(){
+		var pro;
+		$.ajax({
+			url:"/uc/address/getarea",
+			async:false,
+			success:function(result){
+				pro = result;
+			}
+		})
+		//console.log(pro)
+		return pro;
+	}
+	function getcity(m){
+		var citys;
+		$.ajax({
+			url:"/uc/address/getarea",
+			data:{pid:m},
+			async:false,
+			success:function(result){
+				citys = result;
+			}
+		})
+		//console.log(citys);
+		return citys;
+	}
 	$(".uc-portrait").on("click",function(e){
 		if(e&&e.preventDefault)
           	e.preventDefault();
@@ -1074,121 +608,282 @@ $(function(){
           		success:function(result){
           			//console.log(result);
           			html+=`
-				           <div class="information-title">
-				               <span>旅客姓名</span>
+				            <div class="information-title">
+				              <span>旅客姓名</span>
 				              <input type="text" placeholder="中文/英文">
 				              <button>查询</button>
-				              <button>新增</button>
-				           </div>
-				           <div class="information min-height">
-				              <div class="table-responsive">
-				              <table class="table table-bordered table-striped table-vertical-middle">
-				                <thead>
-				                <tr>
-				                  <th>中文姓名</th>
-				                  <th>英文姓名</th>
-				                  <th>国际</th>
-				                  <th>证件</th>
-				                  <th>手机</th>
-				                  <th>类型</th>
-				                  <th>操作</th>
-				                </tr>
-				                </thead> 
-				                <tbody>
+				              <button class="add-traveller">新增</button>
+				            </div>
+
+				            <div class="information-list">  
+				              <div class="traveller-list clear">
+				                <div class="clear">
+				                  <a class="col-xs-1">姓名</a>
+				                  <a class="col-xs-2">手机/电话</a>
+				                  <a class="col-xs-2">证件类型</a>
+				                  <a class="col-xs-3">证件号码</a>
+				                  <a class="col-xs-1">国籍</a>
+				                  <a class="col-xs-1">性别</a>
+				                  <a class="col-xs-2">操作</a>
+				                </div>
+				              </div>
+				            
+				             
           			`;
           			$.each(result.data,function(k,v){
-          				html+=`												               
-				                <tr>
-				                  <td>${v.name_zh}</td>
-				                  <td>${v.name_en_last} ${v.name_en_first}</td>
-				                  <td>${v.country}</td>
-				                  <td>${v.credentials_type_name}:${v.credentials_value}</td>
-				                  <td>${v.phone}</td>
-				                  <td>${v.type_name}</td>
-				                  <td><a class="btn btn-default btn-xs" data-toggle="ajaxModal" href="/uc/traveller/editaddrmodal/id/${v.id}/type/1"><i class="fa fa-edit white"></i>编辑 </a>
-				                    <a class="btn btn-default btn-xs confirm ajax-get" href="/uc/traveller/deladdr/id/${v.id}"><i class="fa fa-times white"></i>删除 </a></td>
-				                </tr>
-
-				               
+          				html+=`												               				              
+				                <div class="detail-information clear">
+				                <input type="checkbox">
+				                <table>
+				                    <tr>
+				                      <td class="col-xs-1">${v.name_zh}</td>
+				                      <td class="col-xs-2">${v.phone}</td>
+				                      <td class="col-xs-2">${v.credentials_type_name}</td>
+				                      <td class="col-xs-3">${v.credentials_value}</td>
+				                      <td class="col-xs-1">${v.country}</td>
+				                      <td class="col-xs-1">${v.type_name}</td>
+				                      <td class="col-xs-2">
+				                        <a href="">查看</a>
+				                        <a class="edit-traveller" href="">编辑</a>
+				                        <a href="">删除</a>
+				                      </td>
+				                    </tr>
+				                </table>
+				              </div>
           				`;
           			})
-          			html+=`
-					 		</tbody>
-			              </table>
-			            </div>
-			         </div>
-          			`;
+          		html+=`
+					</div>
+          		`;
           		$(".aside-right").html(html);	
           		}
           	})
 	})
+	$(".aside-right").on("click","button.add-traveller",function(){
+		//console.log("ok")
+		var html="";
+		html+=`
+			<div class="new-increase">
+              <span class="new-increase1">新增常用旅客信息</span>
+              <span class="new-increase2">请填写如下常用旅客信息,*为必选项</span>
+              <span class="new-increase3">查看所有旅客信息</span>
+            </div>    
+		`;
+		html+=add();
+		$(".aside-right").html(html);
+	})
+	$(".aside-right").on("click","a.edit-traveller",function(e){
+		if(e&&e.preventDefault)
+          	e.preventDefault();
+          	window.event.returnValue=false;
+          	var html="";
+		var html="";
+		html+=`
+			<div class="new-increase">
+              <span class="new-increase1">编辑常用旅客信息</span>
+              <span class="new-increase2">请填写如下常用旅客信息,*为必选项</span>
+              <span class="new-increase3">查看所有旅客信息</span>
+            </div>    
+		`;
+		html+=add();
+		$(".aside-right").html(html);
+	})
+
+ 	function add(){
+ 		var html=`
+				<div class="increase-content">
+              <div class="increase-title">旅客信息</div>
+              <form action="">
+              <div class="col-md-offset-2 ce">*中文名与英文名两者必填一项</div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label" for="">中文名</label>
+                <span class="star">*</span>
+                <div class="col-md-4">
+
+                    <input class="form-control masked" type="text" placeholder="请输入中文姓名">
+                </div>                                              
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label" for="">英文名</label>
+                <span class="star">*</span>
+                <div class="col-md-2 clear">
+                  <input class="form-control masked" type="text" placeholder="LastName(姓)">
+                </div>
+                <div class="col-md-2 clear">
+                  <input class="form-control masked" type="text" placeholder="FirsName(名)">
+                </div>
+              </div>
+              <div class="col-md-offset-2 self">
+                <input type="checkbox">设置为本人
+              </div>
+              
+              <div class="form-group clear">
+                <label class="col-md-2 control-label" for="">国籍</label>
+                <span class="star">*</span>
+                <div class="col-md-4">
+                  <input class="form-control masked" type="text" placeholder="中文/英文">
+                </div>               
+              </div>
+              <div class="form-group">
+                <label class="col-md-2 control-label">性别</label>
+                <span class="star">*</span>
+                <div class="col-md-10">
+                  <label class="radio" style="margin-top: 3px;padding-top: 3px">
+                    <input type="radio" value="1" name="sex">
+                    <i></i> 男
+                  </label>
+                  <label class="radio" style="margin-top: 3px;padding-top: 3px">
+                    <input type="radio" checked="checked" value="2" name="sex">
+                    <i></i> 女
+                  </label>
+                  </div>
+                       
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label">生日</label>
+                <div class="col-md-4">
+                  <input type="text" name="birthday" value="{{userInfo.birthday|dateformat('Y-m-d')}}" class="form-control masked" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
+                </div>
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label" for="">出生地</label>
+                <div class="col-md-4">
+                  <input class="form-control masked" type="text">
+                </div>                
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label">手机号码</label>
+                <span class="star">*</span>
+                <div class="col-md-4">
+                  <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
+                </div>
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label">非大陆号码</label>*
+                <div class="col-md-3">
+                  <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="中国香港825">
+                 
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="非大陆手机">
+                </div>
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label">联系电话</label>
+                <div class="col-md-10   landline-telephone">
+                    <input type="text" name="phone_zone" value="{data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
+                    <input type="text" name="phone_number" value="{data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
+                    <input type="text" name="phone_ext" value="{data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+                </div>
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label">传真号码</label>
+                <div class="col-md-10   landline-telephone">
+                    <input type="text" name="phone_zone" value="{data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
+                    <input type="text" name="phone_number" value="{data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
+                    <input type="text" name="phone_ext" value="{data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+                </div>
+              </div>
+             <div class="form-group clear">
+                <label class="col-md-2 control-label" for="">Email</label>
+                <div class="col-md-4">
+                  <input class="form-control masked" type="text">
+                </div>                
+              </div>
+              <div class="form-group clear">
+                <div class="credentials">
+                  证件信息
+                </div>
+                <label class="col-md-2 control-label" for="">证件类型</label>
+                <span class="star">*</span>
+                <div class="col-md-2">
+                  <input class="form-control " type="text">
+                </div> 
+                <label class="col-md-1 control-label credentials-num" for="">证件号码</label>
+                <span class="star">*</span>
+                <div class="col-md-3">
+                  <input class="form-control " type="text">
+                </div>                
+                <label class="col-md-1 control-label credentials-num" for="">有效期</label>
+                <div class="col-md-2">
+                  <input class="form-control " type="text" placeholder="yyyy-mm-dd">
+                </div>                               
+              </div>
+
+              <div class="form-group margin-top-30 clear">
+                <div class="col-md-2 col-md-offset-2">
+                  <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" ><i class="fa fa-check"></i> 保存 </button>
+                </div>
+                 <div class="col-md-2">
+                  <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" > 取消 </button>
+                </div>
+              </div>
+
+
+            </form>
+           </div>
+ 		`;
+ 		return html;
+ 	}
+
 	$(".uc-address").on("click",function(e){
 		if(e&&e.preventDefault)
           	e.preventDefault();
           	window.event.returnValue=false;
           	var html="";
-          	$.ajax({
+       			$.ajax({
           		url:"/uc/address/query",
           		success:function(result){
-          			console.log(result)
+          			//console.log(result);
           			html+=`
-						 <div class="address-title">
-				            <span>关键字</span>
-				            <input type="text" placeholder="地址收件人/简称">
-				            <button>查询</button>
-				            <button>新增</button>
-				        </div>
-				        <div class="address-list min-height">
-				            <div class="table-responsive">
-				              <table class="table table-bordered table-striped table-vertical-middle">
-				                <thead>
-				                <tr>
-				                  <th >收货人</th>
-				                  <th>所在地区</th>
-				                  <th>街道地址</th>
-				                  <th>邮编</th>
-				                  <th>手机</th>
-				                  <th></th>
-				                  <th>操作</th>
-				                </tr>
-				                </thead>
-				                <tbody>
+				            <div class="information-title">
+				              <span>旅客姓名</span>
+				              <input type="text" placeholder="中文/英文">
+				              <button>查询</button>
+				              <button>新增</button>
+				            </div>
+
+				            <div class="information-list">  
+				              <div class="traveller-list clear">
+				                <div class="clear">
+				                	
+				                  <a class="col-xs-1">收件人</a>
+				                  <a class="col-xs-2">省份</a>
+				                  <a class="col-xs-2">城市</a>
+				                  <a class="col-xs-1">区县</a>
+				                  <a class="col-xs-3">详细地址</a>
+				                  <a class="col-xs-1">邮编</a>
+				                  <a class="col-xs-2">操作</a>
+				                </div>
+				              </div>
+				            
+				             
           			`;
           			$.each(result.data,function(k,v){
-          				html+=`        			                			          
-			                <tr>
-			                  <td>${v.accept_name}</td>
-			                  <td>${v.province},${v.city},${v.county}</td>
-			                  <td>${v.addr}</td>
-			                  <td>
-			                    ${v.zip}
-			                  </td>
-			                  <td>
-			                 	${v.mobile}
-			                  </td>
-			             `;
-			            if(v.is_default == 1){
-			            	html+=` 
-				            	<td><span class="label label-primary">默认地址 </span></td>
-				                  <td><a class="btn btn-default btn-xs" data-toggle="ajaxModal" href="/uc/address/editaddrmodal/id/${v.id}/type/1"><i class="fa fa-edit white"></i>编辑 </a>
-				                    <a class="btn btn-default btn-xs confirm ajax-get" href="/uc/address/deladdr/id/${v.id}"><i class="fa fa-times white"></i>删除 </a></td>
-				                </tr>			              				                    
-          					`;
-			            }else{
-			            	html+=` 
-				            	<td><a class="btn btn-default btn-xs ajax-get" href="/uc/address/addrisdefault/id/${v.id}"><i class="fa fa-check white"></i>设为默认地址 </a></td>
-				                  <td><a class="btn btn-default btn-xs" data-toggle="ajaxModal" href="/uc/address/editaddrmodal/id/${v.id}/type/1"><i class="fa fa-edit white"></i>编辑 </a>
-				                    <a class="btn btn-default btn-xs confirm ajax-get" href="/uc/address/deladdr/id/${v.id}"><i class="fa fa-times white"></i>删除 </a></td>
-				                </tr>			              				                 
-          					`;
-			            }
-			                 
+          				html+=`												               				              
+				                <div class="detail-information clear">
+				                <input type="checkbox">
+				                <table>
+				                    <tr>
+				                      <td class="col-xs-1">${v.accept_name}</td>
+				                      <td class="col-xs-2">${v.province}</td>
+				                      <td class="col-xs-2">${v.city}</td>
+				                      <td class="col-xs-1">${v.county}</td>
+				                      <td class="col-xs-3">${v.addr}</td>
+				                      <td class="col-xs-1">${v.zip}</td>
+				                      <td class="col-xs-2">
+				                        <a href="">查看</a>
+				                        <a href="">编辑</a>
+				                        <a href="">删除</a>
+				                      </td>
+				                    </tr>
+				                </table>
+				              </div>
+				           
+          				`;
           			})
           			html+=`
-						 </tbody>
-			              </table>
-			            </div>
-			          </div>   
+ 						</div>
           			`;
           		$(".aside-right").html(html);	
           		}

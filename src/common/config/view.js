@@ -355,11 +355,7 @@ export default {
                  *
                  */
                 env.addFilter('delhtmltags',(str)=>{
-                    if(!think.isEmpty(str)) {
-                        return str.replace(/<[^>]+>/g, "");//去掉所有的html标记
-                    }else {
-                        return '';
-                    }
+                    return delhtmltags(str);
                 })
                 /**
                  * 获取文件信息

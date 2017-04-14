@@ -81,6 +81,9 @@
   height: 50px;
   width: 50px;
 }
+.avatar-preview{
+  display:inline-block;
+}
 
 @media (min-width: 992px) {
   .avatar-preview {

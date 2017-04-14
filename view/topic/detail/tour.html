@@ -105,10 +105,6 @@
 	    _padding: 3px;
 	    _width: 160px;
 	}
-	/*.resource_price_wrap .abc_start_date input {
-	    width: 132px;
-	    _width: 144px;
-	}*/
 	input[type="text"], input[type="number"] {
 	    padding: 3px;
 	    border: solid 1px #CCC;
@@ -895,6 +891,19 @@
 		top:-7px;
 		left:45px;
 	}
+	.page-header{
+		border-bottom:0;
+	}
+	.page-header strong{
+		display:inline-block;
+		padding-left:210px;
+		font-family: "Microsoft Yahei",Regular;
+		font-size:28px;
+		color:#000;
+	}
+	.tourist-question{
+		padding-left:65px;
+	}
 	</style>
 	{% endblock %}
 {% block content %}
@@ -1257,7 +1266,11 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 	<!-- /FORM -->
 	#}
 
-	
+	{% if info.description %}
+	<!-- short description -->
+	<small class="text-muted">{{info.description}}</small>
+	<!-- /short description -->
+	{% endif %}
 
 
 	{#
@@ -1437,7 +1450,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			<i class="price_icon" id="J_acpricetip" style="display:none"></i> 
 			<form class="form-inline nomargin ichecks pull-right" id="form-tour"  data-icheck-info ="{{info.suk}}" method="post" action="/uc/booking">
 				<input type="hidden" name="product_id" value="{{info.id}}" />
-				<input type="hidden" id="product_type" name="type" value="" />
+				<input type="hidden" id="product_type" name="type" value="0" />
 				<!-- see assets/js/view/demo.shop.js -->
 
 				<!-- <input type="hidden" id="qty" name="qty" value="1" /> -->
@@ -1868,18 +1881,15 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
                 #}
                 <!--评论================================-->
                 <div class="box-light margin-top-20 "><!-- .box-light OR .box-dark -->
-
+				
                     <div class="box-inner">
-                        <h4 class="uppercase size-20 row " style="padding-left: 15px;padding-right: 15px;margin-bottom: -15px;" >{{info.answer_count}} 个回复 <div class="btn-group btn-group-xs pull-right">
-                            <a class="btn btn-default height-auto active" href="#">默认排序</a>
-                            <a class="btn btn-default height-auto " href="#" style="height: auto">时间排序<span class="glyphicon  glyphicon-arrow-down"></span></a>
-                        </div></h4>
+
                      
                         {%model data="list",table="question_answer", page=1, where='{"question_id":'+info.id+',"category_id":'+info.category_id+'}',limit="10"%}
                         {% for a in list %}
-                        <div class="divider divider-dotted " style="margin:10px -15px"><!-- divider --></div>
+                        <!-- <div class="divider divider-dotted " style="margin:10px -15px"> --><!-- divider --><!-- </div> -->
                         <!-- COMMENT -->
-                        <ul class="comment list-unstyled margin-bottom-0">
+                        <ul class="comment list-unstyled margin-bottom-20">
                             <li class="comment margin-bottom-0">
 
                                 <!-- avatar -->
@@ -1887,7 +1897,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
                                 <!-- comment body -->
                                 <!-- <div class="comment-body"> -->
-                                <div>
+                                <div class="tourist-question">
                                     <a href="#" class="comment-author" style="position: relative;z-index: 10;background-color: #fff">
                                         <!-- <small class="text-muted pull-right">{{a.add_time|dateformat('Y-m-d H:i:s')}} </small> -->
                                         <span>{{a.uid|get_nickname}}</span>
@@ -1903,7 +1913,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
                                 <!-- options -->
                                 <ul class="list-inline size-11 margin-top-10">
                                     <li>
-                                        <a href="#" class="text-success"><i class="fa fa-thumbs-up"></i> 赞同</a>
+                                        <!-- <a href="#" class="text-success"><i class="fa fa-thumbs-up"></i> 赞同</a> -->
                                     </li>
 
 
@@ -1981,10 +1991,11 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
                             
                             {%endif%}
                             <span class="size-12 text-muted">....</span>
-                        </div>   </div><div class="col-md-3 col-sm-3"><label class="switch switch-primary margin-top-10 pull-right">
+                        </div>   </div><div class="col-md-3 col-sm-3">
+                        <!--<label class="switch switch-primary margin-top-10 pull-right">
                             <input type="checkbox" checked="" name="anonymous" value="0">
                             <span class="switch-label" data-on="不匿" data-off="匿名"></span>
-                        </label></div></h4>
+                        </label>--></div></h4>
 
                         <textarea id="detail" name="answer_content"  class="form-control required" style="height: 280px"  placeholder="Type your message here..."></textarea>
 
@@ -2029,7 +2040,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		<div  class=" portfolio-title-over">
 			<div class="row mix-grid">
 				<ul id="destination-ul" style="padding-left: 0px;">
-					{% hotrecommend data = "list", limit= "8", issub=1, ischild=1, page=0 %}
+					{% topic data = "list", limit= "8", cid=135, isstu=1, issub=1, ischild=1, type="level", page=0 %}
 					{%set i = 1%}
 					{% for v in list %}
 

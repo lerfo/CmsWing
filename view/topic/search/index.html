@@ -29,7 +29,7 @@
 	background: url('/static/assets/images/search_nav.png') no-repeat; 	
 }
 .phb li{
-	width: 246px;
+	width: 33.3%;#246px;
 	height: 85px;
 	margin-right:-7px;
 	padding:0px;
@@ -49,7 +49,7 @@
 }
 .linea{
 	height: 3px;
-	width: 235px;
+	width: 100%;
 	background-color: #896B63;
 	margin:0px auto;
 }
@@ -158,14 +158,15 @@ table .btn{
 
                 <!--<li class="active"><a href="portfolio-masonry-3-columns.html">With Gutter</a></li>-->
                 <!-- Version 2.0 -->
+                <!--
                 <li class="cgy" id="select1" data-msg="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{val.id}}">
                     <a href="javascript:;" >
                         学校 
                     </a>
                     <div class="linea"></div>
-                </li>
+                </li>-->
                 <li class="cgy" id="select2" ><a href="javascript:;">游学</a><div class="linea" style="background-color: #fff;"></li>
-                <li class="cgy" id="select3"><a href="javascript:;">游记攻略</a><div class="linea"></li>
+                <li class="cgy" id="select3" ><a href="javascript:;">游记攻略</a><div class="linea"></li>
                 <li class="cgy" id="select4"><a href="javascript:;">问答</a><div class="linea"></li> 
 
                <!-- Version 1.0  
@@ -507,13 +508,110 @@ table .btn{
         })
     });
 
+    function gettournote(days=0){
+        console.log('!!!!!!!!!!!!!!!')
+        var getHtml = "";
+        if(days==7){
+            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td><a href="javascript:gettournote();" class="btn btn-clean btn-xs relative">全部</a>\
+                        <span class="btn btn-danger btn-xs relative">最近7天</span>\
+                        <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
+                        <a href="javascript:gettournote(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
+                        <a href="javascript:gettournote(365);" class="btn btn-clean btn-xs relative">1年内</a>\
+                        </td></tr></tbody></table>';
+        }else if(days==30){
+            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td><a href="javascript:gettournote();" class="btn btn-clean btn-xs relative">全部</a>\
+                        <a href="javascript:gettournote(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
+                        <span class="btn btn-danger btn-xs relative">最近30天</span>\
+                        <a href="javascript:gettournote(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
+                        <a href="javascript:gettournote(365);" class="btn btn-clean btn-xs relative">1年内</a>\
+                        </td></tr></tbody></table>';
+        }else if(days==180){
+            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td><a href="javascript:gettournote();" class="btn btn-clean btn-xs relative">全部</a>\
+                        <a href="javascript:gettournote(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
+                        <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
+                        <span class="btn btn-danger btn-xs relative">6个月内</span>\
+                        <a href="javascript:gettournote(365);" class="btn btn-clean btn-xs relative">1年内</a>\
+                        </td></tr></tbody></table>';
+        }else if(days==365){
+            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td><a href="javascript:gettournote();" class="btn btn-clean btn-xs relative">全部</a>\
+                        <a href="javascript:gettournote(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
+                        <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
+                        <a href="javascript:gettournote(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
+                        <span class="btn btn-danger btn-xs relative">1年内</span>\
+                        </td></tr></tbody></table>';
+        }else{
+            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td><span class="btn btn-danger btn-xs relative">全部</span>\
+                        <a href="javascript:gettournote(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
+                        <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
+                        <a href="javascript:gettournote(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
+                        <a href="javascript:gettournote(365);" class="btn btn-clean btn-xs relative">1年内</a>\
+                        </td></tr></tbody></table>';        
+        }
+            //'<tr class="type_tr_m"><td style="width: 70px;">所在版面：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">英伦半岛</a><a href="javascript:;" class="btn btn-clean btn-xs relative">旅行摄影</a><a href="javascript:;" class="btn btn-clean btn-xs relative">环游欧洲</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美式风情</a></td></tr></tbody></table>';
+
+
+
+
+         $.ajax({
+            type:"get",
+            url:"/ajax/question?cid=124&day="+days,
+            success:function(date){
+                $.each(date,function(k,v){
+                    var detail_title = v.title;
+                    var detail = v.detail.split("</p><p>");
+                    var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
+                    var detail_txt = detail[1] + detail[2] + detail[3];
+                
+                    getHtml +='<div class="strategy-content">'+
+                                detail_img+
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        detail_title +
+                                    '</h2>'+
+                                    '<p style="text-indent:1em;">'+
+                                        detail_txt+
+                                    '</p>'+
+                                '</div>'+
+                                
+                             '</div>';                  
+                });
+                getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
+                $(".strategy").html(getHtml);
+            }
+        })
+    };
+
     $("#select3").on("click",function(){
     	var getHtml = "";
-    	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">最近7天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">最近30天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">6个月内</a><a href="javascript:;" class="btn btn-clean btn-xs relative">1年内</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">所在版面：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">英伦半岛</a><a href="javascript:;" class="btn btn-clean btn-xs relative">旅行摄影</a><a href="javascript:;" class="btn btn-clean btn-xs relative">环游欧洲</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美式风情</a></td></tr></tbody></table>'
+    	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+        <td><span class="btn btn-danger btn-xs relative">全部</span>\
+        <a href="javascript:gettournote(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
+        <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
+        <a href="javascript:gettournote(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
+        <a href="javascript:gettournote(365);" class="btn btn-clean btn-xs relative">1年内</a>\
+        </td></tr></tbody></table>';
+            //'<tr class="type_tr_m"><td style="width: 70px;">所在版面：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">英伦半岛</a><a href="javascript:;" class="btn btn-clean btn-xs relative">旅行摄影</a><a href="javascript:;" class="btn btn-clean btn-xs relative">环游欧洲</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美式风情</a></td></tr></tbody></table>';
+
+
+
 
     	 $.ajax({
         	type:"get",
-        	url:"/ajax/question",
+        	url:"/ajax/question?cid=124&q=",
         	success:function(date){
         		$.each(date,function(k,v){
         			var detail_title = v.title;
@@ -529,7 +627,7 @@ table .btn{
         							'</p>'+
         							'<h2>'+
         								detail_title +
-        							'</h2>'+
+                                    '</h2>'+
         							'<p style="text-indent:1em;">'+
         								detail_txt+
         							'</p>'+
@@ -545,11 +643,18 @@ table .btn{
 
     $("#select4").on("click",function(){
     	var getHtml = "";
-    	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">提问时间：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">最近7天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">最近30天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">6个月内</a><a href="javascript:;" class="btn btn-clean btn-xs relative">1年内</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">回答数：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">只看有回复</a></tbody></table>'
-
+    	//getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">提问时间：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">最近7天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">最近30天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">6个月内</a><a href="javascript:;" class="btn btn-clean btn-xs relative">1年内</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">回答数：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">只看有回复</a></tbody></table>'
+        getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+        <td><span class="btn btn-danger btn-xs relative">全部</span>\
+        <a href="javascript:gettourquestion(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
+        <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
+        <a href="javascript:gettourquestion(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
+        <a href="javascript:gettourquestion(365);" class="btn btn-clean btn-xs relative">1年内</a>\
+        </td></tr></tbody></table>';
     	 $.ajax({
         	type:"get",
-        	url:"/ajax/question",
+        	url:"/ajax/question?cid=125",
         	success:function(date){
         		$.each(date,function(k,v){
         			var detail_title = v.title;
@@ -564,21 +669,103 @@ table .btn{
         							'&nbsp;'+
         							'</p>'+
         							'<h2>'+
+                                    '<a href="/mod/question/'+v.id+'.html>'+
         								detail_title +
-        							'</h2>'+
+        							'</a></h2>'+
         							'<p style="text-indent:1em;">'+
         								detail_txt+
         							'</p>'+
         						'</div>'+
-        						
-        					 '</div>';        			
+                              '</div>';        			
         		});
         		getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
         		$(".qsn-awr").html(getHtml);
         	}
         })
     });
-   
+    function gettourquestion(days=0){
+        console.log(days);
+        var getHtml = "";
+        //getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">提问时间：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">最近7天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">最近30天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">6个月内</a><a href="javascript:;" class="btn btn-clean btn-xs relative">1年内</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">回答数：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">只看有回复</a></tbody></table>'
+        if(days==7){
+            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td><a href="javascript:gettourquestion();" class="btn btn-clean btn-xs relative">全部</a>\
+                        <span class="btn btn-danger btn-xs relative">最近7天</span>\
+                        <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
+                        <a href="javascript:gettourquestion(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
+                        <a href="javascript:gettourquestion(365);" class="btn btn-clean btn-xs relative">1年内</a>\
+                        </td></tr></tbody></table>';
+        }else if(days==30){
+            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td><a href="javascript:gettourquestion();" class="btn btn-clean btn-xs relative">全部</a>\
+                        <a href="javascript:gettourquestion(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
+                        <span class="btn btn-danger btn-xs relative">最近30天</span>\
+                        <a href="javascript:gettourquestion(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
+                        <a href="javascript:gettourquestion(365);" class="btn btn-clean btn-xs relative">1年内</a>\
+                        </td></tr></tbody></table>';
+        }else if(days==180){
+            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td><a href="javascript:gettourquestion();" class="btn btn-clean btn-xs relative">全部</a>\
+                        <a href="javascript:gettourquestion(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
+                        <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
+                        <span class="btn btn-danger btn-xs relative">6个月内</span>\
+                        <a href="javascript:gettourquestion(365);" class="btn btn-clean btn-xs relative">1年内</a>\
+                        </td></tr></tbody></table>';
+        }else if(days==365){
+            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td><a href="javascript:gettourquestion();" class="btn btn-clean btn-xs relative">全部</a>\
+                        <a href="javascript:gettourquestion(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
+                        <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
+                        <a href="javascript:gettourquestion(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
+                        <span class="btn btn-danger btn-xs relative">1年内</span>\
+                        </td></tr></tbody></table>';
+        }else{
+            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td><span class="btn btn-danger btn-xs relative">全部</span>\
+                        <a href="javascript:gettourquestion(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
+                        <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
+                        <a href="javascript:gettourquestion(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
+                        <a href="javascript:gettourquestion(365);" class="btn btn-clean btn-xs relative">1年内</a>\
+                        </td></tr></tbody></table>';        
+        }
+        
+         $.ajax({
+            type:"get",
+            url:"/ajax/question?cid=125&day="+days,
+            success:function(date){
+                $.each(date,function(k,v){
+                    var detail_title = v.title;
+                    var detail = v.detail.split("</p><p>");
+                    var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
+                    var detail_txt = detail[1] + detail[2] + detail[3];
+                
+                    getHtml +='<a href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
+                                detail_img+
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+
+                                    '<h2>'+
+                                        detail_title +
+                                    '</h2>'+
+                                    '<p style="text-indent:1em;">'+
+                                        detail_txt+
+                                    '</p>'+
+                                '</div>'+
+                                
+                             '</div></a>';                  
+                });
+                getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
+                $(".qsn-awr").html(getHtml);
+            }
+        })
+    }; 
 
     $(".bpm").on("click",function(){
     	var a=$(this).find("a");

@@ -96,7 +96,8 @@
     .order-table,
     .archives-header,
     .coupon-title,
-    .detail-title{
+    .detail-title,
+    .new-increase{
       padding:10px 0 10px 20px;
       background: -webkit-linear-gradient(left,#425575, #8E8693 30%,#38628B 100%); /* Safari 5.1 - 6.0 */
       background: -o-linear-gradient(left,#425575, #8E8693 30%,#38628B 100%); /* Opera 11.1 - 12.0 */
@@ -116,7 +117,9 @@
     .information,
     .security-box,
     .archives,
-    .detail-content{
+    .detail-content,
+    .increase-content,
+    .information-list{
       padding-bottom:20px;
       background: -webkit-linear-gradient(left,#6D8DB3, #9DB7D8); /* Safari 5.1 - 6.0 */
       background: -o-linear-gradient(left,#6D8DB3, #9DB7D8); /* Opera 11.1 - 12.0 */
@@ -145,37 +148,19 @@
       border:2px solid #DAE3E8;
       width:100%;
       background: #fff;
+      text-align:center;
     }
     .goodsItem{
       display:inline-block;
       width:220px;
     }
-   
-    /*.order-box>div>table.order-tb>tr:first-child{
-      background:transparent;
-    }*/
-    .order-box>div>table.order-tb>tbody>.tr-header{
+    .order-table table tr:first-child{
       background:#F3F8FB;
       border-bottom:2px solid #DAE3E8;
-    }
-    .order-box>div>table.order-tb>tbody>tr{
-      background:#fff;
     }
     .tr-header td{
       font-size:16px;
       text-align: center;
-    }
-    table.order-tb>tbody>tr>td{
-      vertical-align:middle;
-      text-align: center;
-    }
-    .order-tb .goods-item {
-      margin-right: 20px;
-      width:auto;
-      float: left;
-    }
-    .order-tb .goods-item .p-msg {
-      width: 220px;
     }
     .person-header,
     .head-title{
@@ -346,6 +331,98 @@
     }
     .traveller-num span{
       color:#fff;
+    }
+    .traveller-list{
+      background:#fff;
+    }
+    .traveller-list a{
+      display:inline-block;
+      color:#000;
+    }
+    .archives-header{
+      font-size:20px;
+      color:#fff;
+    }
+    .archives{
+      padding-top:50px;
+    }
+    .arhcives-state{
+      color:#CFD4DA;
+      padding-top:15px;
+    }
+    .new-increase1{
+      font-size:20px;
+      color:#fff;
+    }
+    .new-increase2{
+      color:#fff;
+      padding-left:20px;
+    }
+    .new-increase3{
+      float:right;
+      color:#fff;
+      padding-right:20px;
+      padding-top:7px;
+    }
+    .increase-content{
+      padding:25px 0 25px 25px;
+    }
+    .increase-title{
+      color:#fff;
+      font-size:18px;
+      font-weight:bold;
+    }
+    .increase-content>form>div>label{
+      text-align: right;
+    }
+    .star{
+      float:left;
+      width:0;
+      color:#fff;
+    }
+    .ce{
+      padding-left:20px;
+      padding-bottom:15px;
+      color:#fff;
+    }
+    .self{
+      color:#fff;
+      padding-left:15px;
+      margin-bottom:20px;
+    }
+    .credentials{
+      color:#fff;
+      font-size:18px;
+      font-weight: bold;
+      padding:5px 0 20px 0;
+    }
+    .credentials-num{
+      padding:0;
+    }
+    .traveller-list{
+      padding:8px 20px 8px 25px;
+      text-align: center
+    }
+    .traveller-list div{
+      margin-left:20px;
+      width:96%;
+    }
+    .detail-information{
+      margin-top:20px;
+      padding:0 20px 0 20px;
+    }
+    .detail-information input{
+      float:left;
+      width:20px;
+      height:20px;
+      margin-top:8px;
+      margin-right:3px
+    }
+    .detail-information table{
+      float:left;
+      width:96%;
+      background:#fff;
+      text-align:center;
     }
 
 
@@ -976,100 +1053,154 @@
     	<div class="aside-right">
          
 
-        <div class="detail-box">
-          <div>
-            <div class="detail-title">
-              订单详情
-            </div>
-            <div class="detail-content clear">
-              <div class="order-state">
-                <p>订单状态:未提交 </p>
-                <p>订单编号:1111111111111111</p>
-              </div>
-              <div class="order-select">
-                <button>继续预定</button> 
-                <br>                            
-                <button>取消订单</button> 
-              </div>             
-            </div>
-          </div>
-          <div>
-            <div class="detail-title">
-              <span>订单信息</span>
-            </div>
-            <div class="detail-content order-information">
-              <p>
-                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-              </p>
-              <p>
-                <span>出发城市上海</span>
-                <span>出发日期2017-02-22</span>
-                <span>返回日期2017-05-11</span>
-                <span>2成人</span>
-                <span>金额:￥11111</span>
-              </p>
-            </div>
-          </div>
-          <div>
-            <div class="detail-title">
-              <span>联系人</span>
-            </div>
-            <div class="detail-content">
-              <ul>
-                <li>
-                  <b>姓名</b>
-                  <span>xxx</span>
-                </li>
-                <li>
-                  <b>Email</b>
-                  <span>123456789@qq.com</span>
-                </li>
-                <li>
-                  <b>手机号码</b>
-                  <span>111111111111</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div>
-            <div class="detail-title">
-              <span>旅客</span>
-            </div>
-            <div class="detail-content">
+      
 
-              <div>
-                <div class="traveller-num">
-                  <p>旅客</p>
-                  <span>成人</span>
-                </div>             
-                <ul>
-                  <li>
-                    <b>中文姓名</b><span>xxxxxxx</span>
-                  </li>
-                  <li>
-                    <b>英文姓名</b><span>xxxxxxx</span>
-                  </li>
-                  <li>
-                    <b>国籍</b><span>xxxxxxx</span>
-                  </li>
-                  <li>
-                    <b>证件类型</b><span>xxxxxxx</span>
-                  </li>
-                  <li>
-                    <b>性别</b><span>xxxxxxx</span>
-                  </li>
-                  <li>
-                    <b>出生日期</b><span>xxxxxxx</span>
-                  </li>
-                  <li>
-                    <b>联系电话</b><span>xxxxxxx</span>
-                  </li>
-                </ul>
+          
+          
+
+
+          <div>
+            <div class="new-increase">
+              <span class="new-increase1">新增常用旅客信息</span>
+              <span class="new-increase2">请填写如下常用旅客信息,*为必选项</span>
+              <span class="new-increase3">查看所有旅客信息</span>
+            </div>
+
+
+            <div class="increase-content">
+              <div class="increase-title">旅客信息</div>
+              <form action="">
+              <div class="col-md-offset-2 ce">*中文名与英文名两者必填一项</div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label" for="">中文名</label>
+                <span class="star">*</span>
+                <div class="col-md-4">
+
+                    <input class="form-control masked" type="text" placeholder="请输入中文姓名">
+                </div>                                              
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label" for="">英文名</label>
+                <span class="star">*</span>
+                <div class="col-md-2 clear">
+                  <input class="form-control masked" type="text" placeholder="LastName(姓)">
+                </div>
+                <div class="col-md-2 clear">
+                  <input class="form-control masked" type="text" placeholder="FirsName(名)">
+                </div>
+              </div>
+              <div class="col-md-offset-2 self">
+                <input type="checkbox">设置为本人
+              </div>
+              
+              <div class="form-group clear">
+                <label class="col-md-2 control-label" for="">国籍</label>
+                <span class="star">*</span>
+                <div class="col-md-4">
+                  <input class="form-control masked" type="text" placeholder="中文/英文">
+                </div>               
+              </div>
+              <div class="form-group">
+                <label class="col-md-2 control-label">性别</label>
+                <span class="star">*</span>
+                <div class="col-md-10">
+                  <label class="radio" style="margin-top: 3px;padding-top: 3px">
+                    <input type="radio" value="1" name="sex">
+                    <i></i> 男
+                  </label>
+                  <label class="radio" style="margin-top: 3px;padding-top: 3px">
+                    <input type="radio" checked="checked" value="2" name="sex">
+                    <i></i> 女
+                  </label>
+                  </div>
+                       
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label">生日</label>
+                <div class="col-md-4">
+                  <input type="text" name="birthday" value="{{userInfo.birthday|dateformat('Y-m-d')}}" class="form-control masked" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
+                </div>
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label" for="">出生地</label>
+                <div class="col-md-4">
+                  <input class="form-control masked" type="text">
+                </div>                
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label">手机号码</label>
+                <span class="star">*</span>
+                <div class="col-md-4">
+                  <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
+                </div>
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label">非大陆号码</label>*
+                <div class="col-md-3">
+                  <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="中国香港825">
+                 
+                </div>
+                <div class="col-md-2">
+                    <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="非大陆手机">
+                </div>
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label">联系电话</label>
+                <div class="col-md-10   landline-telephone">
+                    <input type="text" name="phone_zone" value="${data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
+                    <input type="text" name="phone_number" value="${data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
+                    <input type="text" name="phone_ext" value="${data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+                </div>
+              </div>
+              <div class="form-group clear">
+                <label class="col-md-2 control-label">传真号码</label>
+                <div class="col-md-10   landline-telephone">
+                    <input type="text" name="phone_zone" value="${data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
+                    <input type="text" name="phone_number" value="${data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
+                    <input type="text" name="phone_ext" value="${data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+                </div>
+              </div>
+             <div class="form-group clear">
+                <label class="col-md-2 control-label" for="">Email</label>
+                <div class="col-md-4">
+                  <input class="form-control masked" type="text">
+                </div>                
+              </div>
+              <div class="form-group clear">
+                <div class="credentials">
+                  证件信息
+                </div>
+                <label class="col-md-2 control-label" for="">证件类型</label>
+                <span class="star">*</span>
+                <div class="col-md-2">
+                  <input class="form-control " type="text">
+                </div> 
+                <label class="col-md-1 control-label credentials-num" for="">证件号码</label>
+                <span class="star">*</span>
+                <div class="col-md-3">
+                  <input class="form-control " type="text">
+                </div>                
+                <label class="col-md-1 control-label credentials-num" for="">有效期</label>
+                <div class="col-md-2">
+                  <input class="form-control " type="text" placeholder="yyyy-mm-dd">
+                </div>                               
               </div>
 
+              <div class="form-group margin-top-30 clear">
+                <div class="col-md-2 col-md-offset-2">
+                  <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" ><i class="fa fa-check"></i> 保存 </button>
+                </div>
+                 <div class="col-md-2">
+                  <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" > 取消 </button>
+                </div>
+              </div>
+
+
+            </form>
             </div>
+            
           </div>
-        </div>
+
 
 
 
