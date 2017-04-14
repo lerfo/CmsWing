@@ -1,10 +1,21 @@
 {% extends "../../topic/inc/base.html" %}
 {% block style %}
 <link href="/static/assets/css/layout-question.css" rel="stylesheet" type="text/css" />
+<link href="/static/assets/css/layout.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="/static/assets/plugins/wangEditor/css/wangEditor.min.css" type="text/css"/>
+
 {% endblock %}
 {% block content %}
 {%set cate = category.id|get_cate()%}
+
+
+<style type="text/css">
+    .page_header{
+        width: 1350px;
+        height:445px ;
+        background:url(/static/assets/images/backgrounds/communitybc.jpg) 50% 50% / cover no-repeat;
+    }
+</style>
 <!--
 PAGE HEADER
 
@@ -22,6 +33,10 @@ CLASSES:
 .shadow-before-3 	= shadow 3 header top
 .shadow-after-3 	= shadow 3 header bottom
 -->
+<section class="page_header  page-header page-header-xs" >
+    
+</section>
+{#
 <section class="page-header page-header-xs" >
     <div class="container">
 
@@ -52,6 +67,7 @@ CLASSES:
         <!-- /page tabs -->
     </div>
 </section>
+
 {%column data="column",pid=breadcrumb[0].id%}
 {%if column|length >0%}
 <!-- /PAGE HEADER -->
@@ -81,6 +97,7 @@ CLASSES:
 </section>
 {%endif%}
 <!-- -->
+#}
 <section >
     <div class="container">
         <div class="row">
@@ -134,6 +151,7 @@ CLASSES:
                     {%endif%}
                     {%endif%}
                     <!--<a class="tex-888 margin-right-15"><i class="fa fa-link"></i> 相关链接</a>-->
+                    <!--
                     <div class="pull-right">
                         <span class="dropdown margin-right-15">
                             <a  data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -148,7 +166,9 @@ CLASSES:
                         </span>
 
 
-                        <a href="javascript:;" class="text-color-999"><i class="fa fa-get-pocket"></i> 举报</a>								</div>
+                        <a href="javascript:;" class="text-color-999"><i class="fa fa-get-pocket"></i> 举报</a>								
+                    </div>
+                    -->
 
                 </div>
 
@@ -156,10 +176,11 @@ CLASSES:
                 <div class="box-light margin-top-20 "><!-- .box-light OR .box-dark -->
 
                     <div class="box-inner">
+                    <!--
                         <h4 class="uppercase size-20 row " style="padding-left: 15px;padding-right: 15px;margin-bottom: -15px;" >{{info.answer_count}} 个回复 <div class="btn-group btn-group-xs pull-right">
                             <a class="btn btn-default height-auto active" href="#">默认排序</a>
                             <a class="btn btn-default height-auto " href="#" style="height: auto">时间排序<span class="glyphicon  glyphicon-arrow-down"></span></a>
-                        </div></h4>
+                        </div></h4>-->
                  {% for a in answer%}
                         <div class="divider divider-dotted " style="margin:10px -15px"><!-- divider --></div>
                         <!-- COMMENT -->
@@ -184,9 +205,9 @@ CLASSES:
 
                                 <!-- options -->
                                 <ul class="list-inline size-11 margin-top-10">
-                                    <li>
+                                    <!--<li>
                                         <a href="#" class="text-success"><i class="fa fa-thumbs-up"></i> 赞同</a>
-                                    </li>
+                                    </li>-->
 
                                     <li>
                                         <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-{{a.answer_id}}"> <i class="fa fa-reply"></i> <span id="oc-{{a.answer_id}}">显示</span>全部评论 (<span id="count-{{a.answer_id}}">{{a.ccount}}</span>)</a>
@@ -246,6 +267,57 @@ CLASSES:
             <!-- RIGHT -->
 
             <div class="col-md-3 col-sm-3">
+
+                <h3 class="bold">相关推荐</h3>
+                <ul id="studytour-ul" style="padding-left: 0px;">
+                    {% topic data = "list", limit= "3", cid=130, issub=1, ischild=1, type="level", page=0 %}
+                    {%set i = 1%}
+                    {% for v in list %}
+
+                    <li class="mix development col-md-12 col-sm-12" style="padding: 0; margin-bottom: 14px;"><!-- item -->
+
+                        <div class="item-box thumbnail">
+                        <a href="{{v.name|get_url(v.id)}}">
+                            <figure>
+                                <div class="col-lg-6 col-sm-6" style="padding: 0;">
+                                    <img class="img-responsive" style="height: 72px;" src="{{v.cover_id|get_pic('m=1,w=134,h=72')}}"  alt="">
+                                </div>
+                                <div class="col-lg-6 col-sm-6" style="padding: 0;">
+                                    <span class="item-hover">
+                                        <span class="overlay dark-5"></span>
+                                        {#
+                                        <span class="inner">
+
+                                            <!-- lightbox -->
+                                            <a class="ico-rounded lightbox" href="/static/dome/s_wenzhang.jpg" data-plugin-options='{"type":"image"}'>
+                                                <span class="glyphicon glyphicon-qrcode size-20"></span>
+                                            </a>
+
+                                            <!-- details -->
+                                            <a class="ico-rounded" href="/wenzhangceshi" target="_blank">
+                                                <span class="glyphicon glyphicon-option-horizontal size-20"></span>
+                                            </a>
+
+                                        </span>
+                                        #}
+                                    </span>
+
+                                    <!-- overlay title -->
+                                    <div class="item-box-overlay-title text-center">
+                                        <h4 class="nomargin">{{v.title}}</h4>
+                                    </div><!-- /overlay title -->
+
+                                </div>
+                            </figure>
+                        </a>
+                        </div>
+
+                    </li><!-- /item -->
+                    {% set i = i + 1 %}
+                    {% endfor %}
+
+                </ul>
+                {#
                 <div class="box-inner nopadding">
                     <h3>
                         发起人
@@ -317,7 +389,7 @@ CLASSES:
                     </div>
 
                 </div>
-
+                #}
                 <!-- SOCIAL ICONS 
                 <div class="hidden-xs margin-top-30 margin-bottom-60">
                     <a href="#" class="social-icon social-icon-border social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">

@@ -191,13 +191,16 @@ async questionAction(){
         
         console.log('page:'+page);
         console.log(where);
-        let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).select();
-        for(let val of questions){
-          val.imgurl = await img_text_view(val.detail,233,150);
-          val.detailtext = await delhtmltags(val.detail);
-          //console.log(val.detailtext);
+        let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).countSelect();
+        //console.log(questions);
+        if(!think.isEmpty(questions.data)){
+          for(let val of questions.data){
+            val.imgurl = await img_text_view(val.detail,233,150);
+            val.detailtext = await delhtmltags(val.detail);
+            //console.log(val.detailtext);
+          }
         }
-        console.log(questions)
+        //console.log(questions)
         return this.json(questions);
     }
 

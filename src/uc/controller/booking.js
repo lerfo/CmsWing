@@ -103,7 +103,7 @@ export default class extends Base {
       amountinfo.differences_amount = 0;
 
       if(!think.isEmpty(goods.price_adult)){
-        amountinfo.adult_unit_pirce = get_price_format(goods.price_adult,1);//获取实际价格 2为原价
+        amountinfo.adult_unit_pirce = get_price(goods.price_adult,1);//获取实际价格 2为原价
         if(amountinfo.adult_unit_pirce  <= 0 && Number(data.adult_quantity)>0){
           this.http.error = new Error('价格异常');
           return think.statusAction(702, this.http);
@@ -119,7 +119,7 @@ export default class extends Base {
         
       }
       if(!think.isEmpty(goods.price_kid)){
-        amountinfo.kid_unit_pirce = get_price_format(goods.price_kid,1);//获取实际价格 2为原价
+        amountinfo.kid_unit_pirce = get_price(goods.price_kid,1);//获取实际价格 2为原价
         if(amountinfo.kid_unit_pirce  <= 0 && Number(data.kid_quantity)>0){
           this.http.error = new Error('价格异常');
           return think.statusAction(702, this.http);
@@ -135,7 +135,7 @@ export default class extends Base {
         
       }
       if(!think.isEmpty(goods.price_baby)){
-        amountinfo.baby_unit_pirce = get_price_format(goods.price_baby,1);//获取实际价格 2为原价
+        amountinfo.baby_unit_pirce = get_price(goods.price_baby,1);//获取实际价格 2为原价
         if(amountinfo.baby_unit_pirce  <= 0 && Number(data.baby_quantity)>0){
           this.http.error = new Error('价格异常');
           return think.statusAction(702, this.http);
@@ -152,7 +152,7 @@ export default class extends Base {
       }
       //单人差价
       if(!think.isEmpty(goods.price_differences)){
-        amountinfo.differences_unit_pirce = get_price_format(goods.price_differences,1);//获取实际价格 2为原价
+        amountinfo.differences_unit_pirce = get_price(goods.price_differences,1);//获取实际价格 2为原价
         if(amountinfo.differences_unit_pirce  <= 0 && Number(data.differences_quantity)>0){
           this.http.error = new Error('价格异常');
           return think.statusAction(702, this.http);
@@ -349,11 +349,12 @@ export default class extends Base {
     }
     //支付状态 pay_stayus 0:未付款 ,1:已付款, 2：退款中，3:已退款
     orderinfo.pay_status = 0;
-    //订单状态 status 1,未提交(草稿)2:已提交(待付款)，3:已付款，5,待卖家确认，6:卖家已确认，7:待成团，8:已成团， 10:请求退款,11:确认退款，12,:退款中，13退款成功 16:待评价，17:已评价
-    if(data.temp_order){
+    let status_desc=['','未提交','已提交','已取消','已付款','待卖家确认','卖家已确认','待成团','已成团','','请求退款','确认退款','退款中','退款成功','待评价','已评价'];
+    //订单状态 status 1,未提交(草稿)2:已提交(待付款)，3:已取消,4已付款，5,待卖家确认，6:卖家已确认，7:待成团，8:已成团， 10:请求退款,11:确认退款，12,:退款中，13退款成功 14:待评价，15:已评价
+    if(data.temp_order == 1){
       orderinfo.status = 1;
     }else{
-      order_amount.status = 2;
+      orderinfo.status = 2;
     }
     //发货状态 delivery_status 0:未成团，1:已成团，2，已出团
     orderinfo.delivery_status = 0;
@@ -362,14 +363,21 @@ export default class extends Base {
     orderinfo.update_time = new Date().valueOf();
 
 
-
+    console.log(orderinfo.title);
     //生成订单
     let order_id = await this.model("order_tour").add(orderinfo);
 
     //减少订单中商品的库存 TODO：需要做事务处理，同时需要确认库存是在下单后减少 还是在支付成功后
     await this.model("order_tour").stock(order_id,true);
 
-    return this.success({name:'订单创建成功，正在跳转支付页面！',orderinfo,url:`/uc/pay/pay?order=${order_id}&setp=3`});
+    this.assign("orderinfo",orderinfo);
+    //判断浏览客户端
+    if (checkMobile(this.userAgent())) {
+      return this.display(`mobile/${this.http.controller}/${this.http.action}`)
+    } else {
+      return this.display();
+    }
+    //return this.success({name:'订单创建成功，正在跳转支付页面！',orderinfo,url:`/uc/pay/pay?order=${order_id}&setp=3`});
 
   }
 
@@ -465,6 +473,8 @@ export default class extends Base {
       val.province = await this.model("area").where({id: val.province}).getField("name", true);
       val.city = await this.model("area").where({id: val.city}).getField("name", true);
       val.county = await this.model("area").where({id: val.county}).getField("name", true);
+      let status_desc=['','未提交','已提交','已取消','已付款','待卖家确认','卖家已确认','待成团','已成团','','请求退款','确认退款','退款中','退款成功','待评价','已评价'];
+      val.status_desc = status_desc[val.status];
       //未付款订单倒计时
       if (val.pay_status == 0) {
         val.end_time = date_from(val.create_time + (Number(this.setup.ORDER_DELAY) * 60000))
@@ -506,8 +516,33 @@ export default class extends Base {
     this.assign("count",data.count);
     this.assign('list', data.data);
     this.meta_title = "我的订单";
-
+    console.log(data);
     return this.json(data);
+  }
+    /**
+   * cannelorderAction  取消订单
+   * @return {Promise} []
+   * /uc/booking/query/status/4 
+   * status
+   */
+  async cannelorderAction() {
+    //判断是否登陆
+    let islogin = await this.jsonlogin();
+    if(!islogin){
+      return this.fail("未登录");
+    }
+
+    let orderid = this.get('orderid'); 
+    //console.log(status);
+    let order_tour_info={};
+    //订单状态 status 1,未提交(草稿)2:已提交(待付款)，3:已取消,4已付款，5,待卖家确认，6:卖家已确认，7:待成团，8:已成团， 10:请求退款,11:确认退款，12,:退款中，13退款成功 16:待评价，17:已评价
+    order_tour_info.status = 3;
+
+    let update = await this.model("order_tour").where({user_id: this.user.uid,order_no:orderid}).update(order_tour_info);
+    if(update)
+      return this.success("取消订单成功");
+    else
+      return this.fail("取消订单失败");
   }
 
   //

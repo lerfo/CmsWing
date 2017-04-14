@@ -1,42 +1,51 @@
 $(function(){
+	function uname(){
+		$.ajax({
+			url:"/uc/seting/query",
+			success:function(result){
+				localStorage.setItem("username",JSON.stringify(result.username));
+			}
+		})
+	}
+	uname();
+	function main(){
+		var html = "";
+		var uname = JSON.parse(localStorage.getItem("username"));
+		html+= '<div class="order-handing">'+
+					'<div class="order-title">'+
+		              	'<img src="/uc/index/avatar"  class=" rounded" alt="'+uname+'" style="width: 65px" />'+
+			            '<span>'+uname+'</span>'+
+			            //'<a class="btn btn-info apply" href="">申请成为商家</a>'+
+		          	'</div>'+
+		          	'<div class="order-content min-height">'+
+		          		'<div class="table-list">'+
+			                '<a class="all-order">全部订单</a>'+
+			                //'<a class="not-start">未出行</a>'+
+			                //'<a class="obligation-order">待付款</a>'+
+			                //'<a class="pending-evaluation">待评价</a>'+
+		        		'</div>'+
+		        		'<div class="table-responsive order-table">'
+		    ;
+		var orderDataList = localStorage.getItem("odrerData");
+		orderDataList = JSON.parse(orderDataList);
+			for(var i=0;i<orderDataList.length;i++){
+				//console.log(orderDataList[i])
+				//console.log(i)
+				var v = orderDataList[i];
+				html+=resultEach(v,i);
+			}
+		html+=`							
+				</div>
+          	</div>
+        </div>
+			`;
+		$(".aside-right").html(html);     
+	}
+	main();
 	$(".uc-order").on("click",function(e){
-		if(e&&e.preventDefault)
-          	e.preventDefault();
-          	window.event.returnValue=false;
-          	//console.log("ok")
-          	var html="";
-     		$.ajax({
-     			url:"/uc/order/query?page=1",
-     			success:function(result){
-     				//console.log(result)
-     				html=
-	          			'<div class="order-handing">'+
-							'<div class="order-title">'+
-				              	'<img src="/uc/index/avatar"  class=" rounded" alt="'+result.data.username+'" style="width: 65px" />'+
-					            '<span>'+result.data.username+'</span>'+
-					            '<a class="btn btn-info apply" href="">申请成为商家</a>'+
-				          	'</div>'+
-				          	'<div class="order-content min-height">'+
-				          		'<div class="table-list">'+
-					                '<a class="all-order">全部订单</a>'+
-					                '<a class="not-start">未出行</a>'+
-					                '<a class="obligation-order">待付款</a>'+
-					                '<a class="pending-evaluation">待评价</a>'+
-				        		'</div>'+
-				        		'<div class="table-responsive order-table">'								
-				        		;
-     				$.each(result.data,function(k,v){
-     					html+=resultEach(v);
-     				})
-     				html+=`							
-							</div>
-			          	</div>
-			        </div>
-     				`;
-     				$(".aside-right").html(html);     				
-     			}
-     		})	
-	})
+		queryorderlist();
+	});
+
 
 	$(".aside-right").on("click","a.obligation-order",function(e){
 		if(e&&e.preventDefault)
@@ -44,7 +53,7 @@ $(function(){
       	window.event.returnValue=false;
       	var html="";
       	$.ajax({
-      		url:"/uc/order/query",
+      		url:"/uc/booking/query",
       		success:function(result){
       			$.each(result.data,function(k,v){
       				if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
@@ -61,7 +70,7 @@ $(function(){
       	window.event.returnValue=false;
       	var html="";
       	$.ajax({
-      		url:"/uc/order/query",
+      		url:"/uc/booking/query",
       		success:function(result){
       			$.each(result.data,function(k,v){      				
       				html+= resultEach(v);	
@@ -76,7 +85,7 @@ $(function(){
       	window.event.returnValue=false;
       	var html="";
       	$.ajax({
-      		url:"/uc/order/query",
+      		url:"/uc/booking/query",
       		success:function(result){
       			$.each(result.data,function(k,v){
       				if(v.delivery_status == 1 && v.status != 6 && v.status != 4){
@@ -93,7 +102,7 @@ $(function(){
       	window.event.returnValue=false;
       	var html="";
       	$.ajax({
-      		url:"/uc/order/query",
+      		url:"/uc/booking/query",
       		success:function(result){
       			$.each(result.data,function(k,v){
       				if(v.status == 4){
@@ -103,108 +112,22 @@ $(function(){
       			$(".order-table").html(html);
       		}
       	})
-	})
+	});
 
-	function resultEach(v){		
-		var h="";
-		h+=`
-			<table>
-			<tr>
-				<td>
-                  	订单号：<a href="#" target="_blank">${v.order_no}</a>
-                </td>
-                <td>姓名</td>
-                <td>出发日期</td>
-                <td>总金额</td>
-                <td>订单状态</td>
-                <td>操作</td>
-			</tr>
-			<tr>
-			<td>
-              	<a class="goodsItem" href="">${v.titile}</a>
-            </td>
-            <td>
-				<a href="">${v.accept_name}</a>
-            </td>
-            <td>${v.start_date}</td>
-            <td>￥${v.order_amount}</td>
-		`;
-		if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-        	h+=`
-				<td>
-					<span class="text-warning">等待付款</span>
-					<br />
-					<a class="order-detail" href="">订单详情</a>
-				</td>
-                <td>
-					<a class="btn btn-danger btn-xs" href="/uc/pay/pay?order=${v.id}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
-                </td>
-				</tr>
-				</table>													
-        	`;
-        }else if((v.pay_status == 1 || v.status ==3) && v.delivery_status != 1 && v.status != 6 && v.status != 4){
-        	h+=`
-				<td>
-					<span class="text-warning">等待发货</span>
-					<br />
-					<a class="order-detail" href="">订单详情</a>
-				</td>
-                <td>
-					<a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
-                </td>
-			</tr>	
-			</table>												
-        	`;
-        }else if(v.delivery_status == 1 && v.status != 6 && v.status != 4){
-        	h+=`
-				<td>
-					<span class="text-success">等待收货</span>
-					<br />
-					<a class="order-detail" href="">订单详情</a>
-				</td>
-                <td>
-					<a class="btn btn-success btn-xs confirm ajax-get" href="/uc/order/confirmreceipt/id/${v.id}"><i class="fa fa-cart-plus white"></i>确认收货 </a>
-                </td>
-			</tr>
-			</table>													
-        	`;
-        }else if(v.status == 6){
-        	h+=`
-				<td>
-					<span class="text-danger">已取消</span>
-					<br />
-					<a class="order-detail" href="">订单详情</a>
-				</td>
-                <td>
-					 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-                </td>
-			</tr>
-			</table>													
-        	`;
-        }else if( v.status == 4){
-        	h+=`
-				<td>
-					<span class="text-default">已完成</span>
-					<br />
-					<a class="order-detail" href="">订单详情</a>
-				</td>
-                <td>
-					 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
-                </td>
-			</tr>
-			</table>													
-        	`;
-        }
-		return h;		
-	}
+	
+
+
 	$(".aside-right").on("click","a.order-detail",function(e){
 		if(e&&e.preventDefault)
           	e.preventDefault();
           	window.event.returnValue=false;
           	var html="";
-          	$.ajax({
-          		url:"/uc/order/query",
-          		success:function(result){
+          	//var orderdata = orderdetail();
+          	var n = $(this).attr("href") ;
+          	var orderDataList = localStorage.getItem("odrerData");
+    		orderDataList = JSON.parse(orderDataList);
+          	var orderDataDetail = orderDataList[n];
+          	console.log(orderDataDetail);
           			html+=`
 						<div class="detail-box">
 					        <div>
@@ -213,14 +136,14 @@ $(function(){
 					            </div>
 					            <div class="detail-content clear">
 					              <div class="order-state">
-					                <p>订单状态:未提交 </p>
-					                <p>订单编号:1111111111111111</p>
+					                <p>订单状态:${orderDataDetail.status_desc} </p>
+					                <p>订单编号:${orderDataDetail.order_no}</p>
 					              </div>
-					              <div class="order-select">
+					              <!--<div class="order-select">
 					                <button>继续预定</button> 
 					                <br>                            
 					                <button>取消订单</button> 
-					              </div>             
+					              </div>  -->           
 					            </div>
 					          </div>
 					          <div>
@@ -229,14 +152,28 @@ $(function(){
 					            </div>
 					            <div class="detail-content order-information">
 					              <p>
-					                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+					                ${orderDataDetail.titile}
 					              </p>
 					              <p>
 					                <span>出发城市上海</span>
-					                <span>出发日期2017-02-22</span>
-					                <span>返回日期2017-05-11</span>
-					                <span>2成人</span>
-					                <span>金额:￥11111</span>
+					                <span>出发日期${orderDataDetail.start_date}</span>
+					                <span>返回日期${orderDataDetail.end_time}</span>
+					    `;
+					var travellersinfo = JSON.parse(orderDataDetail.travellersinfo);
+					var n=0;
+					var m=0;
+					$.each(travellersinfo,function(k,v){
+						
+						if(v.type == 1){
+							n++;
+						}else if(v.type == 2){
+							m++
+						}
+					})
+
+					 html +=`            
+					 				<span>${n}成人,${m}儿童</span>  
+					                <span>金额:￥${orderDataDetail.order_amount}</span>
 					              </p>
 					            </div>
 					          </div>
@@ -248,15 +185,15 @@ $(function(){
 					              <ul>
 					                <li>
 					                  <b>姓名</b>
-					                  <span>xxx</span>
+					                  <span>${orderDataDetail.connect_name}</span>
 					                </li>
 					                <li>
 					                  <b>Email</b>
-					                  <span>123456789@qq.com</span>
+					                  <span>${orderDataDetail.connect_email}</span>
 					                </li>
 					                <li>
 					                  <b>手机号码</b>
-					                  <span>111111111111</span>
+					                  <span>${orderDataDetail.connect_phone}</span>
 					                </li>
 					              </ul>
 					            </div>
@@ -266,35 +203,88 @@ $(function(){
 					              <span>旅客</span>
 					            </div>
 					            <div class="detail-content">
+					        <div>
+					`;
 
-					              <div>
-					                <div class="traveller-num">
-					                  <p>旅客</p>
-					                  <span>成人</span>
-					                </div>             
-					                <ul>
-					                  <li>
-					                    <b>中文姓名</b><span>xxxxxxx</span>
-					                  </li>
-					                  <li>
-					                    <b>英文姓名</b><span>xxxxxxx</span>
-					                  </li>
-					                  <li>
-					                    <b>国籍</b><span>xxxxxxx</span>
-					                  </li>
-					                  <li>
-					                    <b>证件类型</b><span>xxxxxxx</span>
-					                  </li>
-					                  <li>
-					                    <b>性别</b><span>xxxxxxx</span>
-					                  </li>
-					                  <li>
-					                    <b>出生日期</b><span>xxxxxxx</span>
-					                  </li>
-					                  <li>
-					                    <b>联系电话</b><span>xxxxxxx</span>
-					                  </li>
-					                </ul>
+					//console.log(travellersinfo)
+					$.each(travellersinfo,function(k,v){
+						//console.log(k)
+						//console.log(v)
+						if(v.type == 1){
+							html+=`
+							
+				                <div class="traveller-num">
+				                  <p>旅客${k+1}</p>
+				                  <span>成人</span>
+				                </div>       
+				            `;
+						}else if(v.type == 2){
+							html+=`
+				                <div class="traveller-num">
+				                  <p>旅客</p>
+				                  <span>儿童</span>
+				                </div>       
+				            `;
+
+						}
+						html+=`
+							<ul>
+			                  <li>
+			                    <b>中文姓名</b><span>${v.name_zh}</span>
+			                  </li>
+			                  <li>
+			                    <b>英文姓名</b><span>xxxxxxx</span>
+			                  </li>
+			                  <li>
+			                    <b>国籍</b><span>${v.country}</span>
+			                  </li>
+			                `;
+			            if(v.credentials_type==0){
+			            	html+=`
+							  <li>
+			                    <b>证件类型</b><span>护照</span>
+			                  </li>
+			            	`;
+			            }else if(v.credentials_type==1){
+			            	html+=`
+							  <li>
+			                    <b>证件类型</b><span>港澳通行证</span>
+			                  </li>
+			            	`;
+			            }else if(v.credentials_type==2){
+			            	html+=`
+							  <li>
+			                    <b>证件类型</b><span>台湾通行证</span>
+			                  </li>
+			            	`;
+			            }
+			            if(v.sexual==0){
+			            	 html+=`			                  
+			                  <li>
+			                    <b>性别</b><span>男</span>
+			                  </li>
+			                 `;
+			            }else if(v.sexual==1){
+			            	 html+=`			                  
+			                  <li>
+			                    <b>性别</b><span>女</span>
+			                  </li>
+			                 `;
+			            }
+			            html+=`			           
+			                  <li>
+			                    <b>出生日期</b><span>${v.birthday}</span>
+			                  </li>
+			                  <li>
+			                    <b>联系电话</b><span>${v.phone}</span>
+			                  </li>
+			                </ul>
+						`;
+
+					})
+						html+=`
+					                    
+					                
 					              </div>
 
 					            </div>
@@ -302,9 +292,9 @@ $(function(){
 					        </div>
 	      			`;
 	      			$(".aside-right").html(html);
-          		}
-          	})
+
 	})
+
 	
 	$(".uc-archives").on("click",function(e){
 		if(e&&e.preventDefault)
@@ -466,77 +456,75 @@ $(function(){
 		if(e&&e.preventDefault)
           	e.preventDefault();
           	window.event.returnValue=false;
-          	var html="";
-          	$.ajax({
-          		url:"/uc/seting/query",
-          		success:function(data){
-          			html=`
-						<div class="head-title">
-              头像设置
-            </div>
-            <div class="add-picture min-height">
-              
+      //     	var html="";
 
-                <div class="" id="avatar-modal" aria-labelledby="avatar-modal-label" >
-                  <div class="">
-                    <div class="">
-                      <form class="avatar-form" action="/uc/seting/updateavatar" enctype="multipart/form-data" method="post">
+      //     			html=`
+						// <div class="head-title">
+			   //            头像设置
+			   //          </div>
+			   //          <div class="add-picture min-height">
+			              
 
-                        <div class="modal-body">
-                          <div class="avatar-body">
-                            <div class="avatar-upload">
-                              <input class="avatar-src" name="avatar_src" type="hidden">
-                              <input class="avatar-data" name="avatar_data" type="hidden">
+			   //              <div class="" id="avatar-modal" aria-labelledby="avatar-modal-label" >
+			   //                <div class="">
+			   //                  <div class="">
+			   //                    <form class="avatar-form" action="/uc/seting/updateavatar" enctype="multipart/form-data" method="post">
 
-                              </div>
-                            <div class="fancy-file-upload fancy-file-primary">
-                              <b class="upload">头像</b>
-                              
-                              <input type="file" class="form-control avatar-input" id="avatarInput" name="file" onchange="jQuery(this).next('input').val(this.value);" />
-                              
-                              <span class="button">上传图片</span>
-                              <span class="upload">仅支持jpg.gif.png格式图片,且文件小于2M</span>
-                            </div>
-                            <div class="row">
+			   //                      <div class="modal-body">
+			   //                        <div class="avatar-body">
+			   //                          <div class="avatar-upload">
+			   //                            <input class="avatar-src" name="avatar_src" type="hidden">
+			   //                            <input class="avatar-data" name="avatar_data" type="hidden">
 
-                              <div class="col-md-6 col-md-offset-1">
-                                <div class="avatar-wrapper"></div>
-                              </div>
-                              <div class="col-md-4" style="vertical-align: bottom">
-                                <div class="avatar-preview preview-lg"><img src="/uc/index/avatar"  alt="${data.username}" /></div>
-                                <div class="avatar-preview preview-md"><img src="/uc/index/avatar"  alt="${data.username}" /></div>
-                                <div class="avatar-preview preview-sm"><img src="/uc/index/avatar"  alt="${data.username}" /></div>
-                              </div>
+			   //                            </div>
+			   //                          <div class="fancy-file-upload fancy-file-primary">
+			   //                            <b class="upload">头像</b>
+			                              
+			   //                            <input type="file" class="form-control avatar-input" id="avatarInput" name="file" onchange="jQuery(this).next('input').val(this.value);" />
+			                              
+			   //                            <span class="button">上传图片</span>
+			   //                            <span class="upload">仅支持jpg.gif.png格式图片,且文件小于2M</span>
+			   //                          </div>
+			   //                          <div class="row">
 
-                            </div>
-                            <div class="row avatar-btns">
-                              <div class="col-md-3">
-                                <button class="btn btn-primary btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
-                              </div>
-                              <div class="col-md-9">
-                                <div class="btn-group">
-                                  <button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
-                                </div>
-                                <div class="btn-group">
-                                  <button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
-                                </div>
-                              </div>
+			   //                            <div class="col-md-6 col-md-offset-1">
+			   //                              <div class="avatar-wrapper"></div>
+			   //                            </div>
+			   //                            <div class="col-md-4" style="vertical-align: bottom">
+			   //                              <div class="avatar-preview preview-lg"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
+			   //                              <div class="avatar-preview preview-md"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
+			   //                              <div class="avatar-preview preview-sm"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
+			   //                            </div>
 
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
+			   //                          </div>
+			   //                          <div class="row avatar-btns">
+			   //                            <div class="col-md-3">
+			   //                              <button class="btn btn-primary btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
+			   //                            </div>
+			   //                            <div class="col-md-9">
+			   //                              <div class="btn-group">
+			   //                                <button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
+			   //                              </div>
+			   //                              <div class="btn-group">
+			   //                                <button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
+			   //                              </div>
+			   //                            </div>
 
-                <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
-            
-            </div>
-		          	`;
-		          	$(".aside-right").html(html);
-          		}
-          	})
+			   //                          </div>
+			   //                        </div>
+			   //                      </div>
+			   //                    </form>
+			   //                  </div>
+			   //                </div>
+			   //              </div>
+
+			   //              <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+			            
+			   //          </div>
+		    //       	`;
+		    $(".aside-right").html(html);
+         
+
           	
           	
 	})
@@ -944,3 +932,209 @@ $(function(){
           	var html="";
 	})
 })
+
+	function queryorderlist(){
+			//if(e&&e.preventDefault)
+	         // 	e.preventDefault();
+          	window.event.returnValue=false;
+          	//console.log("ok")
+          	var html="";
+     		$.ajax({
+     			url:"/uc/booking/query?page=1",
+     			success:function(result){
+     				localStorage.setItem("odrerData",JSON.stringify(result.data));
+     				var uname = JSON.parse(localStorage.getItem("username"));
+     				console.log(result.data)
+     				//console.log(result)
+     				html=
+	          			'<div class="order-handing">'+
+							'<div class="order-title">'+
+				              	'<img src="/uc/index/avatar"  class=" rounded" alt="'+uname+'" style="width: 65px" />'+
+					            '<span>'+uname+'</span>'+
+					            //'<a class="btn btn-info apply" href="">申请成为商家</a>'+
+				          	'</div>'+
+				          	'<div class="order-content min-height">'+
+				          		'<div class="table-list">'+
+					                '<a class="all-order">全部订单</a>'+
+					                //'<a class="not-start">未出行</a>'+
+					                //'<a class="obligation-order">待付款</a>'+
+					                //'<a class="pending-evaluation">待评价</a>'+
+				        		'</div>'+
+				        		'<div class="table-responsive order-table">'								
+				        		;
+     				// $.each(result.data,function(k,v){
+     				// 	//console.log(v);
+     				
+     				// 	html+=resultEach(v);
+
+     				// })
+
+
+     				var orderDataList = localStorage.getItem("odrerData");
+    				orderDataList = JSON.parse(orderDataList);
+     				for(var i=0;i<orderDataList.length;i++){
+     					//console.log(orderDataList[i])
+     					//console.log(i)
+     					var v = orderDataList[i];
+     					html+=resultEach(v,i);
+
+     				}
+
+
+     				html+=`							
+							</div>
+			          	</div>
+			        </div>
+     				`;
+     				$(".aside-right").html(html);     				
+     			}
+     		})	
+	};
+
+function cannelorder(orderid){
+		console.log(orderid);
+		var pro;
+		$.ajax({
+			url:"/uc/booking/cannelorder?orderid="+orderid,
+			async:false,
+			success:function(result){
+				console.log(result);
+				queryorderlist();
+			}
+		});
+		//console.log(pro)
+		return pro;
+	};
+
+	function resultEach(v,i){		
+		var h="";
+		h+=`
+			<table>
+			<tr>
+				<td>
+                  	订单号：<a href="#" target="_blank">${v.order_no}</a>
+                </td>
+                <td>姓名</td>
+                <td>出发日期</td>
+                <td>总金额</td>
+                <td>订单状态</td>
+                <td>操作</td>
+			</tr>
+			<tr>
+			<td>
+              	<a class="goodsItem" target="_blank" href="/p/${v.product_id}.html">${v.title}</a>
+            </td>
+            <td>
+				<span>${v.connect_name}</span>
+            </td>
+            <td>${v.start_date}</td>
+            <td>￥${v.order_amount}</td>
+		`;
+		/*
+		if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
+        	h+=`
+				<td>
+					<span class="text-warning">已提交</span>
+					<br />
+					<a class="order-detail" href="${i}">订单详情</a>
+				</td>
+                <td>
+					<a class="btn btn-danger btn-xs" href="/uc/pay/pay?order=${v.id}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
+                </td>
+				</tr>
+				</table>													
+        	`;
+        }else if((v.pay_status == 1 || v.status ==3) && v.delivery_status != 1 && v.status != 6 && v.status != 4){
+        	h+=`
+				<td>
+					<span class="text-warning">等待发货</span>
+					<br />
+					<a class="order-detail" href="${i}">订单详情</a>
+				</td>
+                <td>
+					<a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
+                </td>
+			</tr>	
+			</table>												
+        	`;
+        }else if(v.delivery_status == 1 && v.status != 6 && v.status != 4){
+        	h+=`
+				<td>
+					<span class="text-success">等待收货</span>
+					<br />
+					<a class="order-detail" href="${i}">订单详情</a>
+				</td>
+                <td>
+					<a class="btn btn-success btn-xs confirm ajax-get" href="/uc/order/confirmreceipt/id/${v.id}"><i class="fa fa-cart-plus white"></i>确认收货 </a>
+                </td>
+			</tr>
+			</table>													
+        	`;
+        }else if(v.status == 6){
+        	h+=`
+				<td>
+					<span class="text-danger">已取消</span>
+					<br />
+					<a class="order-detail" href="${i}">订单详情</a>
+				</td>
+                <td>
+					 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
+                </td>
+			</tr>
+			</table>													
+        	`;
+        }else if( v.status == 4){
+        	h+=`
+				<td>
+					<span class="text-default">已完成</span>
+					<br />
+					<a class="order-detail" href="${i}">订单详情</a>
+				</td>
+                <td>
+					 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
+                </td>
+			</tr>
+			</table>													
+        	`;
+        }
+        */
+        //temp rewrite
+
+        if(v.status == 2){
+	        h+=`
+					<td>
+						<span class="text-warning">已提交</span>
+					</td>
+	                <td>
+	                <a class="order-detail" href="${i}">查看详情 </a> <br>
+					<a  href="javascript:cannelorder(${v.order_no});" >取消订单 </a>
+	                </td>
+					</tr>
+					</table>													
+	        	`;
+	    }else if(v.status == 3){
+	    	h+=`
+					<td>
+						<span class="text-warning" style="color:#afa79c !important">已取消</span>
+					</td>
+	                <td>
+						<a class="order-detail" href="${i}">查看详情 </a>
+	                </td>
+					</tr>
+					</table>													
+	        	`;
+	    }else{
+	    	h+=`
+					<td>
+						<span class="text-warning">已提交</span>
+					</td>
+	                <td>
+	                <a class="order-detail" href="${i}">查看详情 </a> <br>
+					<a  href="javascript:cannelorder(${v.order_no});" >取消订单 </a>
+	                </td>
+					</tr>
+					</table>													
+	        	`;
+	    }
+		return h;		
+	}

@@ -183,14 +183,14 @@
       var price_kid = jQuery("#price-kid").val();
       var price_baby = jQuery("#price-baby").val();
       var price_differences = jQuery("#price-differences").val();
-      // console.log("price: " + price_adult + ", " + price_kid + ", " + price_baby + ", " + price_differences);
+      console.log("price: " + price_adult + ", " + price_kid + ", " + price_baby + ", " + price_differences);
       var count_adult = jQuery("#adult_quantity").val();
       var count_kid = jQuery("#kid_quantity").val();
       var count_baby = jQuery("#baby_quantity").val();
       var count_differences = jQuery("#differences_quantity").val();
-      // console.log("count: " + count_adult + ", " + count_kid + ", " + count_baby + ", " + count_differences);
-      var price_total = price_adult * count_adult + price_kid * count_kid + price_baby * count_baby + price_differences * count_differences;
-      // console.log("price_total: " + price_total);
+      console.log("count: " + count_adult + ", " + count_kid + ", " + count_baby + ", " + count_differences);
+      var price_total = price_adult * Number(count_adult) + price_kid * count_kid + price_baby * count_baby + price_differences * count_differences;
+      console.log("price_total: " + price_total);
       jQuery("#total-price").html("<dfn>¥</dfn>" + price_total);
     }
 

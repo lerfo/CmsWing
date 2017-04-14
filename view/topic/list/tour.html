@@ -20,7 +20,7 @@ CLASSES:
 -->
 <section class="page-header page-header-xs" >
     <div class="container">
-
+    {#
         <h1>{{category.title}}</h1>
 
         <!-- breadcrumbs -->
@@ -45,7 +45,8 @@ CLASSES:
             <li  {%if val.id == category.id %}class="active"{%endif%}><a href="{{val.url}}{{http.config('view.file_ext')}}">{{val.name}}</a></li>
             {%endfor%}
         </ul>
-        {%endif%}
+        {%endif%}-
+        #}
         <!-- /page tabs -->
     </div>
 </section>

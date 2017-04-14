@@ -3,14 +3,15 @@
 {%set cate = category.id|get_cate()%}
 <style type="text/css">
 .home-search-bar{
-	background: url('/static/assets/images/search_bar.png') no-repeat; 
 	position: absolute; 
 	left: 50%; 
 	bottom: 40px; 
-	height: 50px; 
 	width: 414px; 
 	z-index: 100; 
 	margin-left: -207px;
+}
+section#slider input{
+    background-color: #fff;
 }
 .ctr{
 	width: 984px; 
@@ -144,7 +145,16 @@ table .btn{
         </div>
 
         <div class="home-search-bar">
-            
+            <!-- INLINE SEARCH -->
+            <div class="inline-search clearfix" style="border: 10px solid rgba(26,21,31,0.5);">
+                <form action="/search" method="get" class="widget_search">
+                    <input type="search" placeholder="想带宝宝去哪？" name="q" {% if queryword %} value={{queryword}} {%endif%}class="serch-input" style="color: black;">
+                    <button type="submit" style="background-color:#1EB6C1 ">
+                        <i class="fa fa-search" style="color: #fff;"></i>
+                    </button>
+                </form>
+            </div>
+            <!-- /INLINE SEARCH -->
         </div>
 
     </section>
@@ -166,8 +176,8 @@ table .btn{
                     <div class="linea"></div>
                 </li>-->
                 <li class="cgy" id="select2" ><a href="javascript:;">游学</a><div class="linea" style="background-color: #fff;"></li>
-                <li class="cgy" id="select3" ><a href="javascript:;">游记攻略</a><div class="linea"></li>
-                <li class="cgy" id="select4"><a href="javascript:;">问答</a><div class="linea"></li> 
+                <li class="cgy" id="select3" ><a href="javascript:gettournote();">游记攻略</a><div class="linea"></li>
+                <li class="cgy" id="select4"><a href="javascript:gettourquestion();">问答</a><div class="linea"></li> 
 
                <!-- Version 1.0  
                <li class="cgy"><a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{val.id}}" >学校</a><div class="linea"></div></li>
@@ -198,8 +208,7 @@ table .btn{
 				<!-- 问答 -->
 			</div>
            
-
-			<div class="study-tour" id="page2" style="width: 984px;margin: 0px auto;margin-top:-15px;padding: 0px;">
+            <div class="study-tour" id="page2" style="width: 984px;margin: 0px auto;margin-top:-15px;padding: 0px;">
             <!-- 分类信息
             {%if sort%}
             {%if sort.types|length ==1%}
@@ -212,134 +221,107 @@ table .btn{
             {%endif%} -->
             <!-- <div class="tct tab-content table-bordered" style=""> -->
             
-        <div class="tct tab-content" style="">
-            <table class="table table  m-b-none" style="margin-top: -1px">
-                <tbody>
-                    {% set typenum = 1%}
-                    {%for val in typevar%}
-                    {%if val.search > 1%}
-                    <!-- <tr {% if typenum > 3 %} class="type_tr_m"  style="display:none"{%endif%} > -->
-                    <tr  class="type_tr_m"  >
-                        <td style="width: 70px;text-align:justify;text-align-last:justify;line-height:1.6;">
-                        
-                            {{val.option.title}}:
-                        </td>
-                        <td>
-                            {%if 0 == nsobj[val.option.identifier] or null == nsobj[val.option.identifier]%}
-                            <span class="btn btn-danger btn-xs relative">全部</span>
-                            {%else%}
-                            <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{0|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >全部</a>
-                            {%endif%}
-
-                            {%for v in val.rules %}
-                            {%if v.id|sort_act(nsobj[val.option.identifier])%}
-                            <span class="btn btn-danger btn-xs relative" >{{v.name}}{{val.option.unit}}</span>
-                            {%else%}
-                            <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >{{v.name}}{{val.option.unit}}</a>
-                            {%endif%}
-                            {%endfor%}
-                            <!--子栏目-->
-                            {%for v in val.rules %}
-                            {%if v.id|sort_act(nsobj[val.option.identifier])%}
-                                {% if v.children%}
-                                    <div class="subtsm" style="border: 0px;">
-                                        {%if v.id == nsobj[val.option.identifier] %}
-                                        <span class="btn btn-danger btn-xs relative">全部</span>
-                                        {%else%}
-                                        <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >全部</a>
-                                        {%endif%}
-
-                                        {% for v_ in v.children %}  
-                                        {%if v_.id|sort_act(nsobj[val.option.identifier])%}
-                                        <span class="btn btn-danger btn-xs relative" >{{v_.name}}{{val.option.unit}}</span>
-                                        {%else%}
-                                        <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v_.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative">{{v_.name}}{{val.option.unit}}</a>
-                                        {%endif%}
-                                        {% endfor %}
-                                    </div>
-                                {%endif%}
-                            {%endif%}
-                            {%endfor%}
-                            <!--子栏目-->
-                            {%for v in val.rules %}
-                            {%if v.id|sort_act(nsobj[val.option.identifier])%}
-                            {% if v.children%}
-
-                            {% for v_ in v.children %}
-                            {%if v_.id|sort_act(nsobj[val.option.identifier])%}
-                            {% if v_.children%}
-                            <div class="subtsm">
-                                {% for v__ in v_.children %}
-
-                                {%if v__.id|sort_act(nsobj[val.option.identifier])%}
-
-                                <span class="btn btn-danger btn-xs relative" >{{v__.name}}{{val.option.unit}}</span>
+            <div class="tct tab-content" style="">
+                <table class="table table  m-b-none" style="margin-top: -1px">
+                    <tbody>
+                        {% set typenum = 1%}
+                        {%for val in typevar%}
+                        {%if val.search > 1%}
+                        <!-- <tr {% if typenum > 3 %} class="type_tr_m"  style="display:none"{%endif%} > -->
+                        <tr  class="type_tr_m"  >
+                            <td style="width: 70px;text-align:justify;text-align-last:justify;line-height:1.6;">
+                            
+                                {{val.option.title}}:
+                            </td>
+                            <td>
+                                {%if 0 == nsobj[val.option.identifier] or null == nsobj[val.option.identifier]%}
+                                <span class="btn btn-danger btn-xs relative">全部</span>
                                 {%else%}
-                                <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v__.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >{{v__.name}}{{val.option.unit}}</a>
+                                <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{0|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >全部</a>
+                                {%endif%}
 
+                                {%for v in val.rules %}
+                                {%if v.id|sort_act(nsobj[val.option.identifier])%}
+                                <span class="btn btn-danger btn-xs relative" >{{v.name}}{{val.option.unit}}</span>
+                                {%else%}
+                                <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >{{v.name}}{{val.option.unit}}</a>
                                 {%endif%}
                                 {%endfor%}
-                            </div>
-                            {%endif%}
-                            {%endif%}
-                            {% endfor %}
+                                <!--子栏目-->
+                                {%for v in val.rules %}
+                                {%if v.id|sort_act(nsobj[val.option.identifier])%}
+                                    {% if v.children%}
+                                        <div class="subtsm" style="border: 0px;">
+                                            {%if v.id == nsobj[val.option.identifier] %}
+                                            <span class="btn btn-danger btn-xs relative">全部</span>
+                                            {%else%}
+                                            <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >全部</a>
+                                            {%endif%}
 
-                            {%endif%}
-                            {%endif%}
-                            {%endfor%}
-                        </td>
+                                            {% for v_ in v.children %}  
+                                            {%if v_.id|sort_act(nsobj[val.option.identifier])%}
+                                            <span class="btn btn-danger btn-xs relative" >{{v_.name}}{{val.option.unit}}</span>
+                                            {%else%}
+                                            <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v_.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative">{{v_.name}}{{val.option.unit}}</a>
+                                            {%endif%}
+                                            {% endfor %}
+                                        </div>
+                                    {%endif%}
+                                {%endif%}
+                                {%endfor%}
+                                <!--子栏目-->
+                                {%for v in val.rules %}
+                                {%if v.id|sort_act(nsobj[val.option.identifier])%}
+                                {% if v.children%}
 
-                    </tr>
-                    {% set typenum = typenum+1%}
-                    {%endif%}
-                    {%endfor%}
+                                {% for v_ in v.children %}
+                                {%if v_.id|sort_act(nsobj[val.option.identifier])%}
+                                {% if v_.children%}
+                                <div class="subtsm">
+                                    {% for v__ in v_.children %}
 
-                </tbody>
-            </table>
-            <!-- {% if typenum > 4%}
-            <a href="javascript:;" class="center-block btn btn-xs btn-white type_tr_b1" style="border-top: 1px solid #cfd8e1; display: block"><span class="fa fa-chevron-down"></span></a>
-            <a href="javascript:;" class="center-block btn btn-xs btn-white type_tr_b2" style="border-top: 1px solid #cfd8e1; display: none"><span class="fa fa-chevron-up"></span></a>
-            {%endif%} -->
-           <!--  </div> -->
-            {%endif%}
-            <!--/分类信息-->
-            <!--正文信息-->
-            <div class="row txtbd" style="width: 924px; margin:10px -35px;">
+                                    {%if v__.id|sort_act(nsobj[val.option.identifier])%}
 
-                <!-- LEFT -->
-                <div class="col-md-9 col-sm-9" style="margin-right: 25px;margin-left: 25px;width: 904px;height: auto;">
-                {#
-                    <div class="text-left">
-                        <ul class="nav nav-pills mix-filter">
+                                    <span class="btn btn-danger btn-xs relative" >{{v__.name}}{{val.option.unit}}</span>
+                                    {%else%}
+                                    <a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{group_id}}-{{sortid}}-{{v__.id|sort_url(val.option.identifier,typevar,nsobj)}}" class="btn btn-clean btn-xs relative" >{{v__.name}}{{val.option.unit}}</a>
 
-                        <li class="filter {%if group_id==0%}active{%endif%}"><a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}">全部</a></li>
-                            {% groups data="groups",cid=category.id%}
-                            {%for v in groups%}
-                            <li class="filter {%if group_id==v.id%}active{%endif%}"><a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{cate.id}}-{{order}}-{{v.id}}{%if sort%}-{{sortid}}{%endif%}{%if sorturl %}-{%endif%}{{sorturl}}">{{v.name}}</a></li>
-                            {%endfor%}
-                        </ul>
-                        <!--投稿按钮-->
-                        <div class="btn-group btn-group-sm pull-right" >
-                            
-                                {%if model|length > 1 %}
-                                <ul class="dropdown-menu">
+                                    {%endif%}
+                                    {%endfor%}
+                                </div>
+                                {%endif%}
+                                {%endif%}
+                                {% endfor %}
 
-                                    {% for val in modellist%}
-                                    <li> <a href="/uc/publish/add/model_id/{{val.id}}/pid/0/cate_id/{{cate.id}}/group_id/{{group_id}}/sortid/{{sortid}}"
-                                        class="text-info">添加{{val.title}}</a></li>
-                                        {% endfor %}
+                                {%endif%}
+                                {%endif%}
+                                {%endfor%}
+                            </td>
 
-                                        <!--<li class="divider"></li>-->
-                                        <!--<li><a href="#">添加内容</a></li>-->
-                                </ul>
-                                    {% endif %}
-                         </div>                               
-                    </div>
-                    #}
-                         {% for val in list %}
-                             {% set categoryname = val.category_id|get_cate %}
+                        </tr>
+                        {% set typenum = typenum+1%}
+                        {%endif%}
+                        {%endfor%}
+
+                      {%endif%}
+                    </tbody>
+                </table>
+                <!-- {% if typenum > 4%}
+                <a href="javascript:;" class="center-block btn btn-xs btn-white type_tr_b1" style="border-top: 1px solid #cfd8e1; display: block"><span class="fa fa-chevron-down"></span></a>
+                <a href="javascript:;" class="center-block btn btn-xs btn-white type_tr_b2" style="border-top: 1px solid #cfd8e1; display: none"><span class="fa fa-chevron-up"></span></a>
+                {%endif%} -->
+               <!--  </div> -->
+              
+                <!--/分类信息-->
+                <!--正文信息-->
+                <div class="row txtbd" style="width: 924px; margin:10px -35px;">
+
+                    <!-- LEFT -->
+                    <div class="col-md-9 col-sm-9" style="margin-right: 25px;margin-left: 25px;width: 904px;height: auto;">                    
+                            {% for val in list %}
+                            {% set categoryname = val.category_id|get_cate %}
                              <!-- POST ITEM -->
-                             <div class="bpm blog-post-item padding-bottom-0 margin-bottom-15 clearfix" style="width:904px;height: 150px;border-bottom: 0px;margin-bottom: 25px;">
+                            <div class="bpm blog-post-item padding-bottom-0 margin-bottom-15 clearfix" style="width:904px;height: 150px;border-bottom: 0px;margin-bottom: 25px;">
                                 <!-- IMAGE -->
                                 {% if val.cover_id>0 %}
                                 <figure class="blog-item-small-image margin-bottom-0">
@@ -347,77 +329,38 @@ table .btn{
                                 </figure>
                                 {% endif %}
                                 <div class="bilt blog-item-small-content" style="padding-left: 274px;height: 150px;">
-                                <p style="text-indent:1em;"> &nbsp;</p>
-                                    <h2 style="font-size: 18;">
-                                        <a  class="goPage" style="width:100%;margin-top:10px;" href="{{val.name|get_url(val.id)}}" target="_blank" title="{{val.title}}">{{val.title|truncate(30, true, "...")}} <span style="color:skyblue;position: absolute;right: 15px;">¥{{val.price|get_price('1')}}/人起</span></a>
-                                    </h2>
-
-                                <p style="text-indent:1em;">{{val.description|truncate(90, true, "...")}}</p>
-                          
-                           
-                        </div>
-                        <!-- /POST ITEM -->
-                    {%endfor%}
+                                    <p style="text-indent:1em;"> &nbsp;</p>
+                                        <h2 style="font-size: 18;">
+                                            <a  class="goPage" style="width:100%;margin-top:10px;" href="{{val.name|get_url(val.id)}}" target="_blank" title="{{val.title}}">{{val.title|truncate(30, true, "...")}} <span style="color:skyblue;position: absolute;right: 15px;">¥{{val.price|get_price('1')}}/人起</span></a>
+                                        </h2>
+                                    <p style="text-indent:1em;">{{val.description|truncate(90, true, "...")}}</p>
+                                </div> <!--add-->
+                            </div>
+                            <!-- /POST ITEM -->     
+                            {%endfor%}
 
 
-                       <!--  PAGINATION(分页)
-                       <div class="text-left">
-                           Pagination Default
-                           {{pagination | safe}} 
-                           /Pagination Default
-                       </div>
-                       /PAGINATION -->
-
-                        
-                        <div class="text-center" style="margin-top: 10px;margin-bottom: 30px;">
-                            <a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>
-                        </div>
-					</div> <!--add-->
+                           <!--  PAGINATION(分页)
+                           <div class="text-left">
+                               Pagination Default
+                               {{pagination | safe}} 
+                               /Pagination Default
+                           </div>
+                           </PAGINATION -->
+                           <!--    正版！！！！！！           -->
+                        {%  if currentPage < totalPages %} 
+                            <div class="text-center" style="margin-top: 10px;margin-bottom: 30px;">
+                                <a href="javascript:pagination(2)" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>
+                            </div>
+                        {% endif %}                            
                     </div>
 
-                   <!--  RIGHT
-                   
-                   <div class="col-md-3 col-sm-3">
-                       INLINE SEARCH
-                       <div class="inline-search clearfix margin-bottom-10">
-                           <form action="" method="get" class="widget_search">
-                               <input type="search" placeholder="Start Searching..." id="s" name="s" class="serch-input">
-                               <button type="submit">
-                                   <i class="fa fa-search"></i>
-                               </button>
-                           </form>
-                       </div>
-                       /INLINE SEARCH
-                   
-                       <hr />
-                   
-                       side navigation
-                       {%column data="cates",cid=category.id,isnum="0"%}
-                       {%if cates==null%}
-                       <div class="side-nav margin-bottom-20 margin-top-20">
-                           <div class="side-nav-head">
-                               <button class="fa fa-bars"></button>
-                               <h4>{{category.title}} 子分类</h4>
-                           </div>
-                           <ul class="list-group list-group-bordered list-group-noicon uppercase">
-                               {%for val in cates%}
-                               <li class="list-group-item"><a href="{{val.id}}{{http.config('view.file_ext')}}"><span class="size-11 text-muted pull-right">({{val.doc_num}})</span> {{val.name}}</a></li>
-                               {%endfor%}
-                           </ul>
-                           /side navigation
-                       </div>
-                       {%endif%}
-                   </div> -->
+                      
                 </div>
-			</div>
-
-
-			
-         
-
-            
-
+                                  
+            </div>             
         </div>
+			
     </section>
 
     <!-- /PAGE HEADER -->
@@ -432,6 +375,18 @@ table .btn{
 
 {% block script %}	
 <script>
+
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null){
+            //console.log(r[2]);
+            //console.log(decodeURI(r[2]));
+            return  (decodeURI(r[2])); 
+        }
+        return null;
+    }
     $(".cgy").on("click",function(){
         $(this).siblings().children("div").css("background-color","#896B63");
         $(this).children("div").css("background-color","#fff");
@@ -479,8 +434,8 @@ table .btn{
     	 $.ajax({
         	type:"get",
         	url:"/ajax/question",
-        	success:function(date){
-        		$.each(date,function(k,v){
+        	success:function(dataResult){
+        		$.each(dataResult,function(k,v){
         			var detail_title = v.title;
         			var detail = v.detail.split("</p><p>");
         			var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
@@ -508,8 +463,33 @@ table .btn{
         })
     });
 
+    function pagination(page) {
+        console.log(page);
+        console.log("pagination");
+
+        /*localstorage.setItem("p",3);
+        localstorage.getItem("p");
+        console.log(p);*/
+        $.ajax({
+            type:"get",
+            url:"/ajax/search&page="+1,
+            success:function(dataResult){
+                console.log(dataResult); 
+                console.log(dataResult.count);  
+                if(0<dataResult.count){
+                    console.log("还有还有");
+                }else{
+                    console.log("已无更多");
+                }
+            }
+        });
+    }
+
+
     function gettournote(days=0){
-        console.log('!!!!!!!!!!!!!!!')
+        ///console.log('!!!!!!!!!!!!!!!')
+        var searchword = GetQueryString("q");
+        //console.log(searchword);
         var getHtml = "";
         if(days==7){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
@@ -520,6 +500,7 @@ table .btn{
                         <a href="javascript:gettournote(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
                         <a href="javascript:gettournote(365);" class="btn btn-clean btn-xs relative">1年内</a>\
                         </td></tr></tbody></table>';
+             //history.replaceState(" "," ","question?cid=124&day<=7");
         }else if(days==30){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
                         <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
@@ -529,6 +510,7 @@ table .btn{
                         <a href="javascript:gettournote(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
                         <a href="javascript:gettournote(365);" class="btn btn-clean btn-xs relative">1年内</a>\
                         </td></tr></tbody></table>';
+              //history.replaceState(" "," ","question?cid=124&day<=30");
         }else if(days==180){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
                         <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
@@ -538,6 +520,7 @@ table .btn{
                         <span class="btn btn-danger btn-xs relative">6个月内</span>\
                         <a href="javascript:gettournote(365);" class="btn btn-clean btn-xs relative">1年内</a>\
                         </td></tr></tbody></table>';
+              //history.replaceState(" "," ","question?cid=124&day<=180");
         }else if(days==365){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
                         <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
@@ -547,6 +530,7 @@ table .btn{
                         <a href="javascript:gettournote(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
                         <span class="btn btn-danger btn-xs relative">1年内</span>\
                         </td></tr></tbody></table>';
+             //history.replaceState(" "," ","question?cid=124&day<365");
         }else{
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
                         <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
@@ -555,7 +539,8 @@ table .btn{
                         <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
                         <a href="javascript:gettournote(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
                         <a href="javascript:gettournote(365);" class="btn btn-clean btn-xs relative">1年内</a>\
-                        </td></tr></tbody></table>';        
+                        </td></tr></tbody></table>';  
+            //history.replaceState(" "," ","question?cid=124&day=all");      
         }
             //'<tr class="type_tr_m"><td style="width: 70px;">所在版面：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">英伦半岛</a><a href="javascript:;" class="btn btn-clean btn-xs relative">旅行摄影</a><a href="javascript:;" class="btn btn-clean btn-xs relative">环游欧洲</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美式风情</a></td></tr></tbody></table>';
 
@@ -564,15 +549,16 @@ table .btn{
 
          $.ajax({
             type:"get",
-            url:"/ajax/question?cid=124&day="+days,
-            success:function(date){
-                $.each(date,function(k,v){
+            url:"/ajax/question?cid=124&day="+days+"&q="+searchword,
+            success:function(dataResult){
+                console.log(dataResult);
+                $.each(dataResult.data,function(k,v){
                     var detail_title = v.title;
                     var detail = v.detail.split("</p><p>");
                     var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
                     var detail_txt = detail[1] + detail[2] + detail[3];
                 
-                    getHtml +='<div class="strategy-content">'+
+                    getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
                                 detail_img+
                                 '<div class="strategy-txt"> '+
                                     '<p>'+
@@ -585,17 +571,19 @@ table .btn{
                                         detail_txt+
                                     '</p>'+
                                 '</div>'+
-                                
-                             '</div>';                  
+                                '</div></a>';                       
                 });
-                getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
+                if(dataResult.currentPage < dataResult.totalPages){
+                    getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
+                }
                 $(".strategy").html(getHtml);
             }
         })
     };
-
+/*
     $("#select3").on("click",function(){
     	var getHtml = "";
+        history.replaceState("","","question?cid=124&q=");
     	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
         <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
         <td><span class="btn btn-danger btn-xs relative">全部</span>\
@@ -612,8 +600,8 @@ table .btn{
     	 $.ajax({
         	type:"get",
         	url:"/ajax/question?cid=124&q=",
-        	success:function(date){
-        		$.each(date,function(k,v){
+        	success:function(dataResult){
+        		$.each(dataResult,function(k,v){
         			var detail_title = v.title;
         			var detail = v.detail.split("</p><p>");
         			var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
@@ -643,6 +631,7 @@ table .btn{
 
     $("#select4").on("click",function(){
     	var getHtml = "";
+        history.replaceState(" "," ","question?cid=125&q=");
     	//getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">提问时间：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">最近7天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">最近30天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">6个月内</a><a href="javascript:;" class="btn btn-clean btn-xs relative">1年内</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">回答数：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">只看有回复</a></tbody></table>'
         getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
         <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
@@ -655,8 +644,8 @@ table .btn{
     	 $.ajax({
         	type:"get",
         	url:"/ajax/question?cid=125",
-        	success:function(date){
-        		$.each(date,function(k,v){
+        	success:function(dataResult){
+        		$.each(dataResult,function(k,v){
         			var detail_title = v.title;
         			var detail = v.detail.split("</p><p>");
         			var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
@@ -683,7 +672,9 @@ table .btn{
         	}
         })
     });
+*/
     function gettourquestion(days=0){
+        var searchword = GetQueryString("q");
         console.log(days);
         var getHtml = "";
         //getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">提问时间：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">最近7天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">最近30天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">6个月内</a><a href="javascript:;" class="btn btn-clean btn-xs relative">1年内</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">回答数：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">只看有回复</a></tbody></table>'
@@ -696,6 +687,7 @@ table .btn{
                         <a href="javascript:gettourquestion(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
                         <a href="javascript:gettourquestion(365);" class="btn btn-clean btn-xs relative">1年内</a>\
                         </td></tr></tbody></table>';
+            //history.replaceState(" "," ","question?cid=125&day=7");
         }else if(days==30){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
                         <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
@@ -705,6 +697,7 @@ table .btn{
                         <a href="javascript:gettourquestion(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
                         <a href="javascript:gettourquestion(365);" class="btn btn-clean btn-xs relative">1年内</a>\
                         </td></tr></tbody></table>';
+            //history.replaceState(" "," ","question?cid=125&day=30");
         }else if(days==180){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
                         <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
@@ -714,6 +707,7 @@ table .btn{
                         <span class="btn btn-danger btn-xs relative">6个月内</span>\
                         <a href="javascript:gettourquestion(365);" class="btn btn-clean btn-xs relative">1年内</a>\
                         </td></tr></tbody></table>';
+            //history.replaceState(" "," ","question?cid=125&day=180");
         }else if(days==365){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
                         <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
@@ -723,6 +717,7 @@ table .btn{
                         <a href="javascript:gettourquestion(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
                         <span class="btn btn-danger btn-xs relative">1年内</span>\
                         </td></tr></tbody></table>';
+            //history.replaceState(" "," ","question?cid=125&day=365");
         }else{
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
                         <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
@@ -731,20 +726,21 @@ table .btn{
                         <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
                         <a href="javascript:gettourquestion(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
                         <a href="javascript:gettourquestion(365);" class="btn btn-clean btn-xs relative">1年内</a>\
-                        </td></tr></tbody></table>';        
+                        </td></tr></tbody></table>';
+            //history.replaceState(" "," ","question?cid=125&day=all");        
         }
         
          $.ajax({
             type:"get",
-            url:"/ajax/question?cid=125&day="+days,
-            success:function(date){
-                $.each(date,function(k,v){
+            url:"/ajax/question?cid=125&day="+days+"&q="+searchword,
+            success:function(dataResult){
+                $.each(dataResult.data,function(k,v){
                     var detail_title = v.title;
                     var detail = v.detail.split("</p><p>");
                     var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
                     var detail_txt = detail[1] + detail[2] + detail[3];
                 
-                    getHtml +='<a href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
+                    getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
                                 detail_img+
                                 '<div class="strategy-txt"> '+
                                     '<p>'+
@@ -758,10 +754,11 @@ table .btn{
                                         detail_txt+
                                     '</p>'+
                                 '</div>'+
-                                
                              '</div></a>';                  
                 });
-                getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
+                if(dataResult.currentPage < dataResult.totalPages){
+                    getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
+                }
                 $(".qsn-awr").html(getHtml);
             }
         })

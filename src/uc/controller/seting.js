@@ -91,13 +91,13 @@ export default class extends Base {
     //判断是否登陆
     await this.weblogin();
     let data = this.post();
-    // think.log(data);
+    think.log(data);
     let member = {
       email: data.email,
       mobile: data.mobile,
       real_name: data.real_name,
       sex: data.sex,
-      birthday: new Date(data.birthday).getTime(),
+      //birthday: new Date(data.birthday).getTime(),
       province: data.province,
       city: data.city,
       county: data.county,
@@ -161,6 +161,7 @@ export default class extends Base {
 
   //上传头像
   async updateavatarAction() {
+    console.log("-------------");
     //判断是否登陆
     await this.weblogin();
     let file = think.extend({}, this.file('file'));
@@ -216,6 +217,7 @@ export default class extends Base {
       "errno": 0,
       "message": "头像上传成功！"
     }
+    console.log(data);
     return this.end(data);
   }
 }

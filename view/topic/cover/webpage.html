@@ -281,17 +281,37 @@
 	})
 
 </script>
-<!-- <script>
+
+<script>
+	//alert(window.location.href);
 	window.onload=function(){
-	tagname=location.href.split("s")[1]//以锚点标识分割当前页的地址
-	console.log(tagname);
-	document.getElementById("s"+tagname).style.display="block";
+		/*p=document.getElementsByClassName("srankn");
+		console.log(p);
+		for (var i = p.length - 1; i >= 0; i--) {
+			p[i].style.display="none";
+		}*/
+		tagname=location.href.split("webpage.html#s")[1];
+		/*tagname=location.href.split("#s");;*/
+		console.log(tagname)
+		if (null!=tagname) {
+			console.log(tagname);
+			document.getElementById("s565").style.display="none";
+			$(document).ready(function(){
+				$("#t"+tagname).parent("li").parent("ul").parent("li").siblings().children("ul").removeClass("in");
+				$("#t"+tagname).parent("li").parent("ul").addClass("in");
+				$("#t"+tagname).parent("li").parent("ul").parent("li").children("ul").children("li").removeClass("bg");
+				$("#t"+tagname).parent("li").addClass("bg")
+			});
+			document.getElementById("s"+tagname).style.display="block";
+		}else{
+			console.log("null");
+			$(document).ready(function(){
+				$("#tab137").parent("li").siblings().children("ul").removeClass("in");
+			});
 
 
-	/*a=document.createElement("a");
-	a.href="#"+tagname;
-	document.body.appendChild(a);
-	a.click();*/
+		}
 	}
-	</script> -->
+	
+</script>	
 {% endblock %}

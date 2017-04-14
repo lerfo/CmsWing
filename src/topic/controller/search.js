@@ -26,6 +26,7 @@ export default class extends Base {
     let q = this.get("q");
     if(!think.isEmpty(q)){
       this.assign("queryword",q);
+      console.log('11111111111111111'+q);
       let segment = new Segment();
       // 使用默认的识别模块及字典，载入字典文件需要1秒，仅初始化时执行一次即可
       await segment.useDefault();
@@ -219,7 +220,7 @@ export default class extends Base {
           }
         }
       }
-      console.log(typevar);
+      //console.log(typevar);
       this.assign("typevar",typevar);
     }
     //5.3解析URL中的分类排序参数信息tourdest_100.102|tourtype_0|tourfeature_0|tourdays_0|tourmonth_0
@@ -260,7 +261,7 @@ export default class extends Base {
 
     }
     //console.log(map);
-    console.log(nsobj);
+    //console.log(nsobj);
     //console.log(sort);
     this.assign("sort",sort);
     this.assign("nsobj",nsobj);
@@ -276,7 +277,7 @@ export default class extends Base {
     if(searchword.length > 0){
       map.title = ["like",searchword]
     }
-    console.log(map);
+    //console.log(map);
     //6.查询
     let data;
     if(!think.isEmpty(sortarr)){
@@ -310,7 +311,8 @@ export default class extends Base {
       }
     });
     this.assign('pagination', html);
-
+    this.assign('totalPages', data.totalPages);
+    this.assign('currentPage', data.currentPage);
     //seo
     this.meta_title = cate.meta_title ? cate.meta_title : cate.title; //标题
     this.keywords = cate.keywords ? cate.keywords : ''; //seo关键词
@@ -320,17 +322,17 @@ export default class extends Base {
     console.log('got breadcrumb!! cate.id : '+cate.id)
     let breadcrumb = await this.model('category').get_parent_category(cate.id,true);
     this.assign('breadcrumb', breadcrumb);
-    console.log(breadcrumb)
+    //console.log(breadcrumb)
 
 
     /* 模板赋值并渲染模板 */
     this.assign('category', cate);
     this.assign('list', data.data);
     this.assign('count',data.count);
-    console.log(data.data)
+    //console.log(data.data)
     let temp = cate.template_lists ? `${cate.template_lists}` : "";
     //console.log(cate);
-    console.log(temp)
+    //console.log(temp)
     if(checkMobile(this.userAgent())){
       if(this.isAjax("get")){
         for(let v of data.data){
@@ -362,7 +364,7 @@ export default class extends Base {
       //think.log(temp);
       return this.display(`mobile/${this.http.controller}/${temp}`)
     }else{
-      console.log(temp);
+      //console.log(temp);
       return this.display();
     }
 

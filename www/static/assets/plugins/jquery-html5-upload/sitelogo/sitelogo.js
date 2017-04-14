@@ -76,7 +76,7 @@
 
     initPreview: function () {
       var url = this.$avatar.attr('src');
-
+      console.log(url);
       this.$avatarPreview.empty().html('<img src="' + url + '">');
       
     },
@@ -218,6 +218,7 @@
     },
 
     stopCropper: function () {
+        console.log(this.$img);
       if (this.active) {
         this.$img.cropper('destroy');
         this.$img.remove();
@@ -268,14 +269,15 @@
     submitDone: function (data) {
       if ($.isPlainObject(data)) {
         if (data.result) {
+          console.log(data);
           this.url = data.result;
           if (this.support.datauri || this.uploaded) {
-            //console.log(11)
+            console.log(11)
             this.uploaded = false;
             _toastr(data.message,"top-right","success",false);
             this.cropDone();
           } else {
-            //console.log(22)
+            console.log(22)
             this.uploaded = true;
             this.$avatarSrc.val(this.url);
             this.startCropper();
@@ -298,9 +300,17 @@
     },
 
     cropDone: function () {
-      //console.log(333)
+      console.log(333)
       this.$avatarForm.get(0).reset();
+      console.log(this.url);
+      console.log( $('.preview-lg'));
+      console.log( $('.avatar-preview').find('img'));
+
       this.$avatar.attr('src', this.url);
+            let test = $('.avatar-preview').find('img')
+      console.log(test[0]);
+      $(test[0]).attr('src', this.url);
+      
       this.stopCropper();
       this.initPreview();
     },
