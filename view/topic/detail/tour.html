@@ -904,12 +904,15 @@
 	.tourist-question{
 		padding-left:65px;
 	}
-	.datetimepicker table tr td.day {
- 		 color: #1eb6c1;
-	}
-	.datetimepicker table tr td.day.disabled {
-	    color: #bbb;
-	}
+	
+.datetimepicker table tr td.day {
+    color: #1eb6c1;
+    background: #eee;
+}
+.datetimepicker table tr td.day.disabled {
+    color: #bbb;
+    background: inherit;
+}
 	</style>
 	{% endblock %}
 {% block content %}
@@ -999,59 +1002,7 @@ CLASSES:
 			<!-- RIGHT -->
 			<div class="col-lg-12 col-md-12 col-sm-12 {#col-lg-push-3 col-md-push-3 col-sm-push-3#}">
 				<div class="row">
-{#
-					<!-- IMAGE -->
-					<div class="col-lg-6 col-sm-6">
-						{% set pic = info.pics|strToArray%}
-						<div class="thumbnail relative margin-bottom-3 ">
 
-
-<!-- 
-IMAGE ZOOM 
-
-data-mode="mouseover|grab|click|toggle"
--->
-<figure id="zoom-primary" class="zoom" data-mode="mouseover">
-<!-- 
-zoom buttton
-
-positions available:
-.bottom-right
-.bottom-left
-.top-right
-.top-left
--->
-<a class="lightbox bottom-right" href="{{pic[0]|get_pic('m=0')}}" data-plugin-options='{"type":"image"}'><i class="glyphicon glyphicon-search"></i></a>
-
-<!-- 
-image 
-
-Extra: add .image-bw class to force black and white!
--->
-<img class="img-responsive" src="{{pic[0]|get_pic('m=1,w=800,h=800')}}"  alt="This is the product title" />
-</figure>
-
-</div>
-
-<!-- Thumbnails (required height:100px) -->
-{% if pic|length >1%}
-<div data-for="zoom-primary" class="zoom-more owl-carousel owl-padding-3 featured" 
-data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true, "pagination": false,"itemsMobile":[479,5]}'>
-{%set i = 0%}
-{% for val in pic%}
-<a class="thumbnail {%if i == 0%}active{%endif%}" href="{{val|get_pic('m=1,w=800,h=800')}}">
-	<img src="{{val|get_pic('m=2,w=100,h=100')}}" height="100" alt="" />
-</a>
-{%set i=i+1%}
-{% endfor %}
-
-</div>
-{% endif %}
-<!-- /Thumbnails -->
-
-</div>
-<!-- /IMAGE -->
-#}
 <div class="col-lg-6 col-sm-6" id="calendar-box">
 	<div id='calendar'></div>
 </div>
@@ -1068,15 +1019,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		</div>
 	</div>
 	<h1 class="blog-post-title size-25 bold margin-bottom-10">{{info.title}}</h1>
-	{#
-	<!-- buttons -->
-	<div class="pull-right">
-		<!-- replace data-item-id width the real item ID - used by js/view/demo.shop.js -->
-		<a class="btn btn-default add-wishlist" href="#" data-item-id="1" data-toggle="tooltip" title="Add To Wishlist"><i class="fa fa-heart nopadding"></i></a>
-		<a class="btn btn-default add-compare" href="#" data-item-id="1" data-toggle="tooltip" title="Add To Compare"><i class="fa fa-bar-chart-o nopadding" data-toggle="tooltip"></i></a>
-	</div>
-	<!-- /buttons -->
-	#}
+
 
 	<div class="row margin-bottom-10">
 		<div class="col-lg-6 col-sm-6">
@@ -1169,139 +1112,14 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		</ul>
 		
 	</div>
-	{#
-	<!-- countdown -->
-	<div class="text-center">
-		<h5>折扣时间</h5>
-		<div class="countdown" data-from="January 31, 2018 15:03:26" data-labels="年,月,周,天,时,分,秒"><!-- Example Date From: December 31, 2018 15:03:26 --></div>
-	</div>
-	<!-- /countdown -->
-	#}
-
-	{#
-	<!-- FORM -->
-	<form class="clearfix form-inline nomargin ichecks"   data-icheck-info ="{{info.suk}}" method="post" action="/uc/booking">
-		<!--{{info.suk}}-->
-		{% if info.suk %}
-		{% set suk = info.suk|strToJson%}
-		{% set i = 0 %}
-		{% for item in suk.type%}
-		<div class="icheck m-b clearfix shop-sku" >
-			<div class="item dt pull-left text-justify text-right">
-				{{item}}:
-			</div>
-			<div class="itemnbox">
-				{% if i == 0 %}
-				{% for _item in suk.data %}
-				<!--{{suk.data[0].name}}-->
-
-				<div class="item">
-					<input type="radio"  name="size1" value="{{_item.name}}" >
-					<label >{%if suk.is_pic == 1%}<img class="m-r-xs" height="30" alt="" data-src="{{_item.pic|get_pic('m=1,w=800,h=800')}}" src="{{_item.pic|get_pic('m=2,w=30,h=30')}}">{%endif%}{{_item.name}}</label>
-				</div>
-
-				{% endfor %}
-
-				{% elif i==1 %}
-				{% for _item in suk.data[0].ch %}
-				<!--{{suk.data[0].name}}-->
-				<div class="item">
-					<input type="radio"  name="size2" value="{{_item.name}}" >
-					<label >{{_item.name}}</label>
-				</div>
-				{% endfor %}
-				{% else %}
-				{% for _item in suk.data[0].ch[0].ch %}
-				<!--{{suk.data[0].name}}-->
-				<div class="item">
-					<input type="radio"  name="size3" value="{{_item.name}}" >
-					<label >{{_item.name}}</label>
-				</div>
-				{% endfor %}
-				{% endif %}
-			</div>
-		</div>
-		{% set i = i+1%}
-		{% endfor %}
-		<hr />
-		{% endif %}
-		<input type="hidden" name="product_id" value="{{info.id}}" />
-		<input type="hidden" id="type" name="type" value="" />
-		<!-- see assets/js/view/demo.shop.js -->
-
-		<input type="hidden" id="qty" name="qty" value="1" />
-		<input type="hidden" id="adult_quantity" name="adult_quantity" value="2" />
-		<input type="hidden" id="kid_quantity" name="kid_quantity" value="2" />
-		<input type="hidden" id="baby_quantity" name="baby_quantity" value="3" />
-		<input type="hidden" id="differences_quantity" name="differences_quantity" value="1" />
-		<input type="hidden" id="start_date" name="start_date" value="2017-10-10" />
-		<!-- see assets/js/view/demo.shop.js -->
-		<div  id="out-of-stock" class="{% if info.total_stock != 0%}hide{% endif %}">
-
-			<!-- buttons -->
-			<div class="shop-item-buttons text-center ">
-				<span class="out-of-stock">已售罄</span><!-- add .clean to remove css characteres -->
-			</div>
-			<!-- /buttons -->
-		</div>
-		<div id="in-of-stock" class="{% if info.total_stock == 0%}hide{% endif %}">
-			<div class="btn-group pull-left product-opt-qty {% if info.total_stock == 0%}hide{% endif %}">
-				<button type="button" class="btn btn-default dropdown-toggle product-qty-dd noradius" data-toggle="dropdown">
-					<span class="caret"></span>
-					青少年 <small id="product-selected-qty">(<span>1</span>)</small>
-				</button>
-
-				<ul id="product-qty-dd" class="dropdown-menu clearfix" role="menu">
-					<li class="active"><a data-val="1" href="#">1</a></li>
-					<li><a data-val="2" href="#">2</a></li>
-					<li><a data-val="3" href="#">3</a></li>
-					<li><a data-val="4" href="#">4</a></li>
-					<li><a data-val="5" href="#">5</a></li>
-					<li><a data-val="6" href="#">6</a></li>
-					<li><a data-val="7" href="#">7</a></li>
-					<li><a data-val="8" href="#">8</a></li>
-					<li><a data-val="9" href="#">9</a></li>
-					<li><a data-val="10" href="#">10</a></li>
-				</ul>
-			</div><!-- /btn-group -->
-
-			<button class="btn btn-danger pull-left product-add-booking noradius "> <i class="fa fa-cart-plus "></i> 开始预定</button>
-		</div>
-
-	</form>
-	<!-- /FORM -->
-
-	<!-- Share -->
-	<div class="pull-right">
-
-		<a href="#" class="social-icon social-icon-sm social-icon-transparent social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
-			<i class="icon-facebook"></i>
-			<i class="icon-facebook"></i>
-		</a>
-
-		<a href="#" class="social-icon social-icon-sm social-icon-transparent social-twitter pull-left" data-toggle="tooltip" data-placement="top" title="Twitter">
-			<i class="icon-twitter"></i>
-			<i class="icon-twitter"></i>
-		</a>
-
-		<a href="#" class="social-icon social-icon-sm social-icon-transparent social-gplus pull-left" data-toggle="tooltip" data-placement="top" title="Google plus">
-			<i class="icon-gplus"></i>
-			<i class="icon-gplus"></i>
-		</a>
-
-		<a href="#" class="social-icon social-icon-sm social-icon-transparent social-linkedin pull-left" data-toggle="tooltip" data-placement="top" title="Linkedin">
-			<i class="icon-linkedin"></i>
-			<i class="icon-linkedin"></i>
-		</a>
-
-	</div>
-	<!-- /Share -->
 
 
-	<!-- rating -->
-	<div class="rating rating-4 size-13 margin-top-10 width-100"><!-- rating-0 ... rating-5 --></div>
-	<!-- /rating -->
-	#}
+	{% if info.description %}
+	<!-- short description -->
+	<small class="text-muted">{{info.description}}</small>
+	<!-- /short description -->
+	{% endif %}
+
 
 </div>
 <!-- /ITEM DESC -->
@@ -1327,7 +1145,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		</li>  
 		{% if info.price_adult|get_price_format('1') %}
 		<li class="tourist_num"> 
-			<label for="">青少年</label> 
+			<label for="">成人</label> 
 			<div class="input_wrap">
 				{#
 				<button type="button" class="btn btn-default dropdown-toggle product-qty-dd noradius" data-toggle="dropdown">
@@ -1631,6 +1449,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
             #}
         </div>
     </div>
+    <div class="row">
     <div class="col-lg-9 col-sm-9 clear">
 		<div class="under_tab_detail">
 	      	<i class="under_tab_anchor" id="xcjs"></i>
@@ -1681,7 +1500,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		            </div>
 		        </div>
 		        #}
-			    <div class="product_feature" id="js_detail_travelCtrip">
+			    <div class="" id="js_detail_travelCtrip">
 			    	{{info.product_route | safe}}
 			    </div> 
 		    </div>  
@@ -1722,41 +1541,55 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
     
 		<h3 class="bold">专属推荐</h3>
 		<ul id="studytour-ul" style="padding-left: 0px;">
-			{% topic data = "list", limit= "3", cid=130, issub=1, ischild=1, type="level", page=0 %}
+			{% topic data = "list", limit= "4", cid=130, issub=1, ischild=1, type="level", page=0 %}
 			{%set i = 1%}
 			{% for v in list %}
 
 			<li class="mix development col-md-12 col-sm-12" style="padding: 0; margin-bottom: 14px;"><!-- item -->
-				<a href="{{v.name|get_url(v.id)}}">
+
 				<div class="item-box thumbnail">
-				
+				<a href="{{v.name|get_url(v.id)}}">
 					<figure>
 						<div class="col-lg-6 col-sm-6" style="padding: 0;">
-							<img class="img-responsive" style="height: 72px;" src="{{v.cover_id|get_pic('m=1,w=134,h=72')}}"  alt="">
+							<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=200,h=120')}}"  alt="">
 						</div>
 						<div class="col-lg-6 col-sm-6" style="padding: 0;">
 							<span class="item-hover">
-								<span class="overlay dark-5"></span>
-								
+    								<span class="overlay"></span>
+								{#
+								<span class="inner">
+
+									<!-- lightbox -->
+									<a class="ico-rounded lightbox" href="/static/dome/s_wenzhang.jpg" data-plugin-options='{"type":"image"}'>
+										<span class="glyphicon glyphicon-qrcode size-20"></span>
+									</a>
+
+									<!-- details -->
+									<a class="ico-rounded" href="/wenzhangceshi" target="_blank">
+										<span class="glyphicon glyphicon-option-horizontal size-20"></span>
+									</a>
+
+								</span>
+								#}
 							</span>
 
 							<!-- overlay title -->
 							<div class="item-box-overlay-title text-center">
-								<a href="{{v.name|get_url(v.id)}}"><h4 class="nomargin">{{v.title}}</h4></a>
+								<h4 class="nomargin">{{v.title}}</h4>
 							</div><!-- /overlay title -->
 
 						</div>
 					</figure>
-				
-				</div>
 				</a>
+				</div>
+
 			</li><!-- /item -->
 			{% set i = i + 1 %}
 			{% endfor %}
 
 		</ul>
     	
-    	<h3 class="evaluate">用户评价</h3>
+    	<h3 class="evaluate bold">用户评价</h3>
 	    <div class="col-md-12 col-sm-12 evaluate-box" style="background: #eff7f9; padding-top: 15px;">
 	    	
 	        {% model data="list",table="tour_comment",where='{"product_id":'+info.id+'}',order="add_time DESC",limit="4"%}
@@ -1769,14 +1602,12 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 		        <p class="pull-right text-right"> {{v.score_total | safe }}分</p>
 	        </div>
 	        {% endfor %}
-	        <!--<div class="more-info text-center margin-top-20">
+	        <div class="more-info text-center margin-top-20">
 				<a href="">点击查看更多》</a>
-			</div>-->
+			</div>
 	    </div>
 
     </div>
-
-	<div class="container">
 
 		<div class="row">
 
@@ -2008,7 +1839,6 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 
 		</div>
 
-	</div>
 
 </div>
 <!-- -->
@@ -2070,7 +1900,7 @@ data-plugin-options='{"singleItem": false, "autoPlay": false, "navigation": true
 			</div>
 		</div>
 		<div class="more-info text-center margin-top-20">
-			<a href="/search{{http.config('view.file_ext')}}">点击查看更多》</a>
+			<a href="/youxue{{http.config('view.file_ext')}}">点击查看更多》</a>
 		</div>
 	</div>
 </section>

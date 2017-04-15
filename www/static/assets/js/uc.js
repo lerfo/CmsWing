@@ -152,7 +152,7 @@ $(function(){
 					            </div>
 					            <div class="detail-content order-information">
 					              <p>
-					                ${orderDataDetail.titile}
+					                ${orderDataDetail.title}
 					              </p>
 					              <p>
 					                <span>出发城市上海</span>
@@ -456,72 +456,72 @@ $(function(){
 		if(e&&e.preventDefault)
           	e.preventDefault();
           	window.event.returnValue=false;
-      //     	var html="";
+           	var html="";
 
-      //     			html=`
-						// <div class="head-title">
-			   //            头像设置
-			   //          </div>
-			   //          <div class="add-picture min-height">
+           			html=`
+						 <div class="head-title">
+			              头像设置
+			             </div>
+			             <div class="add-picture min-height">
 			              
 
-			   //              <div class="" id="avatar-modal" aria-labelledby="avatar-modal-label" >
-			   //                <div class="">
-			   //                  <div class="">
-			   //                    <form class="avatar-form" action="/uc/seting/updateavatar" enctype="multipart/form-data" method="post">
+			                 <div class="" id="avatar-modal" aria-labelledby="avatar-modal-label" >
+			                   <div class="">
+			                     <div class="">
+			                       <form class="avatar-form"  enctype="multipart/form-data" method="post">
 
-			   //                      <div class="modal-body">
-			   //                        <div class="avatar-body">
-			   //                          <div class="avatar-upload">
-			   //                            <input class="avatar-src" name="avatar_src" type="hidden">
-			   //                            <input class="avatar-data" name="avatar_data" type="hidden">
+			                         <div class="modal-body">
+			                           <div class="avatar-body">
+			                            <div class="avatar-upload">
+			                               <input class="avatar-src" name="avatar_src" type="hidden">
+			                               <input class="avatar-data" name="avatar_data" type="hidden">
 
-			   //                            </div>
-			   //                          <div class="fancy-file-upload fancy-file-primary">
-			   //                            <b class="upload">头像</b>
+			                               </div>
+			                             <div class="fancy-file-upload fancy-file-primary">
+			                               <b class="upload">头像</b>
 			                              
-			   //                            <input type="file" class="form-control avatar-input" id="avatarInput" name="file" onchange="jQuery(this).next('input').val(this.value);" />
+			                               <input type="file" class="form-control avatar-input" id="avatarInput" name="file" onchange="jQuery(this).next('input').val(this.value);" />
 			                              
-			   //                            <span class="button">上传图片</span>
-			   //                            <span class="upload">仅支持jpg.gif.png格式图片,且文件小于2M</span>
-			   //                          </div>
-			   //                          <div class="row">
+			                               <span class="button">上传图片</span>
+			                               <span class="upload">仅支持jpg.gif.png格式图片,且文件小于2M</span>
+			                             </div>
+			                             <div class="row">
 
-			   //                            <div class="col-md-6 col-md-offset-1">
-			   //                              <div class="avatar-wrapper"></div>
-			   //                            </div>
-			   //                            <div class="col-md-4" style="vertical-align: bottom">
-			   //                              <div class="avatar-preview preview-lg"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
-			   //                              <div class="avatar-preview preview-md"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
-			   //                              <div class="avatar-preview preview-sm"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
-			   //                            </div>
+			                              <div class="col-md-6 col-md-offset-1">
+			                                <div class="avatar-wrapper"></div>
+			                               </div>
+			                               <div class="col-md-4" style="vertical-align: bottom">
+			                                 <div class="avatar-preview preview-lg"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
+			                                 <div class="avatar-preview preview-md"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
+			                                 <div class="avatar-preview preview-sm"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
+			                               </div>
 
-			   //                          </div>
-			   //                          <div class="row avatar-btns">
-			   //                            <div class="col-md-3">
-			   //                              <button class="btn btn-primary btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
-			   //                            </div>
-			   //                            <div class="col-md-9">
-			   //                              <div class="btn-group">
-			   //                                <button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
-			   //                              </div>
-			   //                              <div class="btn-group">
-			   //                                <button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
-			   //                              </div>
-			   //                            </div>
+			                             </div>
+			                             <div class="row avatar-btns">
+			                               <div class="col-md-3">
+			                                <button class="btn btn-primary btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
+			                               </div>
+			                               <div class="col-md-9">
+			                                 <div class="btn-group">
+			                                   <button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
+			                                 </div>
+			                                 <div class="btn-group">
+			                                   <button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
+			                                 </div>
+			                               </div>
 
-			   //                          </div>
-			   //                        </div>
-			   //                      </div>
-			   //                    </form>
-			   //                  </div>
-			   //                </div>
-			   //              </div>
+			                             </div>
+			                           </div>
+			                         </div>
+			                       </form>
+			                     </div>
+			                   </div>
+			                 </div>
 
-			   //              <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+			                 <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
 			            
-			   //          </div>
-		    //       	`;
+			             </div>
+		           	`;
 		    $(".aside-right").html(html);
          
 
@@ -620,7 +620,7 @@ $(function(){
           			`;
           			$.each(result.data,function(k,v){
           				html+=`												               				              
-				                <div class="detail-information clear">
+				                <div class="detail-information clear min-height">
 				                <input type="checkbox">
 				                <table>
 				                    <tr>
@@ -882,7 +882,7 @@ $(function(){
           	e.preventDefault();
           	window.event.returnValue=false;
           	var html="";
-          	html=`
+          	html+=`
 				<div class="coupon-title clear">
 		            <span>优惠券</span>
 		            <div>
@@ -895,36 +895,85 @@ $(function(){
 		            <div class="table-list coupon-list">
 		                  <a>序列号/卡号</a>
 		                  <a>面值/折扣</a>
-		                  <a>节奏有效时间</a>
+		                  <a>截止有效时间</a>
 		                  <a>使用状态</a>
 		            </div>
 		            
 		            <div class="table-responsive coupon min-height">
-		              <div class="coupon-count">
-		                <b>所有优惠券</b>
-		                <span>(共<a href=""> N </a>个,可用优惠券<a href=""> N </a>个)</span>
-		              </div>
-		              <table>
-		                <tr>
-		                  <td>123456789</td>
-		                  <td>￥100</td>
-		                  <td>2017-11-01</td>
-		                  <td> <a href="">可用</a> </td>
-		                </tr>
-		              </table>
-		              <table>
-		                <tr>
-		                  <td>3453765688</td>
-		                  <td>￥46</td>
-		                  <td>2017-04-11</td>
-		                  <td> <a href="">已失效</a> </td>
-		                </tr>
-		              </table>
-		           </div>
-		         </div>
+		              
           	`;
-          	$(".aside-right").html(html);
+          	$.ajax({
+          		url:"/uc/booking/discountquery",
+          		success:function(data){
+          			localStorage.setItem("mcoupon",JSON.stringify(data));
+          			var coupon = JSON.parse(localStorage.getItem("mcoupon"));
+          			var m = data.length;
+          			console.log(coupon)
+          			html+=`
+						<div class="coupon-count">
+			                <b>所有优惠券</b>
+			                <span>(共<a href=""> ${m} </a>个,可用优惠券<a href=""> N </a>个)</span>
+			            </div>
+          			`;
+          			$.each(data,function(k,v){
+          				var date = v.validity_date;
+          				var validity = time(date)
+          				var current = new Date().getTime();
+          				console.log(current)
+          				html+=`
+						
+					              <table>
+					                <tr>
+					                  <td>${v.code}</td>
+					                  <td>￥${v.price}</td>
+					                  <td>${validity}</td>
+					    `;
+					    if(date>current){
+					    	html+=`
+								<td> <a href="">可用</a> </td>
+							    </tr>
+							  </table>
+					    	`;
+					    }else if(date<current){
+					    	html+=`
+								<td> <a href="">已失效</a> </td>
+							    </tr>
+							  </table>
+					    	`;
+					    }
+					                  
+					       
+					          
+
+          			})
+          			html+=` 
+  						</div>
+			         </div>`
+			         ;
+          			$(".aside-right").html(html);
+          		}
+          	})
+          	
+          	
 	})
+	//更改时间格式
+	function time(date){
+		var newdate = new Date(date)
+		var y = newdate.getFullYear();  
+    	var m = newdate.getMonth() + 1;  
+    	m = m < 10 ? ('0' + m) : m;  
+    	var d = newdate.getDate();  
+    	d = d < 10 ? ('0' + d) : d;  
+    	var h = newdate.getHours();  
+    	var minute = newdate.getMinutes();  
+    		minute = minute < 10 ? ('0' + minute) : minute;  
+    	var time = y + '-' + m + '-' + d+' '+h+':'+minute;
+    	return time;  
+	}
+
+
+
+
 	$(".uc-message").on("click",function(e){
 		if(e&&e.preventDefault)
           	e.preventDefault();

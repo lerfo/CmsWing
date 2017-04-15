@@ -9,7 +9,7 @@
 .page_header{
     width: 1350px;
     height:445px ;
-    background:url(static/assets/images/backgrounds/communitybc.jpg) 50% 50% / cover no-repeat;
+    background:url(/static/assets/images/backgrounds/communitybc.jpg) 50% 50% / cover no-repeat;
 }
 section#destination {
     background-color: transparent;
@@ -42,6 +42,7 @@ img.img-responsive {
     padding-right: 0px;
     height: 272px;
 }
+
 .portfolio .item-box-overlay-title h4 {
     font-size: 20px;
 }
@@ -69,14 +70,14 @@ section.content-section{
 .phb{
     padding:0px;
     margin-left:0px;
-    width:740px;
+    width:728px;
     height:85px;
     font-size: 25px;
     color: #fff;
     background: url('/static/assets/images/search_nav.png') no-repeat;  
 }
 .phb li{
-    width: 246px;
+    width: 50%;
     height: 85px;
     margin-right:-7px;
     padding-top:30px;
@@ -94,7 +95,7 @@ section.content-section{
 }
 .linea{
     height: 3px;
-    width: 235px;
+    width: 100%;
     background-color: #896B63;
     margin:0px auto;
 }
@@ -220,6 +221,42 @@ ul#studytour-ul li .item-box-overlay-title h4 {
 ul#studytour-ul li .item-box {
 	box-shadow: none;
 }
+.auto_content{
+	width: 1008px;
+	 margin-left: auto;
+	 margin-right: auto;
+}
+.right_content{
+	 float:left; 
+	width:262px;
+	height: 600px;
+	margin-left: 0px;
+	margin-top:125px;
+	display: inline;
+	/* 
+	margin-top:90px;
+	margin-right:156px; */
+}
+.con_pro{
+	width:740px;
+	 /* margin-left: 160px; */
+
+}
+@media screen and (max-width: 1350px) { /*当屏幕尺寸小于960px时，应用下面的CSS样式*/  
+  
+}
+@media screen and (max-width: 1180px) { /* 当屏幕尺寸小于960px时，应用下面的CSS样式   */
+  /* .right_content{
+  	margin-right:0px;
+  } */
+}
+
+@media screen and (max-width: 1023px) { /*当屏幕尺寸小于960px时，应用下面的CSS样式*/  
+  /* .right_content{
+  	display: none;
+  } */
+}
+
 </style>
 <!--
 PAGE HEADER
@@ -355,189 +392,11 @@ CLASSES:
 <!-- -->
 <section class="content-section">
 	
-	<div class=""><!-- main content -->
-	
-		<div class="right_content" style="float:right;width:262px;height: 600px;margin-top:90px;margin-right:156px;">
-			<div class="col-md-11 col-sm-11">
-		        {% if controller.is_login %}
-		        <div class="margin-bottom-20"><!-- INFO -->
-		            <a href="/mod/question/sys/add/cid/{{category.id}}" class="btn btn-primary btn-3d btn-block margin-top-10"><i class="fa fa-sign-in"></i>我要提问</a>
-		        </div>
-		        {%else%}
-		        <div class="margin-bottom-20">
-		            <a class="btn btn-block btn-social btn-dropbox margin-top-10" href="/uc/public/login">
-		                <i class="fa fa-sign-in"></i> 登录{{controller.setup.WEB_SITE_TITLE}}
-		            </a>
-		        </div>
-		        {%endif%}
-		        
-		        {#
-		        <!-- INLINE SEARCH -->
-		        <div class="inline-search clearfix margin-bottom-20">
-		            <form action="" method="get" class="widget_search">
-		                <input type="search" placeholder="Start Searching..." id="s" name="s" class="serch-input">
-		                <button type="submit">
-		                    <i class="fa fa-search"></i>
-		                </button>
-		            </form>
-		        </div>
-		        <!-- /INLINE SEARCH -->
-				
-		        <!-- side navigation -->
-		        {%column data="cates",cid=category.id,isnum="0"%}
-		        {%if cates==null%}
-		        <div class="side-nav margin-bottom-20 margin-top-20">
-		            <div class="side-nav-head">
-		                <button class="fa fa-bars"></button>
-		                <h4>{{category.title}} 子分类</h4>
-		            </div>
-		            <ul class="list-group list-group-bordered list-group-noicon uppercase">
-		                {%for val in cates%}
-		                <li class="list-group-item"><a href="{{val.url}}{{http.config('view.file_ext')}}"><span class="size-11 text-muted pull-right">({{val.doc_num}})</span> {{val.name}}</a></li>
-		                {%endfor%}
-		            </ul>
-		            <!-- /side navigation -->
-		        </div>
-		        {%endif%}
-		        
-		        <div class="box-inner nopadding">
-		            <h3>
-		                <a class="pull-right size-11 text-warning" href="/topic">更多</a>
-		                热门话题
-		            </h3>
-		            <div class="" >
-		                {% keywords data ="topic",type="hot",limit="5",mod=model.id %}
-		                {%for k in topic%}
-		                <div class="clearfix margin-bottom-10"><!-- discussion item -->
-		                    {%if k.pic==0%}
-		                    <i class="ico-light ico-60 ico-hover et-chat pull-left margin-bottom-0 margin-top-0" ></i>
-		                    {%else%}
-		                    <img class="thumbnail pull-left" src="/static/assets/images/demo/people/300x300/4-min.jpg" width="60" height="60" alt="" />
-		                    {%endif%}
-		                    <h4 class=" nomargin noborder nopadding bold"><a class="tag " href="{{k.url}}">
-		                        <span class="txt">{{k.keyname}}</span>
-		                        <span class="num"><i class="fa fa-fire"></i></span>
-		                    </a>
-		                    </h4>
-		                    <span class="size-13 text-muted">
-		                        {{k.videonum}} 个主题, {{k.focus_count}} 人关注
-		                                        </span>
-		                </div><!-- /discussion item -->
-		                  {%endfor%}
-
-
-		            </div>
-		        </div>
-		        
-		        <hr />
-		        {%model data="data",table="question_user",cache='1000',order="question_count DESC",alias="a",limit="10",join='{"member": {"join": "left","as":"b","on": ["a.uid", "b.id"]}}'%}
-		        {%if data.length>0%}
-		        <div class="box-inner nopadding">
-		            <h3>
-		                <a class="pull-right size-11 text-warning" href="#">更多</a>
-		                热门用户
-		            </h3>
-		            <div class="" >
-		               {%for user in data%}
-		                <div class="clearfix margin-bottom-10"><!-- squared item -->
-		                    <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/{{user.uid}}" width="40" height="40" alt="" />
-		                    <h4 class="size-14 nomargin noborder nopadding bold"><a href="#">{{user.username}}</a></h4>
-		                    <span class="size-12 text-muted">{{user.question_count}} 个问题, {{user.agree_count}} 次赞同</span>
-		                </div><!-- /squared item -->
-		               {%endfor%}
-
-		            </div>
-		        </div>
-		        <hr />
-		        {%endif%}
-
-
-		        <!-- SOCIAL ICONS  -->
-		        <div class="hidden-xs margin-top-30 margin-bottom-60">
-		            <a href="#" class="social-icon social-icon-border social-facebook pull-left" data-toggle="tooltip" data-placement="top" title="Facebook">
-		                <i class="icon-facebook"></i>
-		                <i class="icon-facebook"></i>
-		            </a>
-		        
-		            <a href="#" class="social-icon social-icon-border social-twitter pull-left" data-toggle="tooltip" data-placement="top" title="Twitter">
-		                <i class="icon-twitter"></i>
-		                <i class="icon-twitter"></i>
-		            </a>
-		        
-		            <a href="#" class="social-icon social-icon-border social-gplus pull-left" data-toggle="tooltip" data-placement="top" title="Google plus">
-		                <i class="icon-gplus"></i>
-		                <i class="icon-gplus"></i>
-		            </a>
-		        
-		            <a href="#" class="social-icon social-icon-border social-linkedin pull-left" data-toggle="tooltip" data-placement="top" title="Linkedin">
-		                <i class="icon-linkedin"></i>
-		                <i class="icon-linkedin"></i>
-		            </a>
-		        
-		            <a href="#" class="social-icon social-icon-border social-rss pull-left" data-toggle="tooltip" data-placement="top" title="Rss">
-		                <i class="icon-rss"></i>
-		                <i class="icon-rss"></i>
-		            </a>
-		        </div>
-		        #}
-		        <div style="height: 200px;">
-		        	<div style="background:url('/static/assets/images/search_nav.png') no-repeat;width:220px;height:85px;margin-bottom: 15px;padding-left: 60px;padding-top: 23px; ">
-						<h3 class="bold" style="color: #fff;font-size:24px;">专属推荐</h3>
-		        	</div>
-					<ul id="studytour-ul" style="padding-left: 0px;">
-						{% topic data = "lst", limit= "3", cid=130, issub=1, ischild=1, type="level", page=0 %}
-						{%set i = 1%}
-						{% for v in lst %}
-
-						<li class="mix development col-md-12 col-sm-12" style="padding: 0; margin-bottom: 14px;"><!-- item -->
-
-							<div class="item-box thumbnail">
-							<a href="{{v.name|get_url(v.id)}}">
-								<figure>
-									<div class="col-lg-6 col-sm-6" style="padding: 0;">
-										<img class="img-responsive" style="height: 72px;" src="{{v.cover_id|get_pic('m=1,w=134,h=72')}}"  alt="">
-									</div>
-									<div class="col-lg-6 col-sm-6" style="padding: 0;">
-										<span class="item-hover">
-											<span class="overlay dark-5"></span>
-											{#
-											<span class="inner">
-
-												<!-- lightbox -->
-												<a class="ico-rounded lightbox" href="/static/dome/s_wenzhang.jpg" data-plugin-options='{"type":"image"}'>
-													<span class="glyphicon glyphicon-qrcode size-20"></span>
-												</a>
-
-												<!-- details -->
-												<a class="ico-rounded" href="/wenzhangceshi" target="_blank">
-													<span class="glyphicon glyphicon-option-horizontal size-20"></span>
-												</a>
-
-											</span>
-											#}
-										</span>
-
-										<!-- overlay title -->
-										<div class="item-box-overlay-title text-center">
-											<h4 class="nomargin">{{v.title}}</h4>
-										</div><!-- /overlay title -->
-
-									</div>
-								</figure>
-							</a>
-							</div>
-
-						</li><!-- /item -->
-						{% set i = i + 1 %}
-						{% endfor %}
-
-					</ul>
-		        </div>
-		    </div>
+	<div class="row auto_content" style=""><!-- main content                col-md-3 col-sm-3-->
+		{##}
 		
-		</div>
 
-	    <div class="container portfolio " style="background-color:transparent; ">
+ 		<div class=" portfolio  con_pro" style="background-color:transparent;float:left;padding-left:15px">
 			<header class="section-header margin-bottom-0">
 		    	<div class="heading-title margin-bottom-0">
 		        	<h3>社区</h3>
@@ -546,9 +405,10 @@ CLASSES:
 	        <ul class="phb page-header-tabs list-inline margin-bottom-0 margin-top-70" id="phb">
 	            <li class="cgy" id="select1" ><a class="aaa" href="javascript:;">游记攻略</a><div class="linea" style="background-color: #fff;"></li>
 	            <li class="cgy" id="select2"><a href="javascript:;">问答</a><div class="linea"></li>
-	            <li class="cgy" id="select3"><a href="javascript:;">社区版块</a><div class="linea" ></li> 
+	            <!--<li class="cgy" id="select3"><a href="javascript:;">社区版块</a><div class="linea" ></li> -->
 	        </ul>
-			
+				
+
 	        <div class="strategy row"  id="page1">
 	        	<!-- 搜索框-->
 				<div class="search-box" style="margin-bottom: 15px;">
@@ -636,7 +496,7 @@ CLASSES:
 
 	                </div>
 	                
-	                
+	                {#
 	                <!-- PAGINATION -->
 	                <div class="text-left margin-top-20">
 	                    <!-- Pagination Default -->
@@ -644,7 +504,7 @@ CLASSES:
 	                    <!-- /Pagination Default -->
 	                </div>
 	                <!-- /PAGINATION -->
-	                {#
+	                
 					<!-- PAGINATION -->
 	                <div class="text-center margin-top-20 margin-bottom-20">
 	                    <!-- Pagination Default -->
@@ -690,12 +550,13 @@ CLASSES:
 				<!--/搜索框-->
 				<!-- 筛选框-->
 				<div>
+				<!--
 	                <ul class="nav_noboder nav nav-tabs nav-bottom-border" style="height: 0px;">
 	                    <li class="{%if order ==0%}active{%endif%}"><a href="{{cate.url}}{{http.config('view.file_ext')}}" >最新的</a></li>
 	                    <li class="{%if order ==1%}active{%endif%}"><a href="{{cate.url}}-1{%if group_id%}-{{group_id}}{%endif%}{{http.config('view.file_ext')}}" >最热的</a></li>
 	                    <li class="{%if order ==2%}active{%endif%}"><a href="{{cate.url}}-2{%if group_id%}-{{group_id}}{%endif%}{{http.config('view.file_ext')}}" >推荐的</a></li>
 	                    <li class="{%if order ==3%}active{%endif%}"><a href="{{cate.url}}-3{%if group_id%}-{{group_id}}{%endif%}{{http.config('view.file_ext')}}" >等待回复</a></li>
-	                </ul>
+	                </ul>-->
 				</div>
 	             <!--/筛选框-->
 	              <!-- LEFT -->
@@ -772,7 +633,7 @@ CLASSES:
 
 	                </div>
 	                
-	               
+	               	{#
 	                <!-- PAGINATION -->
 	                <div class="text-left margin-top-20">
 	                    <!-- Pagination Default -->
@@ -780,7 +641,7 @@ CLASSES:
 	                    <!-- /Pagination Default -->
 	                </div>
 	                <!-- /PAGINATION -->
-	                {#
+	                
 					<!-- PAGINATION -->
 	                <div class="text-center margin-top-20 margin-bottom-20">
 	                    <!-- Pagination Default -->
@@ -833,6 +694,68 @@ CLASSES:
 	        </div>
 
 	    </div><!-- container div-->
+
+
+		<div class="right_content col-md-2 col-sm-2 ">
+			<div>
+		        {% if controller.is_login %}
+		        <div class="margin-bottom-20"><!-- INFO -->
+		            <a href="/mod/question/sys/add/cid/{{category.id}}" class="btn btn-primary btn-3d btn-block margin-top-10"><i class="fa fa-sign-in"></i>我要提问</a>
+		        </div>
+		        {%else%}
+		        <div class="margin-bottom-20">
+		            <a class="btn btn-block btn-social btn-dropbox margin-top-10" href="/uc/public/login">
+		                <i class="fa fa-sign-in"></i> 登录{{controller.setup.WEB_SITE_TITLE}}
+		            </a>
+		        </div>
+		        {%endif%}
+		        
+		       
+		        <div style="height: 200px;">
+		        	<div style="background:url('/static/assets/images/search_nav.png') no-repeat;width:220px;height:85px;margin-bottom: 15px;padding-left: 60px;padding-top: 23px; ">
+						<h3 class="bold" style="color: #fff;font-size:24px;">专属推荐</h3>
+		        	</div>
+					<ul id="studytour-ul" style="padding-left: 0px;">
+						{% topic data = "lst", limit= "3", cid=130, issub=1, ischild=1, type="level", page=0 %}
+						{%set i = 1%}
+						{% for v in lst %}
+
+						<li class="mix development col-md-12 col-sm-12" style="padding: 0; margin-bottom: 14px;"><!-- item -->
+
+							<div class="item-box thumbnail">
+							<a href="{{v.name|get_url(v.id)}}">
+								<figure>
+									<div class="col-lg-6 col-sm-6" style="padding: 0;">
+										<img class="img-responsive" style="height: 72px;" src="{{v.cover_id|get_pic('m=1,w=134,h=72')}}"  alt="">
+									</div>
+									<div class="col-lg-6 col-sm-6" style="padding: 0;">
+										<span class="item-hover">
+											<span class="overlay dark-5"></span>
+											
+										</span>
+
+										<!-- overlay title -->
+										<div class="item-box-overlay-title text-center">
+											<h4 class="nomargin">{{v.title}}</h4>
+										</div><!-- /overlay title -->
+
+									</div>
+								</figure>
+							</a>
+							</div>
+
+						</li><!-- /item -->
+						{% set i = i + 1 %}
+						{% endfor %}
+
+					</ul>
+		        </div>
+		    </div>
+		
+		</div>
+		
+	
+
 
 	</div><!-- /main content -->
 	

@@ -1003,7 +1003,7 @@
     		<h4>因服务能力有限，请您核实以下情况，以免造成出行不便。</h4>
     		<p>★本产品不接受非大陆籍客人预订，敬请谅解！</p>
     		<p>★本产品适合12岁（含）至17岁（不含）儿童/学生参与。</p>
-    		<p>★报价是按照2人入住1间房计算的价格，如您的订单产生单房，携程将安排您与其他客人拼房入住。如您要求享受单房，请在后续附加产品页面中选择单人房差选项。</p>
+    		<p>★报价是按照2人入住1间房计算的价格，如您的订单产生单房，将安排您与其他客人拼房入住。如您要求享受单房，请在后续附加产品页面中选择单人房差选项。</p>
     	</div>
     </div>
 
@@ -1011,8 +1011,9 @@
     <div class="input_info" id="bookInfoID" style="">
         <h3>预订信息</h3>
         <div class="product_input layoutfix" id="invoiceID">
-            <h4>发票信息</h4>
+            <h4>供应商联系方式</h4>
         	<div class="input_box">
+                {#
 			    <ul class="input_box" style="zoom: 1; display: block;">        
 			    	<li class="point">礼品卡等消费券支付的金额不提供报销凭证</li>
 			        <li class="default">
@@ -1063,6 +1064,19 @@
 				        <p class="info_bot" id="J_invoiceTip">*普通发票将于返程后5个工作日开具并邮寄给您，请注意查收。</p>
 				    </div>
 			    </div>
+                #}
+                <div class="col-md-6 col-sm-6">
+                    <h4>名称: {{amountinfo.vender_name}}</h4>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <h4>手机号码: {{amountinfo.vender_phone}}</h4>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <h4>联系人: {{amountinfo.vender_linkman}}</h4>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <h4>地址: {{amountinfo.vender_addr}}</h4>
+                </div>
 			</div>
 	    </div>
 	    <!--配送信息 -->
@@ -1071,8 +1085,8 @@
 	        <div class="input_box" id="deliveryID"></div>
 	    </div>
 	    <div class="product_input layoutfix" id="extrasID">
-	        <h4><a href="###" class="more_close" role="mores">更多需求&gt;&gt;</a></h4>
-	        <ul class="extras_box" style="display:none" role="extrasInputs">
+	        <h4><a href="###" class="more_close" role="mores">备注</a></h4>
+	        <ul class="extras_box" style="display:block;" role="extrasInputs">
 	            <li class="default">
 	                <div>
 	                    <textarea role="Remark" class="cq" id="other_remark" _cqnotice="其他特殊说明可以在这里填写"></textarea>
@@ -1119,7 +1133,7 @@
 <div class="input_info mt0" id="J_term">
     <h3>预订须知</h3>
     <div class="special_tips">
-    	<span class="">为支持绿色环保，我同意接受电子合同并默认其合法有效性，如需签署纸质合同将另行致电携程旅行网客服。</span>
+    	<span class="">为支持绿色环保，我同意接受电子合同并默认其合法有效性，如需签署纸质合同将另行致电花生卷客服。</span>
     </div>
     <div class="content_box"></div>
 </div>
@@ -1537,6 +1551,7 @@
 		event.stopPropagation();
 		if(!isInputValid) {
 			// console.log("isInputValid");
+            $("#order_warning .jmp_bd").html("输入不能为空");
 			$("#order_warning").show();
 			$("#order_warning").css("left", warning_left + "px");
 			$("#order_warning").css("top", warning_top + "px");
@@ -1578,6 +1593,7 @@
 		});
 		if(!isInputValid) {
 			// console.log("isInputValid");
+            $("#order_warning .jmp_bd").html("输入不能为空");
 			$("#order_warning").show();
 			$("#order_warning").css("left", warning_left + "px");
 			$("#order_warning").css("top", warning_top + "px");
@@ -1599,7 +1615,42 @@
 				// console.log("hide");
 				$("#order_warning").hide(); 
 			} 
-		}) 
+		});
+
+        $('.gdcnt').on('click', 'a', function(e) {
+            var btn = $(e.target).parent();
+            // console.log(e);
+            // console.log(e.target);
+            // console.log(btn);
+            if(!btn.hasClass('selected')) {
+                btn.siblings().removeClass('selected');
+                btn.addClass('selected');
+                btn.parent().prev().val(btn.attr('data-value'));
+            }
+        });
+
+        $('.promotion_code').on('click', 'input[role="checkcode"]', function(e) {
+            var btn = $(e.target).prev();
+            // console.log(e);
+            // console.log(e.target);
+            // console.log(btn);
+            warning_left = btn.offset().left + btn.width();
+            warning_top = btn.offset().top;
+            $.ajax({
+                url: "/uc/booking/discountcheck?code=" + btn.val(),
+                type: "GET",
+                success: function (res) {
+                    console.log(res);
+                    if(res.errno == 0)
+                        $("#order_warning .jmp_bd").html("优惠券可使用");
+                    else
+                        $("#order_warning .jmp_bd").html(res.errmsg);
+                    $("#order_warning").show();
+                    $("#order_warning").css("left", warning_left + "px");
+                    $("#order_warning").css("top", warning_top + "px");
+                }
+            });
+        });
 	})
 </script>
 {% endblock %}

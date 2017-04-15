@@ -390,6 +390,7 @@ export default {
                  * @returns []
                  */
                 env.addFilter('get_text_line',async(textstr,index=0,callback)=>{
+                    console.log('111111111');
                     console.log(textstr);
                     console.log(index);
                     if(think.isEmpty(textstr)){
@@ -397,6 +398,7 @@ export default {
                     }
                     let strs= new Array(); //定义一数组 
                     strs = textstr.split("\r\n"); //字符分割 
+                    console.log(strs);
                     console.log(strs[index]);
                     if(index < strs.length ){
                         callback(null,strs[index]);

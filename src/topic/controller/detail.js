@@ -13,7 +13,7 @@ export default class extends Base {
     //    this.fail('文档ID错误！');
     //}
     /* 获取详细信息*/
-    console.log('topic_controller_detail_index:id='+id);
+    //console.log('topic_controller_detail_index:id='+id);
     let document = this.model('document');
     let info = await document.detail(id);
     if(info.errno==702){
@@ -143,8 +143,8 @@ export default class extends Base {
 
       }
     }
-    console.log(info);
-    console.log(cate);
+    //console.log(info);
+    //console.log(cate);
     this.assign('info', info);
     //判断浏览客户端
     if(checkMobile(this.userAgent())){
@@ -156,7 +156,7 @@ export default class extends Base {
       } else {
         temp = model;
       }
-      console.log(temp);
+      //console.log(temp);
       //内容分页
       if(!think.isEmpty(info.content)){
         info.content=info.content.split("_ueditor_page_break_tag_");

@@ -318,7 +318,7 @@
         _padding: 2px;
     }
     .input_info .ticket_search {
-        background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
+    	background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
         _background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book_ie.png?20150619.png);
         background-repeat: no-repeat;
         background-position: 124px -64px;
@@ -398,7 +398,7 @@
         font-size: 12px;
     }
     .help_block .ico, .help_block_i .ico {
-        background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
+    	background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
         _background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book_ie.png?20150619.png);
         background-repeat: no-repeat;
         left: 4px;
@@ -440,7 +440,7 @@
         margin-right: 20px;
     }
     .input_info .save_wrap .save i, .input_info .save_wrap .selected i {
-        background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
+    	background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
         _background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book_ie.png?20150619.png);
         background-repeat: no-repeat;
     }
@@ -456,7 +456,7 @@
         background-position: -37px -46px;
     }
     .input_info .input_box input.input_englishname {
-        width: 130px;
+    	width: 130px;
     }
     .reserve_limited {
         line-height: 20px;
@@ -539,7 +539,7 @@
         color: #1eb6c1;
     }
     .defray_shop_box .prev_stop b {
-        background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
+    	background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
         _background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book_ie.png?20150619.png);
         background-repeat: no-repeat;
         position: absolute;
@@ -600,7 +600,7 @@
         margin: 0;
     }
     a.btn_proess_big:hover, a.btn_proess_big:focus {
-        color: #fff;
+    	color: #fff;
     }
     .special_tips {
         font-size: 16px;
@@ -652,138 +652,308 @@
         padding: 2px 3px;
     }
 
-    .clear:after{
-        content:"";
-        display:block;
-        clear:both;
-    }
-    .title-detail{
-        margin-top:38px;
-        padding:20px 20px 19px 30px;
-        background: #DFF5F4;
-    }
-    .title-detail span{
-        font-size:3.5px;
-        color:#000;
-    }
-    .title-detail b{
-        font-size:12px;
-        color:#1eb6c1;
-        padding-right:70px;
-    }
-    .title-detail>div{
-        float:left;
-    }
-    .cue-information{
-        min-height: 590px;
-        background:#fff;
-        text-align: center;
-    }
-    .ok{
-        display:inline-block;
-        padding:25px 25px;
-        margin-top:100px;
-        margin-bottom:86px;
-        border-radius: 50%;
-        font-size:41px;
-        background:#1eb6c1;
-        color:#fff;
-    }
-    .cue-information>div{
-        font-size:24px;
-        color:#1eb6c1;
-        margin-bottom:87px;
-    }
-    .cue-information>div>span{
-        font-size:26px;
-        padding-left:5px;
-    }
-    .num{
-        padding-right:5px;
-    }
-
 </style>
 {% endblock %}
 {% block content %}
 {#
-        <!-- 
-                PAGE HEADER 
-                
-                CLASSES:
-                    .page-header-xs = 20px margins
-                    .page-header-md = 50px margins
-                    .page-header-lg = 80px margins
-                    .page-header-xlg= 130px margins
-                    .dark           = dark page header
+    	<!-- 
+				PAGE HEADER 
+				
+				CLASSES:
+					.page-header-xs	= 20px margins
+					.page-header-md	= 50px margins
+					.page-header-lg	= 80px margins
+					.page-header-xlg= 130px margins
+					.dark			= dark page header
 
-                    .shadow-before-1    = shadow 1 header top
-                    .shadow-after-1     = shadow 1 header bottom
-                    .shadow-before-2    = shadow 2 header top
-                    .shadow-after-2     = shadow 2 header bottom
-                    .shadow-before-3    = shadow 3 header top
-                    .shadow-after-3     = shadow 3 header bottom
-            -->
-            <section class="page-header page-header-xs">
-                <div class="container">
+					.shadow-before-1 	= shadow 1 header top
+					.shadow-after-1 	= shadow 1 header bottom
+					.shadow-before-2 	= shadow 2 header top
+					.shadow-after-2 	= shadow 2 header bottom
+					.shadow-before-3 	= shadow 3 header top
+					.shadow-after-3 	= shadow 3 header bottom
+			-->
+			<section class="page-header page-header-xs">
+				<div class="container">
 
-                    <!--<h1>{{controller.meta_title}}</h1>-->
+					<!--<h1>{{controller.meta_title}}</h1>-->
 
-                    <!-- breadcrumbs -->
-                    <ol class="breadcrumb breadcrumb-inverse">
-                        <li><a href="/">首页</a></li>
-                        <li class="active">{{controller.meta_title}}</li>
-                    </ol><!-- /breadcrumbs -->
+					<!-- breadcrumbs -->
+					<ol class="breadcrumb breadcrumb-inverse">
+						<li><a href="/">首页</a></li>
+						<li class="active">{{controller.meta_title}}</li>
+					</ol><!-- /breadcrumbs -->
 
-                </div>
-            </section>
-            <!-- /PAGE HEADER -->
+				</div>
+			</section>
+			<!-- /PAGE HEADER -->
 
 #}
 
 
-            <!-- CART -->
+			<!-- CART -->
              <!-- <form class = "form-post" method="post" action="/uc/booking/createorder" style="background: #eff7f9;"> -->
-            <section style="background: #eff7f9;padding-bottom:80px">
-                <div class="container">
-                    <div class="title-detail clear">
-                        <div>
-                            <span>订单金额：</span>
-                            <b>￥{{orderinfo.order_amount}}</b>
-                        </div>                       
-                        <div>
-                            <p>
-                                <span>{{orderinfo.title}}</span>
-                            </p>                        
-                            <span class="num">人数:{{orderinfo.totol_quantity}}</span>
-                            <span>出发日期:{{orderinfo.start_date}}</span>
-                        </div>                        
-                    </div>
-                    <div class="cue-information">
-                        <i class="ok glyphicon glyphicon-ok"></i>
-                        <div>您的报名信息已经<span>提交成功</span></div>
-                        <ul>
-                            <li>
-                                将有客服与您联系确认报名，并通知您付款
-                                <br>
-                                请您留意，感谢您的支持
-                            </li>
-                            <li>客服电话：XXXXXXXXXXXX</li>
-                        </ul>
-                    </div>            
+			<section style="background: #eff7f9;">
+				<div class="container">
+
+                	<div class="book_product" id="productID">
+                		<h2>{{amountinfo.title}}</h2>
+                		<a href="###" class="book_detail" id="js_options_book">隐藏明细<i class="close"></i></a>
+                		<div id="js_options_product">
+                			<div class="book_product_content basefix" style="display: block;">
+                				<div class="book_product_name">行程</div>
+                				<table class="book_table_list book_width_all04">
+                					<colgroup>
+                						<col class="width01">
+                						<col class="width02">
+                					</colgroup>
+                					<tbody>
+                						<tr>
+                							<td>订单号{{orderinfo.order_no}}</td>
+                						</tr>
+                                        <tr><td>标题{{orderinfo.titile}}</td></tr>
+                                        <tr><td>人数{{orderinfo.totol_quantity}}</td></tr>
+                                        <tr><td>出发日期{{orderinfo.start_date}}</td></tr>
+                                        <tr><td>订单金额{{orderinfo.order_amount}}</td></tr>
+        
+                					</tbody>
+                				</table>
+                			</div>
+                		</div>
+                	</div>
 
 
 
 
-                </div>
-            </section>
+				</div>
+			</section>
       <!-- </form> -->
-            <!-- /CART -->
+			<!-- /CART -->
 
+<div id="order_warning" class="tuna_jmpinfo" group="no_group" style="min-width: 120px; max-width: 260px; display: none; z-index: 999; margin: 0px; padding: 0px; left: 31%; top: 18px; overflow: hidden; position: absolute; width: auto !important; border-radius: 5px;">
+	<div class="base_jmp jmp_alert base_jmp_l" id="boxId" style="border-radius: 5px;">
+		<b class="tri_l" id="arrowId" style="display: block; left: 12px; margin-top: 10px;"></b>
+		<div class="" id="loadingId"></div>
+		<div class="jmp_content" id="contentId">
+			<div class="jmp_bd">输入不能为空</div>
+		</div>
+	</div>
+</div>
 
+{#
+<div class="modal fade add-addr-dialog" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
 
+			<!-- header modal -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title " id="myLargeModalLabel">新增收货人信息</h4>
+			</div>
+
+			<!-- body modal -->
+			<div class="modal-body">
+				<form  method="post"  class="add-addr" >
+									<fieldset>
+										<!-- required [php action request] -->
+										<div class="row">
+											<div class="form-group" id="areas">
+												<div class="col-md-3 col-sm-12">
+													<label>所在地区（省份/直辖市） *</label>
+													<select class="form-control pointer " id="province" name="province" required>
+														<option value="">--- 省份/直辖市 ---</option>
+														
+													</select>
+												</div>
+                                                <div class="col-md-3 col-sm-12">
+													<label>（市） *</label>
+													<select class="form-control pointer " id="city" name="city" required>
+														<option value="">--- 市 ---</option>
+														
+													</select>
+												</div>
+                                                <div class="col-md-3 col-sm-12">
+													<label>（县/区） *</label>
+													<select class="form-control pointer " id="county" name="county" required>
+														<option value="">--- 县/区 ---</option>
+													</select>
+												</div>
+											</div>
+										</div>
+                                          <div class="row">
+											<div class="form-group">
+												<div class="col-md-12 col-sm-12">
+													<label>街道地址 *</label>
+													<textarea class="form-control required" name="addr" required></textarea>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group">
+												<div class="col-md-6 col-sm-6">
+													<label>邮政编码 *</label>
+													<input type="text" class="form-control required" value="" name="zip" required>
+												</div>
+												<div class="col-md-6 col-sm-6">
+													<label>手机号码 *</label>
+													<input type="text" class="form-control required" value="" name="mobile" required>
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="form-group">
+												<div class="col-md-6 col-sm-6">
+													<label>收货人姓名 *</label>
+													<input type="text" class="form-control required" value="" name="accept_name" required>
+												</div>
+												<div class="col-md-6 col-sm-6">
+													<label>电话号码 </label>
+													<input type="text" class="form-control " value="" name="phone">
+												</div>
+											</div>
+										</div>
+
+										
+
+										<div class="row">
+											<div class="form-group">
+												<div class="col-md-12 col-sm-12">
+													<label>
+														设为默认地址
+														
+													</label>
+													<!-- checkbox -->
+                                        <label class="checkbox">
+                                            <input type="checkbox" value="1" name="is_default">
+                                            <i></i> 设置为默认收货地址
+                                        </label>
+												</div>
+											</div>
+										</div>
+
+									</fieldset>
+									<div class="row">
+										<div class="col-md-12">
+											<button class="btn btn-3d btn-teal btn-lg btn-block margin-top-30" type="submit">
+												保存收货人地址
+											</button>
+										</div>
+									</div>
+
+				</form>	
+			</div>
+  
+		</div>
+	</div>
+</div>
+#}
 {% endblock %}
 
 {% block script%}
 <!-- PAGE LEVEL SCRIPTS -->
+		<script type="text/javascript" src="/static/assets/js/view/demo.shop.js"></script>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		// console.log({{travellerlist.length}});
+		// console.log("status: " + {{status}});
+	});
+	var isInputValid = true;
+	var warning_left;
+	var warning_top;
+	function submit_order(order) {
+		isInputValid = true;
+		$("#product_temp_order").val(order);
+		$("#product_discount_code").val($("#J_couponCodeInput").val());
+		$("#product_user_remark").val($("#other_remark").val());
+
+		var array = $("#linkManID input");
+		var str_data = "";
+		$.each(array, function(index){
+			// console.log("required = " + $(this).attr("required"));
+			if($(this).attr("required") == 'required') {
+				// console.log("required: required, " + "name = " + $(this).attr("name"));
+				if($(this).val() == '') {
+					// console.log("empty");
+					isInputValid = false;
+					warning_left = $(this).offset().left + $(this).width();
+					warning_top = $(this).offset().top;
+					console.log("left: " + warning_left + ", top: " + warning_top);
+					return false;
+				}
+			}
+			str_data = str_data + ('"' + $(this).attr("name") + '":"' + $(this).val() + '"');
+			if(index < array.length - 1) {
+				str_data = str_data + ",";
+			}
+		});
+		event.stopPropagation();
+		if(!isInputValid) {
+			// console.log("isInputValid");
+			$("#order_warning").show();
+			$("#order_warning").css("left", warning_left + "px");
+			$("#order_warning").css("top", warning_top + "px");
+			$('html,body').animate({scrollTop: warning_top - 100}, 400, 'easeInOutExpo');
+			// $(window).offset.top = warning_top;
+			return false;
+		}
+		console.log("str_data: " + "{" + str_data + "}");
+		$("#product_connectinfo").val("{" + str_data + "}");
+
+		array = $("#travellersID .product_input");
+		// console.log("array.length = " + array.length);
+		str_data = "";
+		$.each(array, function(index) {
+			var inputs = $(this).find("select,input");
+			var str = "";
+			$.each(inputs, function(index1){
+				// console.log("name = " + $(this).attr("name"));
+				if($(this).attr("required") == 'required') {
+					// console.log("required: required, " + "name = " + $(this).attr("name"));
+					if($(this).val() == '') {
+						// console.log("empty");
+						isInputValid = false;
+						warning_left = $(this).offset().left + $(this).width();
+						warning_top = $(this).offset().top;
+						console.log("left: " + warning_left + ", top: " + warning_top);
+						return false;
+					}
+				}
+				str = str + ('"' + $(this).attr("name") + '":"' + $(this).val() + '"');
+				if(index1 < inputs.length - 1)
+					str = str + ",";
+			});
+			if(!isInputValid)
+				return false;
+			str_data = str_data + "{" + str + "}";
+			if(index < array.length - 1)
+				str_data = str_data + ",";
+		});
+		if(!isInputValid) {
+			// console.log("isInputValid");
+			$("#order_warning").show();
+			$("#order_warning").css("left", warning_left + "px");
+			$("#order_warning").css("top", warning_top + "px");
+			$('html,body').animate({scrollTop: warning_top - 100}, 400, 'easeInOutExpo');
+			// $(window).offset.top = warning_top;
+			return false;
+		}
+		console.log("str_data: " + "[" + str_data + "]");
+		$("#product_travellersinfo").val("[" + str_data + "]");
+
+		$("#form-order").submit();
+	}
+
+	$(function(){ 
+		$(document).bind("click",function(e){ 
+			// console.log("click");
+			var target = $(e.target); 
+			if(target.closest("#order_warning").length == 0){ 
+				// console.log("hide");
+				$("#order_warning").hide(); 
+			} 
+		}) 
+	})
+</script>
 {% endblock %}
