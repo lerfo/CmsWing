@@ -1594,7 +1594,7 @@ CLASSES:
 	    	
 	        {% model data="list",table="tour_comment",where='{"product_id":'+info.id+'}',order="add_time DESC",limit="4"%}
 	        <h3 class="evaluate">点评4.5分</h3>
-	    	<div class="evaluate-number">2094条真实旅客点评</div>
+	    	<div class="evaluate-number"></div>
 	        {% for v in list %}
 	        <div class="clearfix" style="height: auto; background: #fff; margin-bottom: 15px; padding: 4px 6px 0 6px;">
 		        <p class="margin-bottom-20"> {{v.comment_content | safe }}</p>
@@ -1793,8 +1793,8 @@ CLASSES:
                 {#
                 {%if controller.is_login %}
                 #}
-                <form method="post" action="/mod/question/sys/updatetouranswer" class="box-light margin-top-20 padding-0 validate"><!-- .box-light OR .box-dark -->
-                    <div class="box-inner padding-0">
+                <form method="post" action="/mod/question/sys/updatetouranswer" class="box-light margin-top-20  validate"><!-- .box-light OR .box-dark -->
+                    <div class="box-inner">
                         <h4 class="uppercase padding-bottom-0 clearfix margin-bottom-0 noborder row">  <div class="col-md-9 col-sm-9"><div class="clearfix margin-bottom-0"><!-- rounded item -->
                             {% if controller.user.uid %}
                             <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/{{controller.user.uid}}" width="40" height="40" alt="">
@@ -1842,68 +1842,7 @@ CLASSES:
 
 </div>
 <!-- -->
-<section class="alternate" id="destination">
-	<div class="portfolio">
-		<header class="section-header margin-bottom-20">
-			<div class="heading-title">
-				<h3>热门</h3>
-				<a href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
-			</div>
-		</header>
-		<div  class=" portfolio-title-over">
-			<div class="row mix-grid">
-				<ul id="destination-ul" style="padding-left: 0px;">
-					{% topic data = "list", limit= "8", cid=135, isstu=1, issub=1, ischild=1, type="level", page=0 %}
-					{%set i = 1%}
-					{% for v in list %}
 
-					<li class="mix development col-md-3 col-sm-3"><!-- item -->
-
-						<div class="item-box thumbnail">
-						<a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}">
-							<figure>
-								<span class="item-hover">
-									<span class="overlay dark-5"></span>
-									{#
-									<span class="inner">
-
-										<!-- lightbox -->
-										<a class="ico-rounded lightbox" href="/static/dome/s_wenzhang.jpg" data-plugin-options='{"type":"image"}'>
-											<span class="glyphicon glyphicon-qrcode size-20"></span>
-										</a>
-
-										<!-- details -->
-										<a class="ico-rounded" href="/wenzhangceshi" target="_blank">
-											<span class="glyphicon glyphicon-option-horizontal size-20"></span>
-										</a>
-
-									</span>
-									#}
-								</span>
-
-								<!-- overlay title -->
-								<div class="item-box-overlay-title">
-									<h4 class="nomargin pull-left text-left">{{v.title}}</h4>
-									<h4 class="nomargin pull-right text-right">{{v.title}}</h4>
-								</div><!-- /overlay title -->
-								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=222,h=217')}}"  alt="">
-							</figure>
-						</a>
-						</div>
-
-					</li><!-- /item -->
-					{% set i = i + 1 %}
-					{% endfor %}
-
-				</ul>
-
-			</div>
-		</div>
-		<div class="more-info text-center margin-top-20">
-			<a href="/youxue{{http.config('view.file_ext')}}">点击查看更多》</a>
-		</div>
-	</div>
-</section>
 <!-- / -->
 
 
@@ -2373,6 +2312,77 @@ CLASSES:
 
 
 </section>
+
+<section class="alternate" id="destination">
+<div class="container">
+	<div class="portfolio">
+		<header class="section-header margin-bottom-20">
+			<div class="heading-title">
+				<h3>热门</h3>
+				<a href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
+			</div>
+		</header>
+		<div  class=" portfolio-title-over">
+			<div class="row mix-grid">
+				<ul id="destination-ul" style="padding-left: 0px;">
+					{% topic data = "list", limit= "8", cid=135, isstu=1, issub=1, ischild=1, type="level", page=0 %}
+					{%set i = 1%}
+					{% for v in list %}
+
+					<li class="mix development col-md-3 col-sm-3"><!-- item -->
+
+						<div class="item-box thumbnail">
+						<a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}">
+							<figure>
+								<span class="item-hover">
+									<span class="overlay dark-5"></span>
+									{#
+									<span class="inner">
+
+										<!-- lightbox -->
+										<a class="ico-rounded lightbox" href="/static/dome/s_wenzhang.jpg" data-plugin-options='{"type":"image"}'>
+											<span class="glyphicon glyphicon-qrcode size-20"></span>
+										</a>
+
+										<!-- details -->
+										<a class="ico-rounded" href="/wenzhangceshi" target="_blank">
+											<span class="glyphicon glyphicon-option-horizontal size-20"></span>
+										</a>
+
+									</span>
+									#}
+								</span>
+
+								<!-- overlay title -->
+								<div class="item-box-overlay-title">
+									<h4 class="nomargin pull-left text-left">{{v.title}}</h4>
+									<h4 class="nomargin pull-right text-right">{{v.title}}</h4>
+								</div><!-- /overlay title -->
+								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=222,h=217')}}"  alt="">
+							</figure>
+						</a>
+						</div>
+
+					</li><!-- /item -->
+					{% set i = i + 1 %}
+					{% endfor %}
+
+				</ul>
+
+			</div>
+		</div>
+		<div class="more-info text-center margin-top-20">
+			<a href="/youxue{{http.config('view.file_ext')}}">点击查看更多》</a>
+		</div>
+	</div>
+	</div>
+</section>
+
+
+
+
+
+
 <!-- / -->
 {% endblock %}
 
