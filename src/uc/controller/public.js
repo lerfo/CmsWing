@@ -234,7 +234,7 @@ export default class extends Base {
       type:data.sms_type
     }
     map.create_time = [">",new Date().valueOf() - 1 * 3600 * 1000]
-    // console.log(map);
+    //console.log(map);
     let code = await this.model("sms_log").where(map).order("id DESC").getField("code",true);
     if(think.isEmpty(code)||code != data.verifycode){
       return this.fail("验证码不正确!")
@@ -249,7 +249,7 @@ export default class extends Base {
       if(!think.isEmpty(res)){
         return this.fail("该用户名已注册！")
     }
-    data.email = 0;
+    // data.email = 0;
     // data.username = data.mobile;
     data.status = 1;//默认激活
     data.reg_time = new Date().valueOf();

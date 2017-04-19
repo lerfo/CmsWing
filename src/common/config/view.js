@@ -118,6 +118,7 @@ export default {
                     }
                 })
                 env.addFilter("strToArray", function (str,sn=",") {
+                    console.log("strToArray:"+str);                        
                     if (!think.isEmpty(str)) {
                         let ss = str.split(sn);// 在每个逗号(,)处进行分解。
                         console.log(ss);
@@ -274,6 +275,7 @@ export default {
                     w = obj.w;
                     h = obj.h;
                     let data = await get_pic(id, m, w, h);
+                    console.log("get_pic:"+data);
                     callback(null, data);
                 }, true)
                 /**
@@ -390,16 +392,14 @@ export default {
                  * @returns []
                  */
                 env.addFilter('get_text_line',async(textstr,index=0,callback)=>{
-                    console.log('111111111');
-                    console.log(textstr);
-                    console.log(index);
-                    if(think.isEmpty(textstr)){
+                    //console.log('111111111');
+                    console.log("get_text_line textstr:"+textstr+",index:"+index);
+                    if(think.isEmpty(textstr) || textstr == ''){
                         callback(null,'');
+                        return;
                     }
                     let strs= new Array(); //定义一数组 
                     strs = textstr.split("\r\n"); //字符分割 
-                    console.log(strs);
-                    console.log(strs[index]);
                     if(index < strs.length ){
                         callback(null,strs[index]);
                     }else{

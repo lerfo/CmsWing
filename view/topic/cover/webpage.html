@@ -7,7 +7,9 @@
 		height: auto;
 		min-height:300px;
 		background:#fff;
-		margin: -43px auto;
+		margin: 0px auto;
+		margin-top: 144px;
+		margin-bottom: 80px;
 		padding-right: 0px;
 		padding-left: 0px;
 		border: 2px solid #C9E3E2;
@@ -63,7 +65,7 @@
 		margin: 0px;
 	}
 	.sect{
-		width: 1350px;
+		width: 100%;
 		height: auto;
 		padding: 0px;
 		margin: 0px;
@@ -75,24 +77,24 @@
 		visibility:hidden;
 	}
 	.ang1 {
-	margin-top:  120px ;
-	margin-left:  300px;
-	
-
+		position: absolute;
+		top:-29px;
+		left:-29px; 
 	}
 	.ang2 {
-		margin-top: 120px ;
-		margin-left:  600px;
+		position: absolute;
+		top:-29px;
+		right:-29px;  
 	}
 	.ang3 {
-		margin-bottom:  46px ;
-		margin-left:  600px;
-		margin-top: -45px;
+		position: absolute;
+		bottom:-29px;
+		right:-29px; 
 	}
 	.ang4 {
-		margin-bottom:  46px ;
-		margin-left:  300px;
-		margin-top: -45px;
+		position: absolute;
+		bottom:-29px;
+		left:-29px; 
 	}
 	.suli a{
 		width: 120px;
@@ -149,14 +151,13 @@
 		background-color: #C4C4CB;
 	}
 </style>
-     
-            
+                
 			<section class="sect">
 			<!-- <img class="webpagebc" src="static/assets/images/backgrounds/webpagebc.jpg"> -->
-				<img class="ang1" src="static/assets/images/angle1.png">
-				<img class="ang2" src="static/assets/images/angle2.png">
 				
 				<div id="cont" class="container">
+					<img class="ang1" src="static/assets/images/angle1.png">
+					<img class="ang2" src="static/assets/images/angle2.png">
 					<div class="row" id="sRow">
 						<!-- LEFT -->
 						<div class="col-md-9 col-sm-9" id="colm">
@@ -207,7 +208,6 @@
 					</div>
 					
 					<!-- RIGHT -->
-					
 					<div class="rank">
 						{% column data="cates",cid=category.id %} 
 						{%for val in cates%}
@@ -242,14 +242,13 @@
 							{%endfor%}
 						{%endfor%}
 					</div>
-				</div>
-				
-				<img class="ang4" src="static/assets/images/angle4.png">
-				<img class="ang3" src="static/assets/images/angle3.png">
+					<img class="ang4" src="static/assets/images/angle4.png">
+					<img class="ang3" src="static/assets/images/angle3.png">
+				</div>			
 			</section>
 
-			<section style="padding: 0; border-bottom: none;">
-				<img src="static/assets/images/home_logo1.jpg" style="width:1350px;height:143;">
+			<section style="padding: 0; border-bottom: none;width: 100%;">
+				<img src="static/assets/images/home_logo1.jpg" style="width:100%;height:143;">
 			</section>
 
 			

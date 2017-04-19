@@ -194,9 +194,16 @@ async questionAction(){
         let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).countSelect();
         //console.log(questions);
         if(!think.isEmpty(questions.data)){
+          //前端字符显示处理
           for(let val of questions.data){
             val.imgurl = await img_text_view(val.detail,233,150);
             val.detailtext = await delhtmltags(val.detail);
+            if(think.isEmpty(val.detailtext)){
+              val.detailtext = "";
+            }
+            if(val.detailtext && val.detailtext.length >90){
+              val.detailtext = val.detailtext.substring(0,90);
+            }
             //console.log(val.detailtext);
           }
         }

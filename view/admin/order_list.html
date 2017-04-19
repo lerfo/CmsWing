@@ -25,10 +25,10 @@
                                            全部订单
                                         </a>
                                         <a class="btn btn-sm btn-info {%if status == 2 %}active{%endif%}" href="/admin/order/list/status/2">
-                                           未审核
+                                           待确认
                                         </a>
-                                        <a class="btn btn-sm btn-info {%if status == 3 %}active{%endif%}" href="/admin/order/list/status/3">
-                                           执行中
+                                        <a class="btn btn-sm btn-info {%if status == 3 %}active{%endif%}" href="/admin/order/list/status/6">
+                                           已确认
                                         </a>
                                     </div>
                                 </div>
@@ -49,14 +49,14 @@
                                         <th>订单号</th>
                                         <th>订单总额</th>
                                         <th>会员账号</th>
-                                        <th>收货人</th>
-                                        <th>收货人电话</th>
-                                        <th>支付方式</th>
-                                        <th>支付状态</th>
-                                        <th>配送状态</th>
+                                        <th>联系人</th>
+                                        <th>联系人电话</th>
+                                        <th>产品信息</th>
+                                        <th>出发日期</th>
+                                        <!--<th>支付状态</th>-->
                                         <th>订单状态</th>
                                         <th>操作</th>
-                                        <th>打印</th>
+                                        <!--<th>打印</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -67,36 +67,42 @@
                                           
                                         <td>￥{{item.order_amount|formatCurrency}}</td>
                                         <td>{{item.user_id|get_nickname}}</td>
-                                        <td>{{item.accept_name}}</td>
-                                        <td>{{item.mobile}}</td>
-                                        <td>{{item.channel}}</td>
-                                        <td > {%if item.pay_status == 0%}<span class="text-muted">未支付</span>{%else%}<span class="text-success">已支付</span>{%endif%}</td>
-                                        <td >{%if item.delivery_status == 0%}<span class="text-muted">未发货</span> {%else%}<span class="text-success">已发货</span> {%endif%}</td>
-                                        
+                                        <td>{{item.connect_name}}</td>
+                                        <td>{{item.connect_phone}}</td>
+                                        <td><a target="_blank" href="/p/{{item.product_id}}.html">{{item.title}}</a></td>
+                                        <td >{{item.start_date}}</td>
+                                        <!--<td > {%if item.pay_status == 0%}<span class="text-muted">未支付</span>{%else%}<span class="text-success">已支付</span>{%endif%}</td>-->
                                         <td class="text-danger">
-                                           {%if item.status ==2 %}<span class="text-muted">等待审核 </span>{%elif item.status ==3%}<span class="text-success">已审核</span>{%elif item.status ==6%}<del>已作废</del>{%elif item.status == 4%}<span class="text-primary">已完成</span>{%endif%}
+                                          <span class="text-muted">{{item.status_desc}} </span>
                                         </td>
                                         <td><div class="btn-group">
-		                  <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle"><i class="fa fa-cog"></i> 处理 <span class="caret"></span></button>
-		                  <ul class="dropdown-menu dropdown-menu-right">
-		                    <li><a href="/admin/order/see/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-eye"></i> 查看</a></li>
-		                   {%if item.pay_status !=1 and item.status != 3 and item.delivery_status != 1 and item.status != 4%} <li><a href="/admin/order/edit/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-edit"></i> 编辑</a></li>{%endif%}
-                              {%if item.status ==2 %} <li><a href="/admin/order/audit/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-check-square-o"></i> 审核</a></li>
-                              {%elif item.status ==3 and item.delivery_status == 0%} <li><a href="/admin/order/ship/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-truck"></i> 发货</a></li>
-                              {%endif%}
-                              {%if item.status != 6 and item.delivery_status != 2 and item.status ==3%}
-                              <li><a href="/admin/order/finish/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-smile-o"></i> 完成</a></li>
-                              {%endif%}
-                              {%if item.status != 6%}
-		                    <li><a href="/admin/order/void/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-trash-o"></i> 作废</a></li>
-                              {%endif%}
-                              {%if item.status == 6%}
-                              <li><a href="/admin/order/del/id/{{item.id}}" class="confirm ajax-get"><i class="fa fa-trash-o"></i> 删除</a></li>
-                              {%endif%}
-                              <li><a href="/admin/order/remark/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-paperclip"></i> 备注</a></li>
-		                  </ul>
-		                </div></td>
-                                        <td><div class="btn-group dropleft">
+                    		                  <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle"><i class="fa fa-cog"></i> 处理 <span class="caret"></span></button>
+                    		                  <ul class="dropdown-menu dropdown-menu-right">
+                    		                    <!--<li><a href="/admin/order/see/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-eye"></i> 查看</a></li>
+                    		                    {%if item.pay_status !=1 and item.status != 3 and item.delivery_status != 1 and item.status != 4%} 
+                                                <li><a href="/admin/order/edit/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-edit"></i> 编辑</a></li>
+                                                {%endif%}-->
+                                                {%if item.status == 2 %} 
+                                                <li><a href="/admin/order/audit/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-check-square-o"></i> 确认订单</a></li>
+                                                {#
+                                                {%elif item.status ==3 and item.delivery_status == 0%}
+                                                <li><a href="/admin/order/ship/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-truck"></i> 发货</a></li> 
+                                                #}
+                                                {%endif%}
+                                                {%if item.status == 6 %}
+                                                <li><a href="/admin/order/finish/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-smile-o"></i> 完成</a></li>
+                                                {%endif%}
+                                                {%if item.status != 8 %}
+                    		                    <li><a href="/admin/order/void/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-trash-o"></i> 作废</a></li>
+                                                {%endif%}
+                                                {%if item.status == 3 %}
+                                                <li><a href="/admin/order/del/id/{{item.id}}" class="confirm ajax-get"><i class="fa fa-trash-o"></i> 删除</a></li>
+                                                {%endif%}
+                                                <li><a href="/admin/order/remark/id/{{item.id}}" data-toggle="ajaxModal"><i class="fa fa-paperclip"></i> 备注</a></li>
+                    		                  </ul>
+                    		                </div>
+                                        </td>
+                                        <!--<td><div class="btn-group dropleft">
 		                  <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle"><i class="fa fa-print"></i> 打印 <span class="caret"></span></button>
 		                  <ul class="dropdown-menu dropdown-menu-right">
 		                    <li><a href="#"><i class="fa fa-print"></i> 打印订单</a></li>
@@ -104,7 +110,7 @@
 		                    <li><a href="#"><i class="fa fa-print"></i> 打印配送单</a></li>
 		                    <li><a href="#"><i class="fa fa-print"></i> 打印快递单</a></li>
 		                  </ul>
-		                </div></td>
+		                </div></td>-->
                                     </tr>
                                     {% else %}
                                     <tr><td colspan="11"><div class="alert alert-warning alert-block">

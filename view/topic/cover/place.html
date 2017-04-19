@@ -37,6 +37,7 @@
         padding: 0px;
         border: none;
         cursor: pointer;
+        background: transparent;
     }
     img.img-responsive {
         width: 100%;
@@ -96,8 +97,8 @@
     }
     .portfolio header a.country-list {
         display:block;
-        margin-top: 20px;
-        float: left;
+        margin-top: 0;
+        /*float: left;*/
         padding:0 10px 0 10px;
     }
     #studytour ul#studytour-ul .studytour-item {
@@ -157,74 +158,16 @@
     .community-ul li{
     	padding:0;
     }
-    @media screen and (max-width:767px){
-    	.community-ul{
-	    	margin:0;
-	    	padding-left:15px !important;
-	    	padding-right:15px !important;
-	    	padding-top:30px;
-	    	padding-bottom:40px;
-	    }
-	    .header-country{
-	    	padding-left:15px;
-	    	padding-right:15px;
-	    }
-        .portfolio header h3 {
-            font-size: 25px;
-            padding-right:50px;
-            float: left;
-            color:#2c2621;
-        }
-    }
-    @media screen and (min-width:768px) and (max-width:991px){
-    	.community-ul{
-	    	margin:0;
-	    	padding-left:60px !important;
-	    	padding-right:60px !important;
-	    	padding-top:30px;
-	    	padding-bottom:40px;
-    	}
-    	.header-country{
-	    	padding-left:60px;
-	    	padding-right:60px;
-	    }
-        .portfolio header h3 {
-            font-size: 25px;
-            padding-right:230px;
-            float: left;
-            color:#2c2621;
-        }
-    }
-    @media screen and (min-width:991px) {
-    	.community-ul{
-	    	margin:0;
-	    	padding-left:182.5px !important;
-	    	padding-right:182.5px !important;
-	    	padding-top:30px;
-	    	padding-bottom:40px;
-    	}
-    	.header-country{
-	    	padding-left:182.5px;
-	    	padding-right:182.5px;
-    	}
-        .portfolio header h3 {
-            font-size: 25px;
-            padding-right:400px;
-            float: left;
-            color:#2c2621;
-        }
-    }
     .community-ul>li>div{
     	background:transparent;
     }
-
     .title_country,
     .title_country a{
     	color:#403d39;
     	font-size:18.5px;
     	margin-bottom:25px;
     }
-    .country-box ul:nth-child(even){
+    .country-box>div:nth-child(even){
     	background:rgba(239,247,249,0.9);
     }
     #destination{
@@ -233,27 +176,15 @@
     #studytour{
     	padding-bottom:55px;
     }
+    .community-ul{
+    	padding:30px 0 40px 0;
+    }
     .show-one{
         display:block;
         white-space:nowrap; 
         overflow:hidden; 
         text-overflow:ellipsis;
     }
-   /* .show-two{
-        position:relative;
-        line-height:1.4em;
-        height:2.8em;
-        overflow:hidden;
-    }
-    .show-two:after{
-
-        content:"...";
-        font-weight:bold;
-        position:absolute;
-        bottom:0;
-        right:0;
-        padding:0 20px 1px 45px;
-    }*/
     .show-two{
         overflow : hidden;
         text-overflow: ellipsis;
@@ -463,22 +394,28 @@
 <!-- -->
 <section class="alternate" id="community">
     <div class="portfolio">
+    <div class="container">
     	{% topic data = "list", limit= "200", cid=135, issub=1, isstu=1, pid=0, type="level", page=0 %}
         <header class="section-header margin-bottom-20 header-country">
             <div class="heading-title">
                 <h3>国家列表</h3>
-                
-                <a href="" id="all" class="country-list"> 全部 </a>
-                {% for v in list %}
-                <a href="" id="community-change{{v.id}}" class="country-list">{{v.title}}</a>
-                {% endfor %}
-               
+                <a href="" id="community-change320" class="country-list">南极洲</a>
+                <a href="" id="community-change326" class="country-list">大洋洲</a>
+                <a href="" id="community-change325" class="country-list">南美</a>
+                <a href="" id="community-change324" class="country-list">北美</a>
+                <a href="" id="community-change323" class="country-list">非洲</a>
+                <a href="" id="community-change321" class="country-list">欧洲</a>
+                <a href="" id="community-change322" class="country-list">亚洲</a>
+               <a href="" id="all" class="country-list"> 全部 </a>
             </div>
         </header>
+    </div>
         <div  class=" portfolio-title-over">
             <div class="row mix-grid country-box">
             	{% for v in list %}
-                <ul id="community-ul{{v.id}}" style="padding-left: 0px;" class="clear community-ul">
+                 <div id="community-ul{{v.id}}" class="community-ul">
+                <div class="container" >
+                <ul style="padding-left: 0px;" class="clear">
                 	<div class="title_country">
 						<a href="">
 							{{v.title}} {{v.name_en}}
@@ -487,7 +424,7 @@
                 	</div>
                     {% topic data = "list", limit= "200", cid=135, isstu=1, pid=v.id,type="none",page=0 %}
                     {% for v in list %}
-                    <li class="mix development col-xs-6 col-sm-3 destination-item-{{i}}"><!-- item -->
+                    <li class="mix development col-xs-6 col-sm-4 destination-item-{{i}}"><!-- item -->
           
                         <div class="item-box thumbnail">
                         <a href="/search.html?q=&value=youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0">
@@ -500,6 +437,8 @@
                     {% endfor %}
 
                 </ul>
+                </div>
+                </div>
                 {% endfor %}
 
             </div>
@@ -783,7 +722,7 @@
         		$("#community-ul326").siblings().css("display","block");	
         	}
 
-        	let sub1 = $(".country-box ul");
+        	let sub1 = $(".country-box>div");
         	var n=0;
         	for(var i=0;i<sub1.length;i++){
         		 if(sub1[i].style.display=="block"){

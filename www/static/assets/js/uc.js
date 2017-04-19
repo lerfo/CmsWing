@@ -139,11 +139,9 @@ $(function(){
 					                <p>订单状态:${orderDataDetail.status_desc} </p>
 					                <p>订单编号:${orderDataDetail.order_no}</p>
 					              </div>
-					              <!--<div class="order-select">
-					                <button>继续预定</button> 
-					                <br>                            
+					              <div class="order-select">                           
 					                <button>取消订单</button> 
-					              </div>  -->           
+					              </div>         
 					            </div>
 					          </div>
 					          <div>
@@ -614,24 +612,25 @@ $(function(){
 				                  <a class="col-xs-1">性别</a>
 				                  <a class="col-xs-2">操作</a>
 				                </div>
-				              </div>
-				            
-				             
+				              </div>				            				             
           			`;
-          			$.each(result.data,function(k,v){
+          			var  v = result.data;
+          			localStorage.setItem("travellerList",JSON.stringify(v));
+          			for(var i=0;i<v.length;i++){
+          				console.log(v[i])
           				html+=`												               				              
 				                <div class="detail-information clear min-height">
 				                <input type="checkbox">
 				                <table>
 				                    <tr>
-				                      <td class="col-xs-1">${v.name_zh}</td>
-				                      <td class="col-xs-2">${v.phone}</td>
-				                      <td class="col-xs-2">${v.credentials_type_name}</td>
-				                      <td class="col-xs-3">${v.credentials_value}</td>
-				                      <td class="col-xs-1">${v.country}</td>
-				                      <td class="col-xs-1">${v.type_name}</td>
+				                      <td class="col-xs-1">${v[i].name_zh}</td>
+				                      <td class="col-xs-2">${v[i].phone}</td>
+				                      <td class="col-xs-2">${v[i].credentials_type_name}</td>
+				                      <td class="col-xs-3">${v[i].credentials_value}</td>
+				                      <td class="col-xs-1">${v[i].country}</td>
+				                      <td class="col-xs-1">${v[i].type_name}</td>
 				                      <td class="col-xs-2">
-				                        <a href="">查看</a>
+				                        <a class="see-traveller" href="${i}">查看</a>
 				                        <a class="edit-traveller" href="">编辑</a>
 				                        <a href="">删除</a>
 				                      </td>
@@ -639,7 +638,7 @@ $(function(){
 				                </table>
 				              </div>
           				`;
-          			})
+          			}
           		html+=`
 					</div>
           		`;
@@ -675,6 +674,186 @@ $(function(){
 		`;
 		html+=add();
 		$(".aside-right").html(html);
+	})
+	$(".aside-right").on("click","a.see-traveller",function(e){
+		if(e&&e.preventDefault)
+      	e.preventDefault();
+      	window.event.returnValue=false;
+      	var n = $(this).attr("href");
+      	var val = JSON.parse(localStorage.getItem("travellerList"));
+      	var v = val[n];
+      	console.log(v);
+      	var html = "";
+      	html += `
+			<div class="check-traveller">
+	          <div class="check-title">
+	            查看常用旅客信息
+	          </div>
+	          <div class="check-information min-height">
+	            <div>旅客信息</div>
+	            <ul>
+	    	`;
+	    if(v.name_zh==null){
+	    	html+=`
+				<li>
+	                <span>中文名</span><b>未设置</b>
+	            </li>
+	    	`;
+	    }else{
+	    	html+=`
+				<li>
+                	<span>中文名</span><b>${v.name_zh}</b>
+                </li>
+	    	`;
+	    }
+	    if(v.name_en_first==null){
+	    	html+=`
+				<li>
+	                <span>英文名</span><b>未设置</b>
+	            </li>
+	    	`;
+	    }else{
+	    	html+=`
+				<li>
+                	<span>英文名</span><b>${v.name_en_first} ${v.name_en_last}</b>
+                </li>
+	    	`;
+	    }
+	    if(v.country==null){
+	    	html+=`
+				<li>
+	                <span>国籍</span><b>未设置</b>
+	            </li>
+	    	`;
+	    }else{
+	    	html+=`
+				<li>
+                	<span>国籍</span><b>${v.country}</b>
+                </li>
+	    	`;
+	    }
+	    if(v.sexual==0){
+        	 html+=`			                  
+              <li>
+                <span>性别</span><b>男</b>
+              </li>
+         `;
+        }else if(v.sexual==1){
+        	 html+=`			                  
+              <li>
+	            <span>性别</span><b>女</b>
+	          </li>
+             `;
+        } 
+        if(v.birthday==null){
+        	html+=`
+				<li>
+	                <span>生日</span><b>未设置</b>
+	            </li>
+        	`;
+        }else{
+        	html+=`
+				<li>
+	                <span>生日</span><b>${v.birthday}</b>
+	            </li>
+        	`;
+        } 
+        if(v.birthplace==null){
+        	html+=`
+				<li>
+	                <span>出生地</span><b>未设置</b>
+	            </li>
+        	`;
+        }else{
+        	html+=`
+				<li>
+	                <span>出生地</span><b>${v.birthplace}</b>
+	            </li>
+        	`;
+        }
+        if(v.phone==null){
+        	html+=`
+				 <li>
+	                <span>手机号码</span><b>未设置</b>
+	            </li>
+        	`;
+        }else{
+        	html+=`
+				<li>
+	                <span>手机号码</span><b>${v.phone}</b>
+	            </li>
+        	`;
+        }
+        if(v.tel_number==null){
+        	html+=`
+				<li>
+	                <span>联系电话</span><b>未设置</b>
+	            </li>
+        	`;
+        }else{
+        	html+=`
+				<li>
+	                <span>联系电话</span><b>${v.tel_number}</b>
+	            </li>
+        	`;
+        }
+        if(v.fax_number==null){
+        	html+=`
+				<li>
+	                <span>传真号码</span><b>未设置</b>
+	            </li>
+        	`;
+        }else{
+        	html+=`
+				<li>
+	                <span>传真号码</span><b>${v.fax_number}</b>
+	            </li>
+        	`;
+        }
+	   	html+=`	             	              	              	              	              
+	              <li>
+	                <span>Email</span><b>XXX</b>
+	              </li>
+	            </ul>
+			`;
+		if(v.credentials_type==0){
+        	html+=`
+			   <div>证件信息</div>
+	            	<ul class="check-certificate clear">
+		              <li>
+		                <span>证件类型</span><b>护照</b>
+		              </li>
+        	`;
+        }else if(v.credentials_type==1){
+        	html+=`
+			   <div>证件信息</div>
+	            <ul class="check-certificate clear">
+	              <li>
+	                <span>证件类型</span><b>港澳通行证</b>
+	              </li>
+        	`;
+        }else if(v.credentials_type==2){
+        	html+=`
+			   <div>证件信息</div>
+	            <ul class="check-certificate clear">
+	              <li>
+	                <span>证件类型</span><b>台湾通行证</b>
+	              </li>
+        	`;
+        }
+	    html+=`
+	              <li>
+	                <span>证件号码</span><b>${v.credentials_value}</b>
+	              </li>
+	              <li><span>有效期</span><b>XXXXXXXXXXX</b></li>
+	            </ul> 
+	            <a class="go-back" href=""><返回</a>
+	          </div>
+	         
+	        </div>
+
+      	`;
+      	$(".aside-right").html(html)
 	})
 
  	function add(){
@@ -847,20 +1026,22 @@ $(function(){
 				            
 				             
           			`;
-          			$.each(result.data,function(k,v){
+          			var  v = result.data;
+          			localStorage.setItem("addressList",JSON.stringify(v));
+          			for(var i=0;i<v.length;i++){
           				html+=`												               				              
 				                <div class="detail-information clear">
 				                <input type="checkbox">
 				                <table>
 				                    <tr>
-				                      <td class="col-xs-1">${v.accept_name}</td>
-				                      <td class="col-xs-2">${v.province}</td>
-				                      <td class="col-xs-2">${v.city}</td>
-				                      <td class="col-xs-1">${v.county}</td>
-				                      <td class="col-xs-3">${v.addr}</td>
-				                      <td class="col-xs-1">${v.zip}</td>
+				                      <td class="col-xs-1">${v[i].accept_name}</td>
+				                      <td class="col-xs-2">${v[i].province}</td>
+				                      <td class="col-xs-2">${v[i].city}</td>
+				                      <td class="col-xs-1">${v[i].county}</td>
+				                      <td class="col-xs-3">${v[i].addr}</td>
+				                      <td class="col-xs-1">${v[i].zip}</td>
 				                      <td class="col-xs-2">
-				                        <a href="">查看</a>
+				                        <a class="see-address" href="${i}">查看</a>
 				                        <a href="">编辑</a>
 				                        <a href="">删除</a>
 				                      </td>
@@ -869,7 +1050,7 @@ $(function(){
 				              </div>
 				           
           				`;
-          			})
+          			}
           			html+=`
  						</div>
           			`;
@@ -877,6 +1058,103 @@ $(function(){
           		}
           	})
 	})
+	$(".aside-right").on("click","a.see-address",function(e){
+		if(e&&e.preventDefault)
+          	e.preventDefault();
+          	window.event.returnValue=false;
+          	var n = $(this).attr("href");
+      		var val = JSON.parse(localStorage.getItem("addressList"));
+      		var m = val[n];
+      		var html="";
+      		html+=`
+				<div class="check-address">
+		          <div class="check-title">
+		            查看常用地址
+		          </div>
+		          <div class="check-information min-height padding-top-30">
+		            <ul>
+		    `;
+		    if(m.county==null){
+		    	html+=`
+					<li><span>地址简称</span><b>XXX</b></li>
+		    	`;
+		    }else{
+		    	html+=`
+					<li><span>地址简称</span><b>XXX</b></li>
+		    	`;
+		    }
+		    if(m.accept_name==null){
+		    	html+=`
+					<li><span>收件人姓名</span><b>未设置</b></li>
+		    	`;
+		    }else{
+		    	html+=`
+					<li><span>收件人姓名</span><b>${m.accept_name}</b></li>
+		    	`;
+		    }
+		    if(m.city==null){
+		    	html+=`
+					<li><span>所在地区</span><b>未设置</b></li>
+		    	`;
+		    }else{
+		    	html+=`
+					<li><span>所在地区</span><b>${m.city}</b></li>
+		    	`;
+		    }
+		    if(m.addr==null){
+		    	html+=`
+					<li><span>详细地址</span><b>未设置</b></li>
+		    	`;
+		    }else{
+		    	html+=`
+					<li><span>详细地址</span><b>${m.addr}</b></li>
+		    	`;
+		    } 
+		     if(m.zip==null){
+		    	html+=`
+					<li><span>邮政编码</span><b>未设置</b></li>
+		    	`;
+		    }else{
+		    	html+=`
+					<li><span>邮政编码</span><b>${m.zip}</b></li>
+		    	`;
+		    }  
+		    if(m.mobile==null){
+		    	html+=`
+					<li><span>手机号码</span><b>未设置</b></li>
+		    	`;
+		    }else{
+		    	html+=`
+					<li><span>手机号码</span><b>${m.mobile}</b></li>
+		    	`;
+		    }             
+		    if(m.phone_number==null){
+		    	html+=`
+					<li><span>联系电话</span><b>未设置</b></li>
+		    	`;
+		    }else{
+		    	html+=`
+					<li><span>联系电话</span><b>${m.phone_number}</b></li>
+		    	`;
+		    }           
+		              
+		              
+		    html+=`          
+		              
+		              
+		            </ul>
+		            <a class="go-back" href=""> <返回 </a>
+		          </div>
+		        </div>
+      		`;
+      		$(".aside-right").html(html)
+	})
+
+
+
+
+
+
 	$(".uc-coupon").on("click",function(e){
 		if(e&&e.preventDefault)
           	e.preventDefault();
@@ -1152,11 +1430,13 @@ function cannelorder(orderid){
         if(v.status == 2){
 	        h+=`
 					<td>
-						<span class="text-warning">已提交</span>
+						<span class="text-warning">${v.status_desc}</span><br>
+						<a class="order-detail" href="${i}">查看详情 </a> 
 					</td>
 	                <td>
-	                <a class="order-detail" href="${i}">查看详情 </a> <br>
-					<a  href="javascript:cannelorder(${v.order_no});" >取消订单 </a>
+	                
+					<a  href="javascript:cannelorder(${v.order_no});" >取消订单 </a><br>
+					<a  href="javascript:cannelorder(${v.order_no});" >查看行程 </a>
 	                </td>
 					</tr>
 					</table>													
@@ -1164,10 +1444,12 @@ function cannelorder(orderid){
 	    }else if(v.status == 3){
 	    	h+=`
 					<td>
-						<span class="text-warning" style="color:#afa79c !important">已取消</span>
+						<span class="text-warning" style="color:#afa79c !important">${v.status_desc}</span><br>
+						<a class="order-detail" href="${i}">查看详情 </a>
 					</td>
 	                <td>
-						<a class="order-detail" href="${i}">查看详情 </a>
+						<a  href="javascript:cannelorder(${v.order_no});" >查看行程 </a>
+
 	                </td>
 					</tr>
 					</table>													
@@ -1175,11 +1457,13 @@ function cannelorder(orderid){
 	    }else{
 	    	h+=`
 					<td>
-						<span class="text-warning">已提交</span>
+						<span class="text-warning">${v.status_desc}</span><br>
+						<a class="order-detail" href="${i}">查看详情 </a> <br>
 					</td>
 	                <td>
-	                <a class="order-detail" href="${i}">查看详情 </a> <br>
-					<a  href="javascript:cannelorder(${v.order_no});" >取消订单 </a>
+	               
+					<a  href="javascript:cannelorder(${v.order_no});" >取消订单 </a><br>
+					<a  href="javascript:cannelorder(${v.order_no});" >查看行程 </a>
 	                </td>
 					</tr>
 					</table>													

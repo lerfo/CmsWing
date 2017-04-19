@@ -30,7 +30,7 @@ section#slider input{
 	background: url('/static/assets/images/search_nav.png') no-repeat; 	
 }
 .phb li{
-	width: 33.3%;#246px;
+	width: 33.3%;
 	height: 85px;
 	margin-right:-7px;
 	padding:0px;
@@ -69,9 +69,15 @@ table .btn{
 	padding: 0; 
 	margin: 20px auto;
 }
+.bpm{
+    width:904px;
+    height: 150px;
+    border-bottom: 0px;
+    margin-bottom: 25px;
+}
 .bpm:hover {
 	cursor:pointer;
-	height: 160px;
+	/* height: 160px; */
 	box-shadow: 0  5px 15px 5px rgba(0,0,0,0.1);
 }
 .blog-post-item h2{
@@ -80,11 +86,27 @@ table .btn{
 .strategy-content{
 	width: 904px;
 	height: 150px;
+	margin-bottom: 20px;
 }
 .strategy-content:hover{
 	cursor: pointer;
 	box-shadow: 0  5px 15px 5px rgba(0,0,0,0.1);
 
+}
+.strategy-content:hover h2{
+	color: #1eb6c1;
+
+}
+/* .strategy-content:hover {
+	cursor: pointer;
+	box-shadow: 0  5px 15px 5px rgba(0,0,0,0.1);
+
+} */
+.strategy a{
+    color:#565656;
+}
+.qsn-awr a{
+    color:#565656;
 }
 .strategy-content img{
 	float: left;
@@ -95,12 +117,136 @@ table .btn{
 	margin-left: 274px;
 }
 .strategy-txt h2{
-	font-size: 18px !important;
+	font-size:16px;
 	color: #121212;
 	margin: 0px 0px 10px 0px;
 }
 .strategy-txt p{
 	text-indent:1em;
+}
+.btn-danger {
+    color: #fff;
+    background-color: #1eb6c1;
+    border-color: #1eb6c1;
+}
+.btn-danger:hover {
+    color: #fff;
+    background-color: #1eb6c1;
+    border-color: #1eb6c1;
+}
+.btn-danger.focus, .btn-danger:focus {
+    color: #fff;
+    background-color: #1eb6c1;
+    border-color: #1eb6c1;
+}
+.btn-danger:active:focus{
+	color: #fff;
+    background-color: #1eb6c1;
+    border-color: #1eb6c1;
+}
+.btn-danger:active:hover{
+	color: #fff;
+    background-color: #1eb6c1;
+    border-color: #1eb6c1;
+}
+.btn-danger.active, .btn-danger:active, .open>.dropdown-toggle.btn-danger {
+    color: #fff;
+    background-color: #1eb6c1;
+    border-color: #1eb6c1;
+}
+.head-section{
+    width:100%;
+    height: 560px;
+    background-position: center center;
+    background:url(/static/assets/images/slider_search.jpg);
+}
+.searchin{
+    border: 10px solid rgba(26,21,31,0.5);
+}
+.body-section{
+    background-color: #EFF7F9;
+}
+.peanut-roll{
+    width:100%;
+    height:143px;
+    padding:0; 
+    border-bottom:none;
+    background: url(static/assets/images/home_logo1.jpg);
+}
+#page1{
+    width: 904px;
+    min-height:400px;
+    margin: 0px auto;
+    padding: 0px;
+    display: none;
+}
+#page2{
+    width: 984px;
+    margin: 0px auto;
+    margin-top:-15px;
+    padding: 0px;
+}
+#page3{
+    width: 904px;
+    min-height: 400px;
+    margin: 0px auto;
+    padding: 0px;
+    display: none;
+}
+#page4{
+    width: 904px;
+    min-height:400px;
+    margin: 0px auto;
+    padding: 0px;
+    display: none;
+}
+.the-td{
+    width: 80px;
+    text-align:justify;
+    text-align-last:justify;line-height:1.6;
+}
+.txtbd{
+    width: 924px; 
+    margin:10px -35px;
+}
+.left-part{
+    margin-right: 25px;
+    margin-left: 25px;
+    width: 904px;
+    height: auto;
+}
+.a-img{
+    width:233px !important;
+    height: 150px;
+    max-width:none;
+}
+.bilt{
+    padding-left:274px !important;
+    height: 150px;
+}
+.bilt p{
+    text-indent:1em;
+}
+.gopage{
+    width:100%;
+    margin-top:10px;
+}
+.price-span{
+    color:#1eb6c1;
+    position: absolute;
+    right: 15px;
+}
+.load-more,.no-more{
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+.load-more a,{
+    text-decoration-color: #8a8e9f;
+    font-size: 18;
+}
+.no-more p{
+    text-decoration-color: #8a8e9f;
+    font-size: 12;
 }
 </style>
     <!--
@@ -121,7 +267,7 @@ table .btn{
     .shadow-after-3     = shadow 3 header bottom
     -->
     <!-- SLIDER -->
-    <section id="slider" class="" style="height: 560px;background-position: center center">
+    <section id="slider" class="head-section" >
         <span class="overlay dark-2"><!-- dark overlay [0 to 9 opacity] --></span>
 
         <div class="display-table">
@@ -133,7 +279,10 @@ table .btn{
                         <ul class="">
                             <!-- SLIDE  -->
                             <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
+                            {#
                                 <img src="/static/assets/images/slider_search.jpg" data-lazyload="/static/assets/images/slider_search.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
+                            #}    
+                            
 
                             </li>
                             
@@ -146,10 +295,10 @@ table .btn{
 
         <div class="home-search-bar">
             <!-- INLINE SEARCH -->
-            <div class="inline-search clearfix" style="border: 10px solid rgba(26,21,31,0.5);">
+            <div class="searchin inline-search clearfix" >
                 <form action="/search" method="get" class="widget_search">
-                    <input type="search" placeholder="想带宝宝去哪？" name="q" {% if queryword %} value={{queryword}} {%endif%}class="serch-input" style="color: black;">
-                    <button type="submit" style="background-color:#1EB6C1 ">
+                    <input type="search" placeholder="想带宝宝去哪？" name="q" {% if queryword %} value={{queryword}}{%endif%} class="serch-input" style="color: black;">
+                    <button type="submit" style="background-color:#1eb6c1 ">
                         <i class="fa fa-search" style="color: #fff;"></i>
                     </button>
                 </form>
@@ -160,7 +309,7 @@ table .btn{
     </section>
 
     <!-- /SLIDER -->
-    <section class="page-header page-header-xs " style="background-color: #EFF7F9;">
+    <section class="body-section page-header page-header-xs">
         <div class="ctr container">			
 				 <!-- page tabs -->
         
@@ -195,20 +344,20 @@ table .btn{
       
             <!-- /page tabs -->
 
-            <div class="school" id="page1" style="width: 904px;min-height:400px;margin: 0px auto;padding: 0px;display: none;">
+            <div class="school" id="page1">
 				<!-- 学校 -->
             </div>
 
-            <div class="strategy" id="page3" style="width: 904px;min-height: 400px;margin: 0px auto;padding: 0px;display: none;">
+            <div class="strategy" id="page3">
 				<!-- 游记攻略 -->
 				
 			</div>
 			
-			<div class="qsn-awr" id="page4" style="width: 904px;min-height:400px;margin: 0px auto;padding: 0px;display: none;">
+			<div class="qsn-awr" id="page4">
 				<!-- 问答 -->
 			</div>
            
-            <div class="study-tour" id="page2" style="width: 984px;margin: 0px auto;margin-top:-15px;padding: 0px;">
+            <div class="study-tour" id="page2">
             <!-- 分类信息
             {%if sort%}
             {%if sort.types|length ==1%}
@@ -221,7 +370,7 @@ table .btn{
             {%endif%} -->
             <!-- <div class="tct tab-content table-bordered" style=""> -->
             
-            <div class="tct tab-content" style="">
+            <div class="tct tab-content">
                 <table class="table table  m-b-none" style="margin-top: -1px">
                     <tbody>
                         {% set typenum = 1%}
@@ -229,8 +378,7 @@ table .btn{
                         {%if val.search > 1%}
                         <!-- <tr {% if typenum > 3 %} class="type_tr_m"  style="display:none"{%endif%} > -->
                         <tr  class="type_tr_m"  >
-                            <td style="width: 70px;text-align:justify;text-align-last:justify;line-height:1.6;">
-                            
+                            <td class="the-td">
                                 {{val.option.title}}:
                             </td>
                             <td>
@@ -314,26 +462,26 @@ table .btn{
               
                 <!--/分类信息-->
                 <!--正文信息-->
-                <div class="row txtbd" style="width: 924px; margin:10px -35px;">
+                <div class="row txtbd" >
 
                     <!-- LEFT -->
-                    <div class="col-md-9 col-sm-9" style="margin-right: 25px;margin-left: 25px;width: 904px;height: auto;">                    
+                    <div class="col-md-9 col-sm-9 left-part">                    
                             {% for val in list %}
                             {% set categoryname = val.category_id|get_cate %}
                              <!-- POST ITEM -->
-                            <div class="bpm blog-post-item padding-bottom-0 margin-bottom-15 clearfix" style="width:904px;height: 150px;border-bottom: 0px;margin-bottom: 25px;">
+                            <div class="bpm blog-post-item padding-bottom-0 margin-bottom-15 clearfix">
                                 <!-- IMAGE -->
                                 {% if val.cover_id>0 %}
                                 <figure class="blog-item-small-image margin-bottom-0">
-                                    <img style="width:233px;height: 150px;max-width:none ;" class="img-responsive" src="{{val.cover_id|get_pic('m=1,w=200,h=120')}}" alt="" >
+                                    <img class="img-responsive a-img" src="{{val.cover_id|get_pic('m=1,w=200,h=120')}}" alt="" >
                                 </figure>
                                 {% endif %}
-                                <div class="bilt blog-item-small-content" style="padding-left: 274px;height: 150px;">
-                                    <p style="text-indent:1em;"> &nbsp;</p>
-                                        <h2 style="font-size: 18;">
-                                            <a  class="goPage" style="width:100%;margin-top:10px;" href="{{val.name|get_url(val.id)}}" target="_blank" title="{{val.title}}">{{val.title|truncate(30, true, "...")}} <span style="color:skyblue;position: absolute;right: 15px;">¥{{val.price|get_price('1')}}/人起</span></a>
+                                <div class="bilt blog-item-small-content">
+                                    <p> &nbsp;</p>
+                                        <h2 style="">
+                                            <a  class="goPage" href="{{val.name|get_url(val.id)}}" target="_blank" title="{{val.title}}">{{val.title|truncate(30, true, "...")}} <span class="price-span">¥{{val.price|get_price('1')}}/人起</span></a>
                                         </h2>
-                                    <p style="text-indent:1em;">{{val.description|truncate(90, true, "...")}}</p>
+                                    <p>{{val.description|truncate(90, true, "...")}}</p>
                                 </div> <!--add-->
                             </div>
                             <!-- /POST ITEM -->     
@@ -348,12 +496,25 @@ table .btn{
                            </div>
                            </PAGINATION -->
                            <!--    正版！！！！！！           -->
-                        {%  if currentPage < totalPages %} 
-                            <div class="text-center" style="margin-top: 10px;margin-bottom: 30px;">
-                                <a href="javascript:pagination(2)" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>
-                            </div>
-                        {% endif %}                            
-                    </div>
+                        
+                     	<!-- 1:{{ currentPage }} 
+                             2:{{totalPages}} 
+                             10:{{count}} -->
+                        <!-- {{ currentPage }}         {{totalPages}} -->
+                   		{% if currentPage < totalPages %}
+                    	<div class="text-center load-more">
+                            <a href="javascript:pagination(2)">加载更多</a>
+                        </div>
+                        {% else%}
+                        <div class="text-center no-more">
+                            <p>已无更多</p>
+                        </div>
+                        {% endif %}
+                        {% for i in totalPages-currentPage %}
+                        <div class="bilt{{i}}" ><div>
+                        {% endfor%}
+
+                </div>
 
                       
                 </div>
@@ -366,8 +527,7 @@ table .btn{
     <!-- /PAGE HEADER -->
 
     <!-- PEANUT ROLL -->   
-    <section style="padding:0; border-bottom:none;">
-		<img src="static/assets/images/home_logo1.jpg" style="width:1350px;height:143;">
+    <section class="peanut-roll" >
 	</section>
     <!-- /PEANUT ROLL -->
 
@@ -397,39 +557,12 @@ table .btn{
        			$("#page"+i).css("display","none");
        		}
        	} 	
-        $("#page"+pId).css("display","");
-
-        /*var msg = $(this).attr("data-msg");
-        console.log(msg);*/
-       
-
-        /*example*/
-        //1.获取参数
-       /* var id = $(this).attr("data-recommend-id");
-        console.log(id);
-        //2.对应ACTION 返回数据
-        $.ajax({
-            type:"get",
-            url:"/mod/question/ajax/ajaxrecommend/cmd/0/id/"+id,
-            success:function (data) {
-                if (data.errno==0) {
-                        _toastr(data.data.name,"top-right","success",false);
-                        addhtml(id)
-                }else{
-
-                        _toastr(data.errmsg,"top-right","error",false);
-
-                }
-            }
-        })
-*/
-        //AJAX END
-
+        $("#page"+pId).css("display","block");
     });
                                
     $("#select1").on("click",function(){
     	var getHtml = "";
-    	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td style="width: 70px;text-align:justify;text-align-last:justify;line-height:1.6;">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td style="width: 80px;">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
+    	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td class="the-td">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td style="width: 80px;">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
 
     	 $.ajax({
         	type:"get",
@@ -450,7 +583,7 @@ table .btn{
         							'<h2>'+
         								detail_title +
         							'</h2>'+
-        							'<p style="text-indent:1em;">'+
+        							'<p>'+
         								detail_txt+
         							'</p>'+
         						'</div>'+
@@ -464,19 +597,26 @@ table .btn{
     });
 
     function pagination(page) {
-        console.log(page);
-        console.log("pagination");
+        //var searchword = GetQueryString("q");
+        //console.log(searchword);
 
-        /*localstorage.setItem("p",3);
-        localstorage.getItem("p");
-        console.log(p);*/
+
+        //console.log('pagination'+page);
+        var url = window.location.href;
+        //console.log(url);
+        var para = url.split("?q=")[1];
+        //console.log(para);
+
+        /*localStorage.setItem("tourPage",JSON.stringify(""));
+        var pageIndex = localStorage.getItem("tourPage");
+        console.log(pageIndex);  */  
         $.ajax({
             type:"get",
-            url:"/ajax/search&page="+1,
+            url:"/ajax/search?q="+para+"&page="+page,
             success:function(dataResult){
-                console.log(dataResult); 
-                console.log(dataResult.count);  
-                if(0<dataResult.count){
+                console.log(dataResult);
+
+                if(dataResult.currentPage<dataResult.totalPages){
                     console.log("还有还有");
                 }else{
                     console.log("已无更多");
@@ -493,7 +633,7 @@ table .btn{
         var getHtml = "";
         if(days==7){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td class="the-td">发帖时间：</td>\
                         <td><a href="javascript:gettournote();" class="btn btn-clean btn-xs relative">全部</a>\
                         <span class="btn btn-danger btn-xs relative">最近7天</span>\
                         <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
@@ -503,7 +643,7 @@ table .btn{
              //history.replaceState(" "," ","question?cid=124&day<=7");
         }else if(days==30){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td class="the-td">发帖时间：</td>\
                         <td><a href="javascript:gettournote();" class="btn btn-clean btn-xs relative">全部</a>\
                         <a href="javascript:gettournote(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
                         <span class="btn btn-danger btn-xs relative">最近30天</span>\
@@ -512,8 +652,8 @@ table .btn{
                         </td></tr></tbody></table>';
               //history.replaceState(" "," ","question?cid=124&day<=30");
         }else if(days==180){
-            getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+            getHtml = '<table class="table table  <m-b-none></m-b-none>" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
+                        <td class="the-td">发帖时间：</td>\
                         <td><a href="javascript:gettournote();" class="btn btn-clean btn-xs relative">全部</a>\
                         <a href="javascript:gettournote(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
                         <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
@@ -523,7 +663,7 @@ table .btn{
               //history.replaceState(" "," ","question?cid=124&day<=180");
         }else if(days==365){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td class="the-td">发帖时间：</td>\
                         <td><a href="javascript:gettournote();" class="btn btn-clean btn-xs relative">全部</a>\
                         <a href="javascript:gettournote(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
                         <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
@@ -533,7 +673,7 @@ table .btn{
              //history.replaceState(" "," ","question?cid=124&day<365");
         }else{
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td class="the-td">发帖时间：</td>\
                         <td><span class="btn btn-danger btn-xs relative">全部</span>\
                         <a href="javascript:gettournote(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
                         <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
@@ -551,136 +691,57 @@ table .btn{
             type:"get",
             url:"/ajax/question?cid=124&day="+days+"&q="+searchword,
             success:function(dataResult){
-                console.log(dataResult);
+                //console.log(dataResult);
                 $.each(dataResult.data,function(k,v){
-                    var detail_title = v.title;
-                    var detail = v.detail.split("</p><p>");
-                    var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
-                    var detail_txt = detail[1] + detail[2] + detail[3];
-                
-                    getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
-                                detail_img+
+                	if(0==v.imgurl.length){
+                		getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
+                                
                                 '<div class="strategy-txt"> '+
                                     '<p>'+
                                     '&nbsp;'+
                                     '</p>'+
                                     '<h2>'+
-                                        detail_title +
+                                        v.title +
                                     '</h2>'+
-                                    '<p style="text-indent:1em;">'+
-                                        detail_txt+
+                                    '<p>'+
+                                        v.detailtext+
                                     '</p>'+
                                 '</div>'+
-                                '</div></a>';                       
+                                '</div></a>';  
+                	}else{
+                        getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
+                                '<img src='+v.imgurl+'>'+
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.detailtext+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';     
+                	}                  
                 });
                 if(dataResult.currentPage < dataResult.totalPages){
-                    getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
+                    getHtml +='<div class="text-center load-more">' + '<a href="javascript:;>加载更多</a>'+'</div>'
+                }else{
+                    getHtml +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
                 }
                 $(".strategy").html(getHtml);
             }
         })
     };
-/*
-    $("#select3").on("click",function(){
-    	var getHtml = "";
-        history.replaceState("","","question?cid=124&q=");
-    	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
-        <td><span class="btn btn-danger btn-xs relative">全部</span>\
-        <a href="javascript:gettournote(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
-        <a href="javascript:gettournote(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
-        <a href="javascript:gettournote(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
-        <a href="javascript:gettournote(365);" class="btn btn-clean btn-xs relative">1年内</a>\
-        </td></tr></tbody></table>';
-            //'<tr class="type_tr_m"><td style="width: 70px;">所在版面：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">英伦半岛</a><a href="javascript:;" class="btn btn-clean btn-xs relative">旅行摄影</a><a href="javascript:;" class="btn btn-clean btn-xs relative">环游欧洲</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美式风情</a></td></tr></tbody></table>';
 
-
-
-
-    	 $.ajax({
-        	type:"get",
-        	url:"/ajax/question?cid=124&q=",
-        	success:function(dataResult){
-        		$.each(dataResult,function(k,v){
-        			var detail_title = v.title;
-        			var detail = v.detail.split("</p><p>");
-        			var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
-        			var detail_txt = detail[1] + detail[2] + detail[3];
-        		
-        			getHtml +='<div class="strategy-content">'+
-        						detail_img+
-        						'<div class="strategy-txt"> '+
-        							'<p>'+
-        							'&nbsp;'+
-        							'</p>'+
-        							'<h2>'+
-        								detail_title +
-                                    '</h2>'+
-        							'<p style="text-indent:1em;">'+
-        								detail_txt+
-        							'</p>'+
-        						'</div>'+
-        						
-        					 '</div>';        			
-        		});
-        		getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
-        		$(".strategy").html(getHtml);
-        	}
-        })
-    });
-
-    $("#select4").on("click",function(){
-    	var getHtml = "";
-        history.replaceState(" "," ","question?cid=125&q=");
-    	//getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">提问时间：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">最近7天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">最近30天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">6个月内</a><a href="javascript:;" class="btn btn-clean btn-xs relative">1年内</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">回答数：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">只看有回复</a></tbody></table>'
-        getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
-        <td><span class="btn btn-danger btn-xs relative">全部</span>\
-        <a href="javascript:gettourquestion(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
-        <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
-        <a href="javascript:gettourquestion(180);" class="btn btn-clean btn-xs relative">6个月内</a>\
-        <a href="javascript:gettourquestion(365);" class="btn btn-clean btn-xs relative">1年内</a>\
-        </td></tr></tbody></table>';
-    	 $.ajax({
-        	type:"get",
-        	url:"/ajax/question?cid=125",
-        	success:function(dataResult){
-        		$.each(dataResult,function(k,v){
-        			var detail_title = v.title;
-        			var detail = v.detail.split("</p><p>");
-        			var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
-        			var detail_txt = detail[1] + detail[2] + detail[3];
-        		
-        			getHtml +='<div class="strategy-content">'+
-        						detail_img+
-        						'<div class="strategy-txt"> '+
-        							'<p>'+
-        							'&nbsp;'+
-        							'</p>'+
-        							'<h2>'+
-                                    '<a href="/mod/question/'+v.id+'.html>'+
-        								detail_title +
-        							'</a></h2>'+
-        							'<p style="text-indent:1em;">'+
-        								detail_txt+
-        							'</p>'+
-        						'</div>'+
-                              '</div>';        			
-        		});
-        		getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
-        		$(".qsn-awr").html(getHtml);
-        	}
-        })
-    });
-*/
     function gettourquestion(days=0){
         var searchword = GetQueryString("q");
         console.log(days);
         var getHtml = "";
-        //getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">提问时间：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">最近7天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">最近30天</a><a href="javascript:;" class="btn btn-clean btn-xs relative">6个月内</a><a href="javascript:;" class="btn btn-clean btn-xs relative">1年内</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">回答数：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">只看有回复</a></tbody></table>'
         if(days==7){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td class="the-td">发帖时间：</td>\
                         <td><a href="javascript:gettourquestion();" class="btn btn-clean btn-xs relative">全部</a>\
                         <span class="btn btn-danger btn-xs relative">最近7天</span>\
                         <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
@@ -690,7 +751,7 @@ table .btn{
             //history.replaceState(" "," ","question?cid=125&day=7");
         }else if(days==30){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td class="the-td">发帖时间：</td>\
                         <td><a href="javascript:gettourquestion();" class="btn btn-clean btn-xs relative">全部</a>\
                         <a href="javascript:gettourquestion(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
                         <span class="btn btn-danger btn-xs relative">最近30天</span>\
@@ -700,7 +761,7 @@ table .btn{
             //history.replaceState(" "," ","question?cid=125&day=30");
         }else if(days==180){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td class="the-td">发帖时间：</td>\
                         <td><a href="javascript:gettourquestion();" class="btn btn-clean btn-xs relative">全部</a>\
                         <a href="javascript:gettourquestion(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
                         <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
@@ -710,7 +771,7 @@ table .btn{
             //history.replaceState(" "," ","question?cid=125&day=180");
         }else if(days==365){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td class="the-td">发帖时间：</td>\
                         <td><a href="javascript:gettourquestion();" class="btn btn-clean btn-xs relative">全部</a>\
                         <a href="javascript:gettourquestion(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
                         <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
@@ -720,7 +781,7 @@ table .btn{
             //history.replaceState(" "," ","question?cid=125&day=365");
         }else{
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
-                        <td style="width: 80px;text-align:justify;text-align-last:justify;line-height:1.6;">发帖时间：</td>\
+                        <td class="the-td">发帖时间：</td>\
                         <td><span class="btn btn-danger btn-xs relative">全部</span>\
                         <a href="javascript:gettourquestion(7);" class="btn btn-clean btn-xs relative">最近7天</a>\
                         <a href="javascript:gettourquestion(30);" class="btn btn-clean btn-xs relative">最近30天</a>\
@@ -734,30 +795,45 @@ table .btn{
             type:"get",
             url:"/ajax/question?cid=125&day="+days+"&q="+searchword,
             success:function(dataResult){
+            	//console.log(dataResult);
                 $.each(dataResult.data,function(k,v){
-                    var detail_title = v.title;
-                    var detail = v.detail.split("</p><p>");
-                    var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
-                    var detail_txt = detail[1] + detail[2] + detail[3];
-                
-                    getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
-                                detail_img+
+                	if(0==v.imgurl.length){
+                    	getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
                                 '<div class="strategy-txt"> '+
                                     '<p>'+
                                     '&nbsp;'+
                                     '</p>'+
-
                                     '<h2>'+
-                                        detail_title +
+                                        v.title +
                                     '</h2>'+
-                                    '<p style="text-indent:1em;">'+
-                                        detail_txt+
+                                    '<p>'+
+                                        v.detailtext+
                                     '</p>'+
                                 '</div>'+
-                             '</div></a>';                  
+                                '</div></a>';  
+
+                	}else{
+                    	getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
+                                '<img src='+v.imgurl+'>'+
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.detailtext+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';   
+                	}
+                	          
                 });
                 if(dataResult.currentPage < dataResult.totalPages){
-                    getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
+                    getHtml +='<div class="text-center load-more">' + '<a href="javascript:;">加载更多</a>'+'</div>';
+                }else{
+                    getHtml +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
                 }
                 $(".qsn-awr").html(getHtml);
             }
@@ -769,6 +845,8 @@ table .btn{
     	var hrf=a.attr("href")
     	window.open(hrf);
     });
+
+    
 
 </script>
 {% endblock %}

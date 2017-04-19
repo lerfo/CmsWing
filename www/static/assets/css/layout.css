@@ -1150,7 +1150,7 @@ section.page-header {
   
 	background-color: rgba(0,0,0,0.05);
     
-	border-bottom: rgba(0,0,0,0.05) 1px solid;
+	/*border-bottom: rgba(0,0,0,0.05) 1px solid;*/
 
 	-webkit-transition: all 0s;
 	   -moz-transition: all 0s;

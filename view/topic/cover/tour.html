@@ -79,6 +79,12 @@
         padding-right: 5px;
         height: 433px;
     }
+    .peanutRoll_a{
+        color: #565656;
+    }
+    .peanutRoll_a:hover{
+        color: #1eb6c1; 
+    }
     
 </style>
 {% endblock %}
@@ -95,7 +101,7 @@
                 <div class="fullwidthbanner" data-height="600" data-shadow="3" data-navigationStyle="">
                     <ul class="">
                         <!-- SLIDE  -->
-                        <li >
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off">
                             <img src="/static/assets/images/slider_pic1.jpg" data-lazyload="/static/assets/images/slider_pic1.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
 
                         </li>
@@ -140,7 +146,7 @@
         <header class="section-header margin-bottom-20">
             <div class="heading-title">
                 <h3>明星产品</h3>
-                <a href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
+                <a class="peanutRoll_a" href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
             </div>
         </header>
         <div  class=" portfolio-title-over">
@@ -153,7 +159,7 @@
                     <li class="mix development col-md-3 col-sm-3 destination-item"><!-- item -->
 
                         <div class="item-box thumbnail">
-                        <a href="{{v.name|get_url(v.id)}}">
+                        <a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
                             <figure style="height: 373px;">
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
@@ -195,8 +201,8 @@
     <div class="container portfolio">
         <header class="section-header margin-bottom-20">
             <div class="heading-title">
-                <h3>学术类</h3>
-                <a href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
+                <h3 style="background-color: rgba(239,247,249,0.9)">学术类</h3>
+                <a class="peanutRoll_a" href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
             </div>
         </header>
         <div  class=" portfolio-title-over">
@@ -209,7 +215,7 @@
                     <li class="mix development col-md-3 col-sm-3 studytour-item"><!-- item -->
 
                         <div class="item-box thumbnail">
-                        <a href="{{v.name|get_url(v.id)}}">
+                        <a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
                             <figure style="height: 373px;">
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
@@ -256,7 +262,7 @@
         </div>
         
         <div class="more-info text-center margin-top-10">
-            <a href="/search{{http.config('view.file_ext')}}?q=&value=132-0-0-17-tourfeature_1|tourtype_0|tourdest_0|tourdays_0|tourmonth_0">点击查看更多》</a>
+            <a class="peanutRoll_a" href="/search{{http.config('view.file_ext')}}?q=&value=132-0-0-17-tourfeature_1|tourtype_0|tourdest_0|tourdays_0|tourmonth_0">点击查看更多》</a>
         </div>
         
     </div>
@@ -269,7 +275,7 @@
         <header class="section-header margin-bottom-20">
             <div class="heading-title">
                 <h3>特色类</h3>
-                <a href="" id="community-change">换一换 <img src="/static/assets/images/change.png"></a>
+                <a class="peanutRoll_a" href="" id="community-change">换一换 <img src="/static/assets/images/change.png"></a>
             </div>
         </header>
         <div  class=" portfolio-title-over">
@@ -280,8 +286,8 @@
                     {% for v in list %}
                     <li class="mix development col-md-4 col-sm-4 community-item"><!-- item -->
 
-                        <div class="item-box thumbnail">
-                        <a href="{{v.name|get_url(v.id)}}">
+                        <div class="item-box thumbnail" title="{{v.title}}">
+                        <a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}">
                             <figure style="height: 373px;">
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
@@ -327,7 +333,7 @@
             </div>
         </div>
         <div class="more-info text-center margin-top-10">
-            <a href="/search.html?q=&value=132-0-0-17-tourfeature_2|tourtype_0|tourdest_0|tourdays_0|tourmonth_0">点击查看更多》</a>
+            <a class="peanutRoll_a" href="/search.html?q=&value=132-0-0-17-tourfeature_2|tourtype_0|tourdest_0|tourdays_0|tourmonth_0">点击查看更多》</a>
         </div>
 
     </div>

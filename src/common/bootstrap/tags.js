@@ -198,7 +198,7 @@
 }
 /**
  * 获取首页社区帖子
- * {% topic data = "data"%} 
+ * {% question data = "data"%} 
  * question:标签名称
  * data:接受返回数据的变量名称，例: data = "list"
  * page: 设置查询开始页面，从1开始，默认为0，例：page = "2"

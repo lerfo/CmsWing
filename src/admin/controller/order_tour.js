@@ -13,8 +13,6 @@ export default class extends Base {
     init(http){
         super.init(http);
         this.tactive = "order"
-        this.status_desc=['','未提交','已提交','已取消','已付款','','卖家已确认','待成团','已成团','已作废','请求退款','确认退款','退款中','退款成功','','已评价'];
-        //订单状态 status 1,未提交(草稿)2:已提交(待付款)，3:已取消,4已付款，5,待卖家确认，6:卖家已确认，7:待成团，8:已成团，9：已作废， 10:请求退款,11:确认退款，12,:退款中，13退款成功 14:待评价，15:已评价
     }
   /**
    * index action
@@ -45,7 +43,8 @@ export default class extends Base {
         //console.log(data.data);
         this.active="admin/order/list";
         for(let val of data.data){
-            val.status_desc = this.status_desc[val.status];
+            let status_desc=['','未提交','已提交','已取消','已付款','待卖家确认','卖家已确认','待成团','已成团','','请求退款','确认退款','退款中','退款成功','待评价','已评价'];
+            val.status_desc = status_desc[val.status];
             switch (val.payment){
                 case 100:
                     val.channel = "预付款支付";
@@ -61,113 +60,6 @@ export default class extends Base {
         this.meta_title = "订单管理";
         return this.display();
   }
-
-    /**
-     * 备注订单
-     */
-    async remarkAction(){
-        if(this.isPost()){
-            let id = this.post("id");
-            let admin_remark = this.post("admin_remark");
-            let remark =await this.model("order_tour").where({id:id}).update({admin_remark:admin_remark});
-            if(remark){
-                return this.success({name:"操作成功！",url:this.http.header["referer"]})
-            }else {
-                return this.fail("操作失败！")
-            }
-
-        }else {
-            let id = this.get("id");
-            this.assign("id",id);
-            this.meta_title = "备注订单";
-            return this.display();
-        }
-    }
-
-    /**
-     * 作废订单
-     */
-    async voidAction(){
-        if(this.isPost()){
-            let id = this.post("id");
-            let admin_remark = this.post("admin_remark");
-            let voids =await this.model("order_tour").where({id:id}).update({status:9,admin_remark:admin_remark});
-            if(voids){
-                //释放库存
-                await this.model("order_tour").stock(id,false);
-                return this.success({name:"操作成功！",url:this.http.header["referer"]})
-            }else {
-                return this.fail("操作失败！")
-            }
-
-        }else {
-            let id = this.get("id");
-            this.assign("id",id);
-            this.meta_title = "取消订单";
-            return this.display();
-        }
-    }
-    /**
-     * 审核确认订单
-     */
-    async auditAction(){
-        if(this.isPost()){
-            let id = this.post("id");
-            let admin_remark = this.post("admin_remark");
-            let audit =await this.model("order_tour").where({id:id}).update({status:6,admin_remark:admin_remark});
-            if(audit){
-                return this.success({name:"审核成功！",url:this.http.header["referer"]})
-            }else {
-                return this.fail("审核失败！")
-            }
-
-        }else {
-            let id = this.get("id");
-            this.assign("id",id);
-            this.meta_title = "审核订单";
-            return this.display();
-        }
-    }
-
-    /**
-     * 完成订单 已成团
-     */
-    async finishAction(){
-        if(this.isPost()){
-            let id = this.post("id");
-            let admin_remark = this.post("admin_remark");
-            let finish =await this.model("order_tour").where({id:id}).update({status:8,admin_remark:admin_remark});
-            if(finish){
-                return this.success({name:"操作成功！",url:this.http.header["referer"]})
-            }else {
-                return this.fail("操作失败！")
-            }
-
-        }else {
-            let id = this.get("id");
-            this.assign("id",id);
-            this.meta_title = "完成订单";
-            return this.display();
-        }
-    }
-
-    /**
-     * 删除订单
-     */
-    async delAction(){
-        let id = this.get("id");
-        //取消的订单才能删除
-        let res =await this.model("order_tour").where({id:id,status:3}).delete();
-        if(res){
-            return this.success({name:"删除成功！"});
-        }else {
-            return this.fail("删除失败！");
-        }
-    }
-
-///////////////////////////////////////////////////////////////////////////////
-
-
   //订单列表
   async listoldAction(){
         let status = this.get("status");
@@ -204,12 +96,107 @@ export default class extends Base {
         return this.display();
   }
 
+    /**
+     * 审核订单
+     */
+    async auditAction(){
+        if(this.isPost()){
+            let id = this.post("id");
+            let admin_remark = this.post("admin_remark");
+            let audit =await this.model("order").where({id:id}).update({status:3,admin_remark:admin_remark});
+            if(audit){
+                return this.success({name:"审核成功！",url:this.http.header["referer"]})
+            }else {
+                return this.fail("审核失败！")
+            }
 
+        }else {
+            let id = this.get("id");
+            this.assign("id",id);
+            this.meta_title = "审核订单";
+            return this.display();
+        }
+    }
 
+    /**
+     * 删除订单
+     */
+    async delAction(){
+        let id = this.get("id");
+        //作废的订单才能删除
+        let res =await this.model("order").where({id:id,status:6}).delete();
+        if(res){
+            return this.success({name:"删除成功！"});
+        }else {
+            return this.fail("删除失败！");
+        }
+    }
+    /**
+     * 作废订单
+     */
+    async voidAction(){
+        if(this.isPost()){
+            let id = this.post("id");
+            let admin_remark = this.post("admin_remark");
+            let voids =await this.model("order").where({id:id}).update({status:6,admin_remark:admin_remark});
+            if(voids){
+                //释放库存
+                await this.model("order").stock(id,false);
+                return this.success({name:"操作成功！",url:this.http.header["referer"]})
+            }else {
+                return this.fail("操作失败！")
+            }
 
+        }else {
+            let id = this.get("id");
+            this.assign("id",id);
+            this.meta_title = "审核订单";
+            return this.display();
+        }
+    }
+    /**
+     * 完成订单
+     */
+    async finishAction(){
+        if(this.isPost()){
+            let id = this.post("id");
+            let admin_remark = this.post("admin_remark");
+            let finish =await this.model("order").where({id:id}).update({status:4,admin_remark:admin_remark});
+            if(finish){
+                return this.success({name:"操作成功！",url:this.http.header["referer"]})
+            }else {
+                return this.fail("操作失败！")
+            }
 
+        }else {
+            let id = this.get("id");
+            this.assign("id",id);
+            this.meta_title = "完成订单";
+            return this.display();
+        }
+    }
 
+    /**
+     * 备注订单
+     */
+    async remarkAction(){
+        if(this.isPost()){
+            let id = this.post("id");
+            let admin_remark = this.post("admin_remark");
+            let remark =await this.model("order").where({id:id}).update({admin_remark:admin_remark});
+            if(remark){
+                return this.success({name:"操作成功！",url:this.http.header["referer"]})
+            }else {
+                return this.fail("操作失败！")
+            }
 
+        }else {
+            let id = this.get("id");
+            this.assign("id",id);
+            this.meta_title = "备注订单";
+            return this.display();
+        }
+    }
     /**
      * 查看订单
      * @returns {*}
@@ -246,7 +233,7 @@ export default class extends Base {
                order.payment = "货到付款";
                break;
            default:
-               //order.payment = await this.model("pingxx").where({id:order.payment}).getField("title",true);
+               order.payment = await this.model("pingxx").where({id:order.payment}).getField("title",true);
        }
        this.assign("order",order);
        //获取 快递公司
@@ -336,7 +323,7 @@ export default class extends Base {
                     order.payment = "货到付款";
                     break;
                 default:
-                    //order.payment = await this.model("pingxx").where({id:order.payment}).getField("title",true);
+                    order.payment = await this.model("pingxx").where({id:order.payment}).getField("title",true);
             }
             this.assign("order",order);
             //获取 快递公司

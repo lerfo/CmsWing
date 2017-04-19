@@ -11,6 +11,9 @@ import pagination from 'think-pagination';
 export default class extends Base {
   init(http){
     super.init(http);
+    this.status_desc=['','未提交','已提交','已取消','已付款','','卖家已确认','待成团','已成团','已作废','请求退款','确认退款','退款中','退款成功','','已评价'];
+    //订单状态 status 1,未提交(草稿)2:已提交待确认待付款，3:已取消,4已付款待确认，5,待卖家确认，6:卖家已确认，7:待成团待出行，8:已成团待评价，9：已作废， 10:请求退款,11:确认退款，12,:退款中，13退款成功 14:待评价，15:已成团已评价
+
   }
   /**
    * index action 预定产品
@@ -349,8 +352,7 @@ export default class extends Base {
     }
     //支付状态 pay_stayus 0:未付款 ,1:已付款, 2：退款中，3:已退款
     orderinfo.pay_status = 0;
-    let status_desc=['','未提交','已提交','已取消','已付款','待卖家确认','卖家已确认','待成团','已成团','','请求退款','确认退款','退款中','退款成功','待评价','已评价'];
-    //订单状态 status 1,未提交(草稿)2:已提交(待付款)，3:已取消,4已付款，5,待卖家确认，6:卖家已确认，7:待成团，8:已成团， 10:请求退款,11:确认退款，12,:退款中，13退款成功 14:待评价，15:已评价
+    
     if(data.temp_order == 1){
       orderinfo.status = 1;
     }else{
@@ -473,8 +475,8 @@ export default class extends Base {
       val.province = await this.model("area").where({id: val.province}).getField("name", true);
       val.city = await this.model("area").where({id: val.city}).getField("name", true);
       val.county = await this.model("area").where({id: val.county}).getField("name", true);
-      let status_desc=['','未提交','已提交','已取消','已付款','待卖家确认','卖家已确认','待成团','已成团','','请求退款','确认退款','退款中','退款成功','待评价','已评价'];
-      val.status_desc = status_desc[val.status];
+      //let status_desc=['','未提交','已提交','已取消','已付款','待卖家确认','卖家已确认','待成团','已成团','已作废','请求退款','确认退款','退款中','退款成功','待评价','已评价'];
+      val.status_desc = this.status_desc[val.status];
       //未付款订单倒计时
       if (val.pay_status == 0) {
         val.end_time = date_from(val.create_time + (Number(this.setup.ORDER_DELAY) * 60000))

@@ -151,6 +151,12 @@
 section#slider input{
     background-color: #fff;
 }
+.peanutRoll_a{
+	color: #565656;
+}
+.peanutRoll_a:hover{
+	color:#1eb6c1; 
+}
 </style>
 {% endblock %}
 {% block content %}
@@ -166,7 +172,7 @@ section#slider input{
                 <div class="fullwidthbanner" data-height="668" data-shadow="3" data-navigationStyle="">
                     <ul class="">
                         <!-- SLIDE  -->
-                        <li  >
+                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
                             <img src="/static/assets/images/slider_pic1.jpg" data-lazyload="/static/assets/images/slider_pic1.jpg" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
 
                         </li>
@@ -212,7 +218,7 @@ section#slider input{
 		<header class="section-header margin-bottom-20">
 			<div class="heading-title">
 				<h3>热门</h3>
-				<a href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
+				<a class="peanutRoll_a" href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
 			</div>
 		</header>
 		<div  class=" portfolio-title-over">
@@ -226,7 +232,7 @@ section#slider input{
 					<li class="mix development col-md-3 col-sm-3 destination-item-{{i}}"><!-- item -->
 
 						<div class="item-box thumbnail">
-						<a href="{{v.name|get_url(v.id)}}">
+						<a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
 							<figure>
 								<span class="item-hover">
 									<span class="overlay dark-5"></span>
@@ -286,8 +292,8 @@ section#slider input{
 	<div class="container portfolio" style="width:1178px">
 		<header class="section-header margin-bottom-20">
 			<div class="heading-title">
-				<h3>游学</h3>
-				<a href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
+				<h3 style="background-color:rgba(239,247,249,0.9) ">游学</h3>
+				<a class="peanutRoll_a" href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
 			</div>
 		</header>
 		<div  class=" portfolio-title-over">
@@ -300,7 +306,7 @@ section#slider input{
 					<li class="mix development col-md-3 col-sm-3 studytour-item-{{i}}"><!-- item -->
 
 						<div class="item-box thumbnail">
-						<a href="{{v.name|get_url(v.id)}}">
+						<a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
 							<figure>
 								<span class="item-hover">
 									<span class="overlay dark-5"></span>
@@ -344,7 +350,7 @@ section#slider input{
 			</div>
 		</div>
 		<div class="more-info text-center margin-top-10">
-			<a href="/search{{http.config('view.file_ext')}}">点击查看更多》</a>
+			<a class="peanutRoll_a" href="/search{{http.config('view.file_ext')}}">点击查看更多》</a>
 		</div>
 
 	</div>
@@ -357,7 +363,7 @@ section#slider input{
 		<header class="section-header margin-bottom-20">
 			<div class="heading-title">
 				<h3>社区</h3>
-				<a href="" id="community-change">换一换 <img src="/static/assets/images/change.png"></a>
+				<a class="peanutRoll_a" href="" id="community-change">换一换 <img src="/static/assets/images/change.png"></a>
 			</div>
 		</header>
 		<div  class=" portfolio-title-over">
@@ -374,7 +380,7 @@ section#slider input{
 					<li class="mix development {% if i == 4 %}col-md-12 col-sm-12{% else %}col-md-4 col-sm-4{% endif %} community-item-{{i}}"><!-- item -->
 
 						<div class="item-box thumbnail">
-						<a href="/mod/question/{{v.id}}{{http.config('view.file_ext')}}">
+						<a class="peanutRoll_a" href="/mod/question/{{v.id}}{{http.config('view.file_ext')}}" title="{{v.title}}">
 							<figure>
 								<span class="item-hover">
 									<span class="overlay dark-5"></span>
@@ -414,7 +420,7 @@ section#slider input{
 			</div>
 		</div>
 		<div class="more-info text-center margin-top-10">
-			<a href="/question">点击查看更多》</a>
+			<a class="peanutRoll_a" href="/question">点击查看更多》</a>
 		</div>
 
 	</div>

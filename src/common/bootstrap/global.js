@@ -825,8 +825,11 @@ global.formatprice = function(price) {
 }
 //获取价格格式化
 global.get_price_format = function(price, type) {
+    //console.log("get_price_format:"+price+",type:"+type);
+    if(think.isEmpty(price)){
+        return '';
+    }
     let pr = JSON.parse(price);
-
     if (1 == type) {
         if (think.isNumber(pr.present_price)) {
             pr.present_price = pr.present_price.toString();
@@ -848,6 +851,7 @@ global.get_price_format = function(price, type) {
         }
 
     }
+    //console.log("get_price_format return:"+price);
     return price;
 }
 //获取价格不格式化
