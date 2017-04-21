@@ -49,170 +49,7 @@ export default class extends Base {
  * isstu:1:获取副表内容,2:只从主表拿数据,默认只从主表拿
  * group:分组id，单个分组：group="1",多个分组 :group="1,2,3,4",不写调取全部分组。
  */
-async topicAction(){
-        let args = this.post();
-        console.log(args);
-        let where = {'status':1};
-        let data = think.isEmpty(args.data) ? "data" : args.data;
-        let limit = think.isEmpty(args.limit) ? "10" : args.limit;
-        let page = think.isEmpty(args.page) ? "0" : args.page;
-        if(args.ischild != 1){
-            where = think.extend({},where,{'pid':0});
-        }
-        if(think.isEmpty(args.cid)){
-          return this.json('cid is none');
-        }
-        //获取当前分类的所有子栏目
-        if(args.issub!=2){
-            if(!think.isEmpty(args.cid)){
-                let cids = `${args.cid}`;
-                let cidarr = []
-                for (let v of cids.split(",")){
-                    let subcate = await think.model('category',think.config("db")).get_sub_category(v);
-                    cidarr = cidarr.concat(subcate)
-                    cidarr.push(Number(v))
-                }
-
-                args.cid=unique(cidarr).sort();
-            }
-        }
-        console.log('topic().args.cid:'+args.cid)
-        //subcate.push(cate.id);
-        let cid = think.isEmpty(args.cid) ? false :{'category_id':['IN',args.cid]};
-        if(cid){
-            where = think.extend({},where,cid);
-        }
-        //分组
-        if( !think.isEmpty(args.group)){
-            where = think.extend(where,{'group_id':['IN',args.group]});
-        }
-        let type='update_time DESC';
-        if(!think.isEmpty(args.type)){
-            if(args.type=="hot"){
-              type="view DESC"
-            }else if(args.type == "level"){
-              type="level DESC"
-            }
-        }
-        //推荐
-        if(!think.isEmpty(args.position)){
-            where = think.extend(where,{position:args.position})
-        }
-        //是否缩略图
-        if(!think.isEmpty(args.ispic)){
-            if(args.ispic ==1){
-                where = think.extend(where,{cover_id:['>',0]});
-            }else if(args.ispic == 2){
-                where = think.extend(where,{cover_id:0});
-            }
-        }
-
-        console.log(where);
-        let topic = await think.model('document', think.config("db")).where(where).page(page,limit).order(type).select();
-        console.log(topic);
-        //副表数据
-        if(args.isstu == 1){
-            let topicarr = []
-            for(let v of topic){
-                let table =await think.model("model",think.config("db")).get_table_name(v.model_id);
-                let details = await think.model(table,think.config("db")).find(v.id);
-                topicarr.push(think.extend({},v,details));
-            }
-            topic = topicarr;
-        }
-        
-        return this.json(topic);
-    }
-
-/**
- * 获取首页社区帖子
- * {% topic data = "data"%} 
- * question:标签名称
- * data:接受返回数据的变量名称，例: data = "list"
- * page: 设置查询开始页面，从1开始，默认为0，例：page = "2"
- * limit: 设置查询结果的条数，例: limit="10",limit="3,10"
- * cid: 栏目id ,单个栏目 cid="1",多个栏目 cid = "1,2,3,4" , 不写调取全部栏目
- * order: 排序方式,默认按更新时间排序
- * 示例//{%question data="list",has_img="1",order="is_recommend DESC,update_time DESC",limit="3",page="2" %}
- */
-async questionAction(){
-        let args = this.post();
-        console.log(args);
-        let where = {};//{'status':1};
-        let data = think.isEmpty(args.data) ? "data" : args.data;
-        let limit = think.isEmpty(args.limit) ? "4" : args.limit;
-        let page = think.isEmpty(args.page) ? "0" : args.page;
-        //帖子包含图片
-        if(args.has_img == 1){
-            where = think.extend({},where,{'has_img':1});
-        }
-        if(args.cid){
-            where = think.extend({},where,{'category_id':args.cid});
-        }
-        //排序
-        let type='update_time DESC';
-        if(!think.isEmpty(args.order)){
-            type = args.order;
-        }
-        //0.获取查询关键字
-        let searchword = [];
-        let q = this.get("q");
-        
-        if(!think.isEmpty(q)){
-          let segment = new Segment();
-          // 使用默认的识别模块及字典，载入字典文件需要1秒，仅初始化时执行一次即可
-          await segment.useDefault();
-          // 开始分词
-          let segment_q= await segment.doSegment(q, {
-              simple: true,
-              stripPunctuation: true
-          });
-          for (let k=0; k<segment_q.length ;k++){
-              searchword.push("%"+segment_q[k]+"%");
-          }
-
-          if(searchword.length > 0){
-            where = think.extend({},where,{'title':["like",searchword]});
-          }
-        }
-        console.log(searchword);
-        //查询时间
-        let days = this.get("day");
-        if(!think.isEmpty(days) && days>0){
-          let search_time = new Date().getTime() - 86400000*days;
-          where = think.extend({},where,{'create_time':['>',search_time]});
-        }
-        //查询分类
-        let cid = this.get("cid");
-        if(!think.isEmpty(cid)){
-          where = think.extend({},where,{'category_id':cid});
-        }
-
-        
-        console.log('page:'+page);
-        console.log(where);
-        let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).countSelect();
-        //console.log(questions);
-        if(!think.isEmpty(questions.data)){
-          //前端字符显示处理
-          for(let val of questions.data){
-            val.imgurl = await img_text_view(val.detail,233,150);
-            val.detailtext = await delhtmltags(val.detail);
-            if(think.isEmpty(val.detailtext)){
-              val.detailtext = "";
-            }
-            if(val.detailtext && val.detailtext.length >90){
-              val.detailtext = val.detailtext.substring(0,90);
-            }
-            //console.log(val.detailtext);
-          }
-        }
-        //console.log(questions)
-        return this.json(questions);
-    }
-
-  //列表页[核心]
-async searchAction() {
+ async topicAction() {
 
     //跨域
     let method = this.http.method.toLowerCase();
@@ -240,9 +77,9 @@ async searchAction() {
           searchword.push("%"+segment_q[k]+"%");
       }
     }
-
     //1.获取分类栏目
-    let get = this.get('value') || 'youxue'; //默认显示游学搜索
+    let get = this.get("value") ? this.get("value") : "youxue" ;//this.get('value') || 'youxue'; //默认显示游学搜索
+
     console.log('args:'+get);
     let id=0;
     let query = get.split("-");
@@ -494,4 +331,184 @@ async searchAction() {
     return this.json(data);
 
   }
+ /*
+async topicAction(){
+        let args = this.post();
+        console.log(args);
+        let where = {'status':1};
+        let data = think.isEmpty(args.data) ? "data" : args.data;
+        let limit = think.isEmpty(args.limit) ? "10" : args.limit;
+        let page = think.isEmpty(args.page) ? "0" : args.page;
+        if(args.ischild != 1){
+            where = think.extend({},where,{'pid':0});
+        }
+        if(think.isEmpty(args.cid)){
+          return this.json('cid is none');
+        }
+        //获取当前分类的所有子栏目
+        if(args.issub!=2){
+            if(!think.isEmpty(args.cid)){
+                let cids = `${args.cid}`;
+                let cidarr = []
+                for (let v of cids.split(",")){
+                    let subcate = await think.model('category',think.config("db")).get_sub_category(v);
+                    cidarr = cidarr.concat(subcate)
+                    cidarr.push(Number(v))
+                }
+
+                args.cid=unique(cidarr).sort();
+            }
+        }
+        console.log('topic().args.cid:'+args.cid)
+        //subcate.push(cate.id);
+        let cid = think.isEmpty(args.cid) ? false :{'category_id':['IN',args.cid]};
+        if(cid){
+            where = think.extend({},where,cid);
+        }
+        //分组
+        if( !think.isEmpty(args.group)){
+            where = think.extend(where,{'group_id':['IN',args.group]});
+        }
+        let type='update_time DESC';
+        if(!think.isEmpty(args.type)){
+            if(args.type=="hot"){
+              type="view DESC"
+            }else if(args.type == "level"){
+              type="level DESC"
+            }
+        }
+        //推荐
+        if(!think.isEmpty(args.position)){
+            where = think.extend(where,{position:args.position})
+        }
+        //是否缩略图
+        if(!think.isEmpty(args.ispic)){
+            if(args.ispic ==1){
+                where = think.extend(where,{cover_id:['>',0]});
+            }else if(args.ispic == 2){
+                where = think.extend(where,{cover_id:0});
+            }
+        }
+
+        console.log(where);
+        let topic = await think.model('document', think.config("db")).where(where).page(page,limit).order(type).select();
+        console.log(topic);
+        //副表数据
+        if(args.isstu == 1){
+            let topicarr = []
+            for(let v of topic){
+                let table =await think.model("model",think.config("db")).get_table_name(v.model_id);
+                let details = await think.model(table,think.config("db")).find(v.id);
+                topicarr.push(think.extend({},v,details));
+            }
+            topic = topicarr;
+        }
+        
+        return this.json(topic);
+    }
+*/
+/**
+ * 获取社区帖子列表
+ * limit 每页条数
+ * page:页数 从1开始
+ * has_img：是否有图片
+ * order:排序方式 0：默认按时间排序，1：按热度排序，2：按推荐排序，3：按未回答排序
+ * q: 搜索文字
+ * day: 发表时间 
+ * cid: 帖子分类
+ * 
+ */
+async questionAction(){
+        let args = this.post();
+        console.log(this.get("limit"));
+        let where = {};//{'status':1};
+        //let data = think.isEmpty(args.data) ? "data" : args.data;
+        let limit = this.get("limit") ? this.get("limit"): 1;
+        let page = this.get("page") ? this.get("page") : 0 ;
+        let has_img = this.get("has_img") ? this.get("has_img") : 0 ;
+        console.log("limit:"+limit+",page:"+page);
+        //帖子包含图片
+        if(has_img == 1){
+            where = think.extend({},where,{'has_img':1});
+        }
+
+        //排序
+        let odrerMap = {};
+        let type = this.get("order") ? this.get("order") : 0 ;
+        type = Number(type);
+        switch (type){
+          case 1://按热度排序
+            odrerMap.popular_value = 'DESC';
+            break;
+          case 2://按推荐排序
+            map.is_recommend = 1;
+              odrerMap.id='DESC';
+            break;
+          case 3://等待回复
+            map.answer_count = 0;
+              odrerMap.id='DESC';
+            break;
+          default:
+            odrerMap.update_time = 'DESC';
+        }
+
+
+        //0.获取查询关键字
+        let searchword = [];
+        let q = this.get("q");
+        
+        if(!think.isEmpty(q)){
+          let segment = new Segment();
+          // 使用默认的识别模块及字典，载入字典文件需要1秒，仅初始化时执行一次即可
+          await segment.useDefault();
+          // 开始分词
+          let segment_q= await segment.doSegment(q, {
+              simple: true,
+              stripPunctuation: true
+          });
+          for (let k=0; k<segment_q.length ;k++){
+              searchword.push("%"+segment_q[k]+"%");
+          }
+
+          if(searchword.length > 0){
+            where = think.extend({},where,{'title':["like",searchword]});
+          }
+        }
+        console.log(searchword);
+        //查询时间
+        let days = this.get("day");
+        if(!think.isEmpty(days) && days>0){
+          let search_time = new Date().getTime() - 86400000*days;
+          where = think.extend({},where,{'create_time':['>',search_time]});
+        }
+        //查询分类
+        let cid = this.get("cid");
+        if(!think.isEmpty(cid)){
+          where = think.extend({},where,{'category_id':cid});
+        }
+
+        
+        console.log('page:'+page);
+        console.log(where);
+        let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(odrerMap).countSelect();
+        //console.log(questions);
+        if(!think.isEmpty(questions.data)){
+          //前端字符显示处理
+          for(let val of questions.data){
+            val.imgurl = await img_text_view(val.detail,233,150);
+            val.detailtext = await delhtmltags(val.detail);
+            if(think.isEmpty(val.detailtext)){
+              val.detailtext = "";
+            }
+            if(val.detailtext && val.detailtext.length >90){
+              val.detailtext = val.detailtext.substring(0,90);
+            }
+            //console.log(val.detailtext);
+          }
+        }
+        //console.log(questions)
+        return this.json(questions);
+    }
+
+
 }

@@ -143,18 +143,18 @@ export default class extends Base {
         let addrlist = await this.model("address").where({user_id:this.user.uid}).order("id DESC").select();
         for(let val of addrlist){
           let credentials_name = ['护照','港澳通行证','台湾通行证'];
-          let traveller_type = ['成人','儿童','婴儿'];
+          let traveller_type = ['青少年','儿童','婴儿'];
           val.credentials_type_name = credentials_name[val.credentials_type];
           val.type_name = traveller_type[val.type];
           //val.province = await this.model("area").where({id:val.province}).getField("name",true);
           //val.city = await this.model("area").where({id:val.city}).getField("name",true);
           //val.county = await this.model("area").where({id:val.county}).getField("name",true);
         }
-        return this.success({name:'操作成功',data:addrlist,type:data.type});
+        return this.success(addrlist);
       }
 
     }else{
-      return this.fail( '操作失败！');
+      return this.fail('操作失败！');
 
     }
 
@@ -181,7 +181,7 @@ export default class extends Base {
       if (checkMobile(this.userAgent())) {
         return this.success({name:'删除成功',url:this.post("resurl")});
       } else {
-        return this.success({name:'删除成功！',data:addrlist});
+        return this.success('删除成功');
       }
 
     }else{

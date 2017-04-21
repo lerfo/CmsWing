@@ -982,10 +982,10 @@ CLASSES:
                     <ul class="">
 					{% set pic = info.pics|strToArray %}
 					{% for val in pic %}
-                        <!-- SLIDE  -->
-                        <li data-transition="fade" data-slotamount="7" data-masterspeed="300"  data-saveperformance="off" >
-                            <img src="{{val|get_pic('m=3,w=1140,h=450')}}" data-lazyload="{{val|get_pic('m=3,w=1140,h=450')}}" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
-
+                        <!-- SLIDE data-transition: boxslide，boxfade，slotzoom-horizontal，slotslide-horizontal，slotfade-horizontal，slotzoom-vertical，slotslide-vertical，slotfade-vertical，curtain-1，curtain-2，curtain-3，slideleft，slideright，slideup，slidedown，fade-->
+                        <li data-transition="slotfade-vertical" data-slotamount="7" data-masterspeed="0"  data-saveperformance="off" delay="0">
+                            <!--<img src="{{val|get_pic('m=3,w=1140,h=450')}}" data-lazyload="{{val|get_pic('m=3,w=1140,h=450')}}" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />-->
+                            <img data-lazyload="{{val|get_pic('m=3,w=1140,h=450')}}" alt="" data-bgfit="cover" data-bgposition="center center" data-bgrepeat="no-repeat" />
                         </li>
                     {% endfor %}
                     </ul>

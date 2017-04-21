@@ -206,7 +206,8 @@ section.content-section{
 	margin-left: 40px;
 }
 .blog_item_content h2{
-	font-size: 18px;
+	height: 56px;
+	font-size: 16px;
 	color:#121212;
 }
 .blog_item_content p{
@@ -247,6 +248,15 @@ ul#studytour-ul li .item-box {
 }
 .peanutRoll_a:hover{
 	color:#1eb6c1; 
+}
+.btn-dropbox:hover, .btn-dropbox:focus, .btn-dropbox:active, .btn-dropbox.active,.btn-dropbox{
+	background-color: #1eb6c1;
+}
+.btn-dropbox{
+	border: 0px;
+}
+.nav-tabs.nav-bottom-border>li.active>a, .nav-tabs.nav-bottom-border>li.active>a:hover {
+    border-bottom-color: #1eb6c1 !important;
 }
 @media screen and (max-width: 1350px) { /*当屏幕尺寸小于960px时，应用下面的CSS样式*/  
   
@@ -361,47 +371,11 @@ CLASSES:
 </section>
 <!-- / -->
 
- 
-{#
-{%column data="column",pid=breadcrumb[0].id%}
-
-{%if column|length >0%}
-
-<!-- /PAGE HEADER -->
-<section class="padding-bottom-0">
-    <div class="container">
-
-        <div class="row">
-
-            {%for val in column%}
-            <div class="col-md-3">
-
-                <a class="box-icon box-icon-center box-icon-round box-icon-transparent box-icon-large box-icon-content {%if val.id == category.id %}active{%endif%}" href="{{val.url}}{{http.config('view.file_ext')}}" style="padding-top: 35px">
-                    <div class="box-icon-title">
-                        {%if val.icon%}<i><img class="thumbnail rounded" src="{{val.icon|get_pic('m=0')}}" style="width: 65px;height: 65px; margin-top: -1px;margin-left: -1px"></i>{%else%}<i class="et-chat"></i>{%endif%}
-                        <h4 class="nomargin">{{val.name}}</h4>
-                    </div>
-                    <p class="nomargin" style="height: 44px;overflow: hidden">{{val.description|truncate(30, true, "...")}}</p>
-                </a>
-
-            </div>
-            {%endfor%}
-
-        </div>
-
-
-    </div>
-</section>
-{%endif%}
-#}
-
 <!-- -->
 <section class="content-section">
 	
 	<div class="row auto_content" style=""><!-- main content                col-md-3 col-sm-3-->
-		{##}
 		
-
  		<div class=" portfolio  con_pro" style="background-color:transparent;float:left;padding-left:15px">
 			<header class="section-header margin-bottom-0">
 		    	<div class="heading-title margin-bottom-0">
@@ -418,17 +392,20 @@ CLASSES:
 	        <div class="strategy row"  id="page1">
 	        	<!-- 搜索框-->
 				<div class="search-box" style="margin-bottom: 15px;">
-					<form action="/search" method="get" class="widget_search">
-	                    <input type="search" placeholder="  搜索游记攻略" name="q" {% if queryword %} value={{queryword}} {%endif%}class="serch-input" style="color: black;width: 430px;height: 50px;font-size:18px;border: 3px solid #95734D;">
-	                    <button type="submit" style="background-color:#1EB6C1;color: #fff;width:120px;height: 50px;margin-left: 20px;font-size:18px;  ">
+
+					{#<form action="/search" method="get" class="widget_search">#}
+	                    <input id="searchTourNote" type="search" placeholder="  搜索游记攻略" name="q" {% if queryword %} value={{queryword}}{%endif%} class="serch-input" style="color: black;width: 430px;height: 50px;font-size:18px;border: 3px solid #95734D;">
+	                    <button type="submit" style="background-color:#1EB6C1;color: #fff;width:120px;height: 50px;margin-left: 20px;font-size:18px;" onclick="tournote_pagination(1);">
 	                        搜    索
 	                    </button>
-	                </form>
+	                {#</form>#}
 				</div>
 				<!--/搜索框-->			
 	            <!-- LEFT -->
-	            <div class="co col-md-12 col-sm-9" >               
-	                <div class="">
+	            <div class="co col-md-12 col-sm-9 studynote" >   
+	            {#            
+	                <div class="studynote_page1">
+	                	
 	                    {% for val in list %}
 	                    {% set categoryname = val.category_id|get_cate %}
 	                    {% if val.imgs|length >= 1 %}
@@ -442,113 +419,37 @@ CLASSES:
 	                        <div class="blog_item_content blog-item-small-content">
 								<p>&nbsp;</p>
 	                            <h2><a href="/mod/question/{{val.id}}{{http.config('view.file_ext')}}" title="{{val.title}}">{{val.title}}</a></h2>
-	                            {#
-	                            <ul class="blog-post-info list-inline padding-bottom-10">
-	                                <li>
-
-	                                    <a class="" href="{{categoryname.url}}">
-	                                        <span class="label label-light">{{categoryname.name}}</span>
-	                                    </a>
-	                                </li>
-	                                <li>
-	                                	{%if val.answer_users>0%}
-	                                    <a href="#">
-	                                        <span class="font-lato">{{val.answer_users|get_nickname}}</span>
-	                                    </a>
-	                                    <span class="font-lato"> 回复了帖子</span>
-	                                    {%else%}
-	                                    <a href="#">
-	                                        <span class="font-lato">{{val.uid|get_nickname}}</span>
-	                                    </a>
-	                                    <span class="font-lato"> 发起了帖子</span>
-	                                    {%endif%}
-	                                </li>
-	                                <li>
-	                                <span class="font-lato">
-	                                {{val.focus_count}} 人关注
-	                                    </span>
-	                                </li>
-	                                <li>
-	                                    <span class="font-lato">{{val.answer_count}} 个回复</span>
-
-	                                </li>
-	                                <li>
-	                                    <span class="font-lato">{{val.view}} 次浏览</span>
-	                                </li>
-	                                <li>
-	                                    <span class="font-lato"> {{val.update_time|moment}}</span>
-	                                </li>
-
-	                            </ul>
-	                           
-	                            {% if val.imgs|length>1 %}
-	                            <div class="row margin-bottom-10">
-	                                {%set i = 0%}
-	                                {%for img in val.imgs%}
-	                                {%if i< 4 %}
-	                                <div class="col-md-3"><img class="img-responsive" src="{{img}}" alt=""></div>
-	                                {%endif%}
-	                                {%set i=i+1%}
-	                                {%endfor%}
-	                            </div>
-	                            {%endif%}
-	                             #}
 	                            <p>{{val.detail|delhtmltags|truncate(90, true, "...")|safe}}</p>
 	                        </div>
 	                    </div>
 	                    <!-- /POST ITEM -->
 	                    {% endif %}
 	                    {%endfor%}
+	                   
 
 	                </div>
-	                
-	                {#
-	                <!-- PAGINATION -->
-	                <div class="text-left margin-top-20">
-	                    <!-- Pagination Default -->
-	                 	 {{pagination | safe}}
-	                    <!-- /Pagination Default -->
-	                </div>
-	                <!-- /PAGINATION -->
-	                
+	                 #}
+	                <!--<div class="studynote_page2"></div>-->
+
+
+	               
 					<!-- PAGINATION -->
+					<!--
 	                <div class="text-center margin-top-20 margin-bottom-20">
-	                    <!-- Pagination Default -->
 	                 	 <a href="javascript:;">点击加载更多</a>
-	                    <!-- /Pagination Default -->
-	                </div>
+	                </div>-->
 	                <!-- /PAGINATION -->
-	                #}
+	             
 	            </div>
 				<!-- /LEFT -->
-				
-				{#
-				<div class="col-md-3 col-sm-3">
-		        {% if controller.is_login %}
-		        <div class="alert alert-info margin-bottom-20"><!-- INFO -->
-		            今天，你遇到了什么问题呢？
-		            <a href="/mod/question/sys/add/cid/{{category.id}}" class="btn btn-primary btn-3d btn-block margin-top-10">提问</a>
-		        </div>
-		        {%else%}
-		        <!-- <div class="alert alert-info margin-bottom-20"> --><!-- INFO -->
-		        <div class="alert alert-info margin-bottom-20">
-		            你好! 你还没有登录，请先登录.
-		            <a class="btn btn-block btn-social btn-dropbox margin-top-10" href="/uc/public/login">
-		                <i class="fa fa-sign-in"></i> 登录{{controller.setup.WEB_SITE_TITLE}}
-		            </a>
-		        </div>
-		        {%endif%}   
-		   		</div>
-		   		#}
-
 	        </div>
 
 	        <div class="qsn-awr" id="page2"> 
 	        	<!-- 搜索框-->
 				<div class="search-box" style="margin-bottom: 15px;">
-					<form action="/search" method="get" class="widget_search">
-	                    <input type="search" placeholder="  问答" name="q" {% if queryword %} value={{queryword}} {%endif%}class="serch-input" style="color: black;width: 430px;height: 50px;font-size:18px;border: 3px solid #95734D;">
-	                    <button type="submit" style="background-color:#1EB6C1;color: #fff;width:120px;height: 50px;margin-left: 20px;font-size:18px;  ">
+					{#<form action="/search" method="get" class="widget_search">#}
+	                    <input id="searchTourQuestion" type="search" placeholder="  问答" name="q" {% if queryword %} value={{queryword}} {%endif%}class="serch-input" style="color: black;width: 430px;height: 50px;font-size:18px;border: 3px solid #95734D;">
+	                    <button type="submit" style="background-color:#1EB6C1;color: #fff;width:120px;height: 50px;margin-left: 20px;font-size:18px;" onclick="getQueryTourQuestionSearchword()">
 	                        搜    索
 	                    </button>
 	                </form>
@@ -556,110 +457,91 @@ CLASSES:
 				<!--/搜索框-->
 				<!-- 筛选框-->
 				<div>
-				<!--
+					{#
 	                <ul class="nav_noboder nav nav-tabs nav-bottom-border" style="height: 0px;">
 	                    <li class="{%if order ==0%}active{%endif%}"><a href="{{cate.url}}{{http.config('view.file_ext')}}" >最新的</a></li>
 	                    <li class="{%if order ==1%}active{%endif%}"><a href="{{cate.url}}-1{%if group_id%}-{{group_id}}{%endif%}{{http.config('view.file_ext')}}" >最热的</a></li>
 	                    <li class="{%if order ==2%}active{%endif%}"><a href="{{cate.url}}-2{%if group_id%}-{{group_id}}{%endif%}{{http.config('view.file_ext')}}" >推荐的</a></li>
 	                    <li class="{%if order ==3%}active{%endif%}"><a href="{{cate.url}}-3{%if group_id%}-{{group_id}}{%endif%}{{http.config('view.file_ext')}}" >等待回复</a></li>
-	                </ul>-->
+	                </ul>
+					#}
+					<ul class="nav_noboder nav nav-tabs nav-bottom-border" style="height: 0px;">
+	                    <li class="{%if order ==0%}active{%endif%}"><a href="javascript:;" >最新问题</a></li>
+	                    <li class="{%if order ==1%}active{%endif%}"><a href="javascript:;" >热门问题</a></li>
+	                    <li class="{%if order ==3%}active{%endif%}"><a href="javascript:;" >待回答问题</a></li>
+	                </ul>
+
 				</div>
 	             <!--/筛选框-->
 	              <!-- LEFT -->
-	            <div class="co col-md-12 col-sm-9" >               
-	                <div class="" style="overflow: hidden;">
-	                    {% for val in list %}
-	                    {% set categoryname = val.category_id|get_cate %}
-	                    {% if val.imgs|length < 1 %}
-	                    <!-- POST ITEM -->
+	            <div class="co col-md-12 col-sm-9 tourquestion" >
+					{#
+                    {% for val in list %}
+                    {% set categoryname = val.category_id|get_cate %}
+                    {% if val.imgs|length < 1 %}
+                    <!-- POST ITEM -->
 	                    <div class="blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" style="border: #eee 1px solid;margin-top: 20px;" >
 	                       
 	                      
 	                        <div class="qa_blog_congtent blog-item-small-content">
 	                            <ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;">
-	                                <!-- <li>
+	                                <li>
 	                                
 	                                    <a class="" href="{{categoryname.url}}">
 	                                        <span class="label label-light">{{categoryname.name}}</span>
 	                                    </a>
-	                                </li> -->
+	                                </li>
 
 	                                <li>
-	                                	<a href="#"><img src="/uc/index/avatar/uid/{{val.uid}}" style="width: 58px;height: 58px; margin-top:5px"></a>
+	                                	<a href="javascript:;"><img src="/uc/index/avatar/uid/{{val.uid}}" style="width: 58px;height: 58px; margin-top:5px"></a>
 	                                	{%if val.answer_users>0%}
-	                                    <a href="#">
+	                                    <a href="javascript:;">
 	                                        <span class="font-lato">{{val.answer_users|get_nickname}}</span>
 	                                    </a>
-	                                    <span class="font-lato"> 回复了帖子</span>
+	                                    <span class="font-lato"> 回复了一个问题</span>
 	                                    {%else%}
-	                                    <a href="#">
+	                                    <a href="javascript:;">
 	                                        <span class="font-lato">{{val.uid|get_nickname}}</span>
 	                                    </a>
-	                                    <span class="font-lato"> 发起了帖子</span>
+	                                    <span class="font-lato">提了一个问题</span>
 	                                    {%endif%}
 	                                </li>
-	                                <!-- <li>
+	                                <li>
 	                                <span class="font-lato">
 	                                	{{val.focus_count}} 人关注
 	                                </span>
-	                                </li> -->
+	                                </li>
 	                                <li>
-	                                    <span class="font-lato">{{val.answer_count}} 个回复</span>
+	                                    <span class="font-lato">{{val.answer_count}} 个回答</span>
 
 	                                </li>
 	                                <li>
-	                                    <span class="font-lato">{{val.view}} 次浏览</span>
+	                                    <span class="font-lato">{{val.view}} 人浏览</span>
 	                                </li>
 	                                <li>
 	                                    <span class="font-lato"> {{val.update_time|moment}}</span>
 	                                </li>
 
 	                            </ul>
-	                           	{#
-	                            {% if val.imgs|length>1 %}
-	                            <div class="row margin-bottom-10">
-	                                {%set i = 0%}
-	                                {%for img in val.imgs%}
-	                                {%if i< 4 %}
-	                                <div class="col-md-3"><img class="img-responsive" src="{{img}}" alt=""></div>
-	                                {%endif%}
-	                                {%set i=i+1%}
-	                                {%endfor%}
-	                            </div>
-	                            {%endif%}
-	                            #}
+	                           	
 	                            <p>&nbsp;</p>
-	                            <h2><a href="/mod/question/{{val.id}}{{http.config('view.file_ext')}}" title="{{val.title}}">{{val.title}}</a></h2>
+	                            <h2 style="margin-top: 5px;"><a href="/mod/question/{{val.id}}{{http.config('view.file_ext')}}" title="{{val.title}}">{{val.title}}</a></h2>
 	                            <p>{{val.detail|delhtmltags|truncate(90, true, "...")|safe}}</p>
 	                        </div>
 	                    </div>
-	                    <!-- /POST ITEM -->
-	                    {% endif %}
-	                    {%endfor%}
-
-	                </div>
-	                
-	               	{#
-	                <!-- PAGINATION -->
-	                <div class="text-left margin-top-20">
-	                    <!-- Pagination Default -->
-	                 	 {{pagination | safe}}
-	                    <!-- /Pagination Default -->
-	                </div>
-	                <!-- /PAGINATION -->
-	                
+                    <!-- /POST ITEM -->
+                    {% endif %}
+                    {%endfor%}
 					<!-- PAGINATION -->
 	                <div class="text-center margin-top-20 margin-bottom-20">
-	                    <!-- Pagination Default -->
 	                 	 <a href="javascript:;">点击加载更多</a>
-	                    <!-- /Pagination Default -->
 	                </div>
 	                <!-- /PAGINATION -->
 	                 #}
 	            </div>
 				<!-- /LEFT -->
 	        </div>
-
+			{#
 	        <div class="community" id="page3"> 
 				<!-- 国家 -->
 			    <div class="portfolio">
@@ -698,15 +580,21 @@ CLASSES:
 			    </div>
 				<!-- / -->	
 	        </div>
-
+			#}
 	    </div><!-- container div-->
 
+
+				
+		   		
 
 		<div class="right_content col-md-2 col-sm-2 ">
 			<div>
 		        {% if controller.is_login %}
 		        <div class="margin-bottom-20"><!-- INFO -->
-		            <a href="/mod/question/sys/add/cid/{{category.id}}" class="btn btn-primary btn-3d btn-block margin-top-10"><i class="fa fa-sign-in"></i>我要提问</a>
+		            <a href="/mod/question/sys/add/cid/124" class="btn btn-primary btn-3d btn-block margin-top-10"><i class="fa fa-sign-in"></i>我要发帖</a>
+		        </div>
+		        <div class="margin-bottom-20"><!-- INFO -->
+		            <a href="/mod/question/sys/add/cid/125" class="btn btn-primary btn-3d btn-block margin-top-10"><i class="fa fa-sign-in"></i>我要提问</a>
 		        </div>
 		        {%else%}
 		        <div class="margin-bottom-20">
@@ -716,6 +604,24 @@ CLASSES:
 		        </div>
 		        {%endif%}
 		        
+				{#
+				<div>
+		        {% if controller.is_login %}
+		        <div class="alert alert-info margin-bottom-20"><!-- INFO -->
+		            今天，你遇到了什么问题呢？
+		            <a href="/mod/question/sys/add/cid/{{category.id}}" class="btn btn-primary btn-3d btn-block margin-top-10">提问</a>
+		        </div>
+		        {%else%}
+		        <!-- <div class="alert alert-info margin-bottom-20"> --><!-- INFO -->
+		        <div class="alert alert-info margin-bottom-20">
+		            你好! 你还没有登录，请先登录.
+		            <a class="btn btn-block btn-social btn-dropbox margin-top-10" href="/uc/public/login">
+		                <i class="fa fa-sign-in"></i> 登录{{controller.setup.WEB_SITE_TITLE}}
+		            </a>
+		        </div>
+		        {%endif%}   
+		   		</div>
+				#}
 		       
 		        <div style="height: 200px;">
 		        	<div style="background:url('/static/assets/images/search_nav.png') no-repeat;width:220px;height:85px;margin-bottom: 15px;padding-left: 60px;padding-top: 23px; ">
@@ -769,26 +675,373 @@ CLASSES:
 
 
 <!-- PEANUT ROLL -->   
-<section style="padding:0; border-bottom:none;">
-	<img src="static/assets/images/home_logo1.jpg" style="width:1350px;height:143;">
+<section style="width:100%;height:143px;padding:0; border-bottom:none;background: url(static/assets/images/home_logo1.jpg) 50% 50%  no-repeat;">
+	 
 </section>
 <!-- /PEANUT ROLL -->
 {% endblock %}
 {% block script %}  
 <script>
-     $(".cgy").on("click",function(){
+
+	$(".cgy").on("click",function(){
         $(this).siblings().children("div").css("background-color","#896B63");
         $(this).children("div").css("background-color","#fff");
         var selectId = $(this).attr("id");
         var pId = selectId.split("select")[1];
-        console.log(pId);
+        //console.log(pId);
         for (var i = 1; i <= 3; i++) {
             if(i!=pId){
                 $("#page"+i).css("display","none");
             }
         }   
         $("#page"+pId).css("display","block");
-        console.log($("#page"+pId));
+        //console.log($("#page"+pId));
     });
+
+	function getQueryTourQuestionSearchword(){
+    	/*var queryword = $("#searchTourQuestion").val();
+    	var
+    	console.log(order);
+    	console.log(queryword);
+    	var tq_html ='<div class="tourquestion_page1">';
+		$.ajax({
+			type:"get",
+			url:"/ajax/question?cid=125&q="+queryword,
+			success:function(dataResult){
+				//console.log(dataResult);
+				$.each(dataResult.data,function(k,v){
+					tq_html +='<div class="blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" style="border: #eee 1px solid;margin-top: 20px;" >\
+	                       <div class="qa_blog_congtent blog-item-small-content">\
+	                            <ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;">\
+	                                <li>\
+	                                	<a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 58px;height: 58px; margin-top:5px"></a>\
+	                                    <a href="javascript:;">\
+	                                        <span class="font-lato">'+v.uid+'</span>\
+	                                    </a>\
+	                                    <span class="font-lato">提了一个问题</span>\
+	                                </li>\
+	                                <li>\
+	                                    <span class="font-lato">'+v.answer_count+' 个回答</span>\
+	                                </li>\
+	                                <li>\
+	                                    <span class="font-lato">'+v.view+' 人浏览</span>\
+	                                </li>\
+	                                <li>\
+	                                    <span class="font-lato">'+v.create_time+'</span>\
+	                                </li>\
+	                            </ul>\
+	                            <p>&nbsp;</p>\
+	                            <h2 style="margin-top: 5px;"><a href="/mod/question/'+v.id+'" title="'+v.title+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+				});
+				if(dataResult.currentPage < dataResult.totalPages){
+					//tournote_querystring_pagination(page,queryword)
+					tq_html +='<div class="text-center margin-top-20 margin-bottom-20 tq_addmore">\
+	                 	 <a href="javascript:tourquestion_querystring_pagination(2,'+queryword+order+');">点击加载更多</a>\
+	                </div></div><div class="tourquestion_page2"></div>';
+				}
+				$(".tourquestion").html(tq_html);
+			}
+		});*/
+    }
+
+
+    function tourquestion_pagination(page){
+    	var searchword = '';//GetQueryString("q");
+    	var tq_html ='';
+    	$.ajax({
+			type:"get",
+			url:"/ajax/question?cid=125&q="+searchword+"&page="+page,
+			success:function(dataResult){
+				//console.log(dataResult);
+				$.each(dataResult.data,function(k,v){
+					tq_html +='<div class="blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" style="border: #eee 1px solid;margin-top: 20px;" >\
+	                       <div class="qa_blog_congtent blog-item-small-content">\
+	                            <ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;">\
+	                                <li>\
+	                                	<a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 58px;height: 58px; margin-top:5px"></a>\
+	                                    <a href="javascript:;">\
+	                                        <span class="font-lato">'+v.uid+'</span>\
+	                                    </a>\
+	                                    <span class="font-lato">提了一个问题</span>\
+	                                </li>\
+	                                <li>\
+	                                    <span class="font-lato">'+v.answer_count+' 个回答</span>\
+	                                </li>\
+	                                <li>\
+	                                    <span class="font-lato">'+v.view+' 人浏览</span>\
+	                                </li>\
+	                                <li>\
+	                                    <span class="font-lato">'+v.create_time+'</span>\
+	                                </li>\
+	                            </ul>\
+	                            <p>&nbsp;</p>\
+	                            <h2 style="margin-top: 5px;"><a href="/mod/question/'+v.id+'" title="'+v.title+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+				});
+				if(dataResult.currentPage < dataResult.totalPages){
+					//tournote_querystring_pagination(page,queryword)
+					var nextPage = page +1 ;
+					tq_html +='<div class="text-center margin-top-20 margin-bottom-20 tq_addmore">\
+	                 	 <a href="javascript:tourquestion_pagination('+nextPage+');">点击加载更多</a>\
+	                </div>';
+	                $(".tourquestion_page"+page).after("<div></div>");
+	                $(".tourquestion_page"+page).next().addClass("tourquestion_page"+nextPage);
+				}
+				$(".tq_addmore").hide();
+				$(".tourquestion_page"+page).html(tq_html);
+				//$(".tourquestion").html(tq_html);
+			}
+		});
+
+    }
+
+
+	$(function(){
+		//console.log("页面加载")
+		var searchword = '';//GetQueryString("q");
+
+		//var sn_html ='<div class="studynote_page1">';
+		tournote_pagination(1);
+		/*
+		$.ajax({
+			type:"get",
+			url:"/ajax/question?cid=124&q="+searchword,
+			success:function(dataResult){
+				//console.log(dataResult);
+				$.each(dataResult.data,function(k,v){
+					if(0<v.imgurl.length){
+						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
+							<figure class="figure_float margin-bottom-0" >\
+	                            <img class="immg" src="'+v.imgurl+'" >\
+	                        </figure>\
+	                        <div class="blog_item_content blog-item-small-content">\
+								<p>&nbsp;</p>\
+	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+					}else{
+						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
+	                        <div class="blog_item_content blog-item-small-content" style="margin-left:263px;">\
+								<p>&nbsp;</p>\
+	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+					}
+				});
+				if(dataResult.currentPage < dataResult.totalPages){
+					sn_html +='<div class="text-center margin-top-20 margin-bottom-20 sn_addmore">\
+	                 	 <a href="javascript:tournote_pagination(2);">点击加载更多</a>\
+	                </div></div><div class="studynote_page2"></div>';
+				}
+				$(".studynote").html(sn_html);
+			}
+		});
+		*/
+
+		var tq_html ='<div class="tourquestion_page1">';
+		$.ajax({
+			type:"get",
+			url:"/ajax/question?cid=125&q="+searchword,
+			success:function(dataResult){
+				//console.log(dataResult);
+				$.each(dataResult.data,function(k,v){
+					tq_html +='<div class="blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" style="border: #eee 1px solid;margin-top: 20px;" >\
+	                       <div class="qa_blog_congtent blog-item-small-content">\
+	                            <ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;">\
+	                                <li>\
+	                                	<a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 58px;height: 58px; margin-top:5px"></a>\
+	                                    <a href="javascript:;">\
+	                                        <span class="font-lato">'+v.uid+'</span>\
+	                                    </a>\
+	                                    <span class="font-lato">提了一个问题</span>\
+	                                </li>\
+	                                <li>\
+	                                    <span class="font-lato">'+v.answer_count+' 个回答</span>\
+	                                </li>\
+	                                <li>\
+	                                    <span class="font-lato">'+v.view+' 人浏览</span>\
+	                                </li>\
+	                                <li>\
+	                                    <span class="font-lato">'+v.create_time+'</span>\
+	                                </li>\
+	                            </ul>\
+	                            <p>&nbsp;</p>\
+	                            <h2 style="margin-top: 5px;"><a href="/mod/question/'+v.id+'" title="'+v.title+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+				});
+				if(dataResult.currentPage < dataResult.totalPages){
+					tq_html +='<div class="text-center margin-top-20 margin-bottom-20 tq_addmore">\
+	                 	 <a href="javascript:tourquestion_pagination(2);">点击加载更多</a>\
+	                </div></div><div class="tourquestion_page2"></div>';
+				}
+				$(".tourquestion").html(tq_html);
+			}
+		});
+
+	});
+
+/*	
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null){
+            return  (decodeURI(r[2])); 
+        }
+        return '';
+    }
+
+    function getQueryTourNoteSearchword(){
+    	var queryword = $("#searchTourNote").val();
+    	//console.log(queryword);
+    	var sn_html ='<div class="studynote_page1">';
+    	$.ajax({
+			type:"get",
+			url:"/ajax/question?cid=124&q="+queryword,
+			success:function(dataResult){
+				//console.log(dataResult);
+				$.each(dataResult.data,function(k,v){
+					if(0<v.imgurl.length){
+						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
+							<figure class="figure_float margin-bottom-0" >\
+	                            <img class="immg" src="'+v.imgurl+'" >\
+	                        </figure>\
+	                        <div class="blog_item_content blog-item-small-content">\
+								<p>&nbsp;</p>\
+	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+					}else{
+						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
+	                        <div class="blog_item_content blog-item-small-content" style="margin-left:263px;">\
+								<p>&nbsp;</p>\
+	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+					}
+				});
+				if(dataResult.currentPage < dataResult.totalPages){
+					sn_html +='<div class="text-center margin-top-20 margin-bottom-20 sn_addmore">\
+	                 	 <a href="javascript:tournote_pagination(2);">点击加载更多</a>\
+	                </div></div><div class="studynote_page2"></div>';
+				}
+				$(".studynote").html(sn_html);
+			}
+		});
+    }
+*/
+    function tournote_pagination(page){
+    	var searchword = $("#searchTourNote").val();//GetQueryString("q");
+    	//console.log("page:"+page);
+
+		$.ajax({
+			type:"get",
+			url:"/ajax/question?cid=124&q="+searchword+"&page="+page,
+			success:function(dataResult){
+				//console.log(dataResult);
+				var sn_html ='';
+		    	if(page <= 1){
+		    		sn_html_page1 ='<div class="studynote_page1"></div>';
+					$(".studynote").html(sn_html_page1);
+		    	}
+				$.each(dataResult.data,function(k,v){
+					if(0<v.imgurl.length){
+						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
+							<figure class="figure_float margin-bottom-0" >\
+	                            <img class="immg" src="'+v.imgurl+'" >\
+	                        </figure>\
+	                        <div class="blog_item_content blog-item-small-content">\
+								<p>&nbsp;</p>\
+	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+					}else{
+						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
+	                        <div class="blog_item_content blog-item-small-content" style="margin-left:263px;">\
+								<p>&nbsp;</p>\
+	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+					}
+				});
+				if(dataResult.currentPage < dataResult.totalPages){
+					var nextPage = page + 1;
+					sn_html +='<div class="text-center margin-top-20 margin-bottom-20 sn_addmore">\
+	                 	 <a href="javascript:tournote_pagination('+nextPage+');">点击加载更多</a>\
+	                </div>';
+	                $(".studynote_page"+page).after("<div></div>");
+	                $(".studynote_page"+page).next().addClass("studynote_page"+nextPage);
+	                //console.log($(".studynote_page"+nextPage).length);
+				}
+				$(".sn_addmore").hide();
+				$(".studynote_page"+page).html(sn_html);
+			}
+		});
+    }
+
+/*
+    function tournote_querystring_pagination(page,queryword){
+    	console.log("queryword:"+queryword);
+    	console.log("page:"+page);
+    	var sn_html ='';
+		$.ajax({
+			type:"get",
+			url:"/ajax/question?cid=124&q="+queryword+"&page="+page,
+			success:function(dataResult){
+				//console.log(dataResult);
+				$.each(dataResult.data,function(k,v){
+					if(0<v.imgurl.length){
+						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
+							<figure class="figure_float margin-bottom-0" >\
+	                            <img class="immg" src="'+v.imgurl+'" >\
+	                        </figure>\
+	                        <div class="blog_item_content blog-item-small-content">\
+								<p>&nbsp;</p>\
+	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+					}else{
+						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
+	                        <div class="blog_item_content blog-item-small-content" style="margin-left:263px;">\
+								<p>&nbsp;</p>\
+	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div>';
+					}
+				});
+				if(dataResult.currentPage < dataResult.totalPages){
+					var nextPage = page + 1;
+					sn_html +='<div class="text-center margin-top-20 margin-bottom-20 sn_addmore">\
+	                 	 <a href="javascript:tournote_querystring_pagination('+nextPage+','+queryword+');">点击加载更多</a>\
+	                </div>';
+	                $(".studynote_page"+page).after("<div></div>");
+	                $(".studynote_page"+page).next().addClass("studynote_page"+nextPage);
+	                console.log($(".studynote_page"+nextPage).length);
+				}
+				$(".sn_addmore").hide();
+				$(".studynote_page"+page).html(sn_html);
+			}
+		});
+    }
+*/
+
+
+
+
+    
 </script>
 {% endblock %}

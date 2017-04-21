@@ -171,7 +171,7 @@ export default class extends Base {
           val.city = await this.model("area").where({id:val.city}).getField("name",true);
           val.county = await this.model("area").where({id:val.county}).getField("name",true);
         }
-        return this.success({name:'操作成功',data:addrlist,type:data.type});
+        return this.success(addrlist);
       }
 
     }else{

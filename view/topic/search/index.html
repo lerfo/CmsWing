@@ -2,252 +2,265 @@
 {% block content %}
 {%set cate = category.id|get_cate()%}
 <style type="text/css">
-.home-search-bar{
-	position: absolute; 
-	left: 50%; 
-	bottom: 40px; 
-	width: 414px; 
-	z-index: 100; 
-	margin-left: -207px;
-}
-section#slider input{
-    background-color: #fff;
-}
-.ctr{
-	width: 984px; 
-	height: auto;
-	margin-top:0px; 
-	padding: 0px;
-	background-color: #fff;
-}
-.phb{
-	padding:0px;
-	margin:0px auto ! important;
-	width:984px;
-	height:85px;
-	font-size: 25px;
-	color: #fff;
-	background: url('/static/assets/images/search_nav.png') no-repeat; 	
-}
-.phb li{
-	width: 33.3%;
-	height: 85px;
-	margin-right:-7px;
-	padding:0px;
-	text-align: center;
-}
-.phb li a{
-	margin-top: 12px;
-    width: 180px;
-	
-}
-.phb:hover{
-    cursor: pointer;
+    .home-search-bar{
+    	position: absolute; 
+    	left: 50%; 
+    	bottom: 40px; 
+    	width: 414px; 
+    	z-index: 100; 
+    	margin-left: -207px;
+    }
+    section#slider input{
+        background-color: #fff;
+    }
+    .ctr{
+    	width: 984px; 
+    	height: auto;
+    	margin-top:0px; 
+    	padding: 0px;
+    	background-color: #fff;
+    }
+    .phb{
+    	padding:0px;
+    	margin:0px auto ! important;
+    	width:984px;
+    	height:85px;
+    	font-size: 25px;
+    	color: #fff;
+    	background: url('/static/assets/images/search_nav.png') no-repeat; 	
+    }
+    .phb li{
+    	width: 33.3%;
+    	height: 85px;
+    	margin-right:-7px;
+    	padding:0px;
+    	text-align: center;
+    }
+    .phb li a{
+    	margin-top: 12px;
+        width: 180px;
+    	
+    }
+    .phb:hover{
+        cursor: pointer;
 
-}
-.phb li:hover div{
-    background-color: #fff !important;
-}
-.linea{
-	height: 3px;
-	width: 100%;
-	background-color: #896B63;
-	margin:0px auto;
-}
-table .btn{
-	margin: 0 0px!important;
-}
-.table>tbody>tr>td{
-    padding: 5px;
-    border-top: 0px solid #ddd;
-}
-.page-header ul.page-header-tabs>li>a{
-	color: #fff;
-}
-.tct{
-	width: 904px;
-	padding: 0; 
-	margin: 20px auto;
-}
-.bpm{
-    width:904px;
-    height: 150px;
-    border-bottom: 0px;
-    margin-bottom: 25px;
-}
-.bpm:hover {
-	cursor:pointer;
-	/* height: 160px; */
-	box-shadow: 0  5px 15px 5px rgba(0,0,0,0.1);
-}
-.blog-post-item h2{
-	margin-bottom:10px;
-} 
-.strategy-content{
-	width: 904px;
-	height: 150px;
-	margin-bottom: 20px;
-}
-.strategy-content:hover{
-	cursor: pointer;
-	box-shadow: 0  5px 15px 5px rgba(0,0,0,0.1);
+    }
+    .phb li:hover div{
+        background-color: #fff !important;
+    }
+    .linea{
+    	height: 3px;
+    	width: 100%;
+    	background-color: #896B63;
+    	margin:0px auto;
+    }
+    table .btn{
+    	margin: 0 0px!important;
+    }
+    .table>tbody>tr>td{
+        padding: 5px;
+        border-top: 0px solid #ddd;
+    }
+    .page-header ul.page-header-tabs>li>a{
+    	color: #fff;
+    }
+    .tct{
+    	width: 904px;
+    	padding: 0; 
+    	margin: 20px auto;
+    }
+    .bpm{
+        width:904px;
+        height: 150px;
+        border-bottom: 0px;
+        margin-bottom: 25px;
+    }
+    .bpm:hover {
+    	cursor:pointer;
+    	/* height: 160px; */
+    	box-shadow: 0  5px 15px 5px rgba(0,0,0,0.1);
+    }
+    .blog-post-item h2{
+    	margin-bottom:10px;
+    } 
+    .strategy-content{
+    	width: 904px;
+    	height: 150px;
+    	margin-bottom: 20px;
+    }
+    .strategy-content:hover{
+    	cursor: pointer;
+    	box-shadow: 0  5px 15px 5px rgba(0,0,0,0.1);
 
-}
-.strategy-content:hover h2{
-	color: #1eb6c1;
+    }
+    .strategy-content:hover h2{
+    	color: #1eb6c1;
 
-}
-/* .strategy-content:hover {
-	cursor: pointer;
-	box-shadow: 0  5px 15px 5px rgba(0,0,0,0.1);
+    }
+    /* .strategy-content:hover {
+    	cursor: pointer;
+    	box-shadow: 0  5px 15px 5px rgba(0,0,0,0.1);
 
-} */
-.strategy a{
-    color:#565656;
-}
-.qsn-awr a{
-    color:#565656;
-}
-.strategy-content img{
-	float: left;
-	width: 233px;
-	height: 150px;
-}
-.strategy-txt{
-	margin-left: 274px;
-}
-.strategy-txt h2{
-	font-size:16px;
-	color: #121212;
-	margin: 0px 0px 10px 0px;
-}
-.strategy-txt p{
-	text-indent:1em;
-}
-.btn-danger {
-    color: #fff;
-    background-color: #1eb6c1;
-    border-color: #1eb6c1;
-}
-.btn-danger:hover {
-    color: #fff;
-    background-color: #1eb6c1;
-    border-color: #1eb6c1;
-}
-.btn-danger.focus, .btn-danger:focus {
-    color: #fff;
-    background-color: #1eb6c1;
-    border-color: #1eb6c1;
-}
-.btn-danger:active:focus{
-	color: #fff;
-    background-color: #1eb6c1;
-    border-color: #1eb6c1;
-}
-.btn-danger:active:hover{
-	color: #fff;
-    background-color: #1eb6c1;
-    border-color: #1eb6c1;
-}
-.btn-danger.active, .btn-danger:active, .open>.dropdown-toggle.btn-danger {
-    color: #fff;
-    background-color: #1eb6c1;
-    border-color: #1eb6c1;
-}
-.head-section{
-    width:100%;
-    height: 560px;
-    background-position: center center;
-    background:url(/static/assets/images/slider_search.jpg);
-}
-.searchin{
-    border: 10px solid rgba(26,21,31,0.5);
-}
-.body-section{
-    background-color: #EFF7F9;
-}
-.peanut-roll{
-    width:100%;
-    height:143px;
-    padding:0; 
-    border-bottom:none;
-    background: url(static/assets/images/home_logo1.jpg);
-}
-#page1{
-    width: 904px;
-    min-height:400px;
-    margin: 0px auto;
-    padding: 0px;
-    display: none;
-}
-#page2{
-    width: 984px;
-    margin: 0px auto;
-    margin-top:-15px;
-    padding: 0px;
-}
-#page3{
-    width: 904px;
-    min-height: 400px;
-    margin: 0px auto;
-    padding: 0px;
-    display: none;
-}
-#page4{
-    width: 904px;
-    min-height:400px;
-    margin: 0px auto;
-    padding: 0px;
-    display: none;
-}
-.the-td{
-    width: 80px;
-    text-align:justify;
-    text-align-last:justify;line-height:1.6;
-}
-.txtbd{
-    width: 924px; 
-    margin:10px -35px;
-}
-.left-part{
-    margin-right: 25px;
-    margin-left: 25px;
-    width: 904px;
-    height: auto;
-}
-.a-img{
-    width:233px !important;
-    height: 150px;
-    max-width:none;
-}
-.bilt{
-    padding-left:274px !important;
-    height: 150px;
-}
-.bilt p{
-    text-indent:1em;
-}
-.gopage{
-    width:100%;
-    margin-top:10px;
-}
-.price-span{
-    color:#1eb6c1;
-    position: absolute;
-    right: 15px;
-}
-.load-more,.no-more{
-    margin-top: 10px;
-    margin-bottom: 30px;
-}
-.load-more a,{
-    text-decoration-color: #8a8e9f;
-    font-size: 18;
-}
-.no-more p{
-    text-decoration-color: #8a8e9f;
-    font-size: 12;
-}
+    } */
+    .strategy a{
+        color:#565656;
+    }
+    .qsn-awr a{
+        color:#565656;
+    }
+    .strategy-content img{
+    	float: left;
+    	width: 233px;
+    	height: 150px;
+    }
+    .strategy-txt{
+    	margin-left: 274px;
+    }
+    .strategy-txt h2{
+    	font-size:16px;
+    	color: #121212;
+    	margin: 0px 0px 10px 0px;
+    }
+    .strategy-txt p{
+    	text-indent:1em;
+    }
+    .btn-danger {
+        color: #fff;
+        background-color: #1eb6c1;
+        border-color: #1eb6c1;
+    }
+    .btn-danger:hover {
+        color: #fff;
+        background-color: #1eb6c1;
+        border-color: #1eb6c1;
+    }
+    .btn-danger.focus, .btn-danger:focus {
+        color: #fff;
+        background-color: #1eb6c1;
+        border-color: #1eb6c1;
+    }
+    .btn-danger:active:focus{
+    	color: #fff;
+        background-color: #1eb6c1;
+        border-color: #1eb6c1;
+    }
+    .btn-danger:active:hover{
+    	color: #fff;
+        background-color: #1eb6c1;
+        border-color: #1eb6c1;
+    }
+    .btn-danger.active, .btn-danger:active, .open>.dropdown-toggle.btn-danger {
+        color: #fff;
+        background-color: #1eb6c1;
+        border-color: #1eb6c1;
+    }
+    .head-section{
+        width:100%;
+        height: 560px;
+        /*background-position: center center;*/
+        background:url(/static/assets/images/slider_search.jpg) 50% 50% / cover no-repeat;
+    }
+    .searchin{
+        border: 10px solid rgba(26,21,31,0.5);
+    }
+    .body-section{
+        background-color: #EFF7F9;
+    }
+    .peanut-roll{
+        width:100%;
+        height:143px;
+        padding:0; 
+        border-bottom:none;
+        background: url(static/assets/images/home_logo1.jpg);
+    }
+    #page1{
+        width: 904px;
+        min-height:400px;
+        margin: 0px auto;
+        padding: 0px;
+        display: none;
+    }
+    #page2{
+        width: 984px;
+        margin: 0px auto;
+        margin-top:-15px;
+        padding: 0px;
+    }
+    #page3{
+        width: 904px;
+        min-height: 400px;
+        margin: 0px auto;
+        padding: 0px;
+        display: none;
+    }
+    #page4{
+        width: 904px;
+        min-height:400px;
+        margin: 0px auto;
+        padding: 0px;
+        display: none;
+    }
+    .the-td{
+        width: 80px;
+        text-align:justify;
+        text-align-last:justify;line-height:1.6;
+    }
+    .txtbd{
+        width: 924px; 
+        margin:10px -35px;
+    }
+    .left-part{
+        margin-right: 25px;
+        margin-left: 25px;
+        width: 904px;
+        height: auto;
+    }
+    .left-part h2:hover{
+    	color: #1eb6c1;
+    }
+    .left-part p{
+    	color: #3e3e3e;
+    }
+    .a-img{
+        width:233px !important;
+        height: 150px;
+        max-width:none;
+    }
+    .bilt{
+        padding-left:274px !important;
+        height: 150px;
+    }
+    .bpm:hover .bilt>h2>a{
+    	color: #1eb6c1;
+    }
+    .bilt p{
+        text-indent:1em;
+    }
+    .gopage{
+        width:100%;
+        margin-top:10px;
+    }
+    .price-span{
+        color:#1eb6c1;
+        position: absolute;
+        right: 15px;
+    }
+    .load-more,.tq-load-more,.tn-load-more,.no-more{
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+    .load-more a{
+        text-decoration-color: #8a8e9f;
+        font-size: 18;
+        color: #3e3e3e;
+    }
+    .no-more p{
+        text-decoration-color: #8a8e9f;
+        font-size: 12;
+    } 
+    .tournote_pagination a, a:focus:not(.btn){
+    	color:#3e3e3e;
+    }
 </style>
     <!--
     PAGE HEADER
@@ -465,7 +478,7 @@ table .btn{
                 <div class="row txtbd" >
 
                     <!-- LEFT -->
-                    <div class="col-md-9 col-sm-9 left-part">                    
+                    <div class="col-md-9 col-sm-9 left-part studytour_pagination1">                    
                             {% for val in list %}
                             {% set categoryname = val.category_id|get_cate %}
                              <!-- POST ITEM -->
@@ -478,7 +491,7 @@ table .btn{
                                 {% endif %}
                                 <div class="bilt blog-item-small-content">
                                     <p> &nbsp;</p>
-                                        <h2 style="">
+                                        <h2>
                                             <a  class="goPage" href="{{val.name|get_url(val.id)}}" target="_blank" title="{{val.title}}">{{val.title|truncate(30, true, "...")}} <span class="price-span">¥{{val.price|get_price('1')}}/人起</span></a>
                                         </h2>
                                     <p>{{val.description|truncate(90, true, "...")}}</p>
@@ -503,16 +516,15 @@ table .btn{
                         <!-- {{ currentPage }}         {{totalPages}} -->
                    		{% if currentPage < totalPages %}
                     	<div class="text-center load-more">
-                            <a href="javascript:pagination(2)">加载更多</a>
+                            <a href="javascript:studytour_pagination(2)">加载更多</a>
                         </div>
                         {% else%}
+                        <!--
                         <div class="text-center no-more">
                             <p>已无更多</p>
-                        </div>
+                        </div>-->
                         {% endif %}
-                        {% for i in totalPages-currentPage %}
-                        <div class="bilt{{i}}" ><div>
-                        {% endfor%}
+                        
 
                 </div>
 
@@ -536,8 +548,7 @@ table .btn{
 {% block script %}	
 <script>
 
-    function GetQueryString(name)
-    {
+    function GetQueryString(name){
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
         if(r!=null){
@@ -545,8 +556,9 @@ table .btn{
             //console.log(decodeURI(r[2]));
             return  (decodeURI(r[2])); 
         }
-        return null;
+        return '';
     }
+
     $(".cgy").on("click",function(){
         $(this).siblings().children("div").css("background-color","#896B63");
         $(this).children("div").css("background-color","#fff");
@@ -559,77 +571,17 @@ table .btn{
        	} 	
         $("#page"+pId).css("display","block");
     });
-                               
-    $("#select1").on("click",function(){
-    	var getHtml = "";
-    	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td class="the-td">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td style="width: 80px;">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
-
-    	 $.ajax({
-        	type:"get",
-        	url:"/ajax/question",
-        	success:function(dataResult){
-        		$.each(dataResult,function(k,v){
-        			var detail_title = v.title;
-        			var detail = v.detail.split("</p><p>");
-        			var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
-        			var detail_txt = detail[1] + detail[2] + detail[3];
-        		
-        			getHtml +='<div class="strategy-content">'+
-        						detail_img+
-        						'<div class="strategy-txt"> '+
-        							'<p>'+
-        							'&nbsp;'+
-        							'</p>'+
-        							'<h2>'+
-        								detail_title +
-        							'</h2>'+
-        							'<p>'+
-        								detail_txt+
-        							'</p>'+
-        						'</div>'+
-        						
-        					 '</div>';        			
-        		});
-        		getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
-        		$(".school").html(getHtml);
-        	}
-        })
+        
+    $(".bpm").on("click",function(){
+    	var a=$(this).find("a");
+    	var hrf=a.attr("href")
+    	window.open(hrf);
     });
 
-    function pagination(page) {
-        //var searchword = GetQueryString("q");
-        //console.log(searchword);
 
-
-        //console.log('pagination'+page);
-        var url = window.location.href;
-        //console.log(url);
-        var para = url.split("?q=")[1];
-        //console.log(para);
-
-        /*localStorage.setItem("tourPage",JSON.stringify(""));
-        var pageIndex = localStorage.getItem("tourPage");
-        console.log(pageIndex);  */  
-        $.ajax({
-            type:"get",
-            url:"/ajax/search?q="+para+"&page="+page,
-            success:function(dataResult){
-                console.log(dataResult);
-
-                if(dataResult.currentPage<dataResult.totalPages){
-                    console.log("还有还有");
-                }else{
-                    console.log("已无更多");
-                }
-            }
-        });
-    }
-
-
+    
     function gettournote(days=0){
-        ///console.log('!!!!!!!!!!!!!!!')
         var searchword = GetQueryString("q");
-        //console.log(searchword);
         var getHtml = "";
         if(days==7){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
@@ -684,14 +636,12 @@ table .btn{
         }
             //'<tr class="type_tr_m"><td style="width: 70px;">所在版面：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">英伦半岛</a><a href="javascript:;" class="btn btn-clean btn-xs relative">旅行摄影</a><a href="javascript:;" class="btn btn-clean btn-xs relative">环游欧洲</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美式风情</a></td></tr></tbody></table>';
 
-
-
-
          $.ajax({
             type:"get",
             url:"/ajax/question?cid=124&day="+days+"&q="+searchword,
             success:function(dataResult){
                 //console.log(dataResult);
+                getHtml +='<div class="tournote_pagination tpage1 ">'
                 $.each(dataResult.data,function(k,v){
                 	if(0==v.imgurl.length){
                 		getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
@@ -726,9 +676,9 @@ table .btn{
                 	}                  
                 });
                 if(dataResult.currentPage < dataResult.totalPages){
-                    getHtml +='<div class="text-center load-more">' + '<a href="javascript:;>加载更多</a>'+'</div>'
+                    getHtml +='<div class="text-center tn-load-more">' + '<a href="javascript:tournote_pagination(2);">加载更多</a>'+'</div></div><div class="tournote_pagination tpage2 "></div>'
                 }else{
-                    getHtml +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
+                    //getHtml +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div></div>';
                 }
                 $(".strategy").html(getHtml);
             }
@@ -737,7 +687,7 @@ table .btn{
 
     function gettourquestion(days=0){
         var searchword = GetQueryString("q");
-        console.log(days);
+        //console.log(days);
         var getHtml = "";
         if(days==7){
             getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m">\
@@ -795,6 +745,7 @@ table .btn{
             type:"get",
             url:"/ajax/question?cid=125&day="+days+"&q="+searchword,
             success:function(dataResult){
+            	getHtml +='<div class="tournote_pagination qpage1 ">'
             	//console.log(dataResult);
                 $.each(dataResult.data,function(k,v){
                 	if(0==v.imgurl.length){
@@ -831,22 +782,282 @@ table .btn{
                 	          
                 });
                 if(dataResult.currentPage < dataResult.totalPages){
-                    getHtml +='<div class="text-center load-more">' + '<a href="javascript:;">加载更多</a>'+'</div>';
+                    getHtml +='<div class="text-center tq-load-more">' + '<a href="javascript:tourquestion_pagination(2);">加载更多</a>'+'</div></div><div class="tournote_pagination qpage2 "></div>';
                 }else{
-                    getHtml +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
+                    //getHtml +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
                 }
                 $(".qsn-awr").html(getHtml);
             }
         })
     }; 
 
-    $(".bpm").on("click",function(){
-    	var a=$(this).find("a");
-    	var hrf=a.attr("href")
-    	window.open(hrf);
+    function studytour_pagination(page) {
+        var searchword = GetQueryString("q");
+        var value = GetQueryString("value");
+        console.log(value)
+        var pageHTML = "";
+        //var url = window.location.href;
+        //var para = url.split("?q=")[1];
+        $.ajax({
+            type:"get",
+            //url:"/ajax/search?q="+para+"&page="+page,
+            url:"/ajax/topic?q="+searchword+"&page="+page+"&value="+value,
+            success:function(dataResult){       
+                $.each(dataResult.data,function(k,v){
+                    if(null==v.cover_url){
+                        pageHTML +='<a target="_blank" href="/p/'+v.tid+'.html"><div class="strategy-content">'+
+                                
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.description+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';  
+                    }else{
+                        pageHTML +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
+                                '<img src='+v.cover_url+'>'+
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.description+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';     
+                    }    
+                });
+               
+                if(dataResult.currentPage < dataResult.totalPages){
+                    var nextPage = page+1;
+                    pageHTML +='<div class="text-center load-more">' + '<a href=javascript:studytour_pagination('+nextPage+')>加载更多</a>'+'</div>'
+                }else{
+                    //pageHTML +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
+                }
+                $(".load-more").hide();
+                //console.log(pageHTML);
+                if(0<$(".studytour_pagination"+page).length){
+                	$(".studytour_pagination"+page).html(pageHTML); 
+                }else{
+                	 //console.log("创建新一页");
+                	 var lastPage =  page-1;
+                	 $(".studytour_pagination"+lastPage).after("<div></div>");
+                	 $(".studytour_pagination"+lastPage).next().addClass("col-md-9 col-sm-9 left-part studytour_pagination"+page);
+                	 $(".studytour_pagination"+page).html(pageHTML);
+                }
+                //$(".pagination"+page).html(pageHTML); 
+                
+            }
+        });
+    }
+
+    function tournote_pagination(page) {
+        var pageHTML = "";
+        var searchword = GetQueryString("q");
+        var dayString=$(".strategy span").text();
+        var day;
+        switch(dayString){
+        	case "全部":
+        		day = 0;
+        		break;
+        	case "最近7天":
+        		day = 7;
+        		break;
+    		case "最近30天":
+	    		day = 30;
+	    		break;
+	    	case "6个月内":
+        		day = 180;
+        		break;
+        	case "1年内":
+        		day = 365;
+        		break;
+        	default:
+        	    day = 0;
+        }
+
+        console.log(day);
+        $.ajax({
+            type:"get",
+            url:"/ajax/question?cid=124&day="+day+"&page="+page+"&q="+searchword,
+            success:function(dataResult){
+                console.log(dataResult);           
+                $.each(dataResult.data,function(k,v){
+                    if(0==v.imgurl.length){
+                		pageHTML +='<a target="_blank" href="/mod/question/'+v.id+'.html">'+'<div class="strategy-content">'+
+                				'<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.detailtext+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';  
+                	}else{
+                        pageHTML +='<a target="_blank" href="/mod/question/'+v.id+'.html">'+'<div class="strategy-content">'+
+                                '<img src='+v.imgurl+'>'+
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.detailtext+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';     
+                	}
+                       
+                });
+               
+                if(dataResult.currentPage < dataResult.totalPages){
+                    var nextPage = page+1;
+                    pageHTML +='<div class="text-center  tn-load-more">' + '<a href=javascript:tournote_pagination('+nextPage+')>加载更多</a>'+'</div><div class="tournote_pagination tpage'+nextPage+'"><div><div class="tpage'+nextPage+'"></div>'
+                }else{
+                    //pageHTML +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
+                }
+                $(".tn-load-more").hide();
+                $(".tpage"+page).html(pageHTML);
+
+            }
+        });
+    }
+
+    function tourquestion_pagination(page) {
+        
+        var pageHTML = "";
+        var searchword = GetQueryString("q");
+        var dayString=$(".qsn-awr span").text();
+        var day;
+        switch(dayString){
+        	case "全部":
+        		day = 0;
+        		break;
+        	case "最近7天":
+        		day = 7;
+        		break;
+    		case "最近30天":
+	    		day = 30;
+	    		break;
+	    	case "6个月内":
+        		day = 180;
+        		break;
+        	case "1年内":
+        		day = 365;
+        		break;
+        	default:
+        	    day = 0;
+        }
+        $.ajax({
+            type:"get",
+            url:"/ajax/question?cid=125&day="+day+"page="+page+"&q="+searchword,
+            success:function(dataResult){         
+                $.each(dataResult.data,function(k,v){
+                    if(0==v.imgurl.length){
+                		pageHTML +='<a target="_blank" href="/mod/question/'+v.id+'.html">'+'<div class="strategy-content">'+
+                				'<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.detailtext+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';  
+                	}else{
+                        pageHTML +='<a target="_blank" href="/mod/question/'+v.id+'.html">'+'<div class="strategy-content">'+
+                                '<img src='+v.imgurl+'>'+
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.detailtext+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';     
+                	}
+                       
+                });
+               
+                if(dataResult.currentPage < dataResult.totalPages){
+                    var nextPage = page+1;
+                    pageHTML +='<div class="text-center tq-load-more">' + '<a href=javascript:tourquestion_pagination('+nextPage+')>加载更多</a>'+'</div><div class="tourquestion_pagination qpage'+nextPage+'"><div>'
+                }else{
+                    //pageHTML +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
+                }
+                $(".tq-load-more").hide();
+                $(".qpage"+page).html(pageHTML);
+            }
+        });
+    }
+     
+
+
+
+
+
+
+
+
+
+    $("#select1").on("click",function(){
+    	var getHtml = "";
+    	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td class="the-td">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td style="width: 80px;">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
+
+    	 $.ajax({
+        	type:"get",
+        	url:"/ajax/question",
+        	success:function(dataResult){
+        		$.each(dataResult,function(k,v){
+        			var detail_title = v.title;
+        			var detail = v.detail.split("</p><p>");
+        			var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
+        			var detail_txt = detail[1] + detail[2] + detail[3];
+        		
+        			getHtml +='<div class="strategy-content">'+
+        						detail_img+
+        						'<div class="strategy-txt"> '+
+        							'<p>'+
+        							'&nbsp;'+
+        							'</p>'+
+        							'<h2>'+
+        								detail_title +
+        							'</h2>'+
+        							'<p>'+
+        								detail_txt+
+        							'</p>'+
+        						'</div>'+
+        						
+        					 '</div>';        			
+        		});
+        		getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
+        		$(".school").html(getHtml);
+        	}
+        })
     });
 
-    
 
 </script>
 {% endblock %}

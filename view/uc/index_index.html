@@ -98,7 +98,9 @@
     .coupon-title,
     .detail-title,
     .new-increase,
-    .check-title{
+    .check-title,
+    .evaluation-title,
+    .stroke-title{
       padding:10px 0 10px 20px;
       background: -webkit-linear-gradient(left,#425575, #8E8693 30%,#38628B 100%); /* Safari 5.1 - 6.0 */
       background: -o-linear-gradient(left,#425575, #8E8693 30%,#38628B 100%); /* Opera 11.1 - 12.0 */
@@ -121,7 +123,12 @@
     .detail-content,
     .increase-content,
     .information-list,
-    .check-information{
+    .check-information,
+    .add-content,
+    .check-information,
+    .order-content,
+    .evaluation-information,
+    .stroke-content{
       padding-bottom:20px;
       background: -webkit-linear-gradient(left,#6D8DB3, #9DB7D8); /* Safari 5.1 - 6.0 */
       background: -o-linear-gradient(left,#6D8DB3, #9DB7D8); /* Opera 11.1 - 12.0 */
@@ -171,7 +178,9 @@
     }
     .person-header,
     .head-title,
-    .check-title{
+    .check-title,
+    .evaluation-title,
+    .stroke-title{
       color:#fff;
       font-size:20px;
     }
@@ -227,7 +236,7 @@
       padding-right:10px;
       font-size:20px;
     }
-    .information-title button,
+    .information-title a,
     .address-title button,
     .coupon-title div button{
       font-size:16px;
@@ -457,6 +466,95 @@
       display: inline-block;
       margin-left:80px;
     }
+
+     .add-content{
+      padding:70px 0 0 50px;
+    }
+    .add-content form div label{
+      text-align: right;
+    }
+
+
+
+    .evaluation-order form .form-group{
+      margin-bottom: 0;
+    }
+    .evaluation-order span,
+    .evaluation-order b{
+      color:#fff;
+    }
+    .evaluation-detail{
+      padding:20px 0 20px 70px;
+    }
+    .heart-score,
+    .heart-score>li{
+      float:left;
+    }
+    .heart-score>li{
+      position:relative;
+      color:#fff;
+      font-size:20px;
+    }
+    .heart-score>li>div{
+      background: -webkit-linear-gradient(left,#6D8DB3, #9DB7D8); /* Safari 5.1 - 6.0 */
+      background: -o-linear-gradient(left,#6D8DB3, #9DB7D8); /* Opera 11.1 - 12.0 */
+      background: -moz-linear-gradient(left,#6D8DB3, #9DB7D8); /* Firefox 3.6 - 15 */
+      background: linear-gradient(left,#6D8DB3, #9DB7D8); /* 标准的语法 */
+      display:none;
+      font-size:14px;
+      width:115px;
+      border:1px solid #fff;
+      padding:6px;
+      position:absolute;
+      top:25px;
+      left:-28px;
+    }
+    .heart-score>li:hover{
+      cursor:pointer;
+    }
+    .heart-score>li:hover>div{
+      display:block;
+      z-index:50;
+    }
+    #totality{
+      width:681px;
+      height:150px;
+    }
+    .marking,.heart-score{
+      margin-right:10px;
+    }
+    .satisfaction>li{
+      padding:5px 0 5px 0;
+    }
+    .satisfaction>li>input{
+      width:60%;
+    }
+    .write-evaluation{
+      position:relative;
+       margin-top:35px;
+    }
+    .write-evaluation>span{
+      color:#000;
+      position:absolute;
+      top:125px;
+      left:10px;
+    }
+     .write-evaluation>a{
+      position:absolute;
+      top:112px;
+      left:594px;
+    }
+    .totality-grade{
+      padding:15px 0 0 15px;
+    }
+    .evaluation-detail>b{
+      float:left;
+    }
+
+    .lf{
+      float:left;
+    }
+
 
     
     .min-height{
@@ -1060,28 +1158,28 @@
 				<a href="">我的花生卷</a>
 			</div>
 			<ul class="aside-list" style="min-height:461px">
-				<li><a class="uc-order" href="">订单</a></li>
-				<li><a class="uc-archives" href="">个人档案</a></li>
-        <li><a class="uc-portrait" href="">头像设置</a></li>
+				<li><a class="uc-order" href="javascript:ucOrder();">订单</a></li>
+				<li><a class="uc-archives" href="javascript:ucArchives();">个人档案</a></li>
+        <li><a class="uc-portrait" href="javascript:ucPortrait();">头像设置</a></li>
 				<!--<li><a target="_Blank" href="/uc/seting">头像设置</a></li>
-				<li><a class="uc-community" href="">我的社区主页</a></li>-->
-				<li><a class="uc-account" href="">账号安全</a></li>
+				<li><a class="uc-community" href="javascript:ucCommunity();">我的社区主页</a></li>-->
+				<li><a class="uc-account" href="javascript:ucAccount();">账号安全</a></li>
 
-				<!--<li><a class="uc-collection" href="">收藏</a></li>-->
+				<!--<li><a class="uc-collection" href="javascript:ucCollection();">收藏</a></li>-->
 				<li class="drop-down">
 		    		<a class="formation" data-toggle="collapse" href="#dropdown-menu">常用信息</a>
 		    		<i></i>
 			    	<div class="navbar-default menu-box">
 						<div id="dropdown-menu" class="collapse">
 	          	<ul>
-		            <li><a class="uc-traveller" href="">常用旅客信息</a></li>
-		            <li><a class="uc-address" href="">常用地址</a></li>
+		            <li><a class="uc-traveller" href="javascript:ucTraveller();">常用旅客信息</a></li>
+		            <li><a class="uc-address" href="javascript:ucAddress();">常用地址</a></li>
 							</ul>
 						</div>
 		    		</div>
 	  			</li>
-				<li><a class="uc-coupon" href="">优惠券</a></li>
-				<!--<li><a class="uc-message" href="">消息</a></li>-->
+				<li><a class="uc-coupon" href="javascript:ucCoupon();">优惠券</a></li>
+				<!--<li><a class="uc-message" href="javascript:ucMessage();">消息</a></li>-->
 			</ul>
     	</div>
     	<div class="aside-right">
@@ -1328,5 +1426,14 @@
         $(".aside-list>li>i").addClass("rotate")
     })
 
+     //打分
+    $('.aside-right').on("click","ul.heart-score>li",function(){
+      var i = $(this).index();
+      //console.log(i);
+      $(this).attr("class","glyphicon glyphicon-heart");
+      $(this).prevAll().attr("class","glyphicon glyphicon-heart");
+      $(this).nextAll().attr("class","glyphicon glyphicon-heart-empty");
+      $(this).parent().siblings("b").html(`${i+1}分`);
+    });
   </script>
 {% endblock %}

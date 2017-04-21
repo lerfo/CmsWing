@@ -51,7 +51,8 @@ CLASSES:
                             <div class=" input-group-btn">
                                 <div class="input-group-btn question_select">
                                     <input type="hidden" value="{%if category.allow_publish==0%}0{%else%}{{category.id}}{%endif%}" name="category_id">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="name">{%if category.allow_publish==0%}选择分类{%else%}{{category.title}}{%endif%}</span> <span class="caret"></span></button>
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="name">{%if category.allow_publish==0%}选择分类{%else%}{{category.title}}{%endif%}</span> <!--<span class="caret"></span>--></button>
+                                    {#
                                     <ul class="dropdown-menu" role="menu">
                                         {%column data="column",pid=breadcrumb[0].id%}
                                         {%if breadcrumb[0].allow_publish==1%}
@@ -63,9 +64,11 @@ CLASSES:
                                         {%endfor%}
                                         {%endif%}
                                     </ul>
-                                </div><!-- /btn-group -->
+                                    #}
+                                </div>
+                                {#
+                                <!-- /btn-group -->
                                 {% groups data="groups",cid=category.id%}
-
                                 <div class="input-group-btn question_select {%if groups|length == 0%}hide{%endif%}" id="group">
                                     <input type="hidden" value="0" name="group_id">
                                     <button type="button" class="btn btn-default dropdown-toggle radius" data-toggle="dropdown"><span class="name">选择分组</span> <span class="caret"></span></button>
@@ -76,6 +79,7 @@ CLASSES:
                                         {%endfor%}
                                     </ul>
                                 </div><!-- /btn-group -->
+                                #}
 
                             </div>
                             <input type="text" class="form-control noradius required" name="title" id="title">

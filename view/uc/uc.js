@@ -63,12 +63,6 @@ function allOrder(){
       		}
       	})
 }
-//未出行
-function notStart(){}
-//待付款
-function obligationOrder(){}
-//待评价
-function pendingEvaluation(){}
 //订单详情
 function orderDetail(n){
 	var html="";
@@ -76,7 +70,7 @@ function orderDetail(n){
   	var orderDataList = localStorage.getItem("odrerData");
 	orderDataList = JSON.parse(orderDataList);
   	var orderDataDetail = orderDataList[n];
-  	//console.log(orderDataDetail);
+  	console.log(orderDataDetail);
 	html+=`
 		<div class="detail-box">
 	        <div>
@@ -88,15 +82,9 @@ function orderDetail(n){
 	                <p>订单状态:${orderDataDetail.status_desc} </p>
 	                <p>订单编号:${orderDataDetail.order_no}</p>
 	              </div>
-	    `;
-    if(orderDataDetail.status == 2){
-    	html += `
-			<div class="order-select">                           
-                <button>取消订单</button> 
-            </div>         
-    	`;
-    }
-	html += `          
+	              <div class="order-select">                           
+	                <button>取消订单</button> 
+	              </div>         
 	            </div>
 	          </div>
 	          <div>
@@ -243,224 +231,12 @@ function orderDetail(n){
 	`;
 	$(".aside-right").html(html);
 }
-//订单评价
-function orderEvaluation(n){
-	var html="";
-  	//var orderdata = orderdetail();
-  	var orderDataList = localStorage.getItem("odrerData");
-	orderDataList = JSON.parse(orderDataList);
-  	var orderDataDetail = orderDataList[n];
-  	//console.log(orderDataDetail);
-  	html += `
-		<div class="evaluation-order">
-
-        	<form class="evaluation-information" action="">
-
-		        <div class="form-group">
-		            <div class="evaluation-title">
-		              评价订单
-		            </div>
-		            <div class="evaluation-detail">
-		              <span>订单号:</span><span>${orderDataDetail.order_no}</span>
-		            </div>
-		        </div>
-
-		        <div class="form-group">
-		            <div class="evaluation-title">
-		              	产品信息
-		            </div>
-		            <div class="evaluation-detail clear">
-		              <img src="/uc/index/avatar" alt="" style="width: 65px;float:left">
-		             
-		              <div class="totality-grade lf"> 
-		                <span>【${orderDataDetail.title}】</span>
-		                <br>
-		                <span class="lf marking">产品总体打分:</span>
-		                  <ul class="heart-score clear"> 
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>1分 很不满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>2分 不满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>3分 比较满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>4分 满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>5分 非常满意</div>
-		                    </li>
-		                  </ul>
-		                  <b></b>
-		              </div>
-		            </div>
-		        </div>
-
-		        <div class="form-group">
-		            <div class="evaluation-title">
-		              产品总体评分
-		            </div>
-		            <div class="evaluation-detail">
-		              <span class="lf marking">产品总体打分:</span>
-		              <ul class="heart-score clear"> 
-		                <li class="glyphicon glyphicon-heart-empty">
-		                  <div>1分 很不满意</div>
-		                </li>
-		                <li class="glyphicon glyphicon-heart-empty">
-		                  <div>2分 不满意</div>
-		                </li>
-		                <li class="glyphicon glyphicon-heart-empty">
-		                  <div>3分 比较满意</div>
-		                </li>
-		                <li class="glyphicon glyphicon-heart-empty">
-		                  <div>4分 满意</div>
-		                </li>
-		                <li class="glyphicon glyphicon-heart-empty">
-		                  <div>5分 非常满意</div>
-		                </li>
-		              </ul>
-		               <b></b>
-		              <div class="write-evaluation">
-		                <textarea name="" id="totality"></textarea>
-		                <span>还可以输入<a href="">500</a>字</span>
-		                <a class="btn btn-primary ajax-post" href="">上传照片</a>
-		              </div>
-		              
-		            </div>
-		        </div>
-
-		        <div class="form-group">
-		            <div class="evaluation-title">
-		              产品满意度评分
-		            </div>
-		            <div class="evaluation-detail">
-		              <ul class="satisfaction">
-		                <li>
-		                  <span class="lf marking">导游讲解</span>
-		                  <ul class="heart-score clear"> 
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>1分 很不满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>2分 不满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>3分 比较满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>4分 满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>5分 非常满意</div>
-		                    </li>
-		                  </ul>
-		                   <b></b>
-		                   <input type="text" placeholder="还可以输入70个字">
-		                    <a class="btn btn-primary ajax-post" href="" type="submit">评价</a>
-		                </li>
-		                <li>
-		                  <span class="lf marking">领队服务</span>
-		                  <ul class="heart-score clear"> 
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>1分 很不满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>2分 不满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>3分 比较满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>4分 满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>5分 非常满意</div>
-		                    </li>
-		                  </ul>
-		                   <b></b>
-		                   <input type="text" placeholder="还可以输入70个字">
-		                    <a class="btn btn-primary ajax-post" href="" type="submit">评价</a>
-		                </li>
-		                <li>
-		                  <span class="lf marking">交通路线</span>
-		                  <ul class="heart-score clear"> 
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>1分 很不满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>2分 不满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>3分 比较满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>4分 满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>5分 非常满意</div>
-		                    </li>
-		                  </ul>
-		                   <b></b>
-		                   <input type="text" placeholder="还可以输入70个字">
-		                    <a class="btn btn-primary ajax-post" href="" type="submit">评价</a>
-		                </li>
-		                <li>
-		                  <span class="lf marking">住宿餐食</span>
-		                  <ul class="heart-score clear"> 
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>1分 很不满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>2分 不满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>3分 比较满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>4分 满意</div>
-		                    </li>
-		                    <li class="glyphicon glyphicon-heart-empty">
-		                      <div>5分 非常满意</div>
-		                    </li>
-		                  </ul>
-		                   <b></b>
-		                    <input type="text" placeholder="还可以输入70个字">
-		                    <a class="btn btn-primary ajax-post" href="" type="submit">评价</a>
-		                </li>
-		              </ul>
-		            </div>
-		        </div>
-
-		        <div calss="form-group" style="text-align:center">
-		            <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" ><i class="fa fa-check"></i>发表评论</button>
-		        </div>
-        
-          	</form>
-
-        </div>
-  	`;
-  	$(".aside-right").html(html);
-}
-//查看行程
-function viewStroke(n){
-	var html="";
-  	var orderDataList = localStorage.getItem("odrerData");
-	orderDataList = JSON.parse(orderDataList);
-  	var orderDataDetail = orderDataList[n];
-  	html += `
-		<div class="view-stroke">
-          	<div class="stroke-title">
-            	查看行程
-          	</div>
-          	<div class="stroke-content">
-              	<img src="" alt="">
-          	</div>
-        </div>
-  	`;
-  	$(".aside-right").html(html);
-}
+//未出行
+function notStart(){}
+//待付款
+function obligationOrder(){}
+//待评价
+function pendingEvaluation(){}
 //回调：订单列表
 function queryorderlist(){
 	var html="";
@@ -496,7 +272,7 @@ function queryorderlist(){
 
 
 			var orderDataList = localStorage.getItem("odrerData");
-			orderDataList = JSON.parse(orderDataList);
+		orderDataList = JSON.parse(orderDataList);
 			for(var i=0;i<orderDataList.length;i++){
 				//console.log(orderDataList[i])
 				//console.log(i)
@@ -514,7 +290,7 @@ function queryorderlist(){
 	})	
 };
 //回调:订单内容
-function resultEach(v,i){
+function resultEach(v,i){		
 	var h="";
 	h+=`
 		<table>
@@ -529,101 +305,144 @@ function resultEach(v,i){
             <td>操作</td>
 		</tr>
 		<tr>
-			<td>
-	          	<a class="goodsItem" target="_blank" href="/p/${v.product_id}.html">${v.title}</a>
-	        </td>
-	        <td>
-				<span>${v.connect_name}</span>
-	        </td>
-        	<td>${v.start_date}</td>
-        	<td>￥${v.order_amount}</td>
-			<td>
-				<span class="text-warning">${v.status_desc}</span><br>
-				<a class="order-detail" href="javascript:orderDetail(${i})">查看详情 </a> 
-			</td>
+		<td>
+          	<a class="goodsItem" target="_blank" href="/p/${v.product_id}.html">${v.title}</a>
+        </td>
+        <td>
+			<span>${v.connect_name}</span>
+        </td>
+        <td>${v.start_date}</td>
+        <td>￥${v.order_amount}</td>
 	`;
-    if(v.status == 1){
-        h+=`
-            <td> 
-            	<a href="">编辑订单</a><br />              
-				<a href="javascript:deleteOrder(${v.order_no});" >删除订单</a><br>
-				<a href="javascript:viewStroke(${i});">查看行程 </a>
-            </td>												
-    	`;
-    }else if(v.status == 2){
-    	h += `
-    		<td>
-				<a href="javascript:cannelorder(${v.order_no});" >取消订单 </a><br>
-				<a href="javascript:viewStroke(${i});">查看行程 </a>
+	/*
+	if(v.pay_status == 0 && v.delivery_status != 1 && v.status != 6 && v.status != 4){
+    	h+=`
+			<td>
+				<span class="text-warning">已提交</span>
+				<br />
+				<a class="order-detail" href="${i}">订单详情</a>
 			</td>
+            <td>
+				<a class="btn btn-danger btn-xs" href="/uc/pay/pay?order=${v.id}" target="_blank"><i class="fa fa-credit-card white"></i>立即付款 </a>
+            </td>
+			</tr>
+			</table>													
     	`;
-    }else if(v.status == 3){
-    	h += `
-    		<td>
-				<a href="javascript:deleteOrder(${v.order_no});" >删除订单 </a><br>
-				<a href="javascript:viewStroke(${i});">查看行程 </a>
+    }else if((v.pay_status == 1 || v.status ==3) && v.delivery_status != 1 && v.status != 6 && v.status != 4){
+    	h+=`
+			<td>
+				<span class="text-warning">等待发货</span>
+				<br />
+				<a class="order-detail" href="${i}">订单详情</a>
 			</td>
+            <td>
+				<a class="btn btn-warning btn-xs" href="#"><i class="fa fa-cart-plus white"></i>提醒发货 </a>
+            </td>
+		</tr>	
+		</table>												
+    	`;
+    }else if(v.delivery_status == 1 && v.status != 6 && v.status != 4){
+    	h+=`
+			<td>
+				<span class="text-success">等待收货</span>
+				<br />
+				<a class="order-detail" href="${i}">订单详情</a>
+			</td>
+            <td>
+				<a class="btn btn-success btn-xs confirm ajax-get" href="/uc/order/confirmreceipt/id/${v.id}"><i class="fa fa-cart-plus white"></i>确认收货 </a>
+            </td>
+		</tr>
+		</table>													
     	`;
     }else if(v.status == 6){
-    	h += `
-    		<td>				
-				<a href="javascript:viewStroke(${i});">查看行程 </a>
+    	h+=`
+			<td>
+				<span class="text-danger">已取消</span>
+				<br />
+				<a class="order-detail" href="${i}">订单详情</a>
 			</td>
+            <td>
+				 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
+            </td>
+		</tr>
+		</table>													
     	`;
-    }else if(v.status == 8){
-    	h += `
-    		<td>
-				<a href="javascript:viewStroke(${i});">查看行程 </a><br/>
-				<a href="javascript:orderEvaluation(${i});">评价</a>
+    }else if( v.status == 4){
+    	h+=`
+			<td>
+				<span class="text-default">已完成</span>
+				<br />
+				<a class="order-detail" href="${i}">订单详情</a>
 			</td>
-    	`;
-    }else if(v.status == 9){
-    	h += `
-    		<td>
-				<a href="javascript:viewStroke(${i});">查看行程 </a>
-			</td>
-    	`;
-    }else if(v.status == 15){
-    	h += `
-    		<td>
-				<a href="javascript:viewStroke(${i});">查看行程 </a>
-			</td>
+            <td>
+				 <a class="btn btn-default btn-xs" href="#"><i class="fa fa-cart-plus white"></i>再次购买 </a>
+            </td>
+		</tr>
+		</table>													
     	`;
     }
+    */
+    //temp rewrite
 
-    h += `
-		</tr>
-	</table>	
-    `;
+    if(v.status == 2){
+        h+=`
+				<td>
+					<span class="text-warning">${v.status_desc}</span><br>
+					<a class="order-detail" href="javascript:orderDetail(${i})">查看详情 </a> 
+				</td>
+                <td>
+                
+				<a  href="javascript:cannelorder(${v.order_no});" >取消订单 </a><br>
+				<a  href="javascript:;" >查看行程 </a>
+                </td>
+				</tr>
+				</table>													
+        	`;
+    }else if(v.status == 3){
+    	h+=`
+				<td>
+					<span class="text-warning" style="color:#afa79c !important">${v.status_desc}</span><br>
+					<a class="order-detail" href="javascript:orderDetail(${i})">查看详情 </a>
+				</td>
+                <td>
+					<a  href="javascript:;" >查看行程 </a>
+
+                </td>
+				</tr>
+				</table>													
+        	`;
+    }else{
+    	h+=`
+				<td>
+					<span class="text-warning">${v.status_desc}</span><br>
+					<a class="order-detail" href="javascript:orderDetail(${i})">查看详情 </a> <br>
+				</td>
+                <td>
+               
+				<a  href="javascript:cannelorder(${v.order_no});" >取消订单 </a><br>
+				<a  href="javascript:;" >查看行程 </a>
+                </td>
+				</tr>
+				</table>													
+        	`;
+    }
 	return h;		
 }
 //取消订单
 function cannelorder(orderid){
-	console.log(orderid);
-	var pro;
-	$.ajax({
-		url:"/uc/booking/cannelorder?orderid="+orderid,
-		async:false,
-		success:function(result){
-			console.log(result);
-			queryorderlist();
-		}
-	});
-	//console.log(pro)
-	return pro;
+		console.log(orderid);
+		var pro;
+		$.ajax({
+			url:"/uc/booking/cannelorder?orderid="+orderid,
+			async:false,
+			success:function(result){
+				console.log(result);
+				queryorderlist();
+			}
+		});
+		//console.log(pro)
+		return pro;
 };
-//删除订单
-function deleteOrder(orderid){
-	var pro;
-	$.ajax({
-		url:"/uc/booking/delorder?orderid="+orderid,
-		async:false,
-		success:function(result){
-			queryorderlist();
-		}
-	})
-	return pro;
-}
 
 
 /****
@@ -732,9 +551,7 @@ function ucArchives(){
           		<select class="form-control pointer  " id="start_city1" name="start_city" style="width: 150px;display: inline-block">
           	`;
 		    let m = $("#start_province1 option:selected").val;
-		    console.log(m);
 		    let city2 = getcity(m);
-		    console.log(city2);
 		    $.each(city2,function(k,n){
 		    	html+=`                    		
             		<option value="${n.id}">${n.name}</option>                   		
@@ -755,8 +572,7 @@ function ucArchives(){
 				</div>	
 	        </div>
 	       		`;
-			$(".aside-right").html(html);
-
+		$(".aside-right").html(html);
   		}
   	})
 }
@@ -967,7 +783,7 @@ function ucTraveller(){
 	                      <td class="col-xs-1">${v[i].type_name}</td>
 	                      <td class="col-xs-2">
 	                        <a class="see-traveller" href="javascript:seeTraveller(${i});">查看</a>
-	                        <a class="edit-traveller" href="javascript:editTraveller(${i});">编辑</a>
+	                        <a class="edit-traveller" href="javascript:editTraveller();">编辑</a>
 	                        <a href="">删除</a>
 	                      </td>
 	                    </tr>
@@ -1151,7 +967,7 @@ function seeTraveller(n){
               </li>
               <li><span>有效期</span><b>XXXXXXXXXXX</b></li>
             </ul> 
-            <a class="go-back" href="javascript:ucTraveller();"><返回</a>
+            <a class="go-back" href=""><返回</a>
           </div>
          
         </div>
@@ -1160,26 +976,26 @@ function seeTraveller(n){
   	$(".aside-right").html(html)
 }
 //编辑旅客信息
-function editTraveller(n){
+function editTraveller(){
 	var html="";
 	html+=`
 		<div class="new-increase">
           <span class="new-increase1">编辑常用旅客信息</span>
           <span class="new-increase2">请填写如下常用旅客信息,*为必选项</span>
-          <a class="new-increase3"  href="javascript:ucTraveller();" >查看所有旅客信息</a>
+          <span class="new-increase3">查看所有旅客信息</span>
         </div>    
 	`;
-	html+=add(n);
+	html+=add();
 	$(".aside-right").html(html);
 }
 //新增旅客信息
-function addTraveller(n){
+function addTraveller(){
 	var html="";
 	html+=`
 		<div class="new-increase">
           <span class="new-increase1">新增常用旅客信息</span>
           <span class="new-increase2">请填写如下常用旅客信息,*为必选项</span>
-          <a class="new-increase3"  href="javascript:ucTraveller();" >查看所有旅客信息</a>
+          <span class="new-increase3">查看所有旅客信息</span>
         </div>    
 	`;
 	html+=add();
@@ -1187,112 +1003,38 @@ function addTraveller(n){
 }
 
 //回调:旅客编辑主体
-function add(n){
-	console.log(n);
-	var v ={};
-	var val = JSON.parse(localStorage.getItem("travellerList"));
-	if(typeof(n) !="undefined" && n < val.length && n >= 0){
-		v = val[n];
-	}
-	console.log(val);
-	if(typeof(v.type) =="undefined" || !v.type){
-  		v.type = 0;
-  	}
-  	if(typeof(v.name_zh) =="undefined" || !v.name_zh){
-  		v.name_zh = '';
-  	}
-  	if(typeof(v.name_en_first) =="undefined" || !v.name_en_first){
-  		v.name_en_first = '';
-  	}
-  	if(typeof(v.name_en_last) =="undefined" || !v.name_en_last){
-  		v.name_en_last = '';
-  	}
-  	if(typeof(v.is_default) =="undefined" || !v.is_default){
-  		v.is_default = 0;
-  	}
-  	if(typeof(v.country) =="undefined" || !v.country){
-  		v.country = '';
-  	}
-  	if(typeof(v.sexual) =="undefined" || !v.sexual){
-  		v.sexual = 0;
-  	}
-  	if(typeof(v.birthday) =="undefined" || !v.birthday){
-  		v.birthday = '';
-  	}
-  	if(typeof(v.birthplace) =="undefined" || !v.birthplace){
-  		v.birthplace = '';
-  	}
-  	if(typeof(v.phone) =="undefined" || !v.phone){
-  		v.phone = '';
-  	}
-  	if(typeof(v.phone_zone) =="undefined" || !v.phone_zone){
-  		v.phone_zone = '';
-  	}
-  	if(typeof(v.phone_external) =="undefined" || !v.phone_external){
-  		v.phone_external = '';
-  	}
-  	if(typeof(v.tel_zone) =="undefined" || !v.tel_zone){
-  		v.tel_zone = '';
-  	}
-  	if(typeof(v.tel_number) =="undefined" || !v.tel_number){
-  		v.tel_number = '';
-  	}
-  	if(typeof(v.tel_ext) =="undefined" || !v.tel_ext){
-  		v.tel_ext = '';
-  	}
-  	if(typeof(v.fax_zone) =="undefined" || !v.fax_zone){
-  		v.fax_zone = '';
-  	}
-  	if(typeof(v.fax_number) =="undefined" || !v.fax_number){
-  		v.fax_number = '';
-  	}
-  	if(typeof(v.fax_ext) =="undefined" || !v.fax_ext){
-  		v.fax_ext = '';
-  	}
-  	if(typeof(v.email) =="undefined" || !v.email){
-  		v.email = '';
-  	}
-  	if(typeof(v.credentials_type) =="undefined" || !v.credentials_type){
-  		v.credentials_type = 0;
-  	}
-  	if(typeof(v.credentials_value) =="undefined" || !v.credentials_value){
-  		v.credentials_value = '';
-  	}
-  	if(typeof(v.credentials_validity) =="undefined" || !v.credentials_validity){
-  		v.credentials_validity = '';
-  	}
-  	console.log(v);
+function add(){
 	var html=`
 		<div class="increase-content">
 	  		<div class="increase-title">旅客信息</div>
-	  		<form action="/uc/traveller/addaddr" mothod="post">
+	  		<form action="">
 	  			<div class="col-md-offset-2 ce">*中文名与英文名两者必填一项</div>
 	  			<div class="form-group clear">
 				    <label class="col-md-2 control-label" for="">中文名</label>
 				    <span class="star">*</span>
 				    <div class="col-md-4">
-	        			<input class="form-control masked" type="text" placeholder="请输入中文姓名" name="name_zh" value=${v.name_zh}>
+	        			<input class="form-control masked" type="text" placeholder="请输入中文姓名">
 	    			</div>                                              
 	  			</div>
 				<div class="form-group clear">
 				    <label class="col-md-2 control-label" for="">英文名</label>
 				    <span class="star">*</span>
 				    <div class="col-md-2 clear">
-				      <input class="form-control masked" type="text" placeholder="LastName(姓)" name="name_en_first" value=${v.name_en_first}>
+				      <input class="form-control masked" type="text" placeholder="LastName(姓)">
 				    </div>
 			    	<div class="col-md-2 clear">
-			      		<input class="form-control masked" type="text" placeholder="FirsName(名)" name="name_en_last" value=${v.name_en_last}>
+			      		<input class="form-control masked" type="text" placeholder="FirsName(名)">
 			    	</div>
 			  	</div>
 				<div class="col-md-offset-2 self">
-				    <input type="checkbox" name="is_default" value=${v.is_default}>设置为本人
+				    <input type="checkbox">设置为本人
 				</div>
 	  
 				<div class="form-group clear">
 				    <label class="col-md-2 control-label" for="">国籍</label>
 				    <span class="star">*</span>
 				    <div class="col-md-4">
-				      	<input class="form-control masked" type="text" placeholder="中文/英文" name="country" value=${v.country}>
+				      	<input class="form-control masked" type="text" placeholder="中文/英文">
 				    </div>               
 				</div>
 	  <div class="form-group">
@@ -1300,11 +1042,11 @@ function add(n){
 	    <span class="star">*</span>
 	    <div class="col-md-10">
 	      <label class="radio" style="margin-top: 3px;padding-top: 3px">
-	        <input type="radio" value="1" name="sexual">
+	        <input type="radio" value="1" name="sex">
 	        <i></i> 男
 	      </label>
 	      <label class="radio" style="margin-top: 3px;padding-top: 3px">
-	        <input type="radio" checked="checked" value="2" name="sexual">
+	        <input type="radio" checked="checked" value="2" name="sex">
 	        <i></i> 女
 	      </label>
 	      </div>
@@ -1313,52 +1055,52 @@ function add(n){
 	  <div class="form-group clear">
 	    <label class="col-md-2 control-label">生日</label>
 	    <div class="col-md-4">
-	      <input type="text" name="birthday" value="${v.birthday}" class="form-control masked" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
+	      <input type="text" name="birthday" value="{{userInfo.birthday|dateformat('Y-m-d')}}" class="form-control masked" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
 	    </div>
 	  </div>
 	  <div class="form-group clear">
 	    <label class="col-md-2 control-label" for="">出生地</label>
 	    <div class="col-md-4">
-	      <input class="form-control masked" type="text" name="birthplace" value="${v.birthplace}">
+	      <input class="form-control masked" type="text">
 	    </div>                
 	  </div>
 	  <div class="form-group clear">
 	    <label class="col-md-2 control-label">手机号码</label>
 	    <span class="star">*</span>
 	    <div class="col-md-4">
-	      <input type="text" name="phone" value="${v.phone}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
+	      <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
 	    </div>
 	  </div>
 	  <div class="form-group clear">
 	    <label class="col-md-2 control-label">非大陆号码</label>*
 	    <div class="col-md-3">
-	      <input type="text" name="phone_zone" value="${v.phone_zone}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="中国香港825">
+	      <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="中国香港825">
 	     
 	    </div>
 	    <div class="col-md-2">
-	        <input type="text" name="phone_external" value="${v.phone_external}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="非大陆手机">
+	        <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="非大陆手机">
 	    </div>
 	  </div>
 	  <div class="form-group clear">
 	    <label class="col-md-2 control-label">联系电话</label>
 	    <div class="col-md-10   landline-telephone">
-	        <input type="text" name="tel_zone" value="${v.tel_zone}" class="area"  data-placeholder="区号" placeholder="区号">
-	        <input type="text" name="tel_number" value="${v.tel_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
-	        <input type="text" name="tel_ext" value="${v.tel_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+	        <input type="text" name="phone_zone" value="{data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
+	        <input type="text" name="phone_number" value="{data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
+	        <input type="text" name="phone_ext" value="{data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
 	    </div>
 	  </div>
 	  <div class="form-group clear">
 	    <label class="col-md-2 control-label">传真号码</label>
 	    <div class="col-md-10   landline-telephone">
-	        <input type="text" name="fax_zone" value="${v.fax_zone}" class="area"  data-placeholder="区号" placeholder="区号">
-	        <input type="text" name="fax_number" value="${v.fax_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
-	        <input type="text" name="fax_ext" value="${v.fax_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+	        <input type="text" name="phone_zone" value="{data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
+	        <input type="text" name="phone_number" value="{data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
+	        <input type="text" name="phone_ext" value="{data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
 	    </div>
 	  </div>
 	 <div class="form-group clear">
 	    <label class="col-md-2 control-label" for="">Email</label>
 	    <div class="col-md-4">
-	      <input class="form-control masked" type="text" name="email" value="${v.email}">
+	      <input class="form-control masked" type="text">
 	    </div>                
 	  </div>
 	  <div class="form-group clear">
@@ -1368,16 +1110,16 @@ function add(n){
 	    <label class="col-md-2 control-label" for="">证件类型</label>
 	    <span class="star">*</span>
 	    <div class="col-md-2">
-	      <input class="form-control " type="text" name="credentials_type" value="${v.credentials_type}">
+	      <input class="form-control " type="text">
 	    </div> 
 	    <label class="col-md-1 control-label credentials-num" for="">证件号码</label>
 	    <span class="star">*</span>
 	    <div class="col-md-3">
-	      <input class="form-control " type="text" name="credentials_value" value="${v.credentials_value}">
+	      <input class="form-control " type="text">
 	    </div>                
 	    <label class="col-md-1 control-label credentials-num" for="">有效期</label>
 	    <div class="col-md-2">
-	      <input class="form-control " type="text" placeholder="yyyy-mm-dd" name="credentials_validity" value="${v.credentials_validity}">
+	      <input class="form-control " type="text" placeholder="yyyy-mm-dd">
 	    </div>                               
 	  </div>
 
@@ -1433,7 +1175,6 @@ function ucAddress(){
 			`;
 			var  v = result.data;
 			localStorage.setItem("addressList",JSON.stringify(v));
-			console.log(v);
 			for(var i=0;i<v.length;i++){
 				html+=`												               				              
 	                <div class="detail-information clear">
@@ -1447,8 +1188,8 @@ function ucAddress(){
 	                      <td class="col-xs-3">${v[i].addr}</td>
 	                      <td class="col-xs-1">${v[i].zip}</td>
 	                      <td class="col-xs-2">
-	                        <a class="see-address" href="javascript:seeAddress(${i})">查看</a>
-	                        <a href="javascript:editAddress(${i});">编辑</a>
+	                        <a class="see-address" href="javascript:seeAddress(${i});">查看</a>
+	                        <a href="">编辑</a>
 	                        <a href="">删除</a>
 	                      </td>
 	                    </tr>
@@ -1543,181 +1284,15 @@ function seeAddress(n){
 	          	          
 	html+=`          		              		              
         </ul>
-        <a class="go-back" href="javascript:ucAddress();"> <返回 </a>
+        <a class="go-back" href=""> <返回 </a>
       </div>
     </div>
 	`;
 	$(".aside-right").html(html)
 }
 //编辑地址信息
-function editAddress(n){
-	var val = JSON.parse(localStorage.getItem("addressList"));
-	var m = {};
-	if(typeof(n) !="undefined" && n < val.length && n >= 0){
-		m = val[n];
-	}
-	var html=`
-		<div calss="add-address">
-          	<div class="check-title">
-            	编辑常用地址信息
-          	</div>
-          	<div class="add-content min-height">
-            	<form action="">
-
-	                <div class="form-group clear">
-	                <label class="col-md-2 control-label" for="">地址简称</label>
-		                <div class="col-md-4">
-		                    <input class="form-control masked" type="text" placeholder='如"家"，"我的公司"等' name="sortname" value=${m.sortname}>
-		                </div>                                              
-	                </div>
-
-              <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">收件人姓名</label>
-                <div class="col-md-4 clear">
-                  <input class="form-control masked" type="text" placeholder=""  name="accept_name" value=${m.accept_name}>
-                </div>
-              </div>
-              
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">所在地区</label>
-                <div class="col-md-10">
-                  <select class="form-control pointer" id="start_province1" name="start_province" style="width: 150px;display: inline-block">
-                    <option value=""></option>
-                    <option value=""></option>
-                  </select>省
-                  <select class="form-control pointer" id="start_city1" name="start_city" style="width: 150px;display: inline-block">
-                    <option value=""></option>  
-                  </select>市
-                </div>
-              </div>  
-
-              <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">详细地址</label>
-                <div class="col-md-6 clear">
-                  <input class="form-control masked" type="text" placeholder=""  name="addr" value=${m.addr}>
-                </div>
-              </div>
-
-               <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">邮政编码</label>
-                <div class="col-md-4 clear">
-                  <input class="form-control masked" type="text" placeholder=""  name="zip" value=${m.zip}>
-                </div>
-              </div>
-
-              <div class="col-md-offset-2 ce">手机号码与联系电话两者必填一项</div>
-
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">手机号码</label>
-                <div class="col-md-4">
-                  <input type="text" name="mobile" value="${m.mobile}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
-                </div>
-              </div>
-
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">联系电话</label>
-                <div class="col-md-10   landline-telephone">
-                    <input type="text" name="phone_zone" value="${m.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
-                    <input type="text" name="phone_number" value="${m.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
-                    <input type="text" name="phone_ext" value="${m.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
-                </div>
-              </div>
-
-               <div class="form-group margin-top-30 clear">
-                <div class="col-md-2 col-md-offset-2">
-                  <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" ><i class="fa fa-check"></i> 保存 </button>
-                </div>
-              </div>
-
-            </form>
-
-          </div>
-        </div>
-		`;
-	$(".aside-right").html(html)
-}
 //新增地址信息
-function addAddress(){
-	var html=`
-		<div calss="add-address">
-          	<div class="check-title">
-            	新增常用地址信息
-          	</div>
-          	<div class="add-content min-height">
-            	<form action="">
 
-	                <div class="form-group clear">
-	                <label class="col-md-2 control-label" for="">地址简称</label>
-		                <div class="col-md-4">
-		                    <input class="form-control masked" type="text" placeholder='如"家"，"我的公司"等' name="sortname">
-		                </div>                                              
-	                </div>
-
-              <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">收件人姓名</label>
-                <div class="col-md-4 clear">
-                  <input class="form-control masked" type="text" placeholder="" name="accept_name">
-                </div>
-              </div>
-              
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">所在地区</label>
-                <div class="col-md-10">
-                  <select class="form-control pointer  " id="start_province1" name="province" style="width: 150px;display: inline-block">
-                    <option value=""></option>
-                    <option value=""></option>
-                  </select>省
-                  <select class="form-control pointer  " id="start_city1" name="city" style="width: 150px;display: inline-block">
-                    <option value=""></option>  
-                  </select>市
-                </div>
-              </div>  
-
-              <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">详细地址</label>
-                <div class="col-md-6 clear">
-                  <input class="form-control masked" type="text" placeholder="" name="addr">
-                </div>
-              </div>
-
-               <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">邮政编码</label>
-                <div class="col-md-4 clear">
-                  <input class="form-control masked" type="text" placeholder=""  name="zip">
-                </div>
-              </div>
-
-              <div class="col-md-offset-2 ce">手机号码与联系电话两者必填一项</div>
-
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">手机号码</label>
-                <div class="col-md-4">
-                  <input type="text" name="mobile" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
-                </div>
-              </div>
-
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">联系电话</label>
-                <div class="col-md-10   landline-telephone">
-                    <input type="text" name="phone_zone" " class="area"  data-placeholder="区号" placeholder="区号">
-                    <input type="text" name="phone_number"  class="telephone"  data-placeholder="电话" placeholder="电话">
-                    <input type="text" name="phone_ext"  class="extension"  data-placeholder="分机" placeholder="分机">
-                </div>
-              </div>
-
-               <div class="form-group margin-top-30 clear">
-                <div class="col-md-2 col-md-offset-2">
-                  <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" ><i class="fa fa-check"></i> 保存 </button>
-                </div>
-              </div>
-
-            </form>
-
-          </div>
-        </div>
-		`;
-	$(".aside-right").html(html)
-}
 
 /****
 *优惠券

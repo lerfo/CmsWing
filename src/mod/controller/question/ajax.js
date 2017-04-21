@@ -28,8 +28,8 @@ export default class extends Base {
         }
         return this.json(groups);
     }
-//关注
-async ajaxquestionfocusAction(){
+    //关注
+    async ajaxquestionfocusAction(){
         //前端验证登录
         await this.weblogin();
         //获取关注的类型，1关注，2取消关注
@@ -56,8 +56,8 @@ async ajaxquestionfocusAction(){
            console.log('focus end');
        }
 
- //管理员推荐主题
- async ajaxrecommendAction(){
+    //管理员推荐主题
+    async ajaxrecommendAction(){
       //前台登录验证
       await this.weblogin();
       console.log(this.get("id"));

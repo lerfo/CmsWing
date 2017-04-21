@@ -12,7 +12,7 @@ export default class extends Base {
   init(http){
     super.init(http);
     this.status_desc=['','未提交','已提交','已取消','已付款','','卖家已确认','待成团','已成团','已作废','请求退款','确认退款','退款中','退款成功','','已评价'];
-    //订单状态 status 1,未提交(草稿)2:已提交待确认待付款，3:已取消,4已付款待确认，5,待卖家确认，6:卖家已确认，7:待成团待出行，8:已成团待评价，9：已作废， 10:请求退款,11:确认退款，12,:退款中，13退款成功 14:待评价，15:已成团已评价
+    //订单状态 status 1,未提交(草稿)2:已提交待确认待付款，3:已取消,4：已付款待确认，5：，6:卖家已确认订单，7:已确认待成团，8:已成团完成订单待评价，9：商户已作废订单， 10:请求退款待确认,11:确认退款，12,:退款中，13退款成功 14:，15:已成团已评价
 
   }
   /**
@@ -546,7 +546,30 @@ export default class extends Base {
     else
       return this.fail("取消订单失败");
   }
+    /**
+   * delorderAction  删除订单
+   * @return {Promise} []
+   * /uc/booking/query/status/4 
+   * status
+   */
+  async delorderAction() {
+    //判断是否登陆
+    let islogin = await this.jsonlogin();
+    if(!islogin){
+      return this.fail("未登录");
+    }
 
+    let orderid = this.get('orderid'); 
+    //console.log(status);
+    let order_tour_info={};
+    //订单状态 status 1,未提交(草稿)2:已提交(待付款)，3:已取消,4已付款，5,待卖家确认，6:卖家已确认，7:待成团，8:已成团， 10:请求退款,11:确认退款，12,:退款中，13退款成功 16:待评价，17:已评价
+    //只有未提交订单才可以删除
+    let update = await this.model("order_tour").where({user_id: this.user.uid,order_no:orderid,status:1}).delete();
+    if(update)
+      return this.success("删除订单成功");
+    else
+      return this.fail("删除订单失败");
+  }
   //
     /**
    * createorder action 查询验证优惠券
@@ -637,6 +660,103 @@ export default class extends Base {
       return this.json(discountlist);
     //return this.action("article","index");
   }
+
+  /**
+  * getproductinfo 查询产品评论信息 GET
+  * product_id:产品ID 必填
+  */
+  async getproductinfoAction(){
+    await this.weblogin();
+    let product_id = this.get("product_id");
+    if(think.isEmpty(product_id) || product_id == 0 ){
+      return this.fail("产品ID为空");
+    }
+    think.log(product_id,'BOOKING_GETCOMMENT');
+   
+    
+    let cover_id = await this.model("document").where({id:product_id}).getField("cover_id",true);
+    let document_tour = await this.model("document_tour").where({id:product_id}).getField("score,commentcount,product_route",true);
+    document_tour.cover_id =  cover_id;
+    document_tour.cover_url = await get_pic(cover_id,1,65,65); 
+    if(document_tour.commentcount > 0){
+      document_tour.score_avg =(document_tour.score / document_tour.commentcount).toFixed(1);
+    }else{
+      document_tour.score_avg = 0;
+    }
+    console.log(cover_id);
+    return this.success(document_tour);
+  }
+
+  /**
+  * addcomment 提交评论 POST
+  * product_id:产品ID 必填
+  * comment_content: 评论，纯文本 
+  * comment_img: 评论图片，多图片ID用“，”分开       
+  * anonymous:1 匿名 0：不匿名   暂不启用
+  * score_total: 总评分
+  * score_guide: 导游讲解得分
+  * score_service: 领队服务得分
+  * score_traffic: 交通线路得分
+  * score_hotel: 住宿餐食得分
+  * comment_guide: 导游讲解得评论
+  * comment_service: 领队服务评论
+  * comment_traffic: 交通线路评论
+  * comment_hotel: 住宿餐食评论
+  */
+  async addcommentAction(){
+    await this.weblogin();
+    let data = this.post();
+    /*
+    let data = {};
+    data.product_id = 560;
+    data.comment_content = "hahaha哈哈哈";
+    data.comment_img = "891";
+    data.score_total = 5;
+    data.score_guide =5;
+    data.score_service = 4;
+    data.score_traffic = 3;
+    data.score_hotel =4;
+    data.comment_hotel = "hahah";
+    */
+    if(think.isEmpty(data.product_id) || data.product_id == 0 ){
+      return this.fail("产品ID为空");
+    }
+    think.log(data,'BOOKING_ADDCOMMENT');
+    data.add_time = new Date().valueOf();
+    data.uid = this.user.uid;
+    data.ip = _ip2int(this.ip());
+    //data.anonymous = data.anonymous||1;
+    await this.model("tour_comment").add(data);
+    //更新产品总评分
+    let document_tour = await this.model("document_tour").where({id:data.product_id}).getField("score,commentcount,socre5,socre4,socre3,socre2,socre1,imgcommentcount",true);
+    document_tour.commentcount += 1;
+    switch ( Number(data.score_total)) {
+        case 5:
+          document_tour.socre5 += 1 ;
+          break;
+        case 4:
+          document_tour.socre4 += 1 ;
+          break;
+        case 3:
+          document_tour.socre3 += 1 ;
+          break;
+        case 2:
+          document_tour.socre2 += 1 ;
+          break;
+        case 1:
+          document_tour.socre1 += 1 ;
+          break;
+        default:    
+    }
+    document_tour.score += Number(data.score_total);
+    if(!think.isEmpty(data.comment_img)){
+      document_tour.imgcommentcount += 1;
+    }
+    await this.model("document_tour").where({id:data.product_id}).update(document_tour);
+    return this.success("评论成功");
+  }
+
+
 
   //实时查询商品库存
   async getstockAction(){

@@ -18,12 +18,15 @@ export default class extends Base {
       //前台登录验证
       await this.weblogin();
       let cid = this.get("cid");
+      let type = this.get("type");
+      console.log("type:"+type);
       //验证用户权限
       await this.c_verify("add",cid,"您所在的用户组，没有发布权限！");
       //获取面包屑信息
       let breadcrumb = await this.model('category').get_parent_category(cid,true);
       this.assign('breadcrumb', breadcrumb);
       console.log(breadcrumb)
+      console.log(this.m_cate)
       this.assign('category', this.m_cate);
       this.meta_title = "发布";
       if(checkMobile(this.userAgent())){
@@ -35,9 +38,9 @@ export default class extends Base {
           return this.modtemp();
         }
       }
-      async testAction(){
-        return this.display();
-      }
+  async testAction(){
+    return this.display();
+  }
   //编辑主题
   async editAction(){
      //前台登录验证
@@ -91,6 +94,7 @@ export default class extends Base {
       await this.weblogin();
 
       let data = this.post();
+      console.log(data);
       if(think.isEmpty(data.id)){//发布
         data.uid = this.user.uid;
         data.ip = _ip2int(this.ip());
