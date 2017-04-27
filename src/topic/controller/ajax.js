@@ -420,11 +420,11 @@ async topicAction(){
  */
 async questionAction(){
         let args = this.post();
-        console.log(this.get("limit"));
+        console.log(this.get("page"));
         let where = {};//{'status':1};
         //let data = think.isEmpty(args.data) ? "data" : args.data;
-        let limit = this.get("limit") ? this.get("limit"): 1;
-        let page = this.get("page") ? this.get("page") : 0 ;
+        let limit = this.get("limit") ? this.get("limit"): 5 ;
+        let page = this.get("page") ? this.get("page") : 1 ;
         let has_img = this.get("has_img") ? this.get("has_img") : 0 ;
         console.log("limit:"+limit+",page:"+page);
         //帖子包含图片
@@ -438,15 +438,17 @@ async questionAction(){
         type = Number(type);
         switch (type){
           case 1://按热度排序
-            odrerMap.popular_value = 'DESC';
+            odrerMap.view = 'DESC';
             break;
           case 2://按推荐排序
-            map.is_recommend = 1;
-              odrerMap.id='DESC';
+            //map.is_recommend = 1;
+            where = think.extend({},where,{'is_recommend':1});
+            odrerMap.id='DESC';
             break;
           case 3://等待回复
-            map.answer_count = 0;
-              odrerMap.id='DESC';
+            //map.answer_count = 0;
+            where = think.extend({},where,{'answer_count':0});
+            odrerMap.id='DESC';
             break;
           default:
             odrerMap.update_time = 'DESC';
@@ -490,12 +492,18 @@ async questionAction(){
         
         console.log('page:'+page);
         console.log(where);
+        console.log(odrerMap);
         let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(odrerMap).countSelect();
         //console.log(questions);
         if(!think.isEmpty(questions.data)){
           //前端字符显示处理
           for(let val of questions.data){
-            val.imgurl = await img_text_view(val.detail,233,150);
+            val.create_time = await time_format(val.create_time);
+            if(val.cover_id){
+              val.imgurl = await get_pic(val.cover_id,1,233,150);
+            }else{
+              val.imgurl = '';
+            }
             val.detailtext = await delhtmltags(val.detail);
             if(think.isEmpty(val.detailtext)){
               val.detailtext = "";

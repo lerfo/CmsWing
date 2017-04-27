@@ -20,6 +20,12 @@
     	padding: 0px;
     	background-color: #fff;
     }
+    .cgy{
+        margin-top:15px;
+    }
+    .cgy a:focus:not(.btn) {
+    color: #fff;
+    }
     .phb{
     	padding:0px;
     	margin:0px auto ! important;
@@ -37,9 +43,9 @@
     	text-align: center;
     }
     .phb li a{
-    	margin-top: 12px;
+        margin-top: 10px;
         width: 180px;
-    	
+    	color: #fff;
     }
     .phb:hover{
         cursor: pointer;
@@ -77,7 +83,6 @@
     }
     .bpm:hover {
     	cursor:pointer;
-    	/* height: 160px; */
     	box-shadow: 0  5px 15px 5px rgba(0,0,0,0.1);
     }
     .blog-post-item h2{
@@ -108,7 +113,7 @@
     .qsn-awr a{
         color:#565656;
     }
-    .strategy-content img{
+    .strategy-content>img{
     	float: left;
     	width: 233px;
     	height: 150px;
@@ -118,6 +123,7 @@
     }
     .strategy-txt h2{
     	font-size:16px;
+        font-weight: 500;
     	color: #121212;
     	margin: 0px 0px 10px 0px;
     }
@@ -261,6 +267,31 @@
     .tournote_pagination a, a:focus:not(.btn){
     	color:#3e3e3e;
     }
+    ul.blog-post-info {
+    height: 33px;
+    }
+    section.page-header span.font-lato {
+        border: 0px;
+    }
+    ul.blog-post-info li a:after {
+        content:none;
+    }
+    ul.blog-post-info li {
+        margin-right: 0px;
+    }
+    .span_userName{
+        margin: 0px 6px;
+        font-weight: bold;
+    }
+    .showquestion{
+        border:#eee 1px solid;
+        padding:15px 20px;
+        margin-bottom:20px;
+        width:862px;
+    }
+    .showquestion:hover h2 a{
+        color: #1eb6c1;
+    }
 </style>
     <!--
     PAGE HEADER
@@ -322,7 +353,7 @@
     </section>
 
     <!-- /SLIDER -->
-    <section class="body-section page-header page-header-xs">
+    <section class="body-section page-header-xs main_section">
         <div class="ctr container">			
 				 <!-- page tabs -->
         
@@ -338,8 +369,9 @@
                     <div class="linea"></div>
                 </li>-->
                 <li class="cgy" id="select2" ><a href="javascript:;">游学</a><div class="linea" style="background-color: #fff;"></li>
-                <li class="cgy" id="select3" ><a href="javascript:gettournote();">游记攻略</a><div class="linea"></li>
-                <li class="cgy" id="select4"><a href="javascript:gettourquestion();">问答</a><div class="linea"></li> 
+                <li class="cgy" id="select3" onclick="gettournote();
+                "><a href="javascript:;">游记攻略</a><div class="linea"></li>
+                <li class="cgy" id="select4" onclick="gettourquestion();"><a href="javascript:;">问答</a><div class="linea"></li> 
 
                <!-- Version 1.0  
                <li class="cgy"><a href="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{val.id}}" >学校</a><div class="linea"></div></li>
@@ -578,8 +610,7 @@
     	window.open(hrf);
     });
 
-
-    
+  
     function gettournote(days=0){
         var searchword = GetQueryString("q");
         var getHtml = "";
@@ -740,16 +771,63 @@
                         </td></tr></tbody></table>';
             //history.replaceState(" "," ","question?cid=125&day=all");        
         }
-        
+        getHtml += '<div class="tourquestion_page1"></div><div class="tourquestion_page2"></div>';
+        $(".qsn-awr").html(getHtml);
+        $(".tourquestion_page1").css("width","904px");
+        var pageHtml = '';
          $.ajax({
             type:"get",
             url:"/ajax/question?cid=125&day="+days+"&q="+searchword,
             success:function(dataResult){
-            	getHtml +='<div class="tournote_pagination qpage1 ">'
+            	//getHtml +='<div class="tournote_pagination qpage1 ">'
             	//console.log(dataResult);
                 $.each(dataResult.data,function(k,v){
-                	if(0==v.imgurl.length){
-                    	getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
+                    pageHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="showquestion">'+
+                                '<ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;width:825px;">\
+                                    <li>\
+                                        <a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 50px;height: 50px;border-radius: 50%;"></a>\
+                                        <a href="javascript:;">\
+                                            <span class="font-lato span_userName">'+v.uid+'</span>\
+                                        </a>\
+                                        <span class="font-lato">提了一个问题</span>\
+                                    </li>\
+                                    <li>\
+                                        <span class="font-lato"> · </span>\
+                                    </li>\
+                                    <li>\
+                                        <span class="font-lato">'+ v.create_time +'</span>\
+                                    </li>'
+                    if (0==v.answer_count) {
+                        pageHtml += '<li style="margin-left:5px;">\
+                                        <div style="background-color: #1eb6c1;color: #fff;border-radius:3px;">&nbsp;待回答&nbsp;</div>\
+                                    </li>'
+                    }
+                    pageHtml +='</ul>'+
+                                '<p>'+
+                                '&nbsp;'+
+                                '</p>'+
+                                '<h2 style="font-size:15px;margin-bottom:6px;"><a href="/mod/question/'+v.id+'" title="'+v.title+'">'+
+                                    v.title +
+                                '</a></h2>'+
+                                '<p>'+
+                                    v.detailtext+
+                                '</p>'+
+                                '<ul class="blog-post-info list-inline margin-top-10" style="border: 0px;width: 250px;margin-left:600px;">\
+                                    <li>\
+                                        <img src="static/assets/images/reply.png" style="width: 16px;height: 16px;margin-top:-4px;"" />\
+                                        <span class="font-lato">'+ v.answer_count +' 个回答</span>\
+                                    </li>\
+                                    <li style="margin:0px 10px;">\
+                                        <div style="width:2px;height:13px ;background-color: black;"></div>\
+                                    </li>\
+                                    <li>\
+                                        <img src="static/assets/images/browse.png" style="width: 16px;height: 16px;margin-top:-4px;"/>\
+                                        <span class="font-lato">'+ v.view +' 人浏览</span>\
+                                    </li>\
+                                </ul>'+
+                                '</div></a>';  
+                	/*if(0==v.imgurl.length){
+                    	pageHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
                                 '<div class="strategy-txt"> '+
                                     '<p>'+
                                     '&nbsp;'+
@@ -764,7 +842,7 @@
                                 '</div></a>';  
 
                 	}else{
-                    	getHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
+                    	pageHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
                                 '<img src='+v.imgurl+'>'+
                                 '<div class="strategy-txt"> '+
                                     '<p>'+
@@ -778,15 +856,16 @@
                                     '</p>'+
                                 '</div>'+
                                 '</div></a>';   
-                	}
+                	}*/
                 	          
                 });
                 if(dataResult.currentPage < dataResult.totalPages){
-                    getHtml +='<div class="text-center tq-load-more">' + '<a href="javascript:tourquestion_pagination(2);">加载更多</a>'+'</div></div><div class="tournote_pagination qpage2 "></div>';
+                    pageHtml +='<div class="text-center tq-load-more">' + '<a href="javascript:tourquestion_pagination(2);">加载更多</a>'+'</div></div>';
                 }else{
                     //getHtml +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
                 }
-                $(".qsn-awr").html(getHtml);
+                //console.log(pageHtml);
+                $(".tourquestion_page1").html(pageHtml);
             }
         })
     }; 
@@ -794,7 +873,7 @@
     function studytour_pagination(page) {
         var searchword = GetQueryString("q");
         var value = GetQueryString("value");
-        console.log(value)
+        //console.log(value)
         var pageHTML = "";
         //var url = window.location.href;
         //var para = url.split("?q=")[1];
@@ -802,7 +881,8 @@
             type:"get",
             //url:"/ajax/search?q="+para+"&page="+page,
             url:"/ajax/topic?q="+searchword+"&page="+page+"&value="+value,
-            success:function(dataResult){       
+            success:function(dataResult){     
+                //console.log(dataResult);
                 $.each(dataResult.data,function(k,v){
                     if(null==v.cover_url){
                         pageHTML +='<a target="_blank" href="/p/'+v.tid+'.html"><div class="strategy-content">'+
@@ -813,6 +893,9 @@
                                     '</p>'+
                                     '<h2>'+
                                         v.title +
+                                        '<span class="price-span">'+
+                                            v.price +
+                                        '</span>'+
                                     '</h2>'+
                                     '<p>'+
                                         v.description+
@@ -828,7 +911,11 @@
                                     '</p>'+
                                     '<h2>'+
                                         v.title +
+                                        '<span class="price-span">￥'+
+                                        v.price +
+                                        '/人起</span>'+
                                     '</h2>'+
+
                                     '<p>'+
                                         v.description+
                                     '</p>'+
@@ -885,12 +972,12 @@
         	    day = 0;
         }
 
-        console.log(day);
+        //console.log(day);
         $.ajax({
             type:"get",
             url:"/ajax/question?cid=124&day="+day+"&page="+page+"&q="+searchword,
             success:function(dataResult){
-                console.log(dataResult);           
+                //console.log(dataResult);           
                 $.each(dataResult.data,function(k,v){
                     if(0==v.imgurl.length){
                 		pageHTML +='<a target="_blank" href="/mod/question/'+v.id+'.html">'+'<div class="strategy-content">'+
@@ -939,8 +1026,7 @@
     }
 
     function tourquestion_pagination(page) {
-        
-        var pageHTML = "";
+        var pageHtml = "";
         var searchword = GetQueryString("q");
         var dayString=$(".qsn-awr span").text();
         var day;
@@ -965,10 +1051,13 @@
         }
         $.ajax({
             type:"get",
-            url:"/ajax/question?cid=125&day="+day+"page="+page+"&q="+searchword,
-            success:function(dataResult){         
+            url:"/ajax/question?cid=125&day="+day+"&page="+page+"&q="+searchword,
+            success:function(dataResult){       
+                //console.log(dataResult); 
+                //console.log("/ajax/question?cid=125&day="+day+"&page="+page+"&q="+searchword); 
                 $.each(dataResult.data,function(k,v){
-                    if(0==v.imgurl.length){
+                    //getHtml +=
+                    /*if(0==v.imgurl.length){
                 		pageHTML +='<a target="_blank" href="/mod/question/'+v.id+'.html">'+'<div class="strategy-content">'+
                 				'<div class="strategy-txt"> '+
                                     '<p>'+
@@ -997,29 +1086,68 @@
                                     '</p>'+
                                 '</div>'+
                                 '</div></a>';     
-                	}
-                       
+                	}*/
+                    pageHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="showquestion">'+
+                                '<ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;width:825px;">\
+                                    <li>\
+                                        <a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 50px;height: 50px;border-radius: 50%;"></a>\
+                                        <a href="javascript:;">\
+                                            <span class="font-lato span_userName">'+v.uid+'</span>\
+                                        </a>\
+                                        <span class="font-lato">提了一个问题</span>\
+                                    </li>\
+                                    <li>\
+                                        <span class="font-lato"> · </span>\
+                                    </li>\
+                                    <li>\
+                                        <span class="font-lato">'+ v.create_time +'</span>\
+                                    </li>'
+                    if (0==v.answer_count) {
+                        pageHtml += '<li style="margin-left:5px;">\
+                                        <div style="background-color: #1eb6c1;color: #fff;border-radius:3px;">&nbsp;待回答&nbsp;</div>\
+                                    </li>'
+                    }
+                    pageHtml +='</ul>'+
+                                '<p>'+
+                                '&nbsp;'+
+                                '</p>'+
+                                '<h2 style="font-size:15px;margin-bottom:6px;"><a href="/mod/question/'+v.id+'" title="'+v.title+'">'+
+                                    v.title +
+                                '</a></h2>'+
+                                '<p>'+
+                                    v.detailtext+
+                                '</p>'+
+                                '<ul class="blog-post-info list-inline margin-top-10" style="border: 0px;width: 250px;margin-left:600px;">\
+                                    <li>\
+                                        <img src="static/assets/images/reply.png" style="width: 16px;height: 16px;margin-top:-4px;"" />\
+                                        <span class="font-lato">'+ v.answer_count +' 个回答</span>\
+                                    </li>\
+                                    <li style="margin:0px 10px;">\
+                                        <div style="width:2px;height:13px ;background-color: black;"></div>\
+                                    </li>\
+                                    <li>\
+                                        <img src="static/assets/images/browse.png" style="width: 16px;height: 16px;margin-top:-4px;"/>\
+                                        <span class="font-lato">'+ v.view +' 人浏览</span>\
+                                    </li>\
+                                </ul>'+
+                                '</div></a>';   
                 });
                
                 if(dataResult.currentPage < dataResult.totalPages){
                     var nextPage = page+1;
-                    pageHTML +='<div class="text-center tq-load-more">' + '<a href=javascript:tourquestion_pagination('+nextPage+')>加载更多</a>'+'</div><div class="tourquestion_pagination qpage'+nextPage+'"><div>'
+                    pageHTML +='<div class="text-center tq-load-more">' + '<a href=javascript:tourquestion_pagination('+nextPage+')>加载更多</a>'+'</div>'
+
+                    var nextPage = page +1 ;
+                    $(".tourquestion_page"+page).after("<div></div>");
+                    $(".tourquestion_page"+page).next().addClass(".tourquestion_page"+nextPage);
                 }else{
                     //pageHTML +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
                 }
                 $(".tq-load-more").hide();
-                $(".qpage"+page).html(pageHTML);
+                $(".tourquestion_page"+page).html(pageHtml);
             }
         });
     }
-     
-
-
-
-
-
-
-
 
 
     $("#select1").on("click",function(){

@@ -373,9 +373,9 @@ section#slider input{
 					{%set i = 1%}
 					{% for v in list %}
 					{% if i == 4 %}
-					{% set imgs= v.detail|img_text_view(1140,514)%}
+					{% set imgs= v.cover_id|get_pic('m=1,w=1140,h=514') %}
 					{% else %}
-					{% set imgs= v.detail|img_text_view(372,434)%}
+					{% set imgs= v.cover_id|get_pic('m=1,w=372,h=434') %}
 					{% endif %}
 					<li class="mix development {% if i == 4 %}col-md-12 col-sm-12{% else %}col-md-4 col-sm-4{% endif %} community-item-{{i}}"><!-- item -->
 
@@ -406,7 +406,7 @@ section#slider input{
 									<h4 class="nomargin">{{v.title}}</h4>
 								</div><!-- /overlay title -->
 
-								<img class="img-responsive" src="{{imgs[0]}}"  alt="">
+								<img class="img-responsive" src="{{imgs}}"  alt="">
 							</figure>
 						</a>
 						</div>

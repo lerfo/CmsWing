@@ -150,10 +150,16 @@
     	display:table;;
     	clear:both;
     }
-    .heading-title a,
+    .heading-title a{
+    	font-size:13.5px;
+    	color:#565656
+    }
+    .heading-title a:hover{
+    	color: #1EB6C1 !important;
+    }
     .community-ul li a{
     	color:#403d39;
-    	font-size:15.5px;
+    	font-size:15.5px; 
     }
     .community-ul li{
     	padding:0;
@@ -327,7 +333,7 @@
         <header class="section-header margin-bottom-20">
             <div class="heading-title">
                 <h3 style="font-size:34px;color:#62605e;background:transparent">热门产品</h3>
-                <a href="" id="studytour-change" style="font-size:13.5px;color:#565656">换一换 <img src="/static/assets/images/change.png"></a>
+                <a href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
             </div>
         </header>
         <div  class=" portfolio-title-over">
@@ -413,11 +419,11 @@
         <div  class=" portfolio-title-over">
             <div class="row mix-grid country-box">
             	{% for v in list %}
-                 <div id="community-ul{{v.id}}" class="community-ul">
+                <div id="community-ul{{v.id}}" class="community-ul">
                 <div class="container" >
                 <ul style="padding-left: 0px;" class="clear">
                 	<div class="title_country">
-						<a href="">
+						<a href="/search.html?q=&value=youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0">
 							{{v.title}} {{v.name_en}}
                             
 						</a>

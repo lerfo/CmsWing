@@ -127,7 +127,7 @@ export default class extends Base {
     }*/
     let res
     if(think.isEmpty(data.id)){
-      res =await this.model("traveller").add(data);
+      res = await this.model("traveller").add(data);
     }else{
       res = await this.model("traveller").update(data);
     }

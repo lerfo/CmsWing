@@ -16,6 +16,9 @@ section#destination {
     padding: 0px 0px 0px 0px;
     border: 0px;
 }
+a#destination-change:hover{
+	color: #1eb6c1;
+}
 img.img-responsive {
     width: 100%;
     height: 272px;
@@ -187,12 +190,15 @@ section.content-section{
 .blog_post_item{
 	border: 0px;
 }
+.blog_post_item:hover{
+	cursor: pointer;
+}
 .figure_float{
 	display: inline;
 	float:left;
 }
 .immg{
-	width: 233px;height: 150px;
+	width: 233px;height: 170px;
 }
 .blog_item_content{
 	display: inline-block;
@@ -228,7 +234,7 @@ ul#studytour-ul li .item-box {
 	 margin-right: auto;
 }
 .right_content{
-	 float:left; 
+	float:left; 
 	width:262px;
 	height: 600px;
 	margin-left: 0px;
@@ -258,19 +264,36 @@ ul#studytour-ul li .item-box {
 .nav-tabs.nav-bottom-border>li.active>a, .nav-tabs.nav-bottom-border>li.active>a:hover {
     border-bottom-color: #1eb6c1 !important;
 }
-@media screen and (max-width: 1350px) { /*当屏幕尺寸小于960px时，应用下面的CSS样式*/  
-  
+.nav-tabs.nav-bottom-border>li.active>a, .nav-tabs.nav-bottom-border>li.active>a:hover {
+    border-bottom-color: #1eb6c1 !important;
 }
-@media screen and (max-width: 1180px) { /* 当屏幕尺寸小于960px时，应用下面的CSS样式   */
-  /* .right_content{
-  	margin-right:0px;
-  } */
+.nav-tabs>li.active>a {
+    color: #1eb6c1 !important;
 }
-
-@media screen and (max-width: 1023px) { /*当屏幕尺寸小于960px时，应用下面的CSS样式*/  
-  /* .right_content{
-  	display: none;
-  } */
+.order a{
+    color: #666666 !important;
+}
+.order a:hover,.order a:focus{
+    color: #1eb6c1;
+}
+ul.blog-post-info li a:after {
+    content:none;
+}
+.blog-post-info>li+li:before {
+    content: none;
+}
+.span_userName{
+    margin: 0px 6px;
+    font-weight: bold;
+}
+.studynote div a{
+	color: #3e3e3e;
+}
+.tq_addmore a,.sn_addmore a{
+	color: #8a8e8f;
+}
+.tq_addmore a:hover,.sn_addmore a:hover,.tq_addmore a:focus,.sn_addmore a:focus{
+	color: #1eb6c1;
 }
 
 </style>
@@ -395,7 +418,7 @@ CLASSES:
 
 					{#<form action="/search" method="get" class="widget_search">#}
 	                    <input id="searchTourNote" type="search" placeholder="  搜索游记攻略" name="q" {% if queryword %} value={{queryword}}{%endif%} class="serch-input" style="color: black;width: 430px;height: 50px;font-size:18px;border: 3px solid #95734D;">
-	                    <button type="submit" style="background-color:#1EB6C1;color: #fff;width:120px;height: 50px;margin-left: 20px;font-size:18px;" onclick="tournote_pagination(1);">
+	                    <button type="submit" style="background-color:#1EB6C1;color: #fff;width:120px;height: 50px;margin-left: 20px;font-size:18px;" onclick="updateTourNoteSearchWord();">
 	                        搜    索
 	                    </button>
 	                {#</form>#}
@@ -448,8 +471,8 @@ CLASSES:
 	        	<!-- 搜索框-->
 				<div class="search-box" style="margin-bottom: 15px;">
 					{#<form action="/search" method="get" class="widget_search">#}
-	                    <input id="searchTourQuestion" type="search" placeholder="  问答" name="q" {% if queryword %} value={{queryword}} {%endif%}class="serch-input" style="color: black;width: 430px;height: 50px;font-size:18px;border: 3px solid #95734D;">
-	                    <button type="submit" style="background-color:#1EB6C1;color: #fff;width:120px;height: 50px;margin-left: 20px;font-size:18px;" onclick="getQueryTourQuestionSearchword()">
+	                    <input id="searchTourQuestion" type="search" placeholder="  问答" name="q" {% if queryword %} value={{queryword}}{%endif%}class="serch-input" style="color: black;width: 430px;height: 50px;font-size:18px;border: 3px solid #95734D;">
+	                    <button type="submit" style="background-color:#1EB6C1;color: #fff;width:120px;height: 50px;margin-left: 20px;font-size:18px;" onclick="updateTourQuestionSearchWord()">
 	                        搜    索
 	                    </button>
 	                </form>
@@ -466,9 +489,14 @@ CLASSES:
 	                </ul>
 					#}
 					<ul class="nav_noboder nav nav-tabs nav-bottom-border" style="height: 0px;">
-	                    <li class="{%if order ==0%}active{%endif%}"><a href="javascript:;" >最新问题</a></li>
-	                    <li class="{%if order ==1%}active{%endif%}"><a href="javascript:;" >热门问题</a></li>
-	                    <li class="{%if order ==3%}active{%endif%}"><a href="javascript:;" >待回答问题</a></li>
+	                    <li class="order active" onclick="javascript:updateTourQuestionOrder(0);"><a href="javascript:;" >最新问题</a></li>
+	                    <li class="order" onclick="updateTourQuestionOrder(1)"><a href="javascript:;" >热门问题</a></li>
+	                    <li class="order" onclick="updateTourQuestionOrder(3)">
+	                    	<a href="javascript:;" >
+	                    		待回答问题
+	                    		<img src="/static/assets/images/SOS.png">
+	                    	</a>
+	                    </li>
 	                </ul>
 
 				</div>
@@ -501,11 +529,18 @@ CLASSES:
 	                                    <span class="font-lato"> 回复了一个问题</span>
 	                                    {%else%}
 	                                    <a href="javascript:;">
-	                                        <span class="font-lato">{{val.uid|get_nickname}}</span>
+	                                        <span class="font-lato span_userName">{{val.uid|get_nickname}}</span>
 	                                    </a>
 	                                    <span class="font-lato">提了一个问题</span>
 	                                    {%endif%}
 	                                </li>
+	                                <li>
+	                                    <span class="font-lato"> {{val.update_time|moment}}</span>
+	                                </li>
+	                                <li>
+                                    	<div style="background-color: #1eb6c1;color: #fff;border-radius:3px;">&nbsp;待回答&nbsp;
+                                    	</div>
+                                	</li>
 	                                <li>
 	                                <span class="font-lato">
 	                                	{{val.focus_count}} 人关注
@@ -518,15 +553,26 @@ CLASSES:
 	                                <li>
 	                                    <span class="font-lato">{{val.view}} 人浏览</span>
 	                                </li>
-	                                <li>
-	                                    <span class="font-lato"> {{val.update_time|moment}}</span>
-	                                </li>
+	                                
 
 	                            </ul>
 	                           	
 	                            <p>&nbsp;</p>
 	                            <h2 style="margin-top: 5px;"><a href="/mod/question/{{val.id}}{{http.config('view.file_ext')}}" title="{{val.title}}">{{val.title}}</a></h2>
 	                            <p>{{val.detail|delhtmltags|truncate(90, true, "...")|safe}}</p>
+	                            <ul class="blog-post-info list-inline margin-top-10" style="border: 0px;width: 200px;margin-left:62%">
+	                                <li>
+	                                    <img src="static/assets/images/reply.png" style="width: 16px;height: 16px;margin-top:-4px;"" />
+	                                    <span class="font-lato">{{val.answer_count}} 个回答</span>
+	                                </li>
+	                                <li style="margin:0px 10px;">
+	                                    <div style="width:2px;height:13px ;background-color: black;"></div>
+	                                </li>
+	                                <li>
+	                                    <img src="static/assets/images/browse.png" style="width: 16px;height: 16px;margin-top:-4px;"/>
+	                                    <span class="font-lato">{{val.view}} 人浏览</span>
+	                                </li>
+	                            </ul>
 	                        </div>
 	                    </div>
                     <!-- /POST ITEM -->
@@ -589,6 +635,15 @@ CLASSES:
 
 		<div class="right_content col-md-2 col-sm-2 ">
 			<div>
+
+				<div class="margin-bottom-20"><!-- INFO -->
+		            <a href="/mod/question/sys/add/cid/124" class="btn btn-primary btn-3d btn-block margin-top-10"><i class="fa fa-sign-in"></i>我要发帖</a>
+		        </div>
+		        <div class="margin-bottom-20"><!-- INFO -->
+		            <a href="/mod/question/sys/add/cid/125" class="btn btn-primary btn-3d btn-block margin-top-10"><i class="fa fa-sign-in"></i>我要提问</a>
+		        </div>
+
+				{#
 		        {% if controller.is_login %}
 		        <div class="margin-bottom-20"><!-- INFO -->
 		            <a href="/mod/question/sys/add/cid/124" class="btn btn-primary btn-3d btn-block margin-top-10"><i class="fa fa-sign-in"></i>我要发帖</a>
@@ -603,6 +658,7 @@ CLASSES:
 		            </a>
 		        </div>
 		        {%endif%}
+		        #}
 		        
 				{#
 				<div>
@@ -698,88 +754,164 @@ CLASSES:
         //console.log($("#page"+pId));
     });
 
-	function getQueryTourQuestionSearchword(){
-    	/*var queryword = $("#searchTourQuestion").val();
-    	var
-    	console.log(order);
-    	console.log(queryword);
-    	var tq_html ='<div class="tourquestion_page1">';
+    $(".order").on("click",function(){
+        $(this).siblings().removeClass("active");
+        $(this).addClass("active");
+     });
+
+
+    $(function(){
+		var searchword = "";
+		localStorage.setItem("question_searchword",JSON.stringify(searchword));
+
+		tournote_pagination(1,0);
+
+		tourquestion_pagination(1,0,0);
+
+	});
+
+	function updateTourNoteSearchWord() {
+		var searchword = $("#searchTourNote").val();
+		localStorage.setItem("note_searchword",JSON.stringify(searchword));
+		tournote_pagination(1,1);
+	}
+    function tournote_pagination(page,iSearch){
+    	var searchword = '';
+    	if(0<iSearch){
+    		searchword = localStorage.getItem("note_searchword");
+    	}
+
 		$.ajax({
 			type:"get",
-			url:"/ajax/question?cid=125&q="+queryword,
+			url:"/ajax/question?cid=124&q="+searchword+"&page="+page,
 			success:function(dataResult){
-				//console.log(dataResult);
+				var sn_html ='';
+		    	if(page <= 1){
+		    		sn_html_page1 ='<div class="studynote_page1"></div>';
+					$(".studynote").html(sn_html_page1);
+		    	}
 				$.each(dataResult.data,function(k,v){
-					tq_html +='<div class="blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" style="border: #eee 1px solid;margin-top: 20px;" >\
-	                       <div class="qa_blog_congtent blog-item-small-content">\
-	                            <ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;">\
-	                                <li>\
-	                                	<a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 58px;height: 58px; margin-top:5px"></a>\
-	                                    <a href="javascript:;">\
-	                                        <span class="font-lato">'+v.uid+'</span>\
-	                                    </a>\
-	                                    <span class="font-lato">提了一个问题</span>\
-	                                </li>\
-	                                <li>\
-	                                    <span class="font-lato">'+v.answer_count+' 个回答</span>\
-	                                </li>\
-	                                <li>\
-	                                    <span class="font-lato">'+v.view+' 人浏览</span>\
-	                                </li>\
-	                                <li>\
-	                                    <span class="font-lato">'+v.create_time+'</span>\
-	                                </li>\
-	                            </ul>\
-	                            <p>&nbsp;</p>\
-	                            <h2 style="margin-top: 5px;"><a href="/mod/question/'+v.id+'" title="'+v.title+'">'+v.title+'</a></h2>\
+					if(0<v.imgurl.length){
+						sn_html +='<a href="/mod/question/'+v.id+'"><div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
+							<figure class="figure_float margin-bottom-0" >\
+	                            <img class="immg" src="'+v.imgurl+'" >\
+	                        </figure>\
+	                        <div class="blog_item_content blog-item-small-content">\
+								<p>&nbsp;</p>\
+	                            <h2>'+v.title+'</h2>\
 	                            <p>'+v.detailtext+'</p>\
 	                        </div>\
-	                    </div>';
+	                    </div></a>';
+					}else{
+						sn_html +='<a href="/mod/question/'+v.id+'"><div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
+	                        <div class="blog_item_content blog-item-small-content" style="margin-left:263px;">\
+								<p>&nbsp;</p>\
+	                            <h2>'+v.title+'</h2>\
+	                            <p>'+v.detailtext+'</p>\
+	                        </div>\
+	                    </div></a>';
+					}
 				});
 				if(dataResult.currentPage < dataResult.totalPages){
-					//tournote_querystring_pagination(page,queryword)
-					tq_html +='<div class="text-center margin-top-20 margin-bottom-20 tq_addmore">\
-	                 	 <a href="javascript:tourquestion_querystring_pagination(2,'+queryword+order+');">点击加载更多</a>\
-	                </div></div><div class="tourquestion_page2"></div>';
+					var nextPage = page + 1;
+					sn_html +='<div class="text-center margin-top-20 margin-bottom-20 sn_addmore">\
+	                 	 <a href="javascript:tournote_pagination('+nextPage+','+iSearch+');">点击加载更多</a>\
+	                </div>';
+	                $(".studynote_page"+page).after("<div></div>");
+	                $(".studynote_page"+page).next().addClass("studynote_page"+nextPage);
 				}
-				$(".tourquestion").html(tq_html);
+				$(".sn_addmore").hide();
+				$(".studynote_page"+page).html(sn_html);
 			}
-		});*/
+		});
     }
 
 
-    function tourquestion_pagination(page){
-    	var searchword = '';//GetQueryString("q");
+
+	function updateTourQuestionSearchWord() {
+		var searchword = $("#searchTourQuestion").val();
+		//console.log(searchword);
+		localStorage.setItem("question_searchword",JSON.stringify(searchword));
+		var order = localStorage.getItem("question_order");
+		if(0<parseInt(order)){
+			//console.log(parseInt(order));
+			tourquestion_pagination(1,1,order);
+		}else{
+			tourquestion_pagination(1,0,order);
+		}
+		
+	}
+	function updateTourQuestionOrder(order) {
+		//console.log(order);
+		localStorage.setItem("question_order",JSON.stringify(order));
+		var searchword = localStorage.getItem("question_searchword");
+		//console.log(searchword);
+		if(null!=searchword){
+			tourquestion_pagination(1,1,order);
+		}else{
+			tourquestion_pagination(1,0,order);
+		}
+	}
+    function tourquestion_pagination(page,iSearch,order){
+    	//var searchword = '';//GetQueryString("q");
+    	var searchword='';
+    	if (0<iSearch) {
+    		searchword = localStorage.getItem("question_searchword");
+    	}
+    	
+    	//order = localStorage.getItem("question_order");
+    	
     	var tq_html ='';
     	$.ajax({
 			type:"get",
-			url:"/ajax/question?cid=125&q="+searchword+"&page="+page,
+			url:"/ajax/question?cid=125&q="+searchword+"&page="+page+"&order="+order,
 			success:function(dataResult){
 				//console.log(dataResult);
+				//console.log("/ajax/question?cid=125&q="+searchword+"&page="+page+"&order="+order);
+				if(page <= 1){
+		    		tq_html_page1 ='<div class="tourquestion_page1"></div>';
+					$(".tourquestion").html(tq_html_page1);
+		    	}
 				$.each(dataResult.data,function(k,v){
-					tq_html +='<div class="blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" style="border: #eee 1px solid;margin-top: 20px;" >\
+					tq_html +='<div class="blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" style="border: #eee 1px solid;margin-top: 20px;width:700px;" >\
 	                       <div class="qa_blog_congtent blog-item-small-content">\
 	                            <ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;">\
 	                                <li>\
-	                                	<a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 58px;height: 58px; margin-top:5px"></a>\
+	                                	<a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 50px;height: 50px;border-radius: 50%;"></a>\
 	                                    <a href="javascript:;">\
-	                                        <span class="font-lato">'+v.uid+'</span>\
+	                                        <span class="font-lato span_userName">'+v.uid+'</span>\
 	                                    </a>\
 	                                    <span class="font-lato">提了一个问题</span>\
 	                                </li>\
 	                                <li>\
-	                                    <span class="font-lato">'+v.answer_count+' 个回答</span>\
+	                                    <span class="font-lato"> · </span>\
 	                                </li>\
 	                                <li>\
-	                                    <span class="font-lato">'+v.view+' 人浏览</span>\
-	                                </li>\
-	                                <li>\
-	                                    <span class="font-lato">'+v.create_time+'</span>\
-	                                </li>\
-	                            </ul>\
+	                                    <span class="font-lato">'+ v.create_time +'</span>\
+	                                </li>'
+	                if (0==v.answer_count) {
+	                	tq_html +='<li style="margin-left:5px;">\
+	                                    <div style="background-color: #1eb6c1;color: #fff;border-radius:3px;">&nbsp;待回答&nbsp;</div>\
+	                                </li>'
+	                }                
+	                                
+	                    tq_html += '</ul>\
 	                            <p>&nbsp;</p>\
 	                            <h2 style="margin-top: 5px;"><a href="/mod/question/'+v.id+'" title="'+v.title+'">'+v.title+'</a></h2>\
 	                            <p>'+v.detailtext+'</p>\
+	                             <ul class="blog-post-info list-inline margin-top-10" style="border: 0px;width: 250px;margin-left:400px;">\
+	                                <li>\
+	                                    <img src="static/assets/images/reply.png" style="width: 16px;height: 16px;margin-top:-4px;"" />\
+	                                    <span class="font-lato">'+ v.answer_count +' 个回答</span>\
+	                                </li>\
+	                                <li style="margin:0px 10px;">\
+	                                    <div style="width:2px;height:13px ;background-color: black;"></div>\
+	                                </li>\
+	                                <li>\
+	                                    <img src="static/assets/images/browse.png" style="width: 16px;height: 16px;margin-top:-4px;"/>\
+	                                    <span class="font-lato">'+ v.view +' 人浏览</span>\
+	                                </li>\
+	                            </ul>\
 	                        </div>\
 	                    </div>';
 				});
@@ -787,7 +919,7 @@ CLASSES:
 					//tournote_querystring_pagination(page,queryword)
 					var nextPage = page +1 ;
 					tq_html +='<div class="text-center margin-top-20 margin-bottom-20 tq_addmore">\
-	                 	 <a href="javascript:tourquestion_pagination('+nextPage+');">点击加载更多</a>\
+	                 	 <a href="javascript:tourquestion_pagination('+nextPage+','+iSearch+','+order+');">点击加载更多</a>\
 	                </div>';
 	                $(".tourquestion_page"+page).after("<div></div>");
 	                $(".tourquestion_page"+page).next().addClass("tourquestion_page"+nextPage);
@@ -801,247 +933,5 @@ CLASSES:
     }
 
 
-	$(function(){
-		//console.log("页面加载")
-		var searchword = '';//GetQueryString("q");
-
-		//var sn_html ='<div class="studynote_page1">';
-		tournote_pagination(1);
-		/*
-		$.ajax({
-			type:"get",
-			url:"/ajax/question?cid=124&q="+searchword,
-			success:function(dataResult){
-				//console.log(dataResult);
-				$.each(dataResult.data,function(k,v){
-					if(0<v.imgurl.length){
-						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
-							<figure class="figure_float margin-bottom-0" >\
-	                            <img class="immg" src="'+v.imgurl+'" >\
-	                        </figure>\
-	                        <div class="blog_item_content blog-item-small-content">\
-								<p>&nbsp;</p>\
-	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
-	                            <p>'+v.detailtext+'</p>\
-	                        </div>\
-	                    </div>';
-					}else{
-						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
-	                        <div class="blog_item_content blog-item-small-content" style="margin-left:263px;">\
-								<p>&nbsp;</p>\
-	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
-	                            <p>'+v.detailtext+'</p>\
-	                        </div>\
-	                    </div>';
-					}
-				});
-				if(dataResult.currentPage < dataResult.totalPages){
-					sn_html +='<div class="text-center margin-top-20 margin-bottom-20 sn_addmore">\
-	                 	 <a href="javascript:tournote_pagination(2);">点击加载更多</a>\
-	                </div></div><div class="studynote_page2"></div>';
-				}
-				$(".studynote").html(sn_html);
-			}
-		});
-		*/
-
-		var tq_html ='<div class="tourquestion_page1">';
-		$.ajax({
-			type:"get",
-			url:"/ajax/question?cid=125&q="+searchword,
-			success:function(dataResult){
-				//console.log(dataResult);
-				$.each(dataResult.data,function(k,v){
-					tq_html +='<div class="blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" style="border: #eee 1px solid;margin-top: 20px;" >\
-	                       <div class="qa_blog_congtent blog-item-small-content">\
-	                            <ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;">\
-	                                <li>\
-	                                	<a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 58px;height: 58px; margin-top:5px"></a>\
-	                                    <a href="javascript:;">\
-	                                        <span class="font-lato">'+v.uid+'</span>\
-	                                    </a>\
-	                                    <span class="font-lato">提了一个问题</span>\
-	                                </li>\
-	                                <li>\
-	                                    <span class="font-lato">'+v.answer_count+' 个回答</span>\
-	                                </li>\
-	                                <li>\
-	                                    <span class="font-lato">'+v.view+' 人浏览</span>\
-	                                </li>\
-	                                <li>\
-	                                    <span class="font-lato">'+v.create_time+'</span>\
-	                                </li>\
-	                            </ul>\
-	                            <p>&nbsp;</p>\
-	                            <h2 style="margin-top: 5px;"><a href="/mod/question/'+v.id+'" title="'+v.title+'">'+v.title+'</a></h2>\
-	                            <p>'+v.detailtext+'</p>\
-	                        </div>\
-	                    </div>';
-				});
-				if(dataResult.currentPage < dataResult.totalPages){
-					tq_html +='<div class="text-center margin-top-20 margin-bottom-20 tq_addmore">\
-	                 	 <a href="javascript:tourquestion_pagination(2);">点击加载更多</a>\
-	                </div></div><div class="tourquestion_page2"></div>';
-				}
-				$(".tourquestion").html(tq_html);
-			}
-		});
-
-	});
-
-/*	
-	function GetQueryString(name){
-        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-        var r = window.location.search.substr(1).match(reg);
-        if(r!=null){
-            return  (decodeURI(r[2])); 
-        }
-        return '';
-    }
-
-    function getQueryTourNoteSearchword(){
-    	var queryword = $("#searchTourNote").val();
-    	//console.log(queryword);
-    	var sn_html ='<div class="studynote_page1">';
-    	$.ajax({
-			type:"get",
-			url:"/ajax/question?cid=124&q="+queryword,
-			success:function(dataResult){
-				//console.log(dataResult);
-				$.each(dataResult.data,function(k,v){
-					if(0<v.imgurl.length){
-						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
-							<figure class="figure_float margin-bottom-0" >\
-	                            <img class="immg" src="'+v.imgurl+'" >\
-	                        </figure>\
-	                        <div class="blog_item_content blog-item-small-content">\
-								<p>&nbsp;</p>\
-	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
-	                            <p>'+v.detailtext+'</p>\
-	                        </div>\
-	                    </div>';
-					}else{
-						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
-	                        <div class="blog_item_content blog-item-small-content" style="margin-left:263px;">\
-								<p>&nbsp;</p>\
-	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
-	                            <p>'+v.detailtext+'</p>\
-	                        </div>\
-	                    </div>';
-					}
-				});
-				if(dataResult.currentPage < dataResult.totalPages){
-					sn_html +='<div class="text-center margin-top-20 margin-bottom-20 sn_addmore">\
-	                 	 <a href="javascript:tournote_pagination(2);">点击加载更多</a>\
-	                </div></div><div class="studynote_page2"></div>';
-				}
-				$(".studynote").html(sn_html);
-			}
-		});
-    }
-*/
-    function tournote_pagination(page){
-    	var searchword = $("#searchTourNote").val();//GetQueryString("q");
-    	//console.log("page:"+page);
-
-		$.ajax({
-			type:"get",
-			url:"/ajax/question?cid=124&q="+searchword+"&page="+page,
-			success:function(dataResult){
-				//console.log(dataResult);
-				var sn_html ='';
-		    	if(page <= 1){
-		    		sn_html_page1 ='<div class="studynote_page1"></div>';
-					$(".studynote").html(sn_html_page1);
-		    	}
-				$.each(dataResult.data,function(k,v){
-					if(0<v.imgurl.length){
-						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
-							<figure class="figure_float margin-bottom-0" >\
-	                            <img class="immg" src="'+v.imgurl+'" >\
-	                        </figure>\
-	                        <div class="blog_item_content blog-item-small-content">\
-								<p>&nbsp;</p>\
-	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
-	                            <p>'+v.detailtext+'</p>\
-	                        </div>\
-	                    </div>';
-					}else{
-						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
-	                        <div class="blog_item_content blog-item-small-content" style="margin-left:263px;">\
-								<p>&nbsp;</p>\
-	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
-	                            <p>'+v.detailtext+'</p>\
-	                        </div>\
-	                    </div>';
-					}
-				});
-				if(dataResult.currentPage < dataResult.totalPages){
-					var nextPage = page + 1;
-					sn_html +='<div class="text-center margin-top-20 margin-bottom-20 sn_addmore">\
-	                 	 <a href="javascript:tournote_pagination('+nextPage+');">点击加载更多</a>\
-	                </div>';
-	                $(".studynote_page"+page).after("<div></div>");
-	                $(".studynote_page"+page).next().addClass("studynote_page"+nextPage);
-	                //console.log($(".studynote_page"+nextPage).length);
-				}
-				$(".sn_addmore").hide();
-				$(".studynote_page"+page).html(sn_html);
-			}
-		});
-    }
-
-/*
-    function tournote_querystring_pagination(page,queryword){
-    	console.log("queryword:"+queryword);
-    	console.log("page:"+page);
-    	var sn_html ='';
-		$.ajax({
-			type:"get",
-			url:"/ajax/question?cid=124&q="+queryword+"&page="+page,
-			success:function(dataResult){
-				//console.log(dataResult);
-				$.each(dataResult.data,function(k,v){
-					if(0<v.imgurl.length){
-						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
-							<figure class="figure_float margin-bottom-0" >\
-	                            <img class="immg" src="'+v.imgurl+'" >\
-	                        </figure>\
-	                        <div class="blog_item_content blog-item-small-content">\
-								<p>&nbsp;</p>\
-	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
-	                            <p>'+v.detailtext+'</p>\
-	                        </div>\
-	                    </div>';
-					}else{
-						sn_html +='<div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
-	                        <div class="blog_item_content blog-item-small-content" style="margin-left:263px;">\
-								<p>&nbsp;</p>\
-	                            <h2><a href="/mod/question/'+v.id+'">'+v.title+'</a></h2>\
-	                            <p>'+v.detailtext+'</p>\
-	                        </div>\
-	                    </div>';
-					}
-				});
-				if(dataResult.currentPage < dataResult.totalPages){
-					var nextPage = page + 1;
-					sn_html +='<div class="text-center margin-top-20 margin-bottom-20 sn_addmore">\
-	                 	 <a href="javascript:tournote_querystring_pagination('+nextPage+','+queryword+');">点击加载更多</a>\
-	                </div>';
-	                $(".studynote_page"+page).after("<div></div>");
-	                $(".studynote_page"+page).next().addClass("studynote_page"+nextPage);
-	                console.log($(".studynote_page"+nextPage).length);
-				}
-				$(".sn_addmore").hide();
-				$(".studynote_page"+page).html(sn_html);
-			}
-		});
-    }
-*/
-
-
-
-
-    
 </script>
 {% endblock %}
