@@ -30,6 +30,18 @@
 .webuploader-pick{
     background: transparent;
 }
+.form-group h2{
+	margin-bottom:15px;
+}
+.title_label{
+	font-size: 16px;
+	margin-bottom:15px;
+}
+.area_select{
+	position: absolute;
+	top:48px;
+	right: 167px;
+}
 </style>
 <!--
 PAGE HEADER
@@ -50,10 +62,13 @@ CLASSES:
 -->
 {% if category.id== 124 %}
 <section class="page_header page-header page-header-xs" >
-    <img class="cover_img" src="" style="margin-top: -20px;position:absolute;">
+	<!-- <div style="width:100%;height: 445px;"></div> -->
+    <img class="cover_img" src="" style="margin-top: -20px;width: 100%;position: absolute;">
+	
     
-    <div class="uploader_pic" style="margin-top:200px;">
-        <input type="hidden" name="cover_id" id="cover_id"/>
+    <div class="uploader_pic" style="position: absolute;left: 33.33%;top: 42.86%;">
+        <!-- <input type="hidden" name="cover_id" id="cover_id"/> -->
+        <!-- <input type="text" name="coverid" id="coverid"/> -->
         <div id="fileList_sortid_cover" class="uploader-list" style="display: none;"></div>
         <div style="width: 470px;margin: 0 auto;">
             <div id="filePicker_sortid_cover" style="display: inline-block;background: transparent;"> 
@@ -80,27 +95,33 @@ CLASSES:
         
         <div class="row">
             
-            <div class="input-group-btn question_select" id="group">
-                <input type="hidden" value="0" name="group_id">
-                 <button type="button" class="btn btn-default dropdown-toggle radius" data-toggle="dropdown">
-                 <span class="name">请选择所属版面 </span><span class="caret"></span>
-                 </button>
-                <ul class="dropdown-menu" role="menu">                                 
-                    <li data-value="100"><a href="javascript:;">亚洲 </a></li>
-                    <li data-value="200"><a href="javascript:;">非洲 </a></li>
-                    <li data-value="300"><a href="javascript:;">欧洲 </a></li>
-                    <li data-value="400"><a href="javascript:;">南美洲 </a></li>
-                    <li data-value="500"><a href="javascript:;">北美洲 </a></li>
-                    <li data-value="600"><a href="javascript:;">大洋洲 </a></li>
-                    <li data-value="700"><a href="javascript:;">南极洲 </a></li>
-                </ul>
-            </div>
-
             <!-- LEFT -->
             <div class="col-md-9 col-sm-9">
                 <form role="form" class="validate" action="/mod/question/sys/update" method="post" >
-                    <div class="form-group" style="display: inline-block;">
-                        <label for="title">标题:</label>
+                    <div class="form-group" style="">
+                    	{% if category.id== 124 %}
+                    		<h2>发布</h2>
+                        	<label for="title" class="title_label">标题:(最多输入50个汉字)</label>
+                        	<input type="hidden" name="cover_id" id="cover_id"/>
+                    	{% else %}
+							<h2>提问</h2>
+                        	<label for="title" class="title_label">一句话描述你的问题:(最多输入50个汉字)</label>
+                    	{% endif %}
+                        <div class="input-group-btn question_select area_select" id="group">
+			                <input type="hidden" value="0" name="class_id">
+			                 <button type="button" class="btn btn-default dropdown-toggle radius" data-toggle="dropdown" style="width: 160px;">
+			                 <span class="name" >请选择所属版面 </span><span class="caret"></span>
+			                 </button>
+			                <ul class="dropdown-menu" role="menu">                                 
+			                    <li data-value="100"><a href="javascript:;">亚&nbsp;&nbsp;&nbsp;洲&nbsp;&nbsp;&nbsp;</a></li>
+			                    <li data-value="200"><a href="javascript:;">非&nbsp;&nbsp;&nbsp;洲&nbsp;&nbsp;&nbsp;</a></li>
+			                    <li data-value="300"><a href="javascript:;">欧&nbsp;&nbsp;&nbsp;洲&nbsp;&nbsp;&nbsp;</a></li>
+			                    <li data-value="400"><a href="javascript:;">南&nbsp;&nbsp;美&nbsp;&nbsp;洲&nbsp;&nbsp;&nbsp;</a></li>
+			                    <li data-value="500"><a href="javascript:;">北&nbsp;&nbsp;美&nbsp;&nbsp;洲&nbsp;&nbsp;</a></li>
+			                    <li data-value="600"><a href="javascript:;">大&nbsp;&nbsp;洋&nbsp;&nbsp;洲&nbsp;&nbsp;</a></li>
+			                    <li data-value="700"><a href="javascript:;">南&nbsp;&nbsp;极&nbsp;&nbsp;洲&nbsp;&nbsp;</a></li>
+			                </ul>
+			            </div>
                         <div class="input-group">
                             <div class=" input-group-btn">
                                 <div class="input-group-btn question_select">
@@ -205,6 +226,12 @@ CLASSES:
 <script src="/static/admin/js/jQuery-Tags-Input/src/jquery.tagsinput.js"></script>
 <script src="/static/admin/js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script type="text/javascript">
+	/*$(function(){
+		webuploader.refresh();
+	});*/
+</script>
+{% if category.id== 124 %}
+<script type="text/javascript">
         jQuery(function() {
             var $ = jQuery,
             $list_sortid_cover = $('#fileList_sortid_cover'),
@@ -264,8 +291,7 @@ CLASSES:
 
                 $img.attr( 'src', src );
                 $(".cover_img"). attr( 'src', src );
-                //$(".page_header").css("background-image",none);
-                //$(".uploader_pic").css("display","none");
+                $(".cover_img").css({"width":"100%","height":"100%"});
             }, thumbnailWidth_sortid_cover, thumbnailHeight_sortid_cover );
             });
 
@@ -288,6 +314,7 @@ CLASSES:
             // 文件上传成功，给item添加成功class, 用样式标记上传成功。
             uploader_sortid_cover.on( 'uploadSuccess', function( file,res ) {
                 $( '#'+file.id ).addClass('upload-state-done');
+                //$("#coverid").val(res);
                 $("#cover_id").val(res);
                 console.log("success");
             });
@@ -313,8 +340,16 @@ CLASSES:
         });
 </script>
 <script type="text/javascript">
-	/*$(function(){
-		webuploader.refresh();
-	});*/
+	$(function(){
+		console.log("124");
+	});
 </script>
+{% else %}
+<script type="text/javascript">
+	$(function(){
+		console.log("125");
+	});
+</script>
+{% endif %}
+
 {%endblock%}

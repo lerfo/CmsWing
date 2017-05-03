@@ -376,7 +376,9 @@
 	    clear: both;
 	    margin: 25px 0 0 0;
 	}
-	
+	#cost_detail{
+		padding-left:40px;
+	}
 	.cost_detail > ul.list-paddingleft-2 > li {
 		font-size: 16px;
 		font-weight: bold;
@@ -900,7 +902,7 @@
 		color:#000;
 	}
 	.tourist-question{
-		padding-left:65px;
+		padding-left:116px;
 	}
 	
 .datetimepicker table tr td.day {
@@ -917,6 +919,61 @@
 .imgWith{
 	width:100%;
 	max-width: 560px;
+}
+.price-num{
+	padding:0;
+}
+.consult{
+	position: absolute;
+    left:50px;
+    top: 13px;
+    width: 80px;
+    height: 78px;
+    text-align: center;
+    font: normal 16px/28px microsoft yahei, simsun, sans-serif;
+    color: #fff;
+    background: #1eb6c1;
+}
+.ce-product{
+	display:inline-block;
+	width:35px;
+	height:35px;
+	background:url(/static/assets/images/tour/product.png) no-repeat -13px -6px;
+}
+.ce-charge{
+	display:inline-block;
+	width:39px;
+	height:35px;
+	background:url(/static/assets/images/tour/charge.png) no-repeat -8px -6px;
+}
+.ce-reserve{
+	display:inline-block;
+	width:38px;
+	height:35px;
+	background:url(/static/assets/images/tour/reserve.png) no-repeat -10px -6px;
+}
+.ce-comment{
+	display:inline-block;
+	width:39px;
+	height:39px;
+	background:url(/static/assets/images/tour/comment.png) no-repeat -8px -4px;
+}
+.ce-consult{
+	display:inline-block;
+	width:39px;
+	height:39px;
+	position:absolute;
+	left:18px;
+	top:32px;
+	background:url(/static/assets/images/tour/consult.png) no-repeat -8px -4px;
+}
+.float-banner{
+	padding: 0;
+	margin-bottom: 14px;
+}
+.banner-right{
+	height:100%;
+
 }
 	</style>
 	{% endblock %}
@@ -1026,8 +1083,8 @@ CLASSES:
 	<h1 class="blog-post-title size-25 bold margin-bottom-10">{{info.title}}</h1>
 
 
-	<div class="row margin-bottom-10">
-		<div class="col-lg-6 col-sm-6">
+	<div class="row margin-bottom-10" style="padding-left:15px;">
+		<div class="col-lg-6 col-sm-6 price-num">
 			<div class="shop-item-price text-danger">
 				{#
                 {% if info.price|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price|get_price_format('2')}}</span>{%endif%} 
@@ -1035,13 +1092,13 @@ CLASSES:
 				¥<price>{{info.price|get_price_format('1')}}</price><span>/人起</span>
 			</div>
 		</div>
-		<div class="col-lg-2 col-sm-2" style="padding-right: 0;">
+		<div class="col-lg-2 col-sm-2 price-num">
 			<div class="score">{{info.score}}<span>分</span></div>
 		</div>
-		<div class="col-lg-2 col-sm-2" style="padding-right: 0;">
+		<div class="col-lg-2 col-sm-2 price-num">
 			<div class="score"><span>{{info.comment}}条点评</span></div>
 		</div>
-		<div class="col-lg-2 col-sm-2">
+		<div class="col-lg-2 col-sm-2 price-num">
 			<div class="score"><span>{{info.ordercount}}人出游</span></div>
 		</div>
 	</div>
@@ -1443,7 +1500,7 @@ CLASSES:
             </ul>
         </div>
     </div>
-    <div class="row">
+    <div>
 	    <div class="col-lg-9 col-sm-9 clear">
 			<div class="under_tab_detail">
 		      	<i class="under_tab_anchor" id="xcjs"></i>
@@ -1452,7 +1509,7 @@ CLASSES:
 		        <div id="js_detail" class="detail_content" style="border-top: none;">
 					<!--产品特色-->
 				    <h3 class="resource_title">
-				        产品特色<i class="icon_b icon_b_01"></i>
+				        产品特色<i class="icon_b icon_b_01 ce-product"></i>
 				    </h3>
 				    <div class="product_feature" id="product_feature">
 				    	{{info.product_recommend | safe}}
@@ -1506,7 +1563,7 @@ CLASSES:
 		        <i class="under_tab_anchor" id="fy"></i>
 		        <i class="under_tab_anchor_abc" id="fy_abc"></i>
 		        <div id="js_expense" class="detail_content">
-					<h3 class="resource_title"> 费&nbsp;&nbsp;用<i class="icon_b icon_b_03"></i> </h3>
+					<h3 class="resource_title"> 费&nbsp;&nbsp;用<i class="icon_b icon_b_03 ce-charge"></i> </h3>
 				    <div class="product_feature" id="product_expense">
 				    	{{info.product_expenses | safe}}
 				    </div>
@@ -1517,7 +1574,7 @@ CLASSES:
 		        <i class="under_tab_anchor" id="ydxz"></i>
 		        <i class="under_tab_anchor_abc" id="ydxz_abc"></i>
 		        <div id="js_order_needknow" class="detail_content">
-					<h3 class="resource_title">预订须知<i class="icon_b icon_b_06"></i></h3>
+					<h3 class="resource_title">预订须知<i class="icon_b icon_b_06 ce-reserve"></i></h3>
 				    <div class="product_feature" id="product_booking">
 				    	{{info.product_booking_info | safe}}
 				    </div>
@@ -1539,7 +1596,7 @@ CLASSES:
 			    <i id="pj" class="under_tab_anchor" ></i>
 		        <i class="under_tab_anchor_abc" id="qz_abc"></i>
 		        <div id="js_review" class="detail_content">	
-					<h3 class="resource_title">用户评价<i class="icon_b icon_b_08"></h3>
+					<h3 class="resource_title">用户评价<i class="icon_b icon_b_08 ce-comment"></i></h3>
 					<div class="product_feature" id="product_review">
 						{% model data="list",table="tour_comment",where='{"product_id":'+info.id+'}',order="add_time DESC",limit="4"%}
 				        <h3 class="evaluate">点评4.5分</h3>
@@ -1560,6 +1617,7 @@ CLASSES:
 
 		    </div> 
 	    </div>
+
 	    <div class="col-lg-3 col-sm-3">
 	    	<div class="float-box">
 			<h3 class="bold">专属推荐</h3>
@@ -1568,7 +1626,7 @@ CLASSES:
 				{%set i = 1%}
 				{% for v in list %}
 
-				<li class="mix development col-md-12 col-sm-12" style="padding: 0; margin-bottom: 14px;"><!-- item -->
+				<li class="mix development float-banner col-md-12 col-sm-12"><!-- item -->
 
 					<div class="item-box thumbnail">
 					<a href="{{v.name|get_url(v.id)}}">
@@ -1576,7 +1634,7 @@ CLASSES:
 							<div class="col-lg-6 col-sm-6" style="padding: 0;">
 								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=200,h=120')}}"  alt="">
 							</div>
-							<div class="col-lg-6 col-sm-6" style="padding: 0;">
+							<div class="col-lg-6 col-sm-6 banner-right" style="padding: 0;">
 								<span class="item-hover">
 	    								<span class="overlay"></span>
 									{#
@@ -1638,8 +1696,9 @@ CLASSES:
 
 			<!-- RIGHT -->
 			<div class="col-md-9 col-sm-9">
-				<h3 class="page-header weight-300 margin-top-0 margin-bottom-0">
-					 <strong>咨詢</strong>
+				<h3 class="page-header consult weight-300 ">
+					咨询
+					<i class="ce-consult"></i>
 				</h3>
                 {#
 				<div class="timeline">

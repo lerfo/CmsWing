@@ -51,6 +51,7 @@ export default class extends Base {
   }
   /**
    * 查询旅客信息
+   * q : 查询关键字
    * @returns {PreventPromise}
    */
   async queryAction() {
@@ -59,7 +60,34 @@ export default class extends Base {
     if(!islogin){
       return this.fail("未登录");
     }
-    let data = await this.model("traveller").where({user_id: this.user.uid}).page(this.get('page')).order("id DESC").countSelect();
+     //0.获取查询关键字
+    let searchword = [];
+    let q = this.get("q");
+    
+    if(!think.isEmpty(q)){
+      let segment = new Segment();
+      // 使用默认的识别模块及字典，载入字典文件需要1秒，仅初始化时执行一次即可
+      await segment.useDefault();
+      // 开始分词
+      let segment_q= await segment.doSegment(q, {
+          simple: true,
+          stripPunctuation: true
+      });
+      for (let k=0; k<segment_q.length ;k++){
+          searchword.push("%"+segment_q[k]+"%");
+      }
+
+
+    }
+    console.log(searchword);
+    let data
+    if(searchword.length > 0){
+        data = await this.model("traveller").where({user_id: this.user.uid},{name:["like",searchword]}).page(this.get('page')).order("id DESC").countSelect();
+    }else{
+        data = await this.model("traveller").where({user_id: this.user.uid}).page(this.get('page')).order("id DESC").countSelect();
+        
+    }
+    
     let html = pagination(data, this.http, {
       desc: false, //show description
       pageNum: 2,

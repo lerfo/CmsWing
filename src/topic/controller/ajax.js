@@ -511,10 +511,14 @@ async questionAction(){
             if(val.detailtext && val.detailtext.length >90){
               val.detailtext = val.detailtext.substring(0,90);
             }
+            if(val.uid){
+              val.username = await get_nickname(val.uid);
+              console.log(val.username);
+            }
             //console.log(val.detailtext);
           }
         }
-        //console.log(questions)
+        console.log(questions)
         return this.json(questions);
     }
 

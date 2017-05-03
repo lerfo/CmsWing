@@ -198,7 +198,7 @@ section.content-section{
 	float:left;
 }
 .immg{
-	width: 233px;height: 170px;
+	width: 233px;height: 160px;
 }
 .blog_item_content{
 	display: inline-block;
@@ -238,7 +238,7 @@ ul#studytour-ul li .item-box {
 	width:262px;
 	height: 600px;
 	margin-left: 0px;
-	margin-top:125px;
+	margin-top:65px;
 	display: inline;
 	/* 
 	margin-top:90px;
@@ -295,7 +295,19 @@ ul.blog-post-info li a:after {
 .tq_addmore a:hover,.sn_addmore a:hover,.tq_addmore a:focus,.sn_addmore a:focus{
 	color: #1eb6c1;
 }
+.blog_post_item:hover{
+	cursor: pointer;
+}
+.blog_post_item:hover .blog_item_content h2{
+	color: #1eb6c1;
 
+}
+.studynote a, a:focus:not(.btn){
+	color: #666;
+}
+.qa_blog_congtent>h2>a:hover{
+	color: #1eb6c1;
+}
 </style>
 <!--
 PAGE HEADER
@@ -562,8 +574,8 @@ CLASSES:
 	                            <p>{{val.detail|delhtmltags|truncate(90, true, "...")|safe}}</p>
 	                            <ul class="blog-post-info list-inline margin-top-10" style="border: 0px;width: 200px;margin-left:62%">
 	                                <li>
-	                                    <img src="static/assets/images/reply.png" style="width: 16px;height: 16px;margin-top:-4px;"" />
-	                                    <span class="font-lato">{{val.answer_count}} 个回答</span>
+	                                    <img src="static/assets/images/reply.png" style="width: 16px;height: 16px;margin-top:-4px;" />
+	                                    <span class="font-lato"> {{val.answer_count}} 个回答 </span>
 	                                </li>
 	                                <li style="margin:0px 10px;">
 	                                    <div style="width:2px;height:13px ;background-color: black;"></div>
@@ -606,7 +618,7 @@ CLASSES:
 			                    <li class="mix development col-xs-6 col-sm-3 destination-item-{{i}}"><!-- item -->
 			          
 			                        <div class="item-box thumbnail">
-			                        <a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}">
+			                        <a href="/search.html?q=&value=youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0">
 			                            {{v.title}}
 			                        </a>
 			                        </div>
@@ -635,13 +647,22 @@ CLASSES:
 
 		<div class="right_content col-md-2 col-sm-2 ">
 			<div>
-
-				<div class="margin-bottom-20"><!-- INFO -->
-		            <a href="/mod/question/sys/add/cid/124" class="btn btn-primary btn-3d btn-block margin-top-10"><i class="fa fa-sign-in"></i>我要发帖</a>
-		        </div>
-		        <div class="margin-bottom-20"><!-- INFO -->
-		            <a href="/mod/question/sys/add/cid/125" class="btn btn-primary btn-3d btn-block margin-top-10"><i class="fa fa-sign-in"></i>我要提问</a>
-		        </div>
+				<div style="width: ">
+						<img src="/static/assets/images/tournote.png" style="width: 64px;height: 64px;">
+						<a href="/mod/question/sys/add/cid/124" class="btn btn-primary btn-3d btn-block" style="font-size: 24px;width:132px;display: inline-block;margin-left: 0px;">
+							我要发帖
+			    		</a>
+				</div>
+				<div class="margin-bottom-10">
+						<img src="/static/assets/images/question.png" style="width: 64px;height: 64px;">
+						<a href="/mod/question/sys/add/cid/125" class="btn btn-primary btn-3d btn-block" style="font-size: 24px;width:132px;display: inline-block;margin-left: 0px;">
+							我要提问
+			    		</a>
+				</div>
+			    <!-- <a href="/mod/question/sys/add/cid/125" class="btn btn-primary btn-3d btn-block margin-top-10" style="font-size: 24px;width:132px;display: inline-block;margin-left: 33px;margin-bottom:20px;">
+			    					<img src="/static/assets/images/question.png">我要提问
+			    </a> -->
+		        
 
 				{#
 		        {% if controller.is_login %}
@@ -879,7 +900,7 @@ CLASSES:
 	                                <li>\
 	                                	<a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 50px;height: 50px;border-radius: 50%;"></a>\
 	                                    <a href="javascript:;">\
-	                                        <span class="font-lato span_userName">'+v.uid+'</span>\
+	                                        <span class="font-lato span_userName">'+v.username+'</span>\
 	                                    </a>\
 	                                    <span class="font-lato">提了一个问题</span>\
 	                                </li>\

@@ -37,11 +37,26 @@ $(function(){
 	main();
 
 })
+//显示和隐藏
+function showHidden(){
+	if($(".asideRight #set-header").hasClass("in")){
+		$(".asideRight #set-header").removeClass("active").removeClass("in")
+	}
+	if($(".asideRight #upload-img").hasClass("out")){
+		$(".asideRight #upload-img").addClass("out");
+		$(".asideRight .show-upload").removeClass("out");
+	}
+	if($(".asideRight .evaluation-order").hasClass("in")){
+		$(".asideRight .evaluation-order").removeClass("active").removeClass("in");
+	}
+}
+
 /****
 *订单
 **/
 function ucOrder(){
 	queryorderlist();
+	showHidden();	
 }
 //全部订单
 function allOrder(){
@@ -82,13 +97,20 @@ function orderDetail(n){
 	                <p>订单编号:${orderDataDetail.order_no}</p>
 	              </div>
 	    `;
-    if(orderDataDetail.status == 2){
+    if(orderDataDetail.status == 2 || orderDataDetail.status == 2){
     	html += `
-			<div class="order-select">                           
-                <button>取消订单</button> 
+			<div class="order-select" >                           
+                <a href="javascript:cannelorder(${orderDataDetail.order_no});">取消订单</a> 
+            </div>         
+    	`;
+    }else if(orderDataDetail.status == 8){
+    	html += `
+			<div class="order-select" >                           
+                <a href="javascript:showEvaluation(${orderDataDetail.product_id});">评价</a> 
             </div>         
     	`;
     }
+    
 	html += `          
 	            </div>
 	          </div>
@@ -236,303 +258,7 @@ function orderDetail(n){
 	`;
 	$(".aside-right").html(html);
 }
-//订单评价
-// function orderEvaluation(n){
-// 	var html="";
-//   	//var orderdata = orderdetail();
-//   	var orderDataList = localStorage.getItem("odrerData");
-// 	orderDataList = JSON.parse(orderDataList);
-//   	var orderDataDetail = orderDataList[n];
-//   	console.log(orderDataDetail);
-//   	html += `
-// 		<div class="evaluation-order">
-
-//         	<form class="evaluation-information" action="">		      
-// 		           `;
-// 	$.ajax({
-// 		url:"/uc/booking/getproductinfo/product_id/"+orderDataDetail.product_id,
-// 		async:false,
-// 		success:function(result){
-// 			console.log(result);
-// 			html +=`
-// 				<div class="form-group">
-// 	                <div class="evaluation-title">
-// 	                  	评价订单
-// 	                </div>
-// 	                <div class="evaluation-detail">
-// 	                  <span>订单号:</span><span>${orderDataDetail.order_no}</span>
-// 	                </div>
-// 	              </div>
-
-// 	              <div class="form-group">
-// 	                <div class="evaluation-title">
-// 	                    产品信息
-// 	                </div>
-// 	                <div class="evaluation-detail clear">
-// 	                  <img src="${result.data.cover_url}" alt="" style="width: 65px;float:left">
-// 	                  <div class="totality-grade lf"> 
-// 	                    <span>【${orderDataDetail.title}】</span>
-// 	                    <br>
-// 	                    <span class="lf marking">产品总体打分:</span>
-// 	        	`;
-// 	        if(result.data.commentcount != 0){
-// 	        	var mark = result.data.score/result.data.commentcount;
-// 	        	//console.log(mark)
-// 	        }
-	       
-// 	        if(result.data.commentcount == 0){
-// 	        	html += `
-// 		        	<div class="lf">
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>	
-// 					</div>		                    
-//                     <b style="padding-left:5px;"></b>
-// 	        	`;
-// 	        }else if(mark > 1 && mark < 2){
-// 	        	html += `
-// 		        	<div class="lf">
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>	
-// 					</div>		                    
-//                     <b style="padding-left:5px;">${mark}分</b>
-// 	        	`;
-// 	        }else if(mark >= 2 && mark < 3){
-// 	        	html += `
-// 		        	<div class="lf">
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 					</div>			                    
-//                     <b style="padding-left:5px;">${mark}分</b>
-// 	        	`;
-// 	        }else if(mark >= 3 && mark < 4){
-// 	        	html += `
-// 		        	<div class="lf">
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>	
-// 					</div>		                    
-//                     <b style="padding-left:5px;">${mark}分</b>
-// 	        	`;
-// 	        }else if(mark >= 4 && mark < 5){
-// 	        	html += `
-// 		        	<div class="lf">
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart-empty total-points"></em>
-// 					</div>			                    
-//                     <b style="padding-left:5px;">${mark}分</b>
-// 	        	`;
-// 	        }else if(mark == 5){
-// 	        	html += `
-// 	        		<div class="lf">
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 						<em class="glyphicon glyphicon-heart total-points"></em>
-// 					</div>			                    
-//                     <b style="padding-left:5px;">${mark}分</b>
-// 	        	`;
-// 	        }     
-// 	        html += `      
-						
-// 	                  </div>
-// 	                </div>
-// 	              </div>
-// 			`;					
-// 		}
-// 	})
-		              
-// 	html += `		             		          
-// 		        <div class="form-group">
-// 		            <div class="evaluation-title">
-// 		              产品总体评分
-// 		            </div>
-// 		            <div class="evaluation-detail">
-// 		              <span class="lf marking">产品总体打分:</span>
-// 		              <ul class="heart-score clear"> 
-// 		                <li class="glyphicon glyphicon-heart-empty">
-// 		                  <div>1分 很不满意</div>
-// 		                </li>
-// 		                <li class="glyphicon glyphicon-heart-empty">
-// 		                  <div>2分 不满意</div>
-// 		                </li>
-// 		                <li class="glyphicon glyphicon-heart-empty">
-// 		                  <div>3分 比较满意</div>
-// 		                </li>
-// 		                <li class="glyphicon glyphicon-heart-empty">
-// 		                  <div>4分 满意</div>
-// 		                </li>
-// 		                <li class="glyphicon glyphicon-heart-empty">
-// 		                  <div>5分 非常满意</div>
-// 		                </li>
-// 		              </ul>
-// 		               <b></b>
-// 		               <input class="hidden-score" name="score_total" value="" type="hidden"/>
-// 		              <div class="write-evaluation clear">
-// 		                <textarea name="comment_content" id="totality" maxlength="500"></textarea>
-// 		                <span>还可以输入<a href="">500</a>字</span>
-// 		                <a class="btn btn-primary ajax-post" href="">上传照片</a>
-
-// 						<div class="col-md-10">
-// 					        <input type="hidden" name="comment_img" class="form-control" id="picture" value="{{data[picture]}}"/>
-// 					        <div id="uploader" class="wu-example">
-// 					            <div class="queueList">
-// 					                <div id="dndArea" class="placeholder">
-// 					                    <div id="filePicker"></div>
-// 					                    <p>或将照片拖到这里，单次最多可选300张</p>
-// 					                </div>
-// 					            </div>
-// 					            <div class="statusBar" style="display:none;">
-// 					                <div class="progress">
-// 					                    <span class="text">0%</span>
-// 					                    <span class="percentage"></span>
-// 					                </div>
-// 					                <div class="info"></div>
-// 					                <div class="btns">
-// 					                    <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
-// 					            	</div>
-// 					        	</div>
-// 					    	</div>
-// 					    </div>
-
-
-
-// 		              </div>
-		              
-// 		            </div>
-// 		        </div>
-
-// 		        <div class="form-group">
-// 		            <div class="evaluation-title">
-// 		              产品满意度评分
-// 		            </div>
-// 		            <div class="evaluation-detail">
-// 		              <ul class="satisfaction">
-// 		                <li>
-// 		                  <span class="lf marking">导游讲解</span>
-// 		                  <ul class="heart-score clear"> 
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>1分 很不满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>2分 不满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>3分 比较满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>4分 满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>5分 非常满意</div>
-// 		                    </li>
-// 		                  </ul>
-// 		                   <b></b>
-// 		                   <input class="hidden-score" name="score_guide" value="" type="hidden"/>
-// 		                   <input type="text" placeholder="还可以输入70个字" name="comment_guide" maxlength="70">
-// 		                    <a class="btn btn-primary ajax-post" href="" type="submit">评价</a>
-// 		                </li>
-// 		                <li>
-// 		                  <span class="lf marking">领队服务</span>
-// 		                  <ul class="heart-score clear"> 
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>1分 很不满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>2分 不满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>3分 比较满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>4分 满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>5分 非常满意</div>
-// 		                    </li>
-// 		                  </ul>
-// 		                   <b></b>
-// 		                   <input class="hidden-score" name="score_service" value="" type="hidden"/>
-// 		                   <input type="text" placeholder="还可以输入70个字" name="comment_service" maxlength="70">
-// 		                    <a class="btn btn-primary ajax-post" href="" type="submit">评价</a>
-// 		                </li>
-// 		                <li>
-// 		                  <span class="lf marking">交通路线</span>
-// 		                  <ul class="heart-score clear"> 
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>1分 很不满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>2分 不满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>3分 比较满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>4分 满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>5分 非常满意</div>
-// 		                    </li>
-// 		                  </ul>
-// 		                   <b></b>
-// 		                   <input class="hidden-score" name="score_traffic" value="" type="hidden"/>
-// 		                   <input type="text" placeholder="还可以输入70个字" name="comment_traffic" maxlength="70">
-// 		                    <a class="btn btn-primary ajax-post" href="" type="submit">评价</a>
-// 		                </li>
-// 		                <li>
-// 		                  <span class="lf marking">住宿餐食</span>
-// 		                  <ul class="heart-score clear"> 
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>1分 很不满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>2分 不满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>3分 比较满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>4分 满意</div>
-// 		                    </li>
-// 		                    <li class="glyphicon glyphicon-heart-empty">
-// 		                      <div>5分 非常满意</div>
-// 		                    </li>
-// 		                  </ul>
-// 		                   <b></b>
-// 		                   <input class="hidden-score" name="score_hotel" value="" type="hidden"/>
-// 		                    <input type="text" placeholder="还可以输入70个字" name="comment_hotel" maxlength="70">
-// 		                    <a class="btn btn-primary ajax-post" href="" type="submit">评价</a>
-// 		                </li>
-// 		              </ul>
-// 		            </div>
-// 		        </div>
-
-// 		        <div calss="form-group" style="text-align:center">
-// 		            <button class="btn btn-primary ajax-post sub-evaluation" target-form="form-info" type="submit" ><i class="fa fa-check"></i>发表评论</button>
-// 		        </div>
-        
-//           	</form>
-
-//         </div>
-//   	`;
-//   	$(".aside-right").html(html);
-// }
-
+//评价订单
 function orderEvaluation(){
 	 
   	var orderDataList = localStorage.getItem("odrerData");
@@ -543,7 +269,7 @@ function orderEvaluation(){
   		var html="";
   		var orderDataDetail = orderDataList[i];
   		if(orderDataDetail.status == 8){
-			//console.log(orderDataDetail);
+			console.log(orderDataDetail);
 			$.ajax({
 				url:"/uc/booking/getproductinfo/product_id/"+orderDataDetail.product_id,
 				async:false,
@@ -654,25 +380,24 @@ function orderEvaluation(){
   		}
   			
   	}
-	
-		              
 }
-
 orderEvaluation();
-
-//显示多图上传
-function show(){
-	$("#upload-pictures").removeClass("out").addClass("in");
+//动态显示数量
+function textCounter(n) {
+	 var length=$('.totality'+n).val().length;
+	 console.log(length)
+	 $(".word-number").html(500-length);
 }
+//显示订单评价
+function showEvaluation(product_id){
+	$('#evaluation-order'+product_id).addClass("active").addClass("in");
+	$(".aside-right").html("");
+}
+
 //提交订单评价
-$(".aside-right").on("click","button.sub-evaluation",function(){
-	console.log("ok");
-	var data = $(".aside-right").find("form.evaluation-information").serialize();
-	console.log(data);
-})
 $(".asideRight").on("click","button.sub-evaluation",function(){
 	console.log("ok");
-	var data = $(".asideRight").find("form.evaluation-information").serialize();
+	var data = $(".asideRight").find("form.form-info561").serialize();
 	console.log(data);
 })
 //查看行程
@@ -742,7 +467,7 @@ function pagination(n){
 	pageDataList = JSON.parse(pageDataList);
 	console.log(pageDataList)
 	//动态填充分页页码
-	var totalPages = 100;//pageDataList.totalPages      //总页数
+	var totalPages = pageDataList.totalPages      //总页数
 	var currentPage = n     //当前页
 	html += `<div class="pagination">`;
 	if(currentPage > 1){        				  //上一页
@@ -888,7 +613,7 @@ function resultEach(pageNum){
 			    	h += `
 			    		<td>
 							<a href="javascript:viewStroke(${v.product_id});">查看行程 </a><br/>
-							<a class="my-evaluation" href="#evaluation-order${v.product_id}" data-toggle="tab">评价</a>
+							<a class="my-evaluation" href="javascript:showEvaluation(${v.product_id})">评价</a>
 						</td>
 			    	`;
 			    }else if(v.status == 9){
@@ -947,6 +672,7 @@ function deleteOrder(orderid){
 *个人档案
 **/
 function ucArchives(){
+	showHidden();
 	var html="";
   	$.ajax({
   		url:"/uc/seting/query",
@@ -1018,8 +744,9 @@ function ucArchives(){
           		<div class="form-group">
                     <label class="col-md-2 control-label">生日</label>
                     <div class="col-md-4">
-                      	<input type="text" name="birthday" value="${data.birthday}" class="form-control masked" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
+                      	<input type="text" name="birthday" onblur="birthBlur()" value="${data.birthday}" class="form-control masked bir" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
                     </div>
+                    <span class="cue"></span>
           		</div>
           		<div class="form-group">
             		<label class="col-md-2 control-label">固定电话</label>
@@ -1100,7 +827,7 @@ function getprovince(){
 		})
 		//console.log(pro)
 		return pro;
-	}
+}
 function getcity(m){
 		var citys;
 		$.ajax({
@@ -1120,72 +847,15 @@ function getcity(m){
 *头像设置
 **/
 function ucPortrait(){
-	var html="";
-
-	html=`
-	 <div class="head-title">
-      头像设置
-     </div>
-     <div class="add-picture min-height">
-  
-         <div class="" id="avatar-modal" aria-labelledby="avatar-modal-label" >
-           <div class="">
-             <div class="">
-               <form class="avatar-form"  enctype="multipart/form-data" method="post">
-
-                 <div class="modal-body">
-                   <div class="avatar-body">
-                    <div class="avatar-upload">
-                       <input class="avatar-src" name="avatar_src" type="hidden">
-                       <input class="avatar-data" name="avatar_data" type="hidden">
-
-                       </div>
-                     <div class="fancy-file-upload fancy-file-primary">
-                       <b class="upload">头像</b>
-                      
-                       <input type="file" class="form-control avatar-input" id="avatarInput" name="file" onchange="jQuery(this).next('input').val(this.value);" />
-                      
-                       <span class="button">上传图片</span>
-                       <span class="upload">仅支持jpg.gif.png格式图片,且文件小于2M</span>
-                     </div>
-                     <div class="row">
-
-                      <div class="col-md-6 col-md-offset-1">
-                        <div class="avatar-wrapper"></div>
-                       </div>
-                       <div class="col-md-4" style="vertical-align: bottom">
-                         <div class="avatar-preview preview-lg"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
-                         <div class="avatar-preview preview-md"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
-                         <div class="avatar-preview preview-sm"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
-                       </div>
-
-                     </div>
-                     <div class="row avatar-btns">
-                       <div class="col-md-3">
-                        <button class="btn btn-primary btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
-                       </div>
-                       <div class="col-md-9">
-                         <div class="btn-group">
-                           <button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
-                         </div>
-                         <div class="btn-group">
-                           <button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
-                         </div>
-                       </div>
-
-                     </div>
-                   </div>
-                 </div>
-               </form>
-             </div>
-           </div>
-         </div>
-
-         <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
-    
-     </div>
-	`;
-    $(".aside-right").html(html);         
+	$(".asideRight #set-header").addClass("active").addClass("in");
+	$(".aside-right").html("")
+	if($(".asideRight #upload-img").hasClass("out")){
+		$(".asideRight #upload-img").addClass("out");
+		$(".asideRight .show-upload").removeClass("out");
+	}
+	if($(".asideRight .evaluation-order").hasClass("in")){
+		$(".asideRight .evaluation-order").removeClass("active").removeClass("in");
+	}        
 }	
 
 
@@ -1199,6 +869,7 @@ function ucCommunity(){}
 *账号安全
 **/
 function ucAccount(){
+	showHidden();
 	var html="";
 	html=`
       <div class="security-title">
@@ -1219,13 +890,13 @@ function ucAccount(){
                 <div class="form-group">
                   <label class="control-label col-md-2">新密码</label>
                   <div class="col-md-4">
-                  <input type="password" class="form-control" name="password" placeholder="密码长度6-20个字符">
+                  <input type="password" class="form-control" minlength="6" maxlength="20" name="password" placeholder="密码长度6-20个字符">
                     </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-md-2">确认密码</label>
                   <div class="col-md-4">
-                  <input type="password" class="form-control" name="repassword" placeholder="密码长度6-20个字符">
+                  <input type="password" class="form-control" minlength="6" maxlength="20" name="repassword" placeholder="密码长度6-20个字符">
                     </div>
                 </div>
 
@@ -1253,6 +924,7 @@ function ucCollection(){}
 *常用旅客信息
 **/
 function ucTraveller(){
+	showHidden();
 	var html="";
   	$.ajax({
   		url:"/uc/traveller/query",
@@ -1309,7 +981,7 @@ function ucTraveller(){
   				</div>
   				<div class="delete-all">
 					<input class="check-all" type="checkbox" />
-					<label><span>全选</span><a href="javascript:deleteAll();">X删除</a></label>
+					<label><span>全选</span><a href="javascript:deleteAllTrave();">X删除</a></label>
 				</div>
 			</div>
   		`;
@@ -1548,7 +1220,8 @@ function deleteTraveller(n){
 	            success: function (res) {
 	            	console.log(res)
 	                if(res.errno == 0){
-		               swal(res.data, "您选择的旅客信息已经被删除.", "success");		                		                
+		               swal(res.data, "您选择的旅客信息已经被删除.", "success");
+		               ucTraveller();		                		                
 	               	}else{
 	                    swal(res.errmsg, "您选择的旅客信息删除失败.", "error");
 	               	}
@@ -1557,9 +1230,43 @@ function deleteTraveller(n){
            
     })
 }
+//全选删除
+function deleteAllTrave(){
+	var a = $(".aside-right .addr-checkbox:checked").siblings("table")
+	swal({
+        title: "您确定要删除旅客信息吗?",
+        text: "删除旅客信息!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        closeOnConfirm: false
+        },
+        function(){
+        	if(a.length>0){
+				for(var i=0;i<a.length;i++){
+					var k = parseInt(a[i].className);
+					  $.ajax({
+			            url:"/uc/traveller/deladdr",
+	            		data:{id:k},
+			            success: function (res) {
+			                  if(res.errno == 0){
+			                       swal(res.data, "您选择的旅客信息已经被删除.", "success");
+			                       ucTraveller();                                                    
+			                    }else{
+			                        swal(res.errmsg, "您选择的旅客信息删除失败.", "error");                           
+			                    }
+			            	}
+			        	})
+				}
+			}
+       
+        })
+}
 //回调:旅客编辑主体
 function add(n){
-	console.log(n);
+	//console.log(n);
 	var v ={};
 	var val = JSON.parse(localStorage.getItem("travellerList"));
 	if(typeof(n) !="undefined" && n < val.length && n >= 0){
@@ -1638,23 +1345,24 @@ function add(n){
 	html += `
 		<div class="increase-content">
 	  		<div class="increase-title">旅客信息</div>
-	  		<form action="/uc/traveller/addaddr" mothod="post" class="edit-trav">
+	  		<form onsubmit="return check()" action="/uc/traveller/addaddr"  mothod="post" class="edit-trav form-info">
 	  			<div class="col-md-offset-2 ce">*中文名与英文名两者必填一项</div>
 	  			<div class="form-group clear">
 				    <label class="col-md-2 control-label" for="">中文名</label>
 				    <span class="star">*</span>
 				    <div class="col-md-4">
-	        			<input class="form-control masked" type="text" placeholder="请输入中文姓名" name="name_zh" value=${v.name_zh}>
-	    			</div>                                              
+	        			<input class="form-control masked chinese-name" onblur="unameBlur()" maxlength="20" type="text" placeholder="请输入中文姓名" name="name_zh" value=${v.name_zh}>	        			
+	    			</div>    
+	    			<span class="cue col-md-5"></span>                                          
 	  			</div>
 				<div class="form-group clear">
 				    <label class="col-md-2 control-label" for="">英文名</label>
 				    <span class="star">*</span>
 				    <div class="col-md-2 clear">
-				      <input class="form-control masked" type="text" placeholder="LastName(姓)" name="name_en_first" value=${v.name_en_first}>
+				      <input class="form-control masked last-name" onblur="unameBlur()" maxlength="20" type="text" placeholder="LastName(姓)" name="name_en_first" value=${v.name_en_first}>
 				    </div>
 			    	<div class="col-md-2 clear">
-			      		<input class="form-control masked" type="text" placeholder="FirsName(名)" name="name_en_last" value=${v.name_en_last}>
+			      		<input class="form-control masked first-name" onblur="unameBlur()" maxlength="20" type="text" placeholder="FirsName(名)" name="name_en_last" value=${v.name_en_last}>
 			    	</div>
 			  	</div>
 				<div class="col-md-offset-2 self">
@@ -1665,8 +1373,9 @@ function add(n){
 				    <label class="col-md-2 control-label" for="">国籍</label>
 				    <span class="star">*</span>
 				    <div class="col-md-4">
-				      	<input class="form-control masked" type="text" placeholder="中文/英文" name="country" value=${v.country}>
-				    </div>               
+				      	<input class="form-control masked nationality" onblur="nationalityBlur()" type="text" placeholder="中文/英文" name="country" value=${v.country}>
+				    </div>
+				    <span class="cue col-md-5"></span>                 
 				</div>
 			  <div class="form-group">
 			    <label class="col-md-2 control-label">性别</label>
@@ -1686,8 +1395,9 @@ function add(n){
 			  <div class="form-group clear">
 			    <label class="col-md-2 control-label">生日</label>
 			    <div class="col-md-4">
-			      <input type="text" name="birthday" value="${v.birthday}" class="form-control masked" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
+			      <input type="text" name="birthday" onblur="birthBlur()" value="${v.birthday}" class="form-control masked bir" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
 			    </div>
+			    <span class="cue col-md-5"></span>  
 			  </div>
 			  <div class="form-group clear">
 			    <label class="col-md-2 control-label" for="">出生地</label>
@@ -1699,40 +1409,42 @@ function add(n){
 			    <label class="col-md-2 control-label">手机号码</label>
 			    <span class="star">*</span>
 			    <div class="col-md-4">
-			      <input type="text" name="phone" value="${v.phone}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
+			      <input type="text" name="phone" onblur="phoneBlur()" value="${v.phone}" class="form-control masked phone-confir" data-format="99999999999" data-placeholder="X" placeholder="大陆手机" maxlength="11">
 			    </div>
+			    <span class="cue col-md-5"></span>  
 			  </div>
 			  <div class="form-group clear">
-			    <label class="col-md-2 control-label">非大陆号码</label>*
+			    <label class="col-md-2 control-label">非大陆号码</label>
 			    <div class="col-md-3">
-			      <input type="text" name="phone_zone" value="${v.phone_zone}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="中国香港825">
+			      <input type="text" name="phone_zone" value="${v.phone_zone}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="中国香港825" maxlength="11">
 			     
 			    </div>
-			    <div class="col-md-2">
-			        <input type="text" name="phone_external" value="${v.phone_external}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="非大陆手机">
+			    <div class="col-md-3">
+			        <input type="text" name="phone_external" value="${v.phone_external}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="非大陆手机" maxlength="11">
 			    </div>
 			  </div>
 			  <div class="form-group clear">
 			    <label class="col-md-2 control-label">联系电话</label>
 			    <div class="col-md-10   landline-telephone">
-			        <input type="text" name="tel_zone" value="${v.tel_zone}" class="area"  data-placeholder="区号" placeholder="区号">
-			        <input type="text" name="tel_number" value="${v.tel_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
-			        <input type="text" name="tel_ext" value="${v.tel_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+			        <input type="text" name="tel_zone" value="${v.tel_zone}" class="area" maxlength="4" data-placeholder="区号" placeholder="区号">
+			        <input type="text" name="tel_number" value="${v.tel_number}" class="telephone" maxlength="8"  data-placeholder="电话" placeholder="电话">
+			        <input type="text" name="tel_ext" value="${v.tel_ext}" class="extension" maxlength="4"  data-placeholder="分机" placeholder="分机">
 			    </div>
 			  </div>
 			  <div class="form-group clear">
 			    <label class="col-md-2 control-label">传真号码</label>
 			    <div class="col-md-10   landline-telephone">
-			        <input type="text" name="fax_zone" value="${v.fax_zone}" class="area"  data-placeholder="区号" placeholder="区号">
-			        <input type="text" name="fax_number" value="${v.fax_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
-			        <input type="text" name="fax_ext" value="${v.fax_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+			        <input type="text" name="fax_zone" value="${v.fax_zone}" class="area" maxlength="4"  data-placeholder="区号" placeholder="区号">
+			        <input type="text" name="fax_number" value="${v.fax_number}" class="telephone" maxlength="8" data-placeholder="电话" placeholder="电话">
+			        <input type="text" name="fax_ext" value="${v.fax_ext}" class="extension" maxlength="4" data-placeholder="分机" placeholder="分机">
 			    </div>
 			  </div>
 			 <div class="form-group clear">
 			    <label class="col-md-2 control-label" for="">Email</label>
 			    <div class="col-md-4">
-			      <input class="form-control masked" type="text" name="email" value="${v.email}">
-			    </div>                
+			      <input class="form-control masked email-confir" onblur="emailBlur()" type="email" name="email" value="${v.email}">
+			    </div> 
+			    <span class="cue col-md-5"></span>                 
 			  </div>
 			  <div class="form-group clear">
 			    <div class="credentials">
@@ -1768,12 +1480,16 @@ function add(n){
 	    <label class="col-md-1 control-label credentials-num" for="">证件号码</label>
 	    <span class="star">*</span>
 	    <div class="col-md-3">
-	      <input class="form-control " type="text" name="credentials_value" value="${v.credentials_value}">
-	    </div>                
+	      <input class="form-control cre-confir" onblur="creBlur()" type="text" name="credentials_value" value="${v.credentials_value}">
+	      <span class="cue cre-num"></span> 
+	    </div>  
+	                
 	    <label class="col-md-1 control-label credentials-num" for="">有效期</label>
 	    <div class="col-md-2">
-	      <input class="form-control " type="text" placeholder="yyyy-mm-dd" name="credentials_validity" value="${v.credentials_validity}">
-	    </div>                               
+	      <input class="form-control validity-confir" onblur="validityBlur()" type="text" placeholder="yyyy-mm-dd" name="credentials_validity" value="${v.credentials_validity}">
+	      <span class="cue cre-validity"></span>
+	    </div> 
+	                                 
 	  </div>
 
 	  <div class="form-group margin-top-30 clear">
@@ -1786,10 +1502,10 @@ function add(n){
 		`;
 	}		   
 	html += `
-	        <button class="btn btn-primary ajax-post sub-increase" target-form="form-info" type="submit" ><i class="fa fa-check"></i> 保存 </button>
+	        <button class="btn btn-primary ajax-post sub-increase" type="submit" ><i class="fa fa-check"></i> 保存 </button>
 	    </div>
 	     <div class="col-md-2">
-	      <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" > 取消 </button>
+	      <button class="btn btn-primary" target-form="form-info" type="reset" > 取消 </button>
 	    </div>
 	  </div>
 
@@ -1802,33 +1518,43 @@ function add(n){
 //表单提交
 $(".aside-right").on("click","button.sub-increase",function(e){
 	console.log("ok");
-	var data = $(".aside-right").find("form.edit-trav").serialize();
-	console.log(data);
-	$.ajax({
-	     type: "POST", 
-	     url: "/uc/traveller/addaddr",
-	     data: data,
-	     success: function(msg){ 
-	     	console.log(msg)
-	           if(msg.errno == 0){
-	            	_toastr("保存成功","top-right","success",false);	            
-	           }else{
-	               _toastr("编辑失败！","top-right","error",false); 
-	           }
-	            } 
-	});
-    return false;
+	console.log(unameBlur());
+	if(!unameBlur()){
+		$(".aside-right .chinese-name").parent().siblings("span.cue").html("X 中文名与英文名两者必填一项");
+	}else if(!nationalityBlur()){
+		$(".aside-right .nationality").parent().siblings("span.cue").html("X 请输入您的国籍");
+	}else if(!phoneBlur()){
+
+	}else{
+		var data = $(".aside-right").find("form.edit-trav").serialize();
+		console.log(data);
+		$.ajax({
+		     type: "POST", 
+		     url: "/uc/traveller/addaddr",
+		     data: data,
+		     success: function(msg){ 
+		     	console.log(msg)
+		           if(msg.errno == 0){
+		            	_toastr("保存成功","top-right","success",false);	            
+		           }else{
+		               _toastr("编辑失败！","top-right","error",false); 
+		           }
+		            } 
+		});
+	}
 })
+
 
 /****
 *常用地址
 **/
 function ucAddress(){
+	showHidden();
 	var html="";
 	$.ajax({
 		url:"/uc/address/query",
 		success:function(result){
-			//console.log(result);
+			console.log(result);
 			html+=`
 	            <div class="information-title">
 	              <span>关键字</span>
@@ -1994,15 +1720,17 @@ function editAddress(n){
 	                <div class="form-group clear">
 	                <label class="col-md-2 control-label" for="">地址简称</label>
 		                <div class="col-md-4">
-		                    <input class="form-control masked" type="text" placeholder='如"家"，"我的公司"等' name="sortname" value=${m.sortname}>
-		                </div>                                              
+		                    <input class="form-control masked addr-confir" onblur="addrBlur()" type="text" placeholder='如"家"，"我的公司"等' name="sortname" value=${m.sortname}>
+		                </div>  
+		                <span class="cue"></span>                                            
 	                </div>
 
               <div class="form-group clear">
                 <label class="col-md-2 control-label" for="">收件人姓名</label>
                 <div class="col-md-4 clear">
-                  <input class="form-control masked" type="text" placeholder=""  name="accept_name" value=${m.accept_name}>
+                  <input class="form-control masked acc-confir" onblur="acceptBlur()" type="text" placeholder=""  name="accept_name" value=${m.accept_name}>
                 </div>
+                <span class="cue"></span>
               </div>
               
               <div class="form-group clear">
@@ -2057,15 +1785,17 @@ function editAddress(n){
               <div class="form-group clear">
                 <label class="col-md-2 control-label" for="">详细地址</label>
                 <div class="col-md-6 clear">
-                  <input class="form-control masked" type="text" placeholder=""  name="addr" value=${m.addr}>
+                  <input class="form-control masked addr-det" onblur="addressBlur()" type="text" placeholder=""  name="addr" value=${m.addr}>
                 </div>
+                <span class="cue"></span>
               </div>
 
                <div class="form-group clear">
                 <label class="col-md-2 control-label" for="">邮政编码</label>
                 <div class="col-md-4 clear">
-                  <input class="form-control masked" type="text" placeholder=""  name="zip" value=${m.zip}>
+                  <input class="form-control masked zip-confir" onblur="zipBlur()" type="text" maxlength="6" placeholder=""  name="zip" value=${m.zip}>
                 </div>
+                <span class="cue"></span>
               </div>
 
               <div class="col-md-offset-2 ce">手机号码与联系电话两者必填一项</div>
@@ -2073,16 +1803,17 @@ function editAddress(n){
               <div class="form-group clear">
                 <label class="col-md-2 control-label">手机号码</label>
                 <div class="col-md-4">
-                  <input type="text" name="mobile" value="${m.mobile}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
+                  <input type="text" maxlength="11" name="mobile phone-confir" onblur="phoneBlur()" value="${m.mobile}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
                 </div>
+                <span class="cue"></span>
               </div>
 
               <div class="form-group clear">
                 <label class="col-md-2 control-label">联系电话</label>
                 <div class="col-md-10   landline-telephone">
-                    <input type="text" name="phone_zone" value="${m.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
-                    <input type="text" name="phone_number" value="${m.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
-                    <input type="text" name="phone_ext" value="${m.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+                    <input type="text" name="phone_zone" maxlength="4" value="${m.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
+                    <input type="text" name="phone_number" maxlength="8" value="${m.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
+                    <input type="text" name="phone_ext" maxlength="4" value="${m.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
                 </div>
               </div>
 
@@ -2120,15 +1851,17 @@ function addAddress(){
 	                <div class="form-group clear">
 	                <label class="col-md-2 control-label" for="">地址简称</label>
 		                <div class="col-md-4">
-		                    <input class="form-control masked" type="text" placeholder='如"家"，"我的公司"等' name="sortname">
-		                </div>                                              
+		                    <input class="form-control masked addr-confir" onblur="addrBlur()" type="text" maxlength="20" placeholder='如"家"，"我的公司"等' name="sortname">
+		                </div>
+		                <span class="cue"></span>                                               
 	                </div>
 
               <div class="form-group clear">
                 <label class="col-md-2 control-label" for="">收件人姓名</label>
                 <div class="col-md-4 clear">
-                  <input class="form-control masked" type="text" placeholder="" name="accept_name">
+                  <input class="form-control masked acc-confir" onblur="acceptBlur()" type="text" maxlength="20" placeholder="" name="accept_name">
                 </div>
+                <span class="cue"></span>
               </div>
               
               <div class="form-group clear">
@@ -2172,15 +1905,17 @@ function addAddress(){
               <div class="form-group clear">
                 <label class="col-md-2 control-label" for="">详细地址</label>
                 <div class="col-md-6 clear">
-                  <input class="form-control masked" type="text" placeholder="" name="addr">
+                  <input class="form-control masked addr-det" onblur="addressBlur()" type="text" placeholder="" name="addr">
                 </div>
+                <span class="cue"></span>
               </div>
 
                <div class="form-group clear">
                 <label class="col-md-2 control-label" for="">邮政编码</label>
                 <div class="col-md-4 clear">
-                  <input class="form-control masked" type="text" placeholder=""  name="zip">
+                  <input class="form-control masked zip-confir" onblur="zipBlur()" type="text" maxlength="6" placeholder=""  name="zip">
                 </div>
+                <span class="cue"></span>
               </div>
 
               <div class="col-md-offset-2 ce">手机号码与联系电话两者必填一项</div>
@@ -2188,8 +1923,9 @@ function addAddress(){
               <div class="form-group clear">
                 <label class="col-md-2 control-label">手机号码</label>
                 <div class="col-md-4">
-                  <input type="text" name="mobile" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
+                  <input type="text" name="mobile" class="form-control masked phone-confir" onblur="phoneBlur()" data-format="99999999999" data-placeholder="X" placeholder="大陆手机" maxlength="11">
                 </div>
+                <span class="cue"></span>
               </div>
 
               <div class="form-group clear">
@@ -2227,7 +1963,7 @@ $(".aside-right").on("click",".check-all",function(){
 })
 //删除地址信息
 function deleteAddr(n){
-	console.log(n);
+	//console.log(n);
 	 swal({
             title: "您确定要删除该收货地址吗?",
             text: "删除收货人信息!",
@@ -2244,7 +1980,8 @@ function deleteAddr(n){
                 data:{id:n},
                 success: function (res) {
                       if(res.errno == 0){
-                           swal(res.data.name, "您选择的地址已经被删除.", "success");                                                     
+                           swal(res.data.name, "您选择的地址已经被删除.", "success");
+                           ucAddress() ;                                                    
                            }else{
                                 swal(res.errmsg, "您选择的地址删除失败.", "error");                            
                            }
@@ -2253,32 +1990,190 @@ function deleteAddr(n){
            
             })
 }
-//全选删除
+//全选删除地址信息
 function deleteAll(){
 	var a = $(".aside-right .addr-checkbox:checked").siblings("table")
-	var idList = [];
-	if(a.length>0){
-		for(var i=0;i<a.length;i++){
-			var k = parseInt(a[i].className);
-			idList.push(k);
-		}
-		console.log(idList)
-	}
-	
+	swal({
+        title: "您确定要删除该收货地址吗?",
+        text: "删除收货人信息!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        closeOnConfirm: false
+        },
+        function(){
+        	if(a.length>0){
+				for(var i=0;i<a.length;i++){
+					var k = parseInt(a[i].className);
+					  $.ajax({
+			            url:"/uc/address/deladdr/id/"+k,
+			            success: function (res) {
+			                  if(res.errno == 0){
+			                       swal(res.data.name, "您选择的地址已经被删除.", "success");
+			                       ucAddress() ;                                                    
+			                       }else{
+			                            swal(res.errmsg, "您选择的地址删除失败.", "error");                            
+			                       }
+			            	}
+			        	})
+				}
+			}
+       
+        })
 }
+/****
+*地址表单验证
+**/
+function addrBlur(){
+	var addr = $(".aside-right .addr-confir").val();
+	if(addr == ""){
+		$(".aside-right .addr-confir").parent().siblings("span.cue").html("X 请输入地址简称")
+	}else{
+		$(".aside-right .addr-confir").parent().siblings("span.cue").html("")
+	}
+}
+//收件人
+function acceptBlur(){
+	var acce = $(".aside-right .acc-confir").val();
+	if(acce == ""){
+		$(".aside-right .acc-confir").parent().siblings("span.cue").html("X 请输入收件人姓名")
+	}else{
+		$(".aside-right .acc-confir").parent().siblings("span.cue").html("")
+	}
+}
+//详细地址
+function addressBlur(){
+	var addr = $(".aside-right .addr-det").val();
+	if(addr == ""){
+		$(".aside-right .addr-det").parent().siblings("span.cue").html("X 请输入详细地址")
+	}else{
+		$(".aside-right .addr-det").parent().siblings("span.cue").html("")
+	}
+}
+//邮编
+function zipBlur(){
+	var zip = $(".aside-right .zip-confir").val();
+	if(zip == ""){
+		$(".aside-right .zip-confir").parent().siblings("span.cue").html("X 请输入邮编")
+	}else{
+		$(".aside-right .zip-confir").parent().siblings("span.cue").html("")
+	}
+}
+
+
+/****
+*联系人表单验证
+**/
+//姓名验证
+function unameBlur(){
+	var cname = $(".aside-right .chinese-name").val();
+	var lname = $(".aside-right .last-name").val();
+	var fname = $(".aside-right .first-name").val();
+	console.log(cname)
+	if(cname == "" && (lname == "" || fname == "")){
+		$(".aside-right .chinese-name").parent().siblings("span.cue").html("X 中文名与英文名两者必填一项")
+	}else{
+		$(".aside-right .chinese-name").parent().siblings("span.cue").html("");
+		return true;
+	}
+}
+//国籍验证
+function nationalityBlur(){
+	var nationality = $(".aside-right .nationality").val();
+	var reg = /\d+/g
+	if(nationality == ""){
+		$(".aside-right .nationality").parent().siblings("span.cue").html("X 请输入您的国籍")
+	}else if(reg.test(nationality)){
+		$(".aside-right .nationality").parent().siblings("span.cue").html("X 请输入正确的国籍")
+	}else{
+		$(".aside-right .nationality").parent().siblings("span.cue").html("")
+		return true;
+	}
+}
+//生日验证
+function birthBlur(){
+	var birth = $(".aside-right .bir").val();
+	var reg = /^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/
+	if(birth == ""){
+		$(".aside-right .bir").parent().siblings("span.cue").html("")
+	}else if(!reg.test(birth)){
+		$(".aside-right .bir").parent().siblings("span.cue").html("X 请按YYYY-MM-DD的格式输入正确的日期")
+	}else{
+		$(".aside-right .bir").parent().siblings("span.cue").html("")
+	}
+}
+//手机号码验证
+function phoneBlur(){
+	var ph = $(".aside-right .phone-confir").val();
+	var reg = /^1[3|4|5|7|8][0-9]{9}$/
+	if(ph == ""){
+		$(".aside-right .phone-confir").parent().siblings("span.cue").html("X 请输入手机号码")
+	}else if(!reg.test(ph)){
+		$(".aside-right .phone-confir").parent().siblings("span.cue").html("X 请输入正确的手机号码")
+	}else{
+		$(".aside-right .phone-confir").parent().siblings("span.cue").html("")
+		return true;
+	}
+}
+//非大陆手机号验证
+
+//联系电话验证
+
+//传真验证
+
+//email验证
+function emailBlur(){
+	var email = $(".aside-right .email-confir").val();
+	var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+	if(email == ""){
+		$(".aside-right .email-confir").parent().siblings("span.cue").html("")
+	}else if(!reg.test(email)){
+		$(".aside-right .email-confir").parent().siblings("span.cue").html("X 请输入正确的邮箱")
+	}else{
+		$(".aside-right .email-confir").parent().siblings("span.cue").html("")
+	}
+}
+//证件号码验证
+function creBlur(){
+	var cre = $(".aside-right .cre-confir").val();
+	if(cre == ""){
+		$(".aside-right .cre-confir").siblings("span.cre-num").html("X 请输入证件号码")
+	}else{
+		$(".aside-right .cre-confir").siblings("span.cre-num").html("")
+	}
+}
+function validityBlur(){
+	var val = $(".aside-right .validity-confir").val();
+	var reg = /^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/
+	if(val == ""){
+		$(".aside-right .validity-confir").siblings("span.cre-validity").html("X 请输入有效期")
+	}else if(!reg.test(val)){
+		$(".aside-right .validity-confir").siblings("span.cre-validity").html("X 请按YYYY-MM-DD输入")
+	}else{
+		$(".aside-right .validity-confir").siblings("span.cre-validity").html("")
+	}
+}
+//表单提交验证
+
+//
+
 
 /****
 *优惠券
 **/
 function ucCoupon(){
+	showHidden();
+
 	var html="";
   	html+=`
 		<div class="coupon-title clear">
             <span>优惠券</span>
             <div>
               <span class="add">添加新的优惠券</span>
-              <input type="text" placeholder="输入16位优惠券验证码">
-              <button>添加</button>
+              <input class="add-coupon" type="text" placeholder="输入16位优惠券验证码" maxlength="16">
+              <a href="javascript:addCoupon();">添加</a>
             </div>
          </div>
          <div class="coupon-content">
@@ -2298,17 +2193,28 @@ function ucCoupon(){
   			var coupon = JSON.parse(localStorage.getItem("mcoupon"));
   			var m = data.length;
   			console.log(coupon)
+  			var N=0;
+  			$.each(data,function(k,v){
+  				
+  				var date1 = v.validity_date;
+  				var validity1 = time(date1)
+  				var current1 = new Date().getTime();
+  				if(date1>current1){
+  					N++;
+  				}
+  				return N;
+  			})
   			html+=`
 				<div class="coupon-count">
 	                <b>所有优惠券</b>
-	                <span>(共<a href=""> ${m} </a>个,可用优惠券<a href=""> N </a>个)</span>
+	                <span>(共<a href=""> ${m} </a>个,可用优惠券<a href=""> ${N} </a>个)</span>
 	            </div>
   			`;
   			$.each(data,function(k,v){
   				var date = v.validity_date;
   				var validity = time(date)
   				var current = new Date().getTime();
-  				console.log(current)
+  				console.log(current);
   				html+=`
 				
 			              <table>
@@ -2338,6 +2244,21 @@ function ucCoupon(){
   			$(".aside-right").html(html);
   		}
   	})
+}
+//添加优惠券
+function addCoupon(){
+	var coupon = $(".aside-right .add-coupon").val()
+	var pro;
+	$.ajax({
+		url:"/uc/booking/discountadd/code/"+coupon,
+		async:false,
+		success:function(result){
+			console.log(result);
+			ucCoupon();
+		}
+	});
+	//console.log(pro)
+	return pro;
 }
 //更改时间格式
 function time(date){

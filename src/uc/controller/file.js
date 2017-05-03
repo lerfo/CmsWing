@@ -130,10 +130,10 @@ export default class extends Base {
     }
 
         if(type=='path'){
-         this.json(await get_pic(res));
-    }else {
-         this.json(res);
-    }
+             this.json(await get_pic(res));
+        }else {
+             this.json(res);
+        }
 
   }
   //上传多图
