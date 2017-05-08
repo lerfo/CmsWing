@@ -275,7 +275,7 @@ export default class extends Base {
     this.assign("group_id",group_id)
     //5.5获取查询关键字
     if(searchword.length > 0){
-      map.title = ["like",searchword]
+      map.title = ["like",searchword];
     }
     //console.log(map);
     //6.查询

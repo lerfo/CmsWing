@@ -701,7 +701,7 @@ CLASSES:
 				#}
 		       
 		        <div style="height: 200px;">
-		        	<div style="background:url('/static/assets/images/search_nav.png') no-repeat;width:220px;height:85px;margin-bottom: 15px;padding-left: 60px;padding-top: 23px; ">
+		        	<div style="background:url('/static/assets/images/search_nav.png') no-repeat;width:220px;height:85px;margin:0px auto;margin-bottom: 15px;padding-left: 60px;padding-top: 23px; ">
 						<h3 class="bold" style="color: #fff;font-size:24px;">专属推荐</h3>
 		        	</div>
 					<ul id="studytour-ul" style="padding-left: 0px;">
@@ -711,16 +711,15 @@ CLASSES:
 
 						<li class="mix development col-md-12 col-sm-12" style="padding: 0; margin-bottom: 14px;"><!-- item -->
 
-							<div class="item-box thumbnail">
+							<div class="item-box thumbnail" style="">
 							<a href="{{v.name|get_url(v.id)}}">
-								<figure>
-									<div class="col-lg-6 col-sm-6" style="padding: 0;">
-										<img class="img-responsive" style="height: 72px;" src="{{v.cover_id|get_pic('m=1,w=134,h=72')}}"  alt="">
+								<figure style="width: auto;">
+									<div class="col-lg-10 col-sm-10" style="padding: 0;margin-left: 20px;">
+										<img class="img-responsive" style="height: 84px;" src="{{v.cover_id|get_pic('m=1,w=134,h=72')}}"  alt="">
 									</div>
-									<div class="col-lg-6 col-sm-6" style="padding: 0;">
+									<div class="col-lg-10 col-sm-10" style="padding: 0;margin-left: 20px;">
 										<span class="item-hover">
-											<span class="overlay dark-5"></span>
-											
+											<!-- <span class="overlay dark-5"></span> -->
 										</span>
 
 										<!-- overlay title -->

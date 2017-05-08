@@ -238,4 +238,28 @@ export default class extends Base {
           return this.modtemp();
       }
   }
+
+    /**
+   * 详情入口
+   * @returns {*}
+   */
+  async answerAction(){
+      //获取详情id
+      let id =this.get("id");
+      let page = think.isEmpty(this.param('page')) ? "0" : this.param('page');
+      let limit = think.isEmpty(this.param("limit")) ? this.config("db.nums_per_page") : this.param("limit");
+      //判断请求参数是否合法。
+      if(!think.isNumberString(id)){
+          return this.fail("请求参数不合法！");
+      }
+   
+      //获取回复
+      let answer = await this.model("question_answer").where({question_id:id}).page(page,limit).countSelect();
+      for(let a of answer.data){
+          a.ccount = await this.model("question_answer_comments").where({answer_id:a.answer_id}).count("id");
+      }
+      this.success(answer);
+
+    
+  }
 }

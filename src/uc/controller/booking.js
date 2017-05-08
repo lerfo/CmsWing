@@ -398,6 +398,7 @@ export default class extends Base {
     let status = this.param("status") || null;
     //console.log(status);
     let map;
+    let limit = think.isEmpty(this.param("limit")) ? 5 : this.param("limit");
 
     //当前位置
     if (!think.isEmpty(status)) {
@@ -446,7 +447,7 @@ export default class extends Base {
 
     console.log(map);
     // this.config("db.nums_per_page",20)
-    let data = await this.model("order_tour").where(map).page(this.param('page')).order("create_time DESC").countSelect();
+    let data = await this.model("order_tour").where(map).page(this.param('page'),limit).order("create_time DESC").countSelect();
     let html = pagination(data, this.http, {
       desc: false, //show description
       pageNum: 2,

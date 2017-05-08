@@ -21,13 +21,112 @@
     div.heading-title.heading-border.heading-color{
         border-color: transparent;
     }
+    li.comment.comment-reply{
+        background-color: transparent;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+    .comment>img{
+        border-radius: 50%;
+
+    }
+    div.comment-body{
+   		padding-left: 40px !important;
+    }
+    li.comment.comment-reply {
+    	font-size: 14px;
+    }
+    li.comment.comment-reply>img{
+    	width: 32px;
+    	height: 32px;
+    }
+    ul.list-inline.size-11.margin-top-10.clear li.pull-right {
+        margin-top: -20px;
+    }
+    #studytour-ul{
+        padding-left: 0px;list-style: none;
+    }
+    .mix-development{
+        padding: 0; 
+        margin-bottom: 14px;
+    }
     {% if category.id== 124 %}
     .blog-post-info>li+li:before {
      content: none;
     }
-    li.comment{
-        font-size: 16px;
+    ul.list-inline.size-11.margin-top-10.clear{
+        padding-right: 10px; 
     }
+    .head_img{
+    	background-color: #FFFFFF;
+    	padding:5px;
+    	border-radius: 5px; 
+    	box-shadow: 0 0 8px #000;
+    	width: 100px;
+    	height: 100px;
+    	display: inline-block;
+    }
+    .head_img>img{
+    	width: 91px; 
+    	height: 91px;
+    }
+    .title-h1{
+    	color: #fff;
+    	background-color: transparent !important;
+    	margin-left:20px !important;
+    	display: inline-block;
+
+    }
+	.tag-ul{
+		border: 0px;
+		margin-left:140px;
+		margin-top: -30px;
+	}
+	.browse-img{
+		width: 14px;
+		height: 12px;
+		margin-top:-4px;
+	}
+	.agree-img{
+		width: 16px;
+		height: 16px;
+		margin-top:-4px;
+	}
+	.comment-user>img{
+		border-radius: 50%;
+	}
+	.comment-user>span{
+		position: absolute;
+		top:83px;
+		padding-left: 20px;
+	}
+	.comment-body{
+		width: 545px;
+		margin-left:50px;
+		padding-left: 0;
+	}
+	.floor{
+		width: 100%;
+		height:30px;
+		background-color: #687097;
+		color:#ffffff;
+		padding-left:15px;
+	}
+	.border-div{
+		border: 3px #F1F6FA solid;
+		border-top: 5px #F1F6FA solid;
+		padding-bottom: 10px;
+	}
+	.comments-container{
+		position: relative;
+		z-index: 9;
+		border: none; 
+		top: -10px
+	}
+	.time-small{
+		color:#b5b5b5;
+		margin-left: 10px;
+	}
     {% else %}
     .breadcrumb>li+li:before {
     padding: 0 5px;
@@ -42,11 +141,22 @@
 	}
 	.question{
 		border: 2px #f1f1f1 solid;
-		padding: 20px 10px;
+		padding: 10px 10px;
+        padding-bottom:0px;
 	}
 	div.heading-title.heading-border{
 		padding-left:0;
 	}
+    h1.size-20.clearfix{
+        font-size: 14px;
+        color: #000000;
+    }
+    .blog-post-info.list-inline.padding-bottom-10{
+        border: 0px;
+        margin-left:5px;
+        color: #4c4c4c;
+        font-size: 14px;
+    }
     .blog-post-info > li + li::before {
         content: "";
     }
@@ -56,6 +166,75 @@
     ul.blog-post-info li a:after {
     content: '';
     }
+    .detail-container{
+        border: none;
+        margin-top: -20px;
+        font-size: 16px;
+        color: #4c4c4c;
+    }
+    .detail-container .wangEditor-txt{
+        padding-bottom: 0px;
+    }
+    .detail_ul{
+        border: 0px;
+        width: 250px;
+        color: #999999;
+        margin-left: 2px;
+        margin-bottom: 0px;
+    }
+    .browse-li img{
+        width: 18px;
+        height: 15px;
+        margin-top:-4px;
+    }
+    .separate-div{
+        width:2px;
+        height:13px;
+        background-color: black;
+    }
+    .reply-li img {
+        width: 16px;
+        height: 16px;
+        margin-top:-4px;
+    }
+    .comment.list-unstyled.margin-bottom-20{
+        border: 3px solid #f1f1f1;
+        padding:25px 20px;
+    }
+    .comments-head-li{
+        height: 60px;
+    }
+    .comments-head-img{
+        border-radius:50%;
+        display: inline-block;
+    }
+    .comments-head-a{
+        position: relative;
+        z-index: 10;
+        background-color: #fff;
+        color: #4c4c4c;
+        font-size: 15px;
+        margin-left: 15px;
+    }
+    .comment-body{
+        padding-left: 30px;
+    }
+    .comments-container{
+        position: relative;
+        z-index: 9;
+        border: none; 
+        top: -10px;
+        font-size: 15px;
+        color: #4c4c4c;
+    }
+    .comments-a{
+        position: relative;
+        z-index: 10;
+        background-color: #fff;
+        height: 20px;
+    }
+
+
     {% endif %}
 </style>
 <!--
@@ -154,20 +333,22 @@ CLASSES:
             <div class="col-md-9 col-sm-9">
                 {% if category.id== 124 %}
                 <div class="heading_border heading-title heading-border heading-color margin-bottom-10" style="top: -98px;">
-                    <div style="background-color: #FFFFFF;padding:5px;border-radius: 5px; box-shadow: 0 0 8px #000;width: 100px;height: 100px;display: inline-block;">
-                        <img src="/static/assets/images/head4.png" style="width: 91px; height: 91px;">
+                    <div  class="head_img">
+                        <img src="/uc/index/avatar/uid/{{info.uid}}" >
                     </div>
-                    <h1 class="size-19 clearfix" style="color: #fff;background-color: transparent;margin-left:20px;display: inline-block;">{{info.title}} </h1>
-                    <ul class="blog-post-info list-inline" style="border: 0px;margin-left:140px;margin-top: -30px;">
+                    <h1 class="size-19 clearfix title-h1" >{{info.title}} </h1>
+                    <ul class="blog-post-info list-inline tag-ul" >
                         <li>
-                            <span class="font-lato"> {{info.create_time|moment}}</span>
+                            <!-- <span class="font-lato"> {{info.create_time|moment}}</span> -->
+                            <span class="font-lato"> {{info.create_time|dateformat('Y-m-d H:i:s')}}</span>
                         </li>
+
                         <li>
-                           <img src="/static/assets/images/browse.png" style="width: 14px;height: 12px;margin-top:-4px;"/>
+                           <img class="browse-img" src="/static/assets/images/browse.png" />
                             <span class="font-lato">{{info.view}}</span>
                         </li>
                         <li>
-                            <img src="/static/assets/images/agree.png" style="width: 16px;height: 16px;margin-top:-4px;" />
+                            <img class="agree-img" src="/static/assets/images/agree.png"  />
                             <span class="font-lato"> {{info.agree_count}}</span>
                         </li>
                     </ul>
@@ -189,7 +370,7 @@ CLASSES:
                 <!-- /breadcrumbs -->
                 <div class="question" style="">
 					<div class="heading_border heading-title heading-border heading-color margin-bottom-10">
-                    	<h1 class="size-20 clearfix" style="font-size: 14px;color: #000000;">{{info.title}} </h1>
+                    	<h1 class="size-20 clearfix">{{info.title}} </h1>
                 
                <!--  <div class="heading_border heading-title heading-border heading-color margin-bottom-10">
                    <h1 class="size-20 clearfix">{{info.title}} </h1> -->
@@ -229,13 +410,13 @@ CLASSES:
                 <!-- <div>
                     <h2>用户名:{{info.username}}</h2>
                 </div> -->
-                <ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;margin-left: 5px;color: #4c4c4c;font-size: 9px;">
+                <ul class="blog-post-info list-inline padding-bottom-10">
                     <li>
                         <a href="javascript:;"><img src="/uc/index/avatar/uid/{{info.uid}}" style="width: 20px;height: 20px;border-radius: 50%;"></a>
                     </li>
-                    <li>
+                    <li style="margin-left:-6px;">
                         <a href="javascript:;">
-                            <span class="font-lato span_userName">{{info.uid|get_nickname}}</span>
+                            <span class="font-lato span_userName">{{info.uid|get_nickname}}{{info.uid}}</span>
                         </a>
                     </li>
                     <!-- <li>
@@ -245,21 +426,21 @@ CLASSES:
                         <span class="font-lato"> {{info.create_time|moment}}</span>
                     </li> -->
                 </ul>
-                <div class="wangEditor-container cmswing-container" style="border: none">
-                    <div class="wangEditor-txt">
+                <div class="wangEditor-container cmswing-container detail-container">
+                    <div class="wangEditor-txt" >
                     	{{info.detail|safe}}
                     </div>
                 </div>
-                 <ul class="blog-post-info list-inline margin-top-10" style="border: 0px;width: 250px;color: #999999;margin-left: 2px;">
-                    <li>
-                        <img src="/static/assets/images/browse.png" style="width: 18px;height: 15px;margin-top:-4px;"/>
+                <ul class="blog-post-info list-inline margin-top-10 detail_ul" >
+                    <li class="browse-li">
+                        <img src="/static/assets/images/browse.png" />
                         <span class="font-lato"> {{ info.view }}人浏览</span>
                     </li>
-                    <li style="">
-                        <div style="width:2px;height:13px ;background-color: black;"></div>
-                    </li>
                     <li>
-                        <img src="/static/assets/images/reply.png" style="width: 16px;height: 16px;margin-top:-4px;"" />
+                        <div class="separate-div"></div>
+                    </li>
+                    <li class="reply-li">
+                        <img src="/static/assets/images/reply.png"/>
                         <span class="font-lato"> {{info.answer_count}} 个回答</span>
                     </li>
                 </ul>
@@ -308,157 +489,191 @@ CLASSES:
                 <div class="box-light margin-top-10 "><!-- .box-light OR .box-dark -->
 
                     <div class="box-inner">
+                    	<div class="tournote_page1">
+
+                    	
                     <!--
                         <h4 class="uppercase size-20 row " style="padding-left: 15px;padding-right: 15px;margin-bottom: -15px;" >{{info.answer_count}} 个回复 <div class="btn-group btn-group-xs pull-right">
                             <a class="btn btn-default height-auto active" href="#">默认排序</a>
                             <a class="btn btn-default height-auto " href="#" style="height: auto">时间排序<span class="glyphicon  glyphicon-arrow-down"></span></a>
                         </div></h4>-->
-                 {% set i=1 %}   
-                 {% for a in answer%}
-                        <!-- <div class="divider divider-dotted " style="margin:10px -15px">divider</div> -->
-                        <!-- COMMENT -->
-                        <div style="margin-bottom: 40px;">
-                            <ul class="comment list-unstyled margin-bottom-0" >
-                                <li class="comment margin-bottom-0">
+			                {% set i=0 %}   
+			                {% for a in answer%}
+			                {% set i = i + 1 %}
+			                {% if i<= 2 %}
+	                        <!-- <div class="divider divider-dotted " style="margin:10px -15px">divider</div> -->
+	                        <!-- COMMENT -->
+	                        <div  class="margin-bottom-40">
+	                            <ul class="comment list-unstyled margin-bottom-0" >
+	                                <li class="comment margin-bottom-0 comment-user">
 
-                                    <!-- avatar -->
-                                    <!-- <div style="width: 50px;height: 50px;margin:0px;padding:0px;display: inline-block;">
-                                         
-                                    </div> -->
-                                    <img class="avatar" src="/uc/index/avatar/uid/{{a.uid}}" width="80" height="80" alt="avatar" style="border-radius: 50%;">
-                                    <span style="position: absolute;top:83px;padding-left: 20px;">{{a.uid|get_nickname}}</span>
+	                                    <!-- avatar -->
+	                                    <!-- <div style="width: 50px;height: 50px;margin:0px;padding:0px;display: inline-block;">
+	                                         
+	                                    </div> -->
+	                                    
+	                                    <img class="avatar" src="/uc/index/avatar/uid/{{a.uid}}" width="80" height="80" alt="avatar" >
+	                                    <span >{{a.uid|get_nickname}}</span>
 
-                                    <!-- comment body -->
-                                    <div class="comment-body" style="width: 545px;margin-left:100px;padding-left: 0;">
-                                        <div style="width: 100%;height:30px;background-color: #687097;color:#ffffff;padding-left:15px;">{{i}}F</div>
-                                        <div style="border: 3px #F1F6FA solid;border-top: 5px #F1F6FA solid;padding-bottom: 10px;">
-                                            <div class="wangEditor-container cmswing-container" style="position: relative;z-index: 9;border: none; top: -10px">
-                                                <div class="wangEditor-txt nopadding" style="margin-left: 10px;">
-                                                    {{a.answer_content|safe}}
-                                                </div>
+	                                    <!-- comment body -->
+	                                    <div class="comment-body">
+	                                        <div class="floor" >{{i}}F</div>
+	                                        <div class="border-div" >
+	                                            <div class="wangEditor-container cmswing-container comments-container" >
+	                                                <div class="wangEditor-txt nopadding margin-left-10 ">
+	                                                    {{a.answer_content|safe}}
+	                                                </div>
 
-                                                <small class="text-muted pull-left" style="color:#b5b5b5;margin-left: 10px;">
-                                                    {{a.add_time|moment}}
-                                                </small>
-                                        		<!-- options -->  
-                                                <ul class="list-inline size-12 margin-top-10">
-                                                	<li class="pull-right">
-                                            			<a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-{{a.answer_id}}"> 
-                                            			<i class="fa fa-reply"></i> 
-                                            			<span id="oc-{{a.answer_id}}">回复</span>全部评论 (<span id="count-{{a.answer_id}}">{{a.ccount}}</span>)</a>
-                                        			</li>
-                                        		
-			                                        <!--<li>
-			                                            <a href="#" class="text-success"><i class="fa fa-thumbs-up"></i> 赞同</a>
-			                                        </li>-->
+	                                                <small class="text-muted pull-left time-small" >
+	                                                    {{a.add_time|dateformat('Y-m-d H:i:s')}}
+	                                                </small>
+	                                        		<!-- options -->  
+	                                                <ul class="list-inline size-12 margin-top-10">
+	                                                	<li class="pull-right">
+	                                            			<a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-{{a.answer_id}}"> 
+	                                            			<i class="fa fa-reply"></i> 
+	                                            			<span id="oc-{{a.answer_id}}">回复</span>全部评论 (<span id="count-{{a.answer_id}}">{{a.ccount}}</span>)</a>
+	                                        			</li>
+	                                        		
+				                                        <!--<li>
+				                                            <a href="#" class="text-success"><i class="fa fa-thumbs-up"></i> 赞同</a>
+				                                        </li>-->
 
-			                                       <!--  <li class="pull-right">
-			                                           <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-{{a.answer_id}}"> <i class="fa fa-reply"></i> <span id="oc-{{a.answer_id}}">显示</span>全部评论 (<span id="count-{{a.answer_id}}">{{a.ccount}}</span>)</a>
-			                                       </li> -->
-											
-			                                        
-			                                        {%if controller.user.uid == a.uid or (controller.user.uid|in_Array(http.config('user_administrator'))) %}
-			                                        <li class="pull-right">
-			                                            <a href="/mod/question/ajax/delanswer/qid/{{info.id}}/id/{{a.answer_id}}" class="text-danger confirm ajax-get">删除</a>
-			                                        </li>
-			                                        <li class="pull-right">
-			                                            <a href="/mod/question/ajax/editanswer/id/{{a.answer_id}}" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='{"type":"ajax", "closeOnBgClick":false}'>编辑</a>
-			                                        </li>
-			                                        {%endif%}
-			                                    </ul>
-			                                    <!-- /options -->	
+				                                       <!--  <li class="pull-right">
+				                                           <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-{{a.answer_id}}"> <i class="fa fa-reply"></i> <span id="oc-{{a.answer_id}}">显示</span>全部评论 (<span id="count-{{a.answer_id}}">{{a.ccount}}</span>)</a>
+				                                       </li> -->
+												
+				                                        
+				                                        {%if controller.user.uid == a.uid or (controller.user.uid|in_Array(http.config('user_administrator'))) %}
+				                                        <li class="pull-right">
+				                                            <a href="/mod/question/ajax/delanswer/qid/{{info.id}}/id/{{a.answer_id}}" class="text-danger confirm ajax-get">删除</a>
+				                                        </li>
+				                                        <li class="pull-right">
+				                                            <a href="/mod/question/ajax/editanswer/id/{{a.answer_id}}" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='{"type":"ajax", "closeOnBgClick":false}'>编辑</a>
+				                                        </li>
+				                                        {%endif%}
+				                                    </ul>
+				                                    <!-- /options -->	
 
-                                            </div>
-                                                       
-                                            <!-- <a href="#" class="comment-author" style="position: relative;z-index: 10;background-color: #fff;">
-                                                <small class="text-muted pull-left" style="color:#b5b5b5;">{{a.add_time|moment}} </small>
-                                            </a> -->
-                                        </div>
-                                        <!-- <a href="#" class="comment-author" style="position: relative;z-index: 10;background-color: #fff">
-                                            <span>{{a.uid|get_nickname}}</span>
-                                            <small class="text-muted pull-right">{{a.add_time|moment}} </small>
-                                        </a> -->
-                                        
-                                    </div><!-- /comment body -->
+	                                            </div>
+	                                                       
+	                                            <!-- <a href="#" class="comment-author" style="position: relative;z-index: 10;background-color: #fff;">
+	                                                <small class="text-muted pull-left" style="color:#b5b5b5;">{{a.add_time|moment}} </small>
+	                                            </a> -->
 
+	                                            <div id="comment-reply-{{a.answer_id}}" class="margin-top-20 ">
 
-                                </li>
-                             <div id="comment-reply-{{a.answer_id}}" class="margin-top-10 ">
-
-                             </div>
-                            </ul>
-                        </div>
-                        <!-- /COMMENT -->
-                  {% set i = i + 1 %}
-                  {%endfor%}
+	                            		 		</div>
+	                                        </div>
+	                                        <!-- <a href="#" class="comment-author" style="position: relative;z-index: 10;background-color: #fff">
+	                                            <span>{{a.uid|get_nickname}}</span>
+	                                            <small class="text-muted pull-right">{{a.add_time|moment}} </small>
+	                                        </a> -->
+	                                       
+	                                    </div><!-- /comment body -->
 
 
+	                                </li>
+	                            
+	                            </ul>
+	                        </div>
+	                        <!-- /COMMENT -->
+	                        {%endif%}
+			                {%endfor%}
+		                    <div class="text-center tc-addmore">
+		                        <a href="javascript:tournote_pagination({{i}},{{info.id}},2)">加载更多</a>
+		                    </div>
+                		</div>
                     </div>
 
                 </div>
                 {% else %}
                	</div><!-- 125问答content -->
                 <div class="box-light "><!-- .box-light OR .box-dark -->
-
+                    
                     <div class="box-inner">
-                    <!--
-                        <h4 class="uppercase size-20 row " style="padding-left: 15px;padding-right: 15px;margin-bottom: -15px;" >{{info.answer_count}} 个回复 <div class="btn-group btn-group-xs pull-right">
-                            <a class="btn btn-default height-auto active" href="#">默认排序</a>
-                            <a class="btn btn-default height-auto " href="#" style="height: auto">时间排序<span class="glyphicon  glyphicon-arrow-down"></span></a>
-                        </div></h4>-->
-                 {% for a in answer%}
-                        <!-- <div class="divider divider-dotted " style="margin:10px -15px">divider</div> -->
-                        <!-- COMMENT -->
-                        <ul class="comment list-unstyled margin-bottom-0">
-                            <li class="comment margin-bottom-0">
+                        <div class="question_page1">
+                    
+                            <!-- <h4 class="uppercase size-20 row " style="padding-left: 15px;padding-right: 15px;margin-bottom: -15px;" >{{info.answer_count}} 个回复 
+                                <div class="btn-group btn-group-xs pull-right">
+                                    <a class="btn btn-default height-auto active" href="#">默认排序</a>
+                                    <a class="btn btn-default height-auto " href="#" style="height: auto">时间排序<span class="glyphicon  glyphicon-arrow-down"></span></a>
+                                 </div>
+                            </h4> -->
+                            {% set i=1 %}        
+                            {% for a in answer%}
+                            {% if i<= 2 %}
 
-                                <!-- avatar -->
-                                <img class="avatar" src="/uc/index/avatar/uid/{{a.uid}}" width="50" height="50" alt="avatar">
-
-                                <!-- comment body -->
-                                <div class="comment-body">
-                                    <a href="#" class="comment-author" style="position: relative;z-index: 10;background-color: #fff">
-                                        <small class="text-muted pull-right">{{a.add_time|moment}} </small>
-                                        <span>{{a.uid|get_nickname}}</span>
-                                    </a>
-                                    <div class="wangEditor-container cmswing-container" style="position: relative;z-index: 9;border: none; top: -10px">
-                                        <div class="wangEditor-txt nopadding">
-                                            {{a.answer_content|safe}}
-                                        </div>
+                
+                            <!-- <div class="divider divider-dotted " style="margin:10px -15px">divider</div>  -->
+                            <!-- COMMENT -->
+                            <ul class="comment list-unstyled margin-bottom-20">
+                                <li class="comments-head-li">
+                                    <div>
+                                        <!-- avatar -->
+                                        <img class="avatar comments-head-img" src="/uc/index/avatar/uid/{{a.uid}}" width="50" height="50"  alt="avatar">
+                                        <a href="javascript:;" class="comment-author comments-head-a">
+                                            <span>{{a.uid|get_nickname}}{{a.uid}}</span>
+                                        </a>
                                     </div>
-                                </div><!-- /comment body -->
+                                </li>
+                                <li class="comment margin-bottom-0">
+                                    
+                                    <!-- comment body -->
+                                    <div class="comment-body">
+                                        <!-- <span>{{a.uid|get_nickname}}</span> -->
+                                        <div class="wangEditor-container cmswing-container comments-container" >
+                                            <div class="wangEditor-txt nopadding">
+                                                {{a.answer_content|safe}}
+                                            </div>
+                                        </div>
+                                         <a href="#" class="comment-author comments-a">
+                                            <small class="text-muted pull-right">{{a.add_time|dateformat('Y-m-d H:i:s')}} </small>
+                                            <!-- <span>{{a.uid|get_nickname}}</span> -->
+                                        </a>
+                                    </div>
+                                    <!-- /comment body -->
 
-                                <!-- options -->
-                                <ul class="list-inline size-11 margin-top-10">
-                                    <!--<li>
-                                        <a href="#" class="text-success"><i class="fa fa-thumbs-up"></i> 赞同</a>
-                                    </li>-->
+                                    <!-- options -->
+                                    <ul class="list-inline size-11 margin-top-10">
+                                        <!--<li>
+                                            <a href="#" class="text-success"><i class="fa fa-thumbs-up"></i> 赞同</a>
+                                        </li>-->
 
-                                    <!-- <li>
-                                        <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-{{a.answer_id}}"> <i class="fa fa-reply"></i> <span id="oc-{{a.answer_id}}">显示</span>全部评论 (<span id="count-{{a.answer_id}}">{{a.ccount}}</span>)</a>
-                                    </li> -->
+                                        <li>
+                                            <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-{{a.answer_id}}"> <i class="fa fa-reply"></i> <span id="oc-{{a.answer_id}}">显示</span>全部评论 (<span id="count-{{a.answer_id}}">{{a.ccount}}</span>)</a>
+                                        </li>
+                                        
+                                        {%if controller.user.uid == a.uid or (controller.user.uid|in_Array(http.config('user_administrator'))) %}
+                                        <li class="pull-right">
+                                            <a href="/mod/question/ajax/delanswer/qid/{{info.id}}/id/{{a.answer_id}}" class="text-danger confirm ajax-get">删除</a>
+                                        </li>
+                                        <li class="pull-right">
+                                            <a href="/mod/question/ajax/editanswer/id/{{a.answer_id}}" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='{"type":"ajax", "closeOnBgClick":false}'>编辑</a>
+                                        </li>
+                                        {%endif%}
+                                    </ul>
+                                    <!-- /options -->
+                                </li>
+                             <div id="comment-reply-{{a.answer_id}}" class="margin-top-10 ">
 
-                                    {%if controller.user.uid == a.uid or (controller.user.uid|in_Array(http.config('user_administrator'))) %}
-                                    <li class="pull-right">
-                                        <a href="/mod/question/ajax/delanswer/qid/{{info.id}}/id/{{a.answer_id}}" class="text-danger confirm ajax-get">删除</a>
-                                    </li>
-                                    <li class="pull-right">
-                                        <a href="/mod/question/ajax/editanswer/id/{{a.answer_id}}" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='{"type":"ajax", "closeOnBgClick":false}'>编辑</a>
-                                    </li>
-                                    {%endif%}
-                                </ul>
-                            </li><!-- /options -->
-                         <div id="comment-reply-{{a.answer_id}}" class="margin-top-10 ">
+                             </div>
+                            </ul>
 
-                         </div>
-                        </ul>
-
-                        <!-- /COMMENT -->
-                  {%endfor%}
-
-
+                            <!-- /COMMENT -->
+                            {% set i = i + 1 %}
+                            {%endif%}  
+                            {%endfor%}
+                            {#
+                            {% if currentPage < totalPages %}
+                            
+                            {%endif%}
+                            #}
+                            <div class="text-center qc-addmore">
+                                <a href="javascript:question_pagination({{info.id}},2)">加载更多</a>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
                 {% endif %}
                 <!--评论结束============================-->
@@ -493,25 +708,26 @@ CLASSES:
             <!-- RIGHT -->
 
             <div class="col-md-3 col-sm-3">
-
+           
                 <h3 class="bold">相关推荐</h3>
-                <ul id="studytour-ul" style="padding-left: 0px;list-style: none;">
+                <ul id="studytour-ul" >
                     {% topic data = "list", limit= "3", cid=130, issub=1, ischild=1, type="level", page=0 %}
                     {%set i = 1%}
                     {% for v in list %}
 
-                    <li class="mix development col-md-12 col-sm-12" style="padding: 0; margin-bottom: 14px;"><!-- item -->
+                    <li class="mix development col-md-12 col-sm-12 mix-development"><!-- item -->
 
                         <div class="item-box thumbnail">
                         <a href="{{v.name|get_url(v.id)}}">
                             <figure>
-                                <div class="col-lg-6 col-sm-6" style="padding: 0;">
-                                    <img class="img-responsive" style="height: 72px;" src="{{v.cover_id|get_pic('m=1,w=134,h=72')}}"  alt="">
+                                <div class="col-lg-12 col-sm-12" style="padding: 0;">
+                                    <img class="img-responsive" style="height: 112px;" src="{{v.cover_id|get_pic('m=1,w=134,h=72')}}"  alt="">
                                 </div>
-                                <div class="col-lg-6 col-sm-6" style="padding: 0;">
+                                <div class="col-lg-10 col-sm-10" style="padding: 0;margin-left: 20px;">
                                     <span class="item-hover">
+                                    	{#
                                         <span class="overlay dark-5"></span>
-                                        {#
+                                        
                                         <span class="inner">
 
                                             <!-- lightbox -->
@@ -656,5 +872,6 @@ CLASSES:
 <script src="/static/assets/plugins/insertContent.js"></script>
 <script src="/static/assets/plugins/wangEditor/js/wangEditor.min.js"></script>
 <script src="/static/admin/js/jQuery-Tags-Input/src/jquery.tagsinput.js"></script>
-<script src="/static/assets/js/question.js"></script>
+<!-- <script src="/static/assets/js/question.js"></script> -->
+<script src="/static/assets/js/detail.js"></script>
 {%endblock%}

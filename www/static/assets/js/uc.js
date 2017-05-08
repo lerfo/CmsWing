@@ -61,15 +61,9 @@ function ucOrder(){
 //全部订单
 function allOrder(){
 	var html="";
-      	$.ajax({
-      		url:"/uc/booking/query",
-      		success:function(result){
-      			$.each(result.data,function(k,v){      				
-      				html+= resultEach(v);	
-      			})
-      			$(".order-table").html(html);
-      		}
-      	})
+	html+= resultEach(1);	
+
+	$(".order-table").html(html);
 }
 //未出行
 function notStart(){}
@@ -189,7 +183,7 @@ function orderDetail(n){
 		}else if(v.type == 2){
 			html+=`
                 <div class="traveller-num">
-                  <p>旅客</p>
+                  <p>旅客${k+1}</p>
                   <span>儿童</span>
                 </div>       
             `;
@@ -552,7 +546,7 @@ function resultEach(pageNum){
 
 			var orderDataList = localStorage.getItem("odrerData");
 			orderDataList = JSON.parse(orderDataList);
-			for(var i=1;i<orderDataList.length;i++){
+			for(var i=0;i<orderDataList.length;i++){
 				var v = orderDataList[i];
 				console.log(v)
 				h+=`
@@ -933,8 +927,8 @@ function ucTraveller(){
   			html+=`
 	            <div class="information-title">
 	              <span>旅客姓名</span>
-	              <input type="text" placeholder="中文/英文">
-	              <a>查询</a>
+	              <input class="search-trave" type="text" placeholder="中文">
+	              <a href="javascript:searchTraveller();">查询</a>
 	              <a class="add-traveller" href="javascript:addTraveller();">新增</a>
 	            </div>
 
@@ -961,12 +955,26 @@ function ucTraveller(){
 	                <input class="addr-checkbox" type="checkbox">
 	                <table class="${v[i].id}">
 	                    <tr>
-	                      <td class="col-xs-1">${v[i].name_zh}</td>
+	            `;
+	            if(v[i].name_zh != "" && v[i].name_zh != undefined){
+	            	html+=`<td class="col-xs-1">${v[i].name_zh}</td>`;
+	            }else{
+	            	html+=`<td class="col-xs-1">${v[i].name_en_last} ${v[i].name_en_first}</td>`
+	            }
+	            html+=`
+	                      
 	                      <td class="col-xs-2">${v[i].phone}</td>
 	                      <td class="col-xs-2">${v[i].credentials_type_name}</td>
 	                      <td class="col-xs-3">${v[i].credentials_value}</td>
 	                      <td class="col-xs-1">${v[i].country}</td>
-	                      <td class="col-xs-1">${v[i].type_name}</td>
+	            `;
+	            if(v[i].sexual == 1){
+	            	html+=` <td class="col-xs-1">男</td>`;
+	            }else if(v[i].sexual == 2){
+	            	html+=` <td class="col-xs-1">女</td>`;
+	            }
+	            html+=`
+	                     
 	                      <td class="col-xs-2">
 	                        <a class="see-traveller" href="javascript:seeTraveller(${i});">查看</a>
 	                        <a class="edit-traveller" href="javascript:editTraveller(${i});">编辑</a>
@@ -1377,7 +1385,7 @@ function add(n){
 				    </div>
 				    <span class="cue col-md-5"></span>                 
 				</div>
-			  <div class="form-group">
+			  <div class="form-group clear">
 			    <label class="col-md-2 control-label">性别</label>
 			    <span class="star">*</span>
 			    <div class="col-md-10">
@@ -1396,6 +1404,7 @@ function add(n){
 			    <label class="col-md-2 control-label">生日</label>
 			    <div class="col-md-4">
 			      <input type="text" name="birthday" onblur="birthBlur()" value="${v.birthday}" class="form-control masked bir" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
+			      <input type="hidden" name="type" class="type-name" value="" />
 			    </div>
 			    <span class="cue col-md-5"></span>  
 			  </div>
@@ -1477,18 +1486,17 @@ function add(n){
 	      </select>
 
 	    </div> 
-	    <label class="col-md-1 control-label credentials-num" for="">证件号码</label>
+	    <label class="lf control-label credentials-num" for="">证件号码</label>
 	    <span class="star">*</span>
-	    <div class="col-md-3">
-	      <input class="form-control cre-confir" onblur="creBlur()" type="text" name="credentials_value" value="${v.credentials_value}">
-	      <span class="cue cre-num"></span> 
+	    <div class="lf" style="width:15%;margin-left:12px;margin-right:12px">
+	      <input class="form-control cre-confir" onblur="creBlur()" type="text" name="credentials_value" value="${v.credentials_value}"> 
 	    </div>  
 	                
-	    <label class="col-md-1 control-label credentials-num" for="">有效期</label>
-	    <div class="col-md-2">
-	      <input class="form-control validity-confir" onblur="validityBlur()" type="text" placeholder="yyyy-mm-dd" name="credentials_validity" value="${v.credentials_validity}">
-	      <span class="cue cre-validity"></span>
+	    <label class="lf control-label credentials-num" for="">有效期</label>
+	    <div class="lf" style="width:13%;margin-left:12px;margin-right:12px">
+	      <input class="form-control validity-confir" onblur="validityBlur()" type="text" placeholder="yyyy-mm-dd" name="credentials_validity" value="${v.credentials_validity}">      
 	    </div> 
+	    <span class="cue cre-validity"></span>
 	                                 
 	  </div>
 
@@ -1498,7 +1506,6 @@ function add(n){
 	if(v.id != undefined){
 		html += `
 	 		<input type="hidden" name="id" value="${v.id}">
-			<input type="hidden" name="type" value="${v.type}">
 		`;
 	}		   
 	html += `
@@ -1515,16 +1522,175 @@ function add(n){
 	`;
 	return html;
 }
+//搜索旅客
+function searchTraveller(){
+	var uname = $("input.search-trave").val()
+	$.ajax({
+		url:"/uc/traveller/query?q="+uname,
+		success:function(result){
+			console.log(result.data);
+			var v = result.data;
+			var html = "";
+			for(var i=0;i<v.length;i++){
+  				console.log(v[i])
+  				html+=`												               				              
+	               <div class="clear">
+	                <input class="addr-checkbox" type="checkbox">
+	                <table class="${v[i].id}">
+	                    <tr>
+	            `;
+	            if(v[i].name_zh != "" && v[i].name_zh != undefined){
+	            	html+=`<td class="col-xs-1">${v[i].name_zh}</td>`;
+	            }else{
+	            	html+=`<td class="col-xs-1">${v[i].name_en_last} ${v[i].name_en_first}</td>`
+	            }
+	            html+=`
+	                      
+	                      <td class="col-xs-2">${v[i].phone}</td>
+	                      <td class="col-xs-2">${v[i].credentials_type_name}</td>
+	                      <td class="col-xs-3">${v[i].credentials_value}</td>
+	                      <td class="col-xs-1">${v[i].country}</td>
+	            `;
+	            if(v[i].sexual == 1){
+	            	html+=` <td class="col-xs-1">男</td>`;
+	            }else if(v[i].sexual == 2){
+	            	html+=` <td class="col-xs-1">女</td>`;
+	            }
+	            html+=`
+	                     
+	                      <td class="col-xs-2">
+	                        <a class="see-traveller" href="javascript:seeTraveller(${i});">查看</a>
+	                        <a class="edit-traveller" href="javascript:editTraveller(${i});">编辑</a>
+	                        <a href="javascript:deleteTraveller(${v[i].id})">删除</a>
+	                      </td>
+	                    </tr>
+	                </table>
+	              </div>
+  				`;
+  			}
+  			$(".detail-information").html(html);
+		}
+	})
+}
+
+/****
+*联系人表单验证
+**/
+//姓名验证
+function unameBlur(){
+	var cname = $(".aside-right .chinese-name").val();
+	var lname = $(".aside-right .last-name").val();
+	var fname = $(".aside-right .first-name").val();
+	console.log(cname)
+	if(cname == "" && (lname == "" || fname == "")){
+		$(".aside-right .chinese-name").parent().siblings("span.cue").html("X 中文名与英文名两者必填一项")
+	}else{
+		$(".aside-right .chinese-name").parent().siblings("span.cue").html("");
+		return true;
+	}
+}
+//国籍验证
+function nationalityBlur(){
+	var nationality = $(".aside-right .nationality").val();
+	var reg = /\d+/g
+	if(nationality == ""){
+		$(".aside-right .nationality").parent().siblings("span.cue").html("X 请输入您的国籍")
+	}else if(reg.test(nationality)){
+		$(".aside-right .nationality").parent().siblings("span.cue").html("X 请输入正确的国籍")
+	}else{
+		$(".aside-right .nationality").parent().siblings("span.cue").html("")
+		return true;
+	}
+}
+//生日验证
+function birthBlur(){
+	var birth = $(".aside-right .bir").val();
+	var reg = /^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/
+	if(birth == ""){
+		$(".aside-right .bir").parent().siblings("span.cue").html("")
+	}else if(!reg.test(birth)){
+		$(".aside-right .bir").parent().siblings("span.cue").html("X 请按YYYY-MM-DD的格式输入正确的日期")
+	}else{
+		$(".aside-right .bir").parent().siblings("span.cue").html("")
+	}
+}
+//手机号码验证
+function phoneBlur(){
+	var ph = $(".aside-right .phone-confir").val();
+	var reg = /^1[3|4|5|7|8][0-9]{9}$/
+	if(ph == ""){
+		$(".aside-right .phone-confir").parent().siblings("span.cue").html("X 请输入手机号码")
+	}else if(!reg.test(ph)){
+		$(".aside-right .phone-confir").parent().siblings("span.cue").html("X 请输入正确的手机号码")
+	}else{
+		$(".aside-right .phone-confir").parent().siblings("span.cue").html("")
+		return true;
+	}
+}
+//非大陆手机号验证
+
+//联系电话验证
+
+//传真验证
+
+//email验证
+function emailBlur(){
+	var email = $(".aside-right .email-confir").val();
+	var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+	if(email == ""){
+		$(".aside-right .email-confir").parent().siblings("span.cue").html("")
+	}else if(!reg.test(email)){
+		$(".aside-right .email-confir").parent().siblings("span.cue").html("X 请输入正确的邮箱")
+	}else{
+		$(".aside-right .email-confir").parent().siblings("span.cue").html("")
+	}
+}
+//证件号码验证
+function creBlur(){
+	var cre = $(".aside-right .cre-confir").val();
+	if(cre == ""){
+		$(".aside-right .cre-confir").parent().siblings("span.cre-validity").html("X 请输入证件号码")
+	}else{
+		$(".aside-right .cre-confir").parent().siblings("span.cre-validity").html("");
+		return true;
+	}
+}
+function validityBlur(){
+	var val = $(".aside-right .validity-confir").val();
+	var reg = /^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/
+	if(val == ""){
+		$(".aside-right .validity-confir").parent().siblings("span.cre-validity").html("X 请输入有效期")
+	}else if(!reg.test(val)){
+		$(".aside-right .validity-confir").parent().siblings("span.cre-validity").html("X 请按YYYY-MM-DD输入")
+	}else{
+		$(".aside-right .validity-confir").parent().siblings("span.cre-validity").html("")
+	}
+}
+
 //表单提交
 $(".aside-right").on("click","button.sub-increase",function(e){
-	console.log("ok");
-	console.log(unameBlur());
+	var birthday = $(".aside-right .bir").val();
+	var birth = new Date(birthday).getTime(); 
+	var current = new Date().getTime();
+	var time = current - birth;
+	if(time > 0 && time < 31536000000){
+		$(".aside-right .type-name").val("2");
+	}else if(time >= 31536000000 && time < 567648000000){
+		$(".aside-right .type-name").val("1");
+	}else if(time >= 567648000000){
+		$(".aside-right .type-name").val("0");
+	}
+	//console.log(time);
+	//console.log($(".aside-right .type-name").val())
+
 	if(!unameBlur()){
 		$(".aside-right .chinese-name").parent().siblings("span.cue").html("X 中文名与英文名两者必填一项");
 	}else if(!nationalityBlur()){
 		$(".aside-right .nationality").parent().siblings("span.cue").html("X 请输入您的国籍");
 	}else if(!phoneBlur()){
-
+		$(".aside-right .phone-confir").parent().siblings("span.cue").html("X 请正确输入手机号码");
+	}else if(!creBlur()){
+		$(".aside-right .cre-confir").siblings("span.cre-num").html("X 请输入证件号码");
 	}else{
 		var data = $(".aside-right").find("form.edit-trav").serialize();
 		console.log(data);
@@ -1558,8 +1724,8 @@ function ucAddress(){
 			html+=`
 	            <div class="information-title">
 	              <span>关键字</span>
-	              <input type="text" placeholder="中文/英文">
-	              <a>查询</a>
+	              <input class="search-addr" type="text" placeholder="收件人/中文">
+	              <a href="javascript:searchAddress();">查询</a>
 	              <a href="javascript:addAddress();">新增</a>
 	            </div>
 
@@ -1576,7 +1742,7 @@ function ucAddress(){
 	                  <a class="col-xs-2">操作</a>
 	                </div>
 	              </div>
-	            
+	            <div class="detail-information">
 	             
 			`;
 			var  v = result.data;
@@ -1584,28 +1750,29 @@ function ucAddress(){
 			console.log(v);
 			for(var i=0;i<v.length;i++){
 				html+=`												               				              
-	                <div class="detail-information clear">
-	                <input class="addr-checkbox" type="checkbox">
-	                <table class="${v[i].id}">
-	                    <tr>
-	                      <td class="col-xs-1">${v[i].accept_name}</td>
-	                      <td class="col-xs-2">${v[i].province}</td>
-	                      <td class="col-xs-2">${v[i].city}</td>
-	                      <td class="col-xs-1">${v[i].county}</td>
-	                      <td class="col-xs-3">${v[i].addr}</td>
-	                      <td class="col-xs-1">${v[i].zip}</td>
-	                      <td class="col-xs-2">
-	                        <a class="see-address" href="javascript:seeAddress(${i})">查看</a>
-	                        <a href="javascript:editAddress(${i});">编辑</a>
-	                        <a href="javascript:deleteAddr(${v[i].id})">删除</a>
-	                      </td>
-	                    </tr>
-	                </table>
-	              </div>
+	                <div class="clear">
+		                <input class="addr-checkbox" type="checkbox">
+		                <table class="${v[i].id}">
+		                    <tr>
+		                      <td class="col-xs-1">${v[i].accept_name}</td>
+		                      <td class="col-xs-2">${v[i].province}</td>
+		                      <td class="col-xs-2">${v[i].city}</td>
+		                      <td class="col-xs-1">${v[i].county}</td>
+		                      <td class="col-xs-3">${v[i].addr}</td>
+		                      <td class="col-xs-1">${v[i].zip}</td>
+		                      <td class="col-xs-2">
+		                        <a class="see-address" href="javascript:seeAddress(${i})">查看</a>
+		                        <a href="javascript:editAddress(${i});">编辑</a>
+		                        <a href="javascript:deleteAddr(${v[i].id})">删除</a>
+		                      </td>
+		                    </tr>
+		                </table>
+	             	</div>
 	           
 				`;
 			}
-			html+=`
+			html+=` 
+					</div>
 					<div class="delete-all">
 						<input class="check-all" type="checkbox" />
 						<label><span>全选</span><a href="javascript:deleteAll();">X删除</a></label>
@@ -1707,6 +1874,7 @@ function editAddress(n){
 	var m = {};
 	if(typeof(n) !="undefined" && n < val.length && n >= 0){
 		m = val[n];
+		console.log(m);
 	}
 	//console.log(m)
 	var html=`
@@ -1715,7 +1883,7 @@ function editAddress(n){
             	编辑常用地址信息
           	</div>
           	<div class="add-content min-height">
-            	<form role="form" action="/uc/address/addaddr" mothod="post" class="form-horizontal form-info">
+            	<form role="form" action="/uc/address/addaddr" mothod="post" class="form-horizontal form-info edit-addr">
 
 	                <div class="form-group clear">
 	                <label class="col-md-2 control-label" for="">地址简称</label>
@@ -1736,8 +1904,8 @@ function editAddress(n){
               <div class="form-group clear">
                 <label class="col-md-2 control-label">所在地区</label>
                 <div class="col-md-10">
-                  <select class="form-control pointer" id="start_province1" name="start_province" style="width: 150px;display: inline-block">
-                    <option value="">-- 省份/直辖市 --</option>
+                  <select class="form-control pointer sel-pro" onblur="proBlur()" id="start_province1" name="start_province" style="width: 150px;display: inline-block">
+                    <option value="省份">-- 省份/直辖市 --</option>
         `;
 
         let area = getprovince();
@@ -1755,7 +1923,7 @@ function editAddress(n){
         html += `
                   </select>省
                   <select class="form-control pointer" id="start_city1" name="start_city" style="width: 150px;display: inline-block">
-                    <option value="">-- 城市 --</option> 
+                    <option value="城市">-- 城市 --</option> 
             `;
         //let a = $(".aside-right").find("#start_province1>option:selected").attr("value");
         // if(a == "" || a == undefined){
@@ -1779,6 +1947,7 @@ function editAddress(n){
 
         html += ` 
                   </select>市
+                  <span class="cue"></span>
                 </div>
               </div>  
 
@@ -1803,7 +1972,7 @@ function editAddress(n){
               <div class="form-group clear">
                 <label class="col-md-2 control-label">手机号码</label>
                 <div class="col-md-4">
-                  <input type="text" maxlength="11" name="mobile phone-confir" onblur="phoneBlur()" value="${m.mobile}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
+                  <input type="text" maxlength="11" name="mobile" onblur="phoneBlur()" value="${m.mobile}" class="form-control masked phone-confir" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
                 </div>
                 <span class="cue"></span>
               </div>
@@ -1823,11 +1992,10 @@ function editAddress(n){
         if(m.id != undefined){
 			html += `
 		 		<input type="hidden" name="id" value="${m.id}">
-				<input type="hidden" name="type" value="${m.type}">
 			`;
 		}		 
 		html += `
-                  <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" ><i class="fa fa-check"></i> 保存 </button>
+                  <button class="btn btn-primary ajax-post sub-addr" type="submit" ><i class="fa fa-check"></i> 保存 </button>
                 </div>
               </div>
 
@@ -1846,7 +2014,7 @@ function addAddress(){
             	新增常用地址信息
           	</div>
           	<div class="add-content min-height">
-            	<form role="form" action="/uc/address/addaddr" mothod="post" class="form-horizontal form-info">
+            	<form role="form" action="/uc/address/addaddr" mothod="post" class="form-horizontal form-info edit-addr">
 
 	                <div class="form-group clear">
 	                <label class="col-md-2 control-label" for="">地址简称</label>
@@ -1867,8 +2035,8 @@ function addAddress(){
               <div class="form-group clear">
                 <label class="col-md-2 control-label">所在地区</label>
                 <div class="col-md-10">
-                  <select class="form-control pointer  " id="start_province1" name="province" style="width: 150px;display: inline-block">
-                    <option value="">-- 省份/直辖市 --</option>
+                  <select class="form-control pointer sel-pro" onblur="proBlur()" id="start_province1" name="province" style="width: 150px;display: inline-block">
+                    <option value="省份">-- 省份/直辖市 --</option>
         `;
         let area = getprovince();
 		    $.each(area,function(k,n){
@@ -1886,7 +2054,7 @@ function addAddress(){
         let m = $(".aside-right").find("#start_province1>option:selected").attr("value");
 		    console.log(m);
 		if(m == "" || m == undefined){
-			html += `<option value="">-- 城市 --</option>`; 
+			html += `<option value="城市">-- 城市 --</option>`; 
 		}else{
 			let city2 = getcity(m);
 		    $.each(city2,function(k,n){
@@ -1899,6 +2067,7 @@ function addAddress(){
 
         html += `  
                   </select>市
+                  <span class="cue"></span>
                 </div>
               </div>  
 
@@ -1931,15 +2100,15 @@ function addAddress(){
               <div class="form-group clear">
                 <label class="col-md-2 control-label">联系电话</label>
                 <div class="col-md-10   landline-telephone">
-                    <input type="text" name="phone_zone" " class="area"  data-placeholder="区号" placeholder="区号">
-                    <input type="text" name="phone_number"  class="telephone"  data-placeholder="电话" placeholder="电话">
-                    <input type="text" name="phone_ext"  class="extension"  data-placeholder="分机" placeholder="分机">
+                    <input type="text" name="phone_zone" " class="area" maxlength="4"  data-placeholder="区号" placeholder="区号">
+                    <input type="text" name="phone_number"  class="telephone" maxlength="8"  data-placeholder="电话" placeholder="电话">
+                    <input type="text" name="phone_ext"  class="extension" maxlength="4" data-placeholder="分机" placeholder="分机">
                 </div>
               </div>
 
                <div class="form-group margin-top-30 clear">
                 <div class="col-md-2 col-md-offset-2">
-                  <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" ><i class="fa fa-check"></i> 保存 </button>
+                   <button class="btn btn-primary ajax-post sub-addr" type="submit" ><i class="fa fa-check"></i> 保存 </button>
                 </div>
               </div>
 
@@ -1949,6 +2118,40 @@ function addAddress(){
         </div>
 		`;
 	$(".aside-right").html(html)
+}
+//查询地址
+function searchAddress(){
+	var uname = $(".search-addr").val();
+	var html = "";
+	$.ajax({
+		url:"/uc/address/query?q="+uname,
+		success:function(result){
+			var  v = result.data;
+			for(var i=0;i<v.length;i++){
+				html+=`												               				              
+	                <div class="clear">
+		                <input class="addr-checkbox" type="checkbox">
+		                <table class="${v[i].id}">
+		                    <tr>
+		                      <td class="col-xs-1">${v[i].accept_name}</td>
+		                      <td class="col-xs-2">${v[i].province}</td>
+		                      <td class="col-xs-2">${v[i].city}</td>
+		                      <td class="col-xs-1">${v[i].county}</td>
+		                      <td class="col-xs-3">${v[i].addr}</td>
+		                      <td class="col-xs-1">${v[i].zip}</td>
+		                      <td class="col-xs-2">
+		                        <a class="see-address" href="javascript:seeAddress(${i})">查看</a>
+		                        <a href="javascript:editAddress(${i});">编辑</a>
+		                        <a href="javascript:deleteAddr(${v[i].id})">删除</a>
+		                      </td>
+		                    </tr>
+		                </table>
+	             	</div>	           
+				`;
+			}
+			$(".detail-information").html(html);
+		}
+	})
 }
 //全选功能
 $(".aside-right").on("click",".check-all",function(){
@@ -2026,12 +2229,14 @@ function deleteAll(){
 /****
 *地址表单验证
 **/
+//地址简称
 function addrBlur(){
 	var addr = $(".aside-right .addr-confir").val();
 	if(addr == ""){
 		$(".aside-right .addr-confir").parent().siblings("span.cue").html("X 请输入地址简称")
 	}else{
-		$(".aside-right .addr-confir").parent().siblings("span.cue").html("")
+		$(".aside-right .addr-confir").parent().siblings("span.cue").html("");
+		return true;
 	}
 }
 //收件人
@@ -2041,6 +2246,17 @@ function acceptBlur(){
 		$(".aside-right .acc-confir").parent().siblings("span.cue").html("X 请输入收件人姓名")
 	}else{
 		$(".aside-right .acc-confir").parent().siblings("span.cue").html("")
+		return true;
+	}
+}
+//省份
+function proBlur(){
+	var addr = $(".aside-right .sel-pro").val();
+	if(addr == "省份"){
+		$(".aside-right .sel-pro").siblings("span.cue").html(" X 请选择")
+	}else{
+		$(".aside-right .sel-pro").siblings("span.cue").html("")
+		return true;
 	}
 }
 //详细地址
@@ -2049,7 +2265,8 @@ function addressBlur(){
 	if(addr == ""){
 		$(".aside-right .addr-det").parent().siblings("span.cue").html("X 请输入详细地址")
 	}else{
-		$(".aside-right .addr-det").parent().siblings("span.cue").html("")
+		$(".aside-right .addr-det").parent().siblings("span.cue").html("");
+		return true;
 	}
 }
 //邮编
@@ -2059,105 +2276,43 @@ function zipBlur(){
 		$(".aside-right .zip-confir").parent().siblings("span.cue").html("X 请输入邮编")
 	}else{
 		$(".aside-right .zip-confir").parent().siblings("span.cue").html("")
-	}
-}
-
-
-/****
-*联系人表单验证
-**/
-//姓名验证
-function unameBlur(){
-	var cname = $(".aside-right .chinese-name").val();
-	var lname = $(".aside-right .last-name").val();
-	var fname = $(".aside-right .first-name").val();
-	console.log(cname)
-	if(cname == "" && (lname == "" || fname == "")){
-		$(".aside-right .chinese-name").parent().siblings("span.cue").html("X 中文名与英文名两者必填一项")
-	}else{
-		$(".aside-right .chinese-name").parent().siblings("span.cue").html("");
 		return true;
-	}
-}
-//国籍验证
-function nationalityBlur(){
-	var nationality = $(".aside-right .nationality").val();
-	var reg = /\d+/g
-	if(nationality == ""){
-		$(".aside-right .nationality").parent().siblings("span.cue").html("X 请输入您的国籍")
-	}else if(reg.test(nationality)){
-		$(".aside-right .nationality").parent().siblings("span.cue").html("X 请输入正确的国籍")
-	}else{
-		$(".aside-right .nationality").parent().siblings("span.cue").html("")
-		return true;
-	}
-}
-//生日验证
-function birthBlur(){
-	var birth = $(".aside-right .bir").val();
-	var reg = /^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/
-	if(birth == ""){
-		$(".aside-right .bir").parent().siblings("span.cue").html("")
-	}else if(!reg.test(birth)){
-		$(".aside-right .bir").parent().siblings("span.cue").html("X 请按YYYY-MM-DD的格式输入正确的日期")
-	}else{
-		$(".aside-right .bir").parent().siblings("span.cue").html("")
-	}
-}
-//手机号码验证
-function phoneBlur(){
-	var ph = $(".aside-right .phone-confir").val();
-	var reg = /^1[3|4|5|7|8][0-9]{9}$/
-	if(ph == ""){
-		$(".aside-right .phone-confir").parent().siblings("span.cue").html("X 请输入手机号码")
-	}else if(!reg.test(ph)){
-		$(".aside-right .phone-confir").parent().siblings("span.cue").html("X 请输入正确的手机号码")
-	}else{
-		$(".aside-right .phone-confir").parent().siblings("span.cue").html("")
-		return true;
-	}
-}
-//非大陆手机号验证
-
-//联系电话验证
-
-//传真验证
-
-//email验证
-function emailBlur(){
-	var email = $(".aside-right .email-confir").val();
-	var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
-	if(email == ""){
-		$(".aside-right .email-confir").parent().siblings("span.cue").html("")
-	}else if(!reg.test(email)){
-		$(".aside-right .email-confir").parent().siblings("span.cue").html("X 请输入正确的邮箱")
-	}else{
-		$(".aside-right .email-confir").parent().siblings("span.cue").html("")
-	}
-}
-//证件号码验证
-function creBlur(){
-	var cre = $(".aside-right .cre-confir").val();
-	if(cre == ""){
-		$(".aside-right .cre-confir").siblings("span.cre-num").html("X 请输入证件号码")
-	}else{
-		$(".aside-right .cre-confir").siblings("span.cre-num").html("")
-	}
-}
-function validityBlur(){
-	var val = $(".aside-right .validity-confir").val();
-	var reg = /^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/
-	if(val == ""){
-		$(".aside-right .validity-confir").siblings("span.cre-validity").html("X 请输入有效期")
-	}else if(!reg.test(val)){
-		$(".aside-right .validity-confir").siblings("span.cre-validity").html("X 请按YYYY-MM-DD输入")
-	}else{
-		$(".aside-right .validity-confir").siblings("span.cre-validity").html("")
 	}
 }
 //表单提交验证
-
-//
+$(".aside-right").on("click",".sub-addr",function(){
+	var data = $(".aside-right").find("form.edit-addr").serialize();
+		//console.log(data);
+	if(!addrBlur()){
+		$(".aside-right .addr-confir").parent().siblings("span.cue").html("X 请输入地址简称")
+	}else if(!acceptBlur()){
+		$(".aside-right .acc-confir").parent().siblings("span.cue").html("X 请输入收件人姓名")
+	}else if(!proBlur()){
+		$(".aside-right .sel-pro").siblings("span.cue").html(" X 请选择")
+	}else if(!addressBlur()){
+		$(".aside-right .addr-det").parent().siblings("span.cue").html("X 请输入详细地址")
+	}else if(!zipBlur()){
+		$(".aside-right .zip-confir").parent().siblings("span.cue").html("X 请输入邮编")
+	}else if(!phoneBlur() && $(".telephone").val() == ""){
+		console.log($(".telephone").val())
+		$(".aside-right .phone-confir").parent().siblings("span.cue").html("X 请选择一项输入")
+	}else{
+		$.ajax({
+		     type: "POST", 
+		     url: "/uc/address/addaddr",
+		     data: data,
+		     success: function(msg){ 
+		     	console.log(msg)
+		           if(msg.errno == 0){
+		            	_toastr("保存成功","top-right","success",false);	            
+		           }else{
+		               _toastr("编辑失败！","top-right","error",false); 
+		           }
+		            } 
+		});
+	}
+		
+})
 
 
 /****

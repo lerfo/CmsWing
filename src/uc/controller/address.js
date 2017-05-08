@@ -1,6 +1,7 @@
 'use strict';
 
 import Base from './base.js';
+import Segment from 'segment';
 import pagination from 'think-pagination';
 export default class extends Base {
 
@@ -56,6 +57,7 @@ export default class extends Base {
     if(!islogin){
       return this.fail("未登录");
     }
+    let map ={'user_id':this.user.uid};
          //0.获取查询关键字
     let searchword = [];
     let q = this.get("q");
@@ -78,11 +80,12 @@ export default class extends Base {
     console.log(searchword);
     let data;
     if(searchword.length > 0){
-        data = await this.model("address").where({user_id: this.user.uid},{name:["like",searchword]}).page(this.get('page')).order("is_default DESC,id DESC").countSelect();
+        map.accept_name = ["like",searchword];
     }else{
-        data = await this.model("address").where({user_id: this.user.uid}).page(this.get('page')).order("is_default DESC,id DESC").countSelect();
+       
         
     }
+    data = await this.model("address").where(map).page(this.get('page'),100).order("is_default DESC,id DESC").countSelect();
     let html = pagination(data, this.http, {
       desc: false, //show description
       pageNum: 2,

@@ -36,7 +36,7 @@
     	background: url('/static/assets/images/search_nav.png') no-repeat; 	
     }
     .phb li{
-    	width: 33.3%;
+    	width: 25%;
     	height: 85px;
     	margin-right:-7px;
     	padding:0px;
@@ -361,16 +361,10 @@
 
                 <!--<li class="active"><a href="portfolio-masonry-3-columns.html">With Gutter</a></li>-->
                 <!-- Version 2.0 -->
-                <!--
-                <li class="cgy" id="select1" data-msg="search{{http.config('view.file_ext')}}?q={{queryword}}&value={{val.id}}">
-                    <a href="javascript:;" >
-                        学校 
-                    </a>
-                    <div class="linea"></div>
-                </li>-->
+                
+                <li class="cgy" id="select1" onclick="getschool();"><a href="javascript:;" >学校</a><div class="linea"></div></li>
                 <li class="cgy" id="select2" ><a href="javascript:;">游学</a><div class="linea" style="background-color: #fff;"></li>
-                <li class="cgy" id="select3" onclick="gettournote();
-                "><a href="javascript:;">游记攻略</a><div class="linea"></li>
+                <li class="cgy" id="select3" onclick="gettournote();"><a href="javascript:;">游记攻略</a><div class="linea"></li>
                 <li class="cgy" id="select4" onclick="gettourquestion();"><a href="javascript:;">问答</a><div class="linea"></li> 
 
                <!-- Version 1.0  
@@ -391,6 +385,7 @@
 
             <div class="school" id="page1">
 				<!-- 学校 -->
+
             </div>
 
             <div class="strategy" id="page3">
@@ -532,20 +527,17 @@
                             <!-- /POST ITEM -->     
                             {%endfor%}
 
-
-                           <!--  PAGINATION(分页)
+                            {#
+                           <!-- PAGINATION(分页) -->
                            <div class="text-left">
-                               Pagination Default
+                               <!-- Pagination Default -->
                                {{pagination | safe}} 
-                               /Pagination Default
+                               <!-- /Pagination Default -->
                            </div>
-                           </PAGINATION -->
-                           <!--    正版！！！！！！           -->
+                          <!-- /PAGINATION -->
+                            #}
                         
-                     	<!-- 1:{{ currentPage }} 
-                             2:{{totalPages}} 
-                             10:{{count}} -->
-                        <!-- {{ currentPage }}         {{totalPages}} -->
+                     	
                    		{% if currentPage < totalPages %}
                     	<div class="text-center load-more">
                             <a href="javascript:studytour_pagination(2)">加载更多</a>
@@ -610,7 +602,60 @@
     	window.open(hrf);
     });
 
-  
+    //学校页面
+    function getschool(days=0) {
+        var searchword = GetQueryString("q");
+
+        var getHtml = "";
+        getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td class="the-td">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td style="width: 80px;">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
+
+         $.ajax({
+            type:"get",
+            url:"ajax/topic?q="+searchword+"&page=1&value=141-0-0-18-tourdest_0",
+            success:function(dataResult){
+                console.log(dataResult);
+                getHtml +='<div class="tourschool_pagination tpage1 ">'
+                $.each(dataResult.data,function(k,v){
+                    if(0==v.cover_url.length){
+                        getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
+                                
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.description+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';  
+                    }else{
+                        getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
+                                '<img src='+v.cover_url+'>'+
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.description+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';     
+                    }          
+                });
+                if(dataResult.currentPage < dataResult.totalPages){
+                    getHtml +='<div class="text-center ts-load-more">' + '<a href="javascript:tourschool_pagination(2);">加载更多</a>'+'</div></div><div class="tournote_pagination tpage2 "></div>'
+                }
+                $(".school").html(getHtml);
+            }
+        })
+    }
+
     function gettournote(days=0){
         var searchword = GetQueryString("q");
         var getHtml = "";
@@ -779,15 +824,13 @@
             type:"get",
             url:"/ajax/question?cid=125&day="+days+"&q="+searchword,
             success:function(dataResult){
-            	//getHtml +='<div class="tournote_pagination qpage1 ">'
-            	//console.log(dataResult);
                 $.each(dataResult.data,function(k,v){
                     pageHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="showquestion">'+
                                 '<ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;width:825px;">\
                                     <li>\
                                         <a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 50px;height: 50px;border-radius: 50%;"></a>\
                                         <a href="javascript:;">\
-                                            <span class="font-lato span_userName">'+v.uid+'</span>\
+                                            <span class="font-lato span_userName">'+v.username+'</span>\
                                         </a>\
                                         <span class="font-lato">提了一个问题</span>\
                                     </li>\
@@ -826,37 +869,7 @@
                                     </li>\
                                 </ul>'+
                                 '</div></a>';  
-                	/*if(0==v.imgurl.length){
-                    	pageHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
-                                '<div class="strategy-txt"> '+
-                                    '<p>'+
-                                    '&nbsp;'+
-                                    '</p>'+
-                                    '<h2>'+
-                                        v.title +
-                                    '</h2>'+
-                                    '<p>'+
-                                        v.detailtext+
-                                    '</p>'+
-                                '</div>'+
-                                '</div></a>';  
-
-                	}else{
-                    	pageHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="strategy-content">'+
-                                '<img src='+v.imgurl+'>'+
-                                '<div class="strategy-txt"> '+
-                                    '<p>'+
-                                    '&nbsp;'+
-                                    '</p>'+
-                                    '<h2>'+
-                                        v.title +
-                                    '</h2>'+
-                                    '<p>'+
-                                        v.detailtext+
-                                    '</p>'+
-                                '</div>'+
-                                '</div></a>';   
-                	}*/
+                	
                 	          
                 });
                 if(dataResult.currentPage < dataResult.totalPages){
@@ -864,7 +877,6 @@
                 }else{
                     //getHtml +='<div class="text-center no-more">'+'<p>已无更多</p>'+'</div>';
                 }
-                //console.log(pageHtml);
                 $(".tourquestion_page1").html(pageHtml);
             }
         })
@@ -1052,47 +1064,15 @@
         $.ajax({
             type:"get",
             url:"/ajax/question?cid=125&day="+day+"&page="+page+"&q="+searchword,
-            success:function(dataResult){       
-                //console.log(dataResult); 
-                //console.log("/ajax/question?cid=125&day="+day+"&page="+page+"&q="+searchword); 
+            success:function(dataResult){
+                console.log(dataResult);       
                 $.each(dataResult.data,function(k,v){
-                    //getHtml +=
-                    /*if(0==v.imgurl.length){
-                		pageHTML +='<a target="_blank" href="/mod/question/'+v.id+'.html">'+'<div class="strategy-content">'+
-                				'<div class="strategy-txt"> '+
-                                    '<p>'+
-                                    '&nbsp;'+
-                                    '</p>'+
-                                    '<h2>'+
-                                        v.title +
-                                    '</h2>'+
-                                    '<p>'+
-                                        v.detailtext+
-                                    '</p>'+
-                                '</div>'+
-                                '</div></a>';  
-                	}else{
-                        pageHTML +='<a target="_blank" href="/mod/question/'+v.id+'.html">'+'<div class="strategy-content">'+
-                                '<img src='+v.imgurl+'>'+
-                                '<div class="strategy-txt"> '+
-                                    '<p>'+
-                                    '&nbsp;'+
-                                    '</p>'+
-                                    '<h2>'+
-                                        v.title +
-                                    '</h2>'+
-                                    '<p>'+
-                                        v.detailtext+
-                                    '</p>'+
-                                '</div>'+
-                                '</div></a>';     
-                	}*/
                     pageHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="showquestion">'+
                                 '<ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;width:825px;">\
                                     <li>\
                                         <a href="javascript:;"><img src="/uc/index/avatar/uid/'+v.uid+'" style="width: 50px;height: 50px;border-radius: 50%;"></a>\
                                         <a href="javascript:;">\
-                                            <span class="font-lato span_userName">'+v.uid+'</span>\
+                                            <span class="font-lato span_userName">'+v.username+'</span>\
                                         </a>\
                                         <span class="font-lato">提了一个问题</span>\
                                     </li>\
@@ -1150,7 +1130,8 @@
     }
 
 
-    $("#select1").on("click",function(){
+
+    $("#select100").on("click",function(){
     	var getHtml = "";
     	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td class="the-td">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td style="width: 80px;">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
 

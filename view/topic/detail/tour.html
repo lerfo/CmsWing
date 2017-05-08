@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/static/admin/js/datepicker/bootstrap-datetimepicker.min.css" type="text/css">
 
 <style type="text/css">
-	ul li, ol li {
+	li{
 	    list-style: none;
 	}
 	.fc-toolbar.fc-header-toolbar {
@@ -715,6 +715,9 @@
 			margin-right: 0px;
 		}
 	*/	
+	.item-box-overlay-title{
+		padding-left:5px;
+	}
 	ul#studytour-ul li .item-box-overlay-title h4 {
 		font-size: 12px;
 	}
@@ -968,12 +971,63 @@
 	background:url(/static/assets/images/tour/consult.png) no-repeat -8px -4px;
 }
 .float-banner{
+	border:1px solid #dff2fb;
 	padding: 0;
 	margin-bottom: 14px;
 }
 .banner-right{
 	height:100%;
 
+}
+.float-share{
+	border:1px solid #dff2fb;
+	padding:0;
+}
+.float-share>a{
+	padding:0;
+	display:inline-block;
+	height:52px;
+	text-align: center;
+	line-height:84px;
+	position:relative;
+	color:#999999;
+}
+.float-share>a:nth-child(2){
+	border-left:1px solid #dff2fb;
+	border-right:1px solid #dff2fb;
+}
+.collect{
+	display:inline-block;
+	width:29px;
+	height:29px;
+	position:absolute;
+	left:24px;
+	top:4px;
+	background:url(/static/assets/images/tour/collection.png) no-repeat -2px -3px;
+}
+.share{
+	display:inline-block;
+	width:29px;
+	height:30px;
+	position:absolute;
+	left:22px;
+	top:4px;
+	background:url(/static/assets/images/tour/share.png) no-repeat -2px -1px;
+}
+.custom-service{
+	display:inline-block;
+	width:29px;
+	height:30px;
+	position:absolute;
+	left:22px;
+	top:4px;
+	background:url(/static/assets/images/tour/custom_service.png) no-repeat -2px -1px;
+}
+.out{
+	display:none;
+}
+.in{
+	display:inline-block;
 }
 	</style>
 	{% endblock %}
@@ -1624,8 +1678,8 @@ CLASSES:
 			<ul id="studytour-ul" style="padding-left: 0px;">
 				{% topic data = "list", limit= "4", cid=130, issub=1, ischild=1, type="level", page=0 %}
 				{%set i = 1%}
+				
 				{% for v in list %}
-
 				<li class="mix development float-banner col-md-12 col-sm-12"><!-- item -->
 
 					<div class="item-box thumbnail">
@@ -1635,9 +1689,10 @@ CLASSES:
 								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=200,h=120')}}"  alt="">
 							</div>
 							<div class="col-lg-6 col-sm-6 banner-right" style="padding: 0;">
+							{#
 								<span class="item-hover">
 	    								<span class="overlay"></span>
-									{#
+									
 									<span class="inner">
 
 										<!-- lightbox -->
@@ -1651,14 +1706,15 @@ CLASSES:
 										</a>
 
 									</span>
-									#}
+									
 								</span>
-
+							#}
 								<!-- overlay title -->
-								<div class="item-box-overlay-title text-center">
+								<div class="item-box-overlay-title">
 									<h4 class="nomargin">{{v.title}}</h4>
+									<h4 class="nomargin">{{v.price|get_price('1')}}起</h4>
 								</div><!-- /overlay title -->
-
+								
 							</div>
 						</figure>
 					</a>
@@ -1667,8 +1723,43 @@ CLASSES:
 				</li><!-- /item -->
 				{% set i = i + 1 %}
 				{% endfor %}
-
+				<li class="mix development float-share col-md-12 col-sm-12">
+					<a class="col-xs-4" href="">
+						收藏
+						<i class="collect"></i>
+					</a>
+					<a class="col-xs-4" href="javascript:share()">
+						分享
+						<i class="share"></i>
+					</a>
+					<a class="col-xs-4" href="">
+						在线客服
+						<i class="custom-service"></i>
+					</a>
+				</li>
 			</ul>
+			<!-- SHARE POST -->
+	        <div class="clearfix share-box margin-top-20 out">
+	            <div class="bdsharebuttonbox">
+	            	<a href="#" class="bds_more" data-cmd="more"></a>
+	            	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+	            	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	            	<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+	            	<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+	            	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	            </div>
+	            <script>
+	            	window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	            </script>
+	            
+	        </div>
+
+			<!-- 在线客服 -->
+			 
+  			<img  style="CURSOR: pointer" onclick="javascript:window.open('http://b.qq.com/webc.htm?new=0&sid=306420988&o=www.peanutroll.com&q=7', '_blank', 'height=502, width=644,toolbar=no,scrollbars=no,menubar=no,status=no');"  border="0" SRC=http://wpa.qq.com/pa?p=1:306420988:1 alt="点击这里给我发消息">
+
+
+			
 			</div>
 	    	{#
 	    	<h3 class="evaluate bold">用户评价</h3>
@@ -1787,7 +1878,7 @@ CLASSES:
                         {% for a in list %}
                         <!-- <div class="divider divider-dotted " style="margin:10px -15px"> --><!-- divider --><!-- </div> -->
                         <!-- COMMENT -->
-                        <ul class="comment list-unstyled margin-bottom-20">
+                        <ul class="comment list-unstyled clear margin-bottom-20">
                             <li class="comment margin-bottom-0">
 
                                 <!-- avatar -->
@@ -1810,12 +1901,7 @@ CLASSES:
 
                                 <!-- options -->
                                 <ul class="list-inline size-11 margin-top-10">
-                                    <li>
-                                        <!-- <a href="#" class="text-success"><i class="fa fa-thumbs-up"></i> 赞同</a> -->
-                                    </li>
-
-
-
+                                   
                                     {%if controller.user.uid == a.uid or (controller.user.uid|in_Array(http.config('user_administrator'))) %}
                                     
                                     <li class="pull-right">
@@ -1833,6 +1919,7 @@ CLASSES:
                                     {%endif%}
                                 </ul>
                             </li><!-- /options -->
+                            </ul>
                             <div id="comment-reply-{{a.answer_id}}" class="margin-top-10">
 
                          	{% model data="list",table="question_answer_comments",where='{"answer_id":'+a.answer_id+'}'%}
@@ -2550,14 +2637,6 @@ CLASSES:
 
 	});
 
-	    // $("#js_detail_tab li").each(function() {
-	    // 	console.log(this);
-	    // 	console.log($(this));
-	    // 	$(this).on("click", "a", function(){
-		   //  	console.log("js_detail_tab item click: " + this);
-		   //  });
-	    // });
-
 	uParse('#content', {
 		rootPath: '/static/admin/js/udeitor/'
 	})
@@ -2651,7 +2730,14 @@ $(document).ready(function(e) {
 
 $(".under_tab_detail").find("img").addClass("imgWith");		
 	
-
+//分享
+function share(){
+	if($(".share-box").hasClass("out")){
+		$(".share-box").removeClass("out").addClass("in")
+	}else if($(".share-box").hasClass("in")){
+		$(".share-box").removeClass("in").addClass("out")
+	}
+}
 
 
 

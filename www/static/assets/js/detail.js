@@ -162,25 +162,22 @@ $(function () {
                 }
 
                 $('#comment-reply-'+id).html(rhtml);
-                $('#write-reply-'+id).addClass("isopen");
+                $('#comment-reply-'+id).addClass("isopen");
                 $("#count-"+id).text(count);
             } 
 
 
         })
     }
-    $(".comment-reply").on("click",function () {
+    $(".box-light").on("click",".comment-reply",function () {
         var rid = $(this).attr("data-comment");
-        //alert(rid)
         console.log(rid);
         var id = rid.split("-")[2];
-        console.log(id);
         var isopen = $('#'+rid).is(".isopen");
         console.log(isopen);
         if(isopen){
             $('#'+rid).html("");
             $('#'+rid).removeClass("isopen");
-            //$('#'+rid).removeClass("isopen");
             $("#oc-"+id).text("回复");
         }else {
 
@@ -248,4 +245,174 @@ $(function () {
         })
         //alert(id)
     })
+
+  
+   
 });
+
+//攻略评论分页
+function tournote_pagination(i,id,page){
+    //id:question_id  i:floor 
+    var lastPage = page-1;
+    $(".tournote_page"+lastPage).after("<div><div>");
+    $(".tournote_page"+lastPage).next().addClass("tournote_page"+page);
+    var html = '';
+    $.ajax({
+        type:"get",
+        url:"/mod/question/index/answer/id/"+id+"/limit/2/page/"+page,
+        //async:false,
+        success:function(dataResult){
+            //console.log(dataResult);
+            //console.log(dataResult.data);
+            $.each(dataResult.data.data,function(k,v){
+                i = i+1;
+                html +='<div  class="margin-bottom-40">\
+                            <ul class="comment list-unstyled margin-bottom-0" >\
+                                <li class="comment margin-bottom-0 comment-user">\
+                                    <img class="avatar" src="/uc/index/avatar/uid/'+v.uid+'" width="80" height="80" alt="avatar" >\
+                                    <span >'+v.uid+'</span>\
+                                    <div class="comment-body">\
+                                        <div class="floor" >'+i+'F</div>\
+                                        <div class="border-div" >\
+                                            <div class="wangEditor-container cmswing-container comments-container" >\
+                                                <div class="wangEditor-txt nopadding margin-left-10 ">\
+                                                    '+v.answer_content+'\
+                                                </div>\
+                                                <small class="text-muted pull-left time-small" >\
+                                                    '+v.add_time+'\
+                                                </small> \
+                                                <ul class="list-inline size-12 margin-top-10">\
+                                                    <li class="pull-right">\
+                                                        <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-'+v.answer_id+'"> \
+                                                        <i class="fa fa-reply"></i> \
+                                                        <span id="oc-'+v.answer_id+'">回复</span>全部评论 (<span id="count-'+v.answer_id+'">'+v.ccount+'</span>)</a>\
+                                                    </li>';
+                var hasPower = invalidateAnwser(v.uid,v.answer_id);
+                if (hasPower) {
+                    var data_plugin_options ='{"type":"ajax", "closeOnBgClick":false}';
+                    //{{info.id}}   {{a.answer_id}}
+                    html +='<li class="pull-right">\
+                                <a href="/mod/question/ajax/delanswer/qid/'+id+'/id/'+v.answer_id+'" class="text-danger confirm ajax-get">删除</a>\
+                            </li>\
+                            <li class="pull-right">\
+                                 <a href="/mod/question/ajax/editanswer/id/'+v.answer_id+'" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='+data_plugin_options+'>编辑</a>\
+                            </li>';
+                }                                       
+
+
+                html +=                         '</ul>\
+                                            </div>\
+                                            <div id="comment-reply-'+v.answer_id+'" class="margin-top-20 ">\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                </li>\
+                            </ul>\
+                        </div>';
+                 
+            });
+            if(dataResult.data.currentPage < dataResult.data.totalPages){
+                var nextPage = page+1;
+
+                html +='<div class="text-center tc-addmore">' + '<a href="javascript:tournote_pagination('+i+','+id+','+nextPage+');">加载更多</a>'+'</div></div>';
+            }
+            //console.log(html);
+            $(".tc-addmore").hide();
+            $(".tournote_page"+page).html(html);
+        }
+    })
+}
+
+
+//问答评论分页
+function question_pagination(id,page){
+    //id是 question_id
+    var lastPage = page-1;
+    $(".question_page"+lastPage).after("<div><div>");
+    $(".question_page"+lastPage).next().addClass("question_page"+page);
+    var html = '';
+    $.ajax({
+        type:"get",
+        url:"/mod/question/index/answer/id/"+id+"/limit/2/page/"+page,
+        //async:false,
+        success:function(dataResult){
+            //console.log(dataResult);
+            //console.log(dataResult.data);
+            $.each(dataResult.data.data,function(k,v){
+                 html +='<ul class="comment list-unstyled margin-bottom-20">\
+                                <li class="comments-head-li">\
+                                    <div>\
+                                        <img class="avatar comments-head-img" src="/uc/index/avatar/uid/'+v.uid+'" width="50" height="50"  alt="avatar">\
+                                        <a href="javascript:;" class="comment-author comments-head-a">\
+                                            <span>'+v.uid+'</span>\
+                                        </a>\
+                                    </div>\
+                                </li>\
+                                <li class="comment margin-bottom-0">\
+                                    <div class="comment-body">\
+                                        <div class="wangEditor-container cmswing-container comments-container" >\
+                                            <div class="wangEditor-txt nopadding">\
+                                                '+v.answer_content+'\
+                                            </div>\
+                                        </div>\
+                                         <a href="#" class="comment-author comments-a">\
+                                            <small class="text-muted pull-right">'+v.add_time+' </small>\
+                                        </a>\
+                                    </div>\
+                                    <ul class="list-inline size-11 margin-top-10">\
+                                        <li>\
+                                            <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-'+v.answer_id+'"> <i class="fa fa-reply"></i> <span id="oc-'+v.answer_id+'">显示</span>全部评论 (<span id="count-'+v.answer_id+'">'+v.ccount+'</span>)</a>'+
+                                        '</li>';
+                var hasPower = invalidateAnwser(v.uid,v.answer_id);
+                //console.log("hasPower"+hasPower);
+                if (hasPower) {
+                    var data_plugin_options ='{"type":"ajax", "closeOnBgClick":false}';
+                    //{{info.id}}   {{a.answer_id}}
+                    html +='<li class="pull-right">\
+                                <a href="/mod/question/ajax/delanswer/qid/'+id+'/id/'+v.answer_id+'" class="text-danger confirm ajax-get">删除</a>\
+                            </li>\
+                            <li class="pull-right">\
+                                 <a href="/mod/question/ajax/editanswer/id/'+v.answer_id+'" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='+data_plugin_options+'>编辑</a>\
+                            </li>';
+                }             
+                  
+
+                      html +=     '</ul>\
+                                </li>\
+                             <div id="comment-reply-'+v.answer_id+'" class="margin-top-10 ">\
+                             </div>\
+                            </ul>';
+            });
+            if(dataResult.data.currentPage < dataResult.data.totalPages){
+                var nextPage = page+1;
+                html +='<div class="text-center qc-addmore">' + '<a href="javascript:question_pagination('+id+','+nextPage+');">加载更多</a>'+'</div></div>';
+            }
+            //console.log(html);
+            $(".qc-addmore").hide();
+            $(".question_page"+page).html(html);
+        }
+    })
+}
+
+function invalidateAnwser(id,answer_id) {
+    //console.log(id);
+    //console.log(answer_id);
+    var hasPower=false;
+    $.ajax({
+            
+            url:"/mod/question/ajax/ajaxanswercomments/answer_id/"+answer_id,
+            async:false,
+            success:function (res) {
+            //console.log(res);  
+            //console.log(res.is_login);  
+                if(res.is_login == id){
+                    //console.log("???");
+                   hasPower = true;
+                   //console.log(hasPower);
+                }
+            } 
+        })
+    //console.log(hasPower);
+    //console.log("验证完毕");
+    return hasPower;
+}
