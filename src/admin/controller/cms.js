@@ -40,7 +40,7 @@ export default class extends Base {
         //解析列表规则
         let fields = [];
         let grids  = trim(model.list_grid).split('\r\n');
-        console.log(model)
+        //console.log(model)
         let ngrids=[];
         for (var value of grids){
             if(trim(value) === ''){
@@ -65,10 +65,10 @@ export default class extends Base {
             ngrids.push(values);
         }
 
-        //console.log(ngrids)
+        ////console.log(ngrids)
         // 过滤重复字段信息
         fields=unique(fields);
-        //console.log(model)
+        ////console.log(model)
         //关键字搜索
         let map = {}
         let key = model.search_key?model.search_key:'title';
@@ -78,14 +78,14 @@ export default class extends Base {
             delete iskey[key];
         }
        
-        //console.log(iskey)
+        ////console.log(iskey)
         //条件搜索
         for(let k in iskey){
            if(in_array(k,fields)){
                map[k]=iskey[k];
            }
         }
-       //console.log(map);
+       ////console.log(map);
         if(!think.isEmpty(model.list_row)){
             this.config("db.nums_per_page",model.list_row)
         }
@@ -98,14 +98,14 @@ export default class extends Base {
             let parent = await this.model('model').get_table_name(model.extend);
             let fix = this.config('db.prefix');
             let key = array_search(fields,'id');
-            //console.log(key);
+            ////console.log(key);
             if(false === key){
                 fields.push(`${fix}${parent}.id as id`);
             }else {
                 fields[key] = `${fix}${parent}.id as id`;
 
             }
-           // console.log(fields);
+           // //console.log(fields);
             data=await this.model(parent).join({
                 table: name,
                 join: "inner", //join 方式，有 left, right, inner 3 种方式
@@ -116,9 +116,9 @@ export default class extends Base {
             if(model.need_pk){
                 in_array('id', fields) || fields.push('id');
             }
-            //console.log(fields)
+            ////console.log(fields)
             name =await this.model('model').get_table_name(model.id);
-            //console.log(name)
+            ////console.log(name)
             data=await this.model(name)
                 /* 查询指定字段，不指定则查询所有字段 */
                   .field(fields)
@@ -132,7 +132,7 @@ export default class extends Base {
                 .countSelect();
         }
         
-       // console.log(ngrids);
+       // //console.log(ngrids);
         let Pages = think.adapter("pages", "page"); //加载名为 dot 的 Template Adapter
         let pages = new Pages(this.http); //实例化 Adapter
         let page = pages.pages(data);

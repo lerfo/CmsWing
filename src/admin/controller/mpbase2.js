@@ -60,7 +60,7 @@ export default class extends Base {
         } else {
             paths = think.ROOT_PATH + '/www/' + pic;
         }
-        //console.log(pic);
+        ////console.log(pic);
         //return false;
         let wx = function (api, data) {
             let deferred = think.defer();
@@ -209,7 +209,7 @@ export default class extends Base {
             // }catch(e){
             //     return self.fail('删除失败');
             // }
-            //console.log(wxres);
+            ////console.log(wxres);
             if (wxres.errcode == 0) {
                 let res = await model.where({id: ['IN', id]}).delete();
                 // let res = true;
@@ -312,7 +312,7 @@ export default class extends Base {
         if (result) {
             let rulemodel = self.model('wx_keywords_rule');
             let ruledata = await rulemodel.where({id: ruleid}).find();
-            console.log(ruledata);
+            //console.log(ruledata);
             let rs = ruledata.reply_id.split(',');
             rs.push(result);
             let r = await rulemodel.where({id: ruleid}).update({'reply_id': rs.join(','), 'create_time': currtime});
@@ -583,7 +583,7 @@ export default class extends Base {
             data.type = 'text';
             data.content = editor_content;
         } else if (send_type == 'newsArea') {
-            console.log(!think.isEmpty(me_id));
+            //console.log(!think.isEmpty(me_id));
             if (!think.isEmpty(me_id)) {
                 let wx_content = await media_model.where({'id': me_id}).find();
                 //this.end('aaa'+wx_content['material_content']);
@@ -616,7 +616,7 @@ export default class extends Base {
         data.create_time = new Date().getTime();
         data.id = this.post("id");
         //this.end(data);
-        console.log(data);
+        //console.log(data);
         // return false;
         //查询该类型下是否有保存的回复信息
         let isAdd = '';
@@ -675,7 +675,7 @@ export default class extends Base {
         let newv = self.post('newv');
         let menuid = self.post('menuid');//菜单ID
         let currwebtoken = 0;
-        console.log(newv);
+        //console.log(newv);
         //return false;
         try {
             // return self.end(newv);
@@ -731,7 +731,7 @@ export default class extends Base {
             return deferred.promise;
         }
 
-        console.log(data);
+        //console.log(data);
 
         let dataObj = JSON.parse(data.custom_menu);
         let final = {button: []};
@@ -761,9 +761,9 @@ export default class extends Base {
         for (let a of dataObj.button) {
             let tmpbtn = {};
             tmpbtn.name = a.name;
-            //console.log(a);
+            ////console.log(a);
             if (think.isEmpty(a.sub_button)) {
-                //console.log(a.type);
+                ////console.log(a.type);
                 switch (a.type) {
                     case '1':
                         tmpbtn.type="click";
@@ -779,7 +779,7 @@ export default class extends Base {
                 for (let b of a.sub_button) {
                     let tmpsub = {};
                     tmpsub.name = b.name;
-                    //console.log(b.type);
+                    ////console.log(b.type);
                     switch (b.type) {
                         case '1':
                             tmpsub.type="click";
@@ -794,14 +794,14 @@ export default class extends Base {
                 }
             }
             final.button.push(tmpbtn);
-            console.log(tmpbtn);
+            //console.log(tmpbtn);
         }
         think.log(final)
         //return false;
         let api = new API(this.setup.wx_AppID, this.setup.wx_AppSecret);
         let res = await wxsubmit(api, final);
         // let res = true;
-        console.log(res);
+        //console.log(res);
         if (res) {
             return self.success({name: '微信菜单生成成功'});
         } else {

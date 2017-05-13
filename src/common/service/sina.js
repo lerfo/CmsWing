@@ -24,7 +24,7 @@ export default class extends think.service.base {
       let gettoken=(URL_GET_USERINFO)=>{
           let deferred = think.defer();
           superagent.post( `${URL_GET_USERINFO}?client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}`).send({}).end(function(err,res){
-             // console.log(res);
+             // //console.log(res);
               if (res.ok) {
                   if(think.isEmpty(res.body)){
                       deferred.resolve(JSON.parse(res.text));
@@ -32,7 +32,7 @@ export default class extends think.service.base {
                       deferred.resolve(res.body);
                   }
                   } else {
-                      console.log('Oh no! error ' + res.text);
+                      //console.log('Oh no! error ' + res.text);
                   deferred.resolve(res.text);
                   }
               });

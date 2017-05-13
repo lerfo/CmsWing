@@ -138,7 +138,7 @@ export default class extends Base {
         await this.spiderImage(data.headimgurl,filePath+'/avatar.png')
       }
     }
-    console.log(data);
+    //console.log(data);
     await this.model("member").autoLogin({id:reg}, this.ip());//更新用户登录信息，自动登陆
     let wx_userInfo = {
       'uid':reg,
@@ -153,17 +153,17 @@ export default class extends Base {
   /**登录绑定 */
   async logonbindingAction(){
     let data = this.post();
-    //console.log(data);
+    ////console.log(data);
     let username = this.post('username');
     let password = this.post('password');
     password = encryptPassword(password);
-    console.log(data);
+    //console.log(data);
 
     let res = await this.model("member").signin(username, password, this.ip(), 5,0);
     if (0 < res.uid) {
       //记录用户登录行为
       // await this.model("action", {}, "admin").log("user_login", "member", res.uid, res.uid, this.ip(), this.http.url);
-      //console.log(11111111111111);
+      ////console.log(11111111111111);
       let qq_info = await this.model("qq_user").where({openid:data.openid}).find();
       await this.model("qq_user").where({openid:data.openid}).update({uid:res.uid});
       //更新微信头像

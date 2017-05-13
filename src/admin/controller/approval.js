@@ -28,7 +28,7 @@ export default class extends Base {
       for(let val of modlist){
           val.count = await this.db.where({model:val.id}).count();
       }
-      console.log(modlist);
+      //console.log(modlist);
       this.assign("model",modlist);
       this.assign("count",await this.db.count())
       this.meta_title = "内容审核";
@@ -42,7 +42,7 @@ export default class extends Base {
         let id = this.get("id");
         let details = await this.db.find(id);
         let info = JSON.parse(details.data);
-        console.log(info);
+        //console.log(info);
         this.assign("info",info)
         this.meta_title = "查看详情";
         return this.display();
@@ -57,13 +57,13 @@ export default class extends Base {
         return this.fail("参数错误！");
     }
     let datalist = await this.db.where({id:["IN",ids]}).select();
-        console.log(datalist);
+        //console.log(datalist);
         for(let v of datalist){
             let table = await this.model("model").get_table_name(v.model,true);
             let res = null;
             switch (table.extend){
                 case 0:
-                    console.log(table);
+                    //console.log(table);
                      res = await this.model("mod/"+table.table).updates(JSON.parse(v.data),v.time);
                     if (res) {
                             //添加操作日志，可根据需求后台设置日志类型。

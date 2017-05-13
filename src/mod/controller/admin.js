@@ -29,7 +29,7 @@ export default class extends Base {
     try
     {
       let cxt  = think.require("mod/controller/"+this.mod.name+"/admin");
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      //console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       let cc =new cxt(this.http)
       await this.action(cc,"index")
     }
@@ -52,7 +52,7 @@ export default class extends Base {
       return think.statusAction(702, this.http);
     }
     let cate = await this.model("category").info(id, field);
-    //console.log(cate);
+    ////console.log(cate);
     if (cate && 1 == cate.status) {
 
       switch (cate.display) {

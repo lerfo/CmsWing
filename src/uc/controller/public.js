@@ -17,7 +17,7 @@ export default class extends Base {
   async registerAction() {
     if(this.isPost()){
       let data = this.post();
-      console.log(data);
+      //console.log(data);
       //验证
       let res;
       if(think.isEmpty(data.username)){
@@ -95,7 +95,7 @@ export default class extends Base {
         let Geetest = think.service("geetest"); //加载 commoon 模块下的 geetset service
         let geetest = new Geetest();
         let res = await geetest.validate(this.post(),this.get('type'));
-        console.log(res);
+        //console.log(res);
         if("success" != res.status){
           // this.http.error = new Error("验证码不正确");
           // return think.statusAction(702, this.http);
@@ -112,8 +112,8 @@ export default class extends Base {
       if (0 < res.uid) {
         //记录用户登录行为
         // await this.model("action").log("user_login", "member", res.uid, res.uid, this.ip(), this.http.url);
-        // console.log(111111111111121);
-        // console.log(res);
+        // //console.log(111111111111121);
+        // //console.log(res);
         await this.session('webuser', res);
         //TODO 用户密钥
         return this.success({name: '登录成功！'});
@@ -179,9 +179,9 @@ export default class extends Base {
       type:data.type
     }
     map.create_time = [">",new Date().valueOf() - 24 * 3600 * 1000]
-    // console.log(map);
+    // //console.log(map);
     let exec_count = await this.model("sms_log").where(map).count();
-    //console.log(exec_count);
+    ////console.log(exec_count);
     if(exec_count >= 3 ){
       return this.fail("发送过于频发请24小时后，再尝试。")
     }
@@ -205,7 +205,7 @@ export default class extends Base {
     // let result ={ err_code: '0',
     //     model: '102201717069^1102848633337',
     //     success: true }
-    console.log(result);
+    //console.log(result);
     //发送成功记录到数据库
     if( 0 == result.result.err_code){
       await this.model("sms_log").add({
@@ -234,7 +234,7 @@ export default class extends Base {
       type:data.sms_type
     }
     map.create_time = [">",new Date().valueOf() - 1 * 3600 * 1000]
-    //console.log(map);
+    ////console.log(map);
     let code = await this.model("sms_log").where(map).order("id DESC").getField("code",true);
     if(think.isEmpty(code)||code != data.verifycode){
       return this.fail("验证码不正确!")
@@ -289,7 +289,7 @@ export default class extends Base {
       type:data.sms_type
     }
     map.create_time = [">",new Date().valueOf() - 1 * 3600 * 1000]
-    // console.log(map);
+    // //console.log(map);
     let code = await this.model("sms_log").where(map).order("id DESC").getField("code",true);
     if(think.isEmpty(code)||code != data.verifycode){
       return this.fail("验证码不正确!")

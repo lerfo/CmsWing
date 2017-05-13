@@ -27,7 +27,7 @@ export default class extends Base {
     if(is_weixin(this.userAgent()) && think.isEmpty(openid)){
       this.cookie("cmswing_wx_url",this.http.url);
       var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode(this.setup.wx_AppID, `http://${this.http.host}/uc/weixin/getopenid?showwxpaytitle=1`);
-      //console.log(oauthUrl)
+      ////console.log(oauthUrl)
       this.redirect(oauthUrl);
     }
 
@@ -36,12 +36,12 @@ export default class extends Base {
   async getopenidAction(){
     //获取用户openid
     let code =  this.get("code");
-    console.log(code);
+    //console.log(code);
     //获取openid
     let getopenid = ()=>{
       let deferred = think.defer();
       pingpp.wxPubOauth.getOpenid(this.setup.wx_AppID, this.setup.wx_AppSecret, code, function(err, openid){
-        //console.log(openid);
+        ////console.log(openid);
         deferred.resolve(openid);
         // ...
         // pass openid to extra['open_id'] and create a charge
@@ -52,10 +52,10 @@ export default class extends Base {
     let openid = await getopenid();
     //9think.log(think.isEmpty(openid));
     let userinfo = await getUser(this.api,openid);
-    //console.log(userinfo);
+    ////console.log(userinfo);
     //如果没有关注先跳到关注页面
     if(userinfo.subscribe==0){
-      console.log(1111111111111)
+      //console.log(1111111111111)
       this.redirect('/uc/weixin/follow');
       return false;
     };
@@ -101,11 +101,11 @@ export default class extends Base {
    * 没有关注提示关注
    */
   async followAction(){
-    //console.log(this.setup)
+    ////console.log(this.setup)
     //创建关注二维码
     //TODO
     // let titck =await createLimitQRCode(this.api,1);
-    // console.log(titck);
+    // //console.log(titck);
     let qrcod = this.api.showQRCodeURL("gQHz7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL3JqX0p2Zm5sMnBtalQwX215eE1NAAIEjMBoVwMEAAAAAA==");
     this.assign("qrurl",qrcod);
     //think.log(qrcod);
@@ -198,7 +198,7 @@ export default class extends Base {
       think.mkdir(filePath)
       await this.spiderImage(data.headimgurl,filePath+'/avatar.png')
     }
-    console.log(data);
+    //console.log(data);
     await this.model("member").autoLogin({id:reg}, this.ip());//更新用户登录信息，自动登陆
     let wx_userInfo = {
       'uid':reg,
@@ -216,17 +216,17 @@ export default class extends Base {
   /**登录绑定 */
   async logonbindingAction(){
     let data = this.post();
-    //console.log(data);
+    ////console.log(data);
     let username = this.post('username');
     let password = this.post('password');
     password = encryptPassword(password);
-    console.log(data);
+    //console.log(data);
 
     let res = await this.model("member").signin(username, password, this.ip(), 5,0);
     if (0 < res.uid) {
       //记录用户登录行为
       // await this.model("action",).log("user_login", "member", res.uid, res.uid, this.ip(), this.http.url);
-      //console.log(11111111111111);
+      ////console.log(11111111111111);
       let wx_info = await this.model("wx_user").where({openid:data.openid}).find();
       await this.model("wx_user").where({openid:data.openid}).update({uid:res.uid});
       //更新微信头像

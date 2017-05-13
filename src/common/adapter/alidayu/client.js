@@ -16,7 +16,7 @@ export default class extends think.adapter.base {
     let key;
     if(!think.isEmpty(setup.SMS_Key)){
       key = setup.SMS_Key.split("|");
-      console.log(key);
+      //console.log(key);
       if(think.isEmpty(key[0])||think.isEmpty(key[1])){
         return {result: { errno: '1000', errmsg: '请在后台配合正确的凭着'}}
       };

@@ -10,7 +10,7 @@ export default class extends Base {
     init(http) {
         super.init(http);
         // http.action = http.method.toLowerCase();
-        //console.log(http.method.toLowerCase())
+        ////console.log(http.method.toLowerCase())
 
     }
    async indexAction(){
@@ -20,20 +20,20 @@ export default class extends Base {
         //aa.push(1)
         //let bb=aa.join(",")
         //let cc=!(typeof(a) == "undefined")
-        //console.log(cc)
+        ////console.log(cc)
        //let check=await this.check("/Admin/test","1");
-       //console.log(check);
-       //console.log(JSON.stringify(this.param()));
+       ////console.log(check);
+       ////console.log(JSON.stringify(this.param()));
        //let REQUEST = JSON.stringify(this.param()).toLowerCase()
-      // console.log(Object.is(JSON.stringify(url1).toLowerCase(), JSON.stringify(this.param()).toLowerCase()));
+      // //console.log(Object.is(JSON.stringify(url1).toLowerCase(), JSON.stringify(this.param()).toLowerCase()));
       //  this.end("dd");
        let Auth = think.adapter("auth", "rbac");
        let auth = new Auth(14);
        let res = await auth.check("/admin/test1");
        //let roles =this.model();
-       // console.log(roles);
+       // //console.log(roles);
        let http = this.http;
-       console.log(http.action);
+       //console.log(http.action);
        this.end();
     }
 
@@ -54,7 +54,7 @@ export default class extends Base {
 
     let str = "[user|get_nickname]在[time|time_format]登录了后台[model]";
         let match = str.match(/\[(\S+?)\]/g);
-        //console.log(match);
+        ////console.log(match);
         if(!think.isEmpty(match)){
             let user_id = 1;
             let record_id = 3;
@@ -77,7 +77,7 @@ export default class extends Base {
             for(let val of match){
                 val= val.replace(/(^\[)|(\]$)/g, "");
                 let param = val.split('|');
-                //console.log(param);
+                ////console.log(param);
                 if(!think.isEmpty(param[1])){
                     replace.push(await call_user_func(param[1],log[param[0]]))
                 }else {
@@ -88,30 +88,30 @@ export default class extends Base {
             let ss= str_replace(match,replace,str);
             //for (let i=0 ; i < match.length;i++ ){
             //    let nstr = str.replace(match[i],replace[i]);
-            //    console.log(nstr);
+            //    //console.log(nstr);
             //}
-            console.log(ss);
+            //console.log(ss);
         }else {
             let ss = str;
         }
-        console.log(this.http.url);
+        //console.log(this.http.url);
         //var funcs = ['test1', 'test2'];
         //for(var i=0;i<funcs.length;i++) {
         //    call_user_func(funcs[i], ["ddd", "cc"]);
         //}
         //
         //let test1=function(a, b) {
-        //    console.log(a + b + 'is a good gay');
+        //    //console.log(a + b + 'is a good gay');
         //}
         //let test2=function(a) {
-        //    console.log(a+" is sb");
+        //    //console.log(a+" is sb");
         //}
     }
      async momentAction(){
         // let moment = require('moment');
         // let datetime = moment().unix();
         // moment(1318874398806).unix();
-        // console.log( moment(1318874398806).format("dddd, MMMM Do YYYY, h:mm:ss a"));
+        // //console.log( moment(1318874398806).format("dddd, MMMM Do YYYY, h:mm:ss a"));
         let set = await this.model("setup").getset()
         //think.log(this.setup.WEIXIN_TYPE['2'],"配置输出");
         this.end(set);
@@ -120,11 +120,11 @@ export default class extends Base {
       let cas = think.adapter("school", "calss"); //加载名为 dot 的 Template Adapter
       let cass = new cas(); //实例化 Adapter
       let name = cass.getname(1);
-      console.log(name)
+      //console.log(name)
     }
     async typeAction(){
         let tabel = await this.model("type").checkTableExist(1);
-        console.log(tabel);
+        //console.log(tabel);
     }
     async sssAction(){
         await this.model().table("user",true).select()

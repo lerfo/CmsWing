@@ -16,7 +16,7 @@ export default class extends think.model.base {
         for(let v of temp){
             let obj = {}
             //let action = v.action.split("_")
-            //console.log(action[1]);
+            ////console.log(action[1]);
             if(v.module=='topic' &&  v.controller=='cover'){
                 obj.name=v.name;
                 obj.action=v.action+think.config("view.file_ext");
@@ -29,7 +29,7 @@ export default class extends think.model.base {
         for(let v of temp){
             let obj = {}
             let action = v.action.split("_");
-            //console.log(action[1]);
+            ////console.log(action[1]);
             if(v.module=='topic' &&  v.controller=='list'){
                 obj.name=v.name;
                 obj.action=v.action+think.config("view.file_ext");

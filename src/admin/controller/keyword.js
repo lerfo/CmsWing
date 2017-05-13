@@ -52,7 +52,7 @@ export default class extends Base {
         data.pid = (data.is_parent==1)?0:data.pid;
         data.add_time = new Date().getTime();
         let isadd = await this.model("keyword").where({keyname:data.keyname}).find();
-        //console.log(data);
+        ////console.log(data);
         if(!think.isEmpty(isadd)){
           return this.fail("已经存在相同的话题");
         }
@@ -80,7 +80,7 @@ export default class extends Base {
           data.pic = data.pic||0;
           data.pid = (data.is_parent==1)?0:data.pid;
           data.discuss_count_update=new Date().getTime();
-          console.log(data);
+          //console.log(data);
           let res = this.model("keyword").update(data)
           if(res){
               return this.success({name:"修改成功！",url:"/admin/keyword/index"})

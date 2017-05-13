@@ -171,10 +171,10 @@ $(function () {
     }
     $(".box-light").on("click",".comment-reply",function () {
         var rid = $(this).attr("data-comment");
-        console.log(rid);
+        //console.log(rid);
         var id = rid.split("-")[2];
         var isopen = $('#'+rid).is(".isopen");
-        console.log(isopen);
+        //console.log(isopen);
         if(isopen){
             $('#'+rid).html("");
             $('#'+rid).removeClass("isopen");
@@ -250,16 +250,30 @@ $(function () {
    
 });
 
+$(function(){
+    //console.log("pasasd");
+    //var qid = $("input[name=qId]").val();
+    //console.log(qid);
+    tournote_pagination(1);
+    question_pagination(1)
+});
+
 //攻略评论分页
-function tournote_pagination(i,id,page){
-    //id:question_id  i:floor 
-    var lastPage = page-1;
-    $(".tournote_page"+lastPage).after("<div><div>");
-    $(".tournote_page"+lastPage).next().addClass("tournote_page"+page);
+function tournote_pagination(page){
+
+    var id = $("input[name=qId]").val();
+    //console.log(id);
+    var i;
+    if (1==page) {
+        i=0;
+    }else{
+        i = parseInt($("input[name=ival]").val());
+    }
+    //console.log(i);
     var html = '';
     $.ajax({
         type:"get",
-        url:"/mod/question/index/answer/id/"+id+"/limit/2/page/"+page,
+        url:"/mod/question/index/answer/id/"+id+"/limit/8/page/"+page,
         //async:false,
         success:function(dataResult){
             //console.log(dataResult);
@@ -270,7 +284,7 @@ function tournote_pagination(i,id,page){
                             <ul class="comment list-unstyled margin-bottom-0" >\
                                 <li class="comment margin-bottom-0 comment-user">\
                                     <img class="avatar" src="/uc/index/avatar/uid/'+v.uid+'" width="80" height="80" alt="avatar" >\
-                                    <span >'+v.uid+'</span>\
+                                    <span >'+v.username+'</span>\
                                     <div class="comment-body">\
                                         <div class="floor" >'+i+'F</div>\
                                         <div class="border-div" >\
@@ -285,9 +299,10 @@ function tournote_pagination(i,id,page){
                                                     <li class="pull-right">\
                                                         <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-'+v.answer_id+'"> \
                                                         <i class="fa fa-reply"></i> \
-                                                        <span id="oc-'+v.answer_id+'">回复</span>全部评论 (<span id="count-'+v.answer_id+'">'+v.ccount+'</span>)</a>\
+                                                        <span id="oc-'+v.answer_id+'">回复</span>全部评论 (<span id="count-'+v.answer_id+'">'+v.count+'</span>)</a>\
                                                     </li>';
                 var hasPower = invalidateAnwser(v.uid,v.answer_id);
+                //console.log(hasPower);
                 if (hasPower) {
                     var data_plugin_options ='{"type":"ajax", "closeOnBgClick":false}';
                     //{{info.id}}   {{a.answer_id}}
@@ -313,10 +328,12 @@ function tournote_pagination(i,id,page){
             });
             if(dataResult.data.currentPage < dataResult.data.totalPages){
                 var nextPage = page+1;
-
-                html +='<div class="text-center tc-addmore">' + '<a href="javascript:tournote_pagination('+i+','+id+','+nextPage+');">加载更多</a>'+'</div></div>';
+                html +='<div class="text-center tc-addmore">' + '<a href="javascript:tournote_pagination('+nextPage+');">加载更多</a>'+'</div></div>';
+                $(".tournote_page"+page).after("<div><div>");
+                $(".tournote_page"+page).next().addClass("tournote_page"+nextPage);
             }
             //console.log(html);
+            $("input[name=ival]").val(i);
             $(".tc-addmore").hide();
             $(".tournote_page"+page).html(html);
         }
@@ -325,7 +342,77 @@ function tournote_pagination(i,id,page){
 
 
 //问答评论分页
-function question_pagination(id,page){
+function question_pagination(page){
+    //id是 question_id
+    var id = $("input[name=qId]").val();
+    var html = '';
+    $.ajax({
+        type:"get",
+        url:"/mod/question/index/answer/id/"+id+"/limit/8/page/"+page,
+        //async:false,
+        success:function(dataResult){
+            //console.log(dataResult);
+            //console.log(dataResult.data);
+            $.each(dataResult.data.data,function(k,v){
+                 html +='<ul class="comment list-unstyled margin-bottom-20">\
+                                <li class="comments-head-li">\
+                                    <div>\
+                                        <img class="avatar comments-head-img" src="/uc/index/avatar/uid/'+v.uid+'" width="50" height="50"  alt="avatar">\
+                                        <a href="javascript:;" class="comment-author comments-head-a">\
+                                            <span>'+v.username+'</span>\
+                                        </a>\
+                                    </div>\
+                                </li>\
+                                <li class="comment margin-bottom-0">\
+                                    <div class="comment-body">\
+                                        <div class="wangEditor-container cmswing-container comments-container" >\
+                                            <div class="wangEditor-txt nopadding">\
+                                                '+v.answer_content+'\
+                                            </div>\
+                                        </div>\
+                                         <a href="#" class="comment-author comments-a">\
+                                            <small class="text-muted pull-right">'+v.add_time+' </small>\
+                                        </a>\
+                                    </div>\
+                                    <ul class="list-inline size-11 margin-top-10">\
+                                        <li>\
+                                            <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-'+v.answer_id+'"> <i class="fa fa-reply"></i> <span id="oc-'+v.answer_id+'">显示</span>全部评论 (<span id="count-'+v.answer_id+'">'+v.count+'</span>)</a>'+
+                                        '</li>';
+                var hasPower = invalidateAnwser(v.uid,v.answer_id);
+                //console.log("hasPower"+hasPower);
+                if (hasPower) {
+                    var data_plugin_options ='{"type":"ajax", "closeOnBgClick":false}';
+                    //{{info.id}}   {{a.answer_id}}
+                    html +='<li class="pull-right">\
+                                <a href="/mod/question/ajax/delanswer/qid/'+id+'/id/'+v.answer_id+'" class="text-danger confirm ajax-get">删除</a>\
+                            </li>\
+                            <li class="pull-right">\
+                                 <a href="/mod/question/ajax/editanswer/id/'+v.answer_id+'" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='+data_plugin_options+'>编辑</a>\
+                            </li>';
+                }             
+                  
+
+                      html +=     '</ul>\
+                                </li>\
+                             <div id="comment-reply-'+v.answer_id+'" class="margin-top-10 ">\
+                             </div>\
+                            </ul>';
+            });
+            if(dataResult.data.currentPage < dataResult.data.totalPages){
+                var nextPage = page+1;
+                html +='<div class="text-center qc-addmore">' + '<a href="javascript:question_pagination('+nextPage+');">加载更多</a>'+'</div></div>';
+                $(".question_page"+page).after("<div><div>");
+                $(".question_page"+page).next().addClass("question_page"+nextPage);
+            }
+            //console.log(html);
+            $(".qc-addmore").hide();
+            $(".question_page"+page).html(html);
+        }
+    })
+}
+
+//问答评论分页
+function quesasdasdasdasdtion_pagination(id,page){
     //id是 question_id
     var lastPage = page-1;
     $(".question_page"+lastPage).after("<div><div>");

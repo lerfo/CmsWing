@@ -35,7 +35,7 @@ export default class extends Base {
         "is_login":0//为登录
       }
     }
-    console.log(ret);
+    //console.log(ret);
    return this.jsonp(ret);
   }
     //用户登录接口
@@ -47,14 +47,14 @@ export default class extends Base {
         get.profile_url = decodeURIComponent(get.profile_url);
         get.nickname = decodeURIComponent(get.nickname);
 
-       console.log(get);
-       console.log(this.cysign(cy_appkey,get.cy_user_id, get.img_url, get.nickname, get.profile_url, get.user_id));
+       //console.log(get);
+       //console.log(this.cysign(cy_appkey,get.cy_user_id, get.img_url, get.nickname, get.profile_url, get.user_id));
        let cy_user = await this.model("cy_user").where({cy_user_id:get.cy_user_id}).find();
        if(think.isEmpty(cy_user)){
            await  this.model("cy_user").add(get);
        }
        let uid = await this.model("cy_user").where({cy_user_id:get.cy_user_id}).getField('uid', true);
-       // console.log(uid);
+       // //console.log(uid);
        // return false;
         let ret;
        if(!this.is_login){
@@ -142,7 +142,7 @@ export default class extends Base {
         data.reg_time = new Date().valueOf();
         data.reg_ip = _ip2int(this.ip());
         data.password = encryptPassword(data.password);
-        console.log(data);
+        //console.log(data);
         let resurl = this.cookie("changyanurl");
         let reg = await this.model("member").add(data);
         if(!think.isEmpty(reg)){
@@ -155,7 +155,7 @@ export default class extends Base {
                 await this.spiderImage(data.headimgurl,filePath+'/avatar.png')
             }
         }
-        console.log(data);
+        //console.log(data);
         await this.model("member").autoLogin({id:reg}, this.ip());//更新用户登录信息，自动登陆
         let wx_userInfo = {
             'uid':reg,
@@ -168,17 +168,17 @@ export default class extends Base {
     /**登录绑定 */
     async logonbindingAction(){
         let data = this.post();
-        //console.log(data);
+        ////console.log(data);
         let username = this.post('username');
         let password = this.post('password');
         password = encryptPassword(password);
-        console.log(data);
+        //console.log(data);
         let resurl = this.cookie("changyanurl");
         let res = await this.model("member").signin(username, password, this.ip(), 5,0);
         if (0 < res.uid) {
             //记录用户登录行为
             // await this.model("action", {}, "admin").log("user_login", "member", res.uid, res.uid, this.ip(), this.http.url);
-            //console.log(11111111111111);
+            ////console.log(11111111111111);
             //更新微信头像
             await this.model("cy_user").where({cy_user_id:data.cy_user_id}).update({uid:res.uid});
             let filePath=think.RESOURCE_PATH + '/upload/avatar/' +res.uid;
@@ -217,7 +217,7 @@ export default class extends Base {
             if(0<res.uid){
                 //记录用户登录行为
                 // await this.model("action").log("user_login","member",res.uid,res.uid,this.ip(),this.http.url);
-                //console.log(11111111111111);
+                ////console.log(11111111111111);
                 await this.session('webuser', res);
                 //TODO 用户密钥
                 return this.success({name:"绑定成功"});

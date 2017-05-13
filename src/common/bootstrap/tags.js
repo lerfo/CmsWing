@@ -24,23 +24,23 @@
         return new nodes.CallExtensionAsync(this, 'run', args)
     };
     this.run = async function (context, args, callback) {
-             //console.log(args);
+             ////console.log(args);
 
              for (var arg in args) {
-                //console.log(arg);
+                ////console.log(arg);
                 if (arg !== '__keywords') {
                   let map = args[arg].split(",");
                   let maps={}
                   for(let val of map){
                     val=val.split("=");
-                          //console.log(val[1].indexOf("["));
+                          ////console.log(val[1].indexOf("["));
                           if(val[1].indexOf("[")===0){
                             val[1]=val[1].replace("[", "").replace("]", "").split("-");
-                            console.log(val[1]);
+                            //console.log(val[1]);
                         }
                         maps[val[0]]=val[1]
                     }
-                    //console.log(maps);
+                    ////console.log(maps);
                     let model_id;
                     //model
                     if(think.isEmpty(maps.mid)){
@@ -50,7 +50,7 @@
                         delete maps.mid;
                     }
                     let model = await think.model("model", think.config("db")).get_table_name(model_id);
-                    //console.log(model);
+                    ////console.log(model);
                     //limit
                     let offset,length;
                     if(think.isEmpty(maps.limit)){
@@ -73,10 +73,10 @@
                     if(!think.isEmpty(maps.order)){
                         order = maps.order;
                     }
-                    //console.log(maps);
-                    //console.log(offset);
+                    ////console.log(maps);
+                    ////console.log(offset);
                     let data = await think.model(model, think.config("db")).where(where).limit(offset,length).order(order).select();
-                    //console.log(data);
+                    ////console.log(data);
                     context.ctx[arg] = data;
                 }
             }
@@ -107,7 +107,7 @@
         return new nodes.CallExtensionAsync(this, 'run', args)
     };
     this.run = async function (context, args, callback) {
-        //console.log(args);
+        ////console.log(args);
         let data = think.isEmpty(args.data) ?"data":args.data;
         let pid = !think.isEmpty(args.pid) ?args.pid:false;
         let cid = !think.isEmpty(args.cid) ?args.cid:false;
@@ -121,7 +121,7 @@
                 v.doc_num = await think.model('document',think.config("db")).cache(1000).where({category_id:v.id,status:[">",0]}).count("id");
             }
         }
-       //console.log(column);
+       ////console.log(column);
        let arr;
         //获取同级栏目
         let map = {};
@@ -133,7 +133,7 @@
         arr = think._.filter(column, map)
     }else if(tree){
         let trees = arr_to_tree(column,tree);
-            //console.log(trees)
+            ////console.log(trees)
             arr = !think.isEmpty(trees)?trees:false;
         }else if(isapp||isapp==0){
 
@@ -149,7 +149,7 @@
             }
         }
         context.ctx[data] = arr;
-        console.log(arr);
+        //console.log(arr);
         return callback(null,'');
     };
 
@@ -172,7 +172,7 @@
        let data = think.isEmpty(args.data) ?"data":args.data;
        let channel = await think.model('channel', think.config("db")).get_channel_cache();
        channel = arr_to_tree(channel,0);
-     //console.log(channel);
+     ////console.log(channel);
      context.ctx[data] = channel;
      return callback(null,'');
  }
@@ -216,7 +216,7 @@
         return new nodes.CallExtensionAsync(this, 'run', args);
     };
     this.run = async function (context, args, callback) {
-        console.log(args);
+        //console.log(args);
         let where = {};//{'status':1};
         let data = think.isEmpty(args.data) ? "data" : args.data;
         let limit = think.isEmpty(args.limit) ? "4" : args.limit;
@@ -233,11 +233,11 @@
         if(!think.isEmpty(args.order)){
             type = args.order;
         }
-        //console.log('page:'+page);
-        //console.log(where);
+        ////console.log('page:'+page);
+        ////console.log(where);
         let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).select();
 
-        //console.log(questions)
+        ////console.log(questions)
         context.ctx[data] = questions;
         return callback(null, '');
     }
@@ -272,7 +272,7 @@
         return new nodes.CallExtensionAsync(this, 'run', args);
     };
     this.run = async function (context, args, callback) {
-        console.log(args);
+        //console.log(args);
         let where = {'status':1};
         let data = think.isEmpty(args.data) ? "data" : args.data;
         let limit = think.isEmpty(args.limit) ? "10" : args.limit;
@@ -299,7 +299,7 @@
                 args.cid=unique(cidarr).sort();
             }
         }
-        console.log('topic().args.cid:'+args.cid)
+        //console.log('topic().args.cid:'+args.cid)
         //subcate.push(cate.id);
         let cid = think.isEmpty(args.cid) ? false :{'category_id':['IN',args.cid]};
         if(cid){
@@ -332,11 +332,11 @@
             }
         }
 
-        console.log(where);
+        //console.log(where);
         let topic = await think.model('document', think.config("db")).where(where).page(page,limit).order(type).select();
 		/*
         let table =await think.model("model",think.config("db")).get_table_name(topic[0].model_id);
-        console.log(table);
+        //console.log(table);
         //副表数据
         if(args.isstu == 1){
             
@@ -346,9 +346,9 @@
 	            as: "alldoc",
             	on: ["id", "id"]
 	        }).where(where).page(page,limit).order(type).select();
-            console.log(topic);
+            //console.log(topic);
         } else{
-        	console.log("dasfasdfads");
+        	//console.log("dasfasdfads");
         }*/
         
         if(args.isstu == 1){
@@ -357,12 +357,12 @@
                 let table =await think.model("model",think.config("db")).get_table_name(v.model_id);
                 let details = await think.model(table,think.config("db")).find(v.id);
                 topicarr.push(think.extend({},v,details));
-                //console.log(details);
+                ////console.log(details);
             }
             topic = topicarr;
         }
         
-        //console.log(topic)
+        ////console.log(topic)
         context.ctx[data] = topic;
         return callback(null, '');
     }
@@ -397,7 +397,7 @@
             }
         }
         let keywrod = await think.model('keyword', think.config("db")).where(where).limit(limit).order(type).select();
-        //console.log(channel);
+        ////console.log(channel);
         for(let k of keywrod){
             k.url=`/t/${k.keyname}`+mod;
         }
@@ -424,7 +424,7 @@
         return new nodes.CallExtensionAsync(this, 'run', args)
     };
     this.run = async function (context, args, callback) {
-        console.log(args);
+        //console.log(args);
         let data = think.isEmpty(args.data) ?"data":args.data;
         let where = {};
         let limit = think.isEmpty(args.limit) ? "5" : args.limit;
@@ -443,7 +443,7 @@
                 k.url=`/t/${k.keyname},${mod_id}`;
             }
         }
-        //console.log(keyword);
+        ////console.log(keyword);
         context.ctx[data] = keyword;
         return callback(null,'');
     }
@@ -473,7 +473,7 @@
         return new nodes.CallExtensionAsync(this, 'run', args)
     };
     this.run = async function (context, args, callback) {
-        console.log(args);
+        //console.log(args);
         let data = think.isEmpty(args.data) ?"data":args.data;
         let table = think.isEmpty(args.table) ? "5" : args.table;
         let join = think.isEmpty(args.join) ? false : JSON.parse(args.join);
@@ -523,7 +523,7 @@
         }
         let ret =  await model.select();
 
-        console.log(ret);
+        //console.log(ret);
         context.ctx[data] = ret;
         return callback(null,'');
     }
@@ -558,7 +558,7 @@
         return new nodes.CallExtensionAsync(this, 'run', args);
     };
     this.run = async function (context, args, callback) {
-        console.log(args);
+        //console.log(args);
         let where = {'status':1};
         let data = think.isEmpty(args.data) ? "data" : args.data;
         let limit = think.isEmpty(args.limit) ? "6" : args.limit;
@@ -594,7 +594,7 @@
                 args.cid=unique(cidarr).sort();
             }
         }
-        console.log('topic().args.cid:'+args.cid)
+        //console.log('topic().args.cid:'+args.cid)
         //subcate.push(cate.id);
         let cid = think.isEmpty(args.cid) ? false :{'category_id':['IN',args.cid]};
         if(cid){
@@ -625,7 +625,7 @@
             }
         }
 
-        console.log(where);
+        //console.log(where);
         let topic = await think.model('document', think.config("db")).where(where).page(page,limit).order(type).select();
         //副表数据
         if(args.isstu == 1){
@@ -634,12 +634,12 @@
                 let table =await think.model("model",think.config("db")).get_table_name(v.model_id);
                 let details = await think.model(table,think.config("db")).find(v.id);
                 topicarr.push(think.extend({},v,details));
-                //console.log(details);
+                ////console.log(details);
             }
             topic = topicarr;
         }
         /*
-        //console.log(topic)
+        ////console.log(topic)
         //获取推荐社区帖子
         //热门推荐中
         if(limit >6){
@@ -663,11 +663,11 @@
         if(!think.isEmpty(args.order)){
             type = args.order;
         }
-        console.log('page:'+page);
-        console.log(where);
+        //console.log('page:'+page);
+        //console.log(where);
         let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).select();
 
-        console.log(questions)
+        //console.log(questions)
         */
         context.ctx[data] = topic;
         return callback(null, '');

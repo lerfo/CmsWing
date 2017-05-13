@@ -27,7 +27,7 @@ export default class extends Base {
    async indexAction(){
         //auto render template file index_index.html
         let tree = await this.db.get_channel_cache();
-        //console.log(tree)
+        ////console.log(tree)
         this.assign("list",tree);
         this.meta_title = "导航管理";
         return this.display();

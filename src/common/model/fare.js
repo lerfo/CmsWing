@@ -32,13 +32,13 @@ export default class extends think.model.base {
         }else {
             address =await this.model("address").where({is_default:1,user_id:uid}).find();
         }
-        //console.log(address);
+        ////console.log(address);
         let warr = [];
         for(let val of cart_godds){
             warr.push(val.weight*val.qty);
         }
         let goods_weight = eval(warr.join('+'));
-        //console.log(goods_weight);
+        ////console.log(goods_weight);
         let area = address.province+"_"+address.city+"_"+address.county;
             fare = await this.where({is_default:1}).find();
 
@@ -50,10 +50,10 @@ export default class extends think.model.base {
         }else{
 
             for(let val of zoning){
-                //console.log(area)
-                // console.log(val.area);
+                ////console.log(area)
+                // //console.log(val.area);
                 if(in_array(area,JSON.parse(val.area))){
-                    //console.log(Number(val.f_weight)+Number(val.s_weight));
+                    ////console.log(Number(val.f_weight)+Number(val.s_weight));
                     real_freight =Number(val.f_price)+Math.max(Math.ceil((goods_weight - Number(val.f_weight)) / Number(val.s_weight)), 0) * Number(val.s_price);
                 }else {
                     real_freight =fare.first_price + Math.max(Math.ceil((goods_weight - fare.first_weight) / fare.second_weight), 0) * fare.second_price;

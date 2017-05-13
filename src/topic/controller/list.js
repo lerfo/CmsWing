@@ -13,8 +13,8 @@ import pagination from 'think-pagination';
 export default class extends Base {
   //列表页[核心]
   async indexAction() {
-      console.log(GetDateStr(5)+" "+"00:00:00");
-      console.log(new Date(GetDateStr(0)+" "+"23:59:59").getTime());
+      //console.log(GetDateStr(5)+" "+"00:00:00");
+      //console.log(new Date(GetDateStr(0)+" "+"23:59:59").getTime());
       //跨域
     let method = this.http.method.toLowerCase();
     if(method === "options"){
@@ -27,7 +27,7 @@ export default class extends Base {
     let queryword = this.get('q');
     this.assign('queryword',queryword);
     let get = this.get('category') || 0;
-    console.log('args category:'+get);
+    //console.log('args category:'+get);
     let id=0;
     let query = get.split("-");
     if(get != 0){
@@ -48,10 +48,10 @@ export default class extends Base {
     }
     // 获取当前栏目的模型
     let models = await this.model("category").get_category(cate.id, 'model');
-    console.log('got models!');
+    //console.log('got models!');
     //获取模型信息
     let modellist = [];
-    //console.log(111111111)
+    ////console.log(111111111)
     if (think.isEmpty(models)) {
       modellist = null;
     } else {
@@ -64,13 +64,13 @@ export default class extends Base {
     }
     this.assign('modellist', modellist);
     this.assign('model', models.split(","));
-    //console.log(cate);
+    ////console.log(cate);
     //获取当前分类的所有子栏目
     let subcate = await this.model('category').get_sub_category(cate.id);
-    console.log(subcate);
+    //console.log(subcate);
     subcate.push(cate.id);
     //获取模型列表数据个数
-    // console.log(cate);
+    // //console.log(cate);
     let num;
     if(cate.list_row>0){
       num = cate.list_row;
@@ -86,7 +86,7 @@ export default class extends Base {
       num=10;
     }
 
-    //console.log(subcate);
+    ////console.log(subcate);
     let map = {
       'pid':0,
       'status': 1,
@@ -96,7 +96,7 @@ export default class extends Base {
     let o = {};
     o.level = 'DESC';
     let order = query[1]||0;
-    console.log('order:'+order);
+    //console.log('order:'+order);
     order = Number(order);
     switch (order){
       case 1:
@@ -131,14 +131,14 @@ export default class extends Base {
     this.assign('order',order);
     // 获取分类信息
     let sortid = query[3]||0;
-    console.log('sortid:'+sortid);
+    //console.log('sortid:'+sortid);
     if(!think.isEmpty(sortid)){
       map.sort_id = sortid;
     }
     let sortarr = query[4]||null;
     let nsobj = {};
     let sort = await this.model("category").get_category(cate.id, 'documentsorts');
-    console.log('got category document sorts:'+sort);
+    //console.log('got category document sorts:'+sort);
     if (sort) {
       this.assign("sorturl",get.split("-")[4])
       sort = JSON.parse(sort);
@@ -154,19 +154,19 @@ export default class extends Base {
             val.option.rules = JSON.parse(val.option.rules);
             val.rules=parse_type_attr(val.option.rules.choices);
             val.option.rules.choices = parse_config_attr(val.option.rules.choices);
-            //console.log(val.rules);
+            ////console.log(val.rules);
           }
 
         }else if(val.option.type == 'checkbox'){
           if(!think.isEmpty(val.option.rules)){
             val.option.rules = JSON.parse(val.option.rules);
             val.rules=parse_type_attr(val.option.rules.choices);
-            console.log(val.rules);
+            //console.log(val.rules);
             for(let v of val.rules){
               v.id = "l>"+v.id
             }
             val.option.rules.choices = parse_config_attr(val.option.rules.choices);
-            //console.log(val.rules);
+            ////console.log(val.rules);
           }
         }else if(val.option.type == 'range'){
           if(!think.isEmpty(val.option.rules)){
@@ -196,7 +196,7 @@ export default class extends Base {
               }
               searcharr.push({id:'u>'+arr[len-1],name:arr[len-1]+'以上',pid:0})
             }
-            //console.log(searcharr);
+            ////console.log(searcharr);
             val.option.rules = JSON.parse(val.option.rules);
             val.rules=searcharr;
             // val.option.rules.choices = parse_config_attr(val.option.rules.choices);
@@ -204,7 +204,7 @@ export default class extends Base {
           }
         }
       }
-      console.log(typevar);
+      //console.log(typevar);
       this.assign("typevar",typevar);
     }
     if(!think.isEmpty(sortarr)) {
@@ -217,7 +217,7 @@ export default class extends Base {
         nsobj[qarr[0]] = qarr[1];
         if(qarr[1] !=0){
           let vv = qarr[1].split(">");
-          //console.log(vv);
+          ////console.log(vv);
           if(vv[0]=="d" && !think.isEmpty(vv[1])){
             map["t."+qarr[0]] = ["<",vv[1]];
           }else if(vv[0]=="u" && !think.isEmpty(vv[1])){
@@ -240,13 +240,13 @@ export default class extends Base {
       // where.optionid = ["IN",optionidarr];
       // where['value'] = ["IN",valuearr];
       // let type= await this.model("typeoptionvar").where(where).select();
-      //  console.log(type);
-      // console.log(map);
+      //  //console.log(type);
+      // //console.log(map);
 
     }
-    //console.log(map);
+    ////console.log(map);
     //return false;
-    console.log(sort);
+    //console.log(sort);
     this.assign("sort",sort);
     this.assign("nsobj",nsobj);
 
@@ -257,7 +257,7 @@ export default class extends Base {
       group_id = map.group_id;
     }
     this.assign("group_id",group_id)
-    //console.log(map);
+    ////console.log(map);
     let data;
     if(!think.isEmpty(sortarr)){
       data = await this.model('document').join({
@@ -270,7 +270,7 @@ export default class extends Base {
     }else {
       data = await this.model('document').where(map).page(this.param('page'),num).order(o).countSelect();
     }
-    //console.log(data);
+    ////console.log(data);
     // let data = await this.model('document').join({
     //     typeoptionvar: {
     //         join: "left", // 有 left,right,inner 3 个值
@@ -297,20 +297,20 @@ export default class extends Base {
     this.description = cate.description ? cate.description : ""; //seo描述
 
     //获取面包屑信息
-    console.log('got breadcrumb!! cate.id : '+cate.id)
+    //console.log('got breadcrumb!! cate.id : '+cate.id)
     let breadcrumb = await this.model('category').get_parent_category(cate.id,true);
     this.assign('breadcrumb', breadcrumb);
-    console.log(breadcrumb)
+    //console.log(breadcrumb)
 
 
     /* 模板赋值并渲染模板 */
     this.assign('category', cate);
     this.assign('list', data.data);
     this.assign('count',data.count);
-    console.log(data.data)
+    //console.log(data.data)
     let temp = cate.template_lists ? `${cate.template_lists}` : "";
-    //console.log(cate);
-    console.log(temp)
+    ////console.log(cate);
+    //console.log(temp)
     if(checkMobile(this.userAgent())){
       if(this.isAjax("get")){
         for(let v of data.data){
@@ -342,7 +342,7 @@ export default class extends Base {
       //think.log(temp);
       return this.display(`mobile/${this.http.controller}/${temp}`)
     }else{
-      console.log(temp);
+      //console.log(temp);
       return this.display(temp);
     }
 
@@ -404,15 +404,15 @@ export default class extends Base {
     }
     // 获取当前栏目的模型
     let model = await this.model("model").get_model(cate.model);
-    //console.log(model);
+    ////console.log(model);
     this.assign('model', model);
-    //console.log(cate);
+    ////console.log(cate);
     //获取当前分类的所有子栏目
     let subcate = await this.model('category').get_sub_category(cate.id);
-    // console.log(subcate);
+    // //console.log(subcate);
     subcate.push(cate.id);
     //获取模型列表数据个数
-    // console.log(cate);
+    // //console.log(cate);
     let num;
     if(cate.list_row>0){
       num = cate.list_row;
@@ -435,7 +435,7 @@ export default class extends Base {
     //获取面包屑信息
     let breadcrumb = await this.model('category').get_parent_category(cate.id,true);
     this.assign('breadcrumb', breadcrumb);
-    //console.log(breadcrumb)
+    ////console.log(breadcrumb)
     let map = {
       'category_id': ['IN', subcate]
     };
@@ -463,7 +463,7 @@ export default class extends Base {
       map.group_id=query[2];
       group_id = map.group_id;
     }
-    console.log(map);
+    //console.log(map);
     this.assign("group_id",group_id);
     let data = await this.model(model.name).where(map).page(this.param('page'),num).order(o);
 
@@ -471,10 +471,10 @@ export default class extends Base {
     this.assign('category', cate);
     this.assign('list', data.data);
     this.assign('count',data.count);
-    //console.log(cate)
+    ////console.log(cate)
     let temp = cate.template_lists ? `${cate.template_lists}` : "";
-    //console.log(cate);
-    //console.log(111)
+    ////console.log(cate);
+    ////console.log(111)
     if(checkMobile(this.userAgent())){
       if(this.isAjax("get")){
         return this.json(data);
@@ -484,7 +484,7 @@ export default class extends Base {
       //think.log(temp);
       return this.display(`mobile/${this.http.controller}/${temp}`)
     }else{
-      //console.log(temp);
+      ////console.log(temp);
       return this.display(temp);
     }
   }

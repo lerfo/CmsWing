@@ -10,7 +10,7 @@ export default class extends Base {
      * 封面入口
      */
     indexAction() {
-        //console.log(this);
+        ////console.log(this);
         //auto render template file index_index.html
 
         this.end(2222)
@@ -105,19 +105,19 @@ export default class extends Base {
                         val.option.rules = JSON.parse(val.option.rules);
                         val.rules=parse_type_attr(val.option.rules.choices);
                         val.option.rules.choices = parse_config_attr(val.option.rules.choices);
-                        //console.log(val.rules);
+                        ////console.log(val.rules);
                     }
 
                 }else if(val.option.type == 'checkbox'){
                     if(!think.isEmpty(val.option.rules)){
                         val.option.rules = JSON.parse(val.option.rules);
                         val.rules=parse_type_attr(val.option.rules.choices);
-                        console.log(val.rules);
+                        //console.log(val.rules);
                         for(let v of val.rules){
                             v.id = "l>"+v.id
                         }
                         val.option.rules.choices = parse_config_attr(val.option.rules.choices);
-                        //console.log(val.rules);
+                        ////console.log(val.rules);
                     }
                 }else if(val.option.type == 'range'){
                     if(!think.isEmpty(val.option.rules)){
@@ -147,7 +147,7 @@ export default class extends Base {
                             }
                             searcharr.push({id:'u>'+arr[len-1],name:'高于'+arr[len-1],pid:0})
                         }
-                        //console.log(searcharr);
+                        ////console.log(searcharr);
                         val.option.rules = JSON.parse(val.option.rules);
                         val.rules=searcharr;
                         // val.option.rules.choices = parse_config_attr(val.option.rules.choices);
@@ -155,7 +155,7 @@ export default class extends Base {
                     }
                 }
             }
-            // console.log(typevar);
+            // //console.log(typevar);
             this.assign("typevar",typevar);
         }
         if(!think.isEmpty(sortarr)) {
@@ -168,7 +168,7 @@ export default class extends Base {
                 nsobj[qarr[0]] = qarr[1];
                 if(qarr[1] !=0){
                     let vv = qarr[1].split(">");
-                    //console.log(vv);
+                    ////console.log(vv);
                     if(vv[0]=="d" && !think.isEmpty(vv[1])){
                         map["t."+qarr[0]] = ["<",vv[1]];
                     }else if(vv[0]=="u" && !think.isEmpty(vv[1])){
@@ -187,13 +187,13 @@ export default class extends Base {
             // where.optionid = ["IN",optionidarr];
             // where['value'] = ["IN",valuearr];
             // let type= await this.model("typeoptionvar").where(where).select();
-            //  console.log(type);
-            // console.log(map);
+            //  //console.log(type);
+            // //console.log(map);
 
         }
-        //console.log(map);
+        ////console.log(map);
         //return false;
-        //console.log(sort);
+        ////console.log(sort);
         this.assign("sort",sort);
         this.assign("nsobj",nsobj);
 
@@ -254,7 +254,7 @@ export default class extends Base {
             //手机端模版
             return this.modtemp(this.mod.name,"mobile");
         }else{
-            //console.log(temp);
+            ////console.log(temp);
             // return this.display(temp);
             return this.modtemp(this.mod.name);
         }
@@ -319,7 +319,7 @@ export default class extends Base {
         // let topicid = await this.model("keyword_data").where({docid:id,mod_type:1,mod_id:cate.model}).getField("tagid");
         // if(!think.isEmpty(topicid)){
         //     let topic = await this.model("keyword").where({id:["IN",topicid]}).select();
-        //     console.log(topic);
+        //     //console.log(topic);
         // }
         //获取回复
         let answer = await this.model("question_answer").where({question_id:id}).select();
@@ -327,7 +327,7 @@ export default class extends Base {
             a.ccount = await this.model("question_answer_comments").where({answer_id:a.answer_id}).count("id");
         }
         this.assign("answer",answer);
-        //console.log(cate);
+        ////console.log(cate);
         //相关问题
         let where ={docid:id,mod_type:1,mod_id:cate.model}
         //获取相关tagid
@@ -369,7 +369,7 @@ export default class extends Base {
             //手机端模版
             return this.modtemp("question","mobile");
         }else{
-            //console.log(temp);
+            ////console.log(temp);
             // return this.display(temp);
             return this.modtemp();
         }
@@ -431,7 +431,7 @@ export default class extends Base {
             }
         });
         this.assign('pagination', html);
-        console.log(list);
+        //console.log(list);
         return this.modtemp();
     }
 }

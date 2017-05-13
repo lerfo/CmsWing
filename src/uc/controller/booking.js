@@ -247,14 +247,14 @@ export default class extends Base {
     let orderinfo = {};
     orderinfo = think.extend({},data.amountinfo);
     orderinfo = think.extend(orderinfo,data.connectinfo);
-    console.log(orderinfo);
+    //console.log(orderinfo);
     let goods =data.amountinfo;
 
     //检查购物车内的宝贝是否有库存
-    console.log(goods.type);
+    //console.log(goods.type) ; 
     let stock = await this.model("order_tour").getstock(goods.product_id,goods.type);
     //think.log(stock);
-    console.log(stock);
+    //console.log(stock);
     if(goods.totol_quantity > stock){
       return this.fail("商品库存不足，创建订单失败！");
     }
@@ -267,7 +267,7 @@ export default class extends Base {
     // let oid =["d",this.user.uid,nowtime]
     // data.order_no = oid.join("");
     orderinfo.order_no = await this.model("order_tour").orderid();
-    console.log(orderinfo.order_no);
+    //console.log(orderinfo.order_no);
     //验证优惠码
     orderinfo.discount_amount = 0;
     if(!think.isEmpty(data.discount_code)){
@@ -305,13 +305,13 @@ export default class extends Base {
       this.http.error = new Error('联系人信息不能为空');
       return think.statusAction(702, this.http);
     }else{
-      console.log(data.connectinfo.connect_name);
+      //console.log(data.connectinfo.connect_name);
       let member = {
         connect_name:data.connectinfo.connect_name,
         connect_phone:data.connectinfo.connect_phone,
         connect_email:data.connectinfo.connect_email
       } 
-      console.log(member);
+      //console.log(member);
       let update = await this.model("member").where({id: this.user.uid}).update(member);
       think.log(update,'BOOKING_CREATEORDER');
       if (!update ) {
@@ -365,7 +365,7 @@ export default class extends Base {
     orderinfo.update_time = new Date().valueOf();
 
 
-    console.log(orderinfo.title);
+    //console.log(orderinfo.title);
     //生成订单
     let order_id = await this.model("order_tour").add(orderinfo);
 
@@ -396,7 +396,7 @@ export default class extends Base {
       return this.fail("未登录");
     }
     let status = this.param("status") || null;
-    //console.log(status);
+    ////console.log(status);
     let map;
     let limit = think.isEmpty(this.param("limit")) ? 5 : this.param("limit");
 
@@ -445,7 +445,7 @@ export default class extends Base {
     }
 
 
-    console.log(map);
+    //console.log(map);
     // this.config("db.nums_per_page",20)
     let data = await this.model("order_tour").where(map).page(this.param('page'),limit).order("create_time DESC").countSelect();
     let html = pagination(data, this.http, {
@@ -459,7 +459,7 @@ export default class extends Base {
         total: 'count: ${count} , pages: ${pages}'
       }
     });
-    //console.log(data);
+    ////console.log(data);
     this.assign('pagination', html);
     data.html = html;
     for (let val of data.data) {
@@ -482,7 +482,7 @@ export default class extends Base {
       if (val.pay_status == 0) {
         val.end_time = date_from(val.create_time + (Number(this.setup.ORDER_DELAY) * 60000))
       }
-      //console.log(this.setup.ORDER_DELAY_BUND)
+      ////console.log(this.setup.ORDER_DELAY_BUND)
       //查出订单里面的商品列表
       val.goods = await this.model("order_goods").where({order_id: val.id}).select();
       let numarr=[];
@@ -492,7 +492,7 @@ export default class extends Base {
         v = think.extend(v, v.prom_goods);
         delete v.prom_goods;
       }
-      //console.log(val.goods)
+      ////console.log(val.goods)
       val.nums = eval(numarr.join("+"));
     }
     //未付款统计
@@ -515,11 +515,11 @@ export default class extends Base {
     }).count("id");
     this.assign("nopaid", nopaid);
     this.assign("receipt", receipt);
-    //console.log(data.data);
+    ////console.log(data.data);
     this.assign("count",data.count);
     this.assign('list', data.data);
     this.meta_title = "我的订单";
-    console.log(data);
+    //console.log(data);
     return this.json(data);
   }
     /**
@@ -536,7 +536,7 @@ export default class extends Base {
     }
 
     let orderid = this.get('orderid'); 
-    //console.log(status);
+    ////console.log(status);
     let order_tour_info={};
     //订单状态 status 1,未提交(草稿)2:已提交(待付款)，3:已取消,4已付款，5,待卖家确认，6:卖家已确认，7:待成团，8:已成团， 10:请求退款,11:确认退款，12,:退款中，13退款成功 16:待评价，17:已评价
     order_tour_info.status = 3;
@@ -561,11 +561,13 @@ export default class extends Base {
     }
 
     let orderid = this.get('orderid'); 
-    //console.log(status);
+    //console.log(orderid);
     let order_tour_info={};
     //订单状态 status 1,未提交(草稿)2:已提交(待付款)，3:已取消,4已付款，5,待卖家确认，6:卖家已确认，7:待成团，8:已成团， 10:请求退款,11:确认退款，12,:退款中，13退款成功 16:待评价，17:已评价
     //只有未提交订单才可以删除
-    let update = await this.model("order_tour").where({user_id: this.user.uid,order_no:orderid,status:1}).delete();
+    //let update = await this.model("order_tour").where({user_id: this.user.uid,order_no:orderid,status:1}).delete();
+    let update = await this.model("order_tour").where({user_id: this.user.uid,order_no:orderid}).update({is_del: 1});
+    //console.log(update);
     if(update)
       return this.success("删除订单成功");
     else
@@ -583,7 +585,7 @@ export default class extends Base {
     if(think.isEmpty(discount_code)){
         return this.fail("参数错误！");
     }
-    console.log(discount_code);
+    //console.log(discount_code);
     let findData = await this.model("discount").where({code:discount_code,is_del:0}).find();
     if(think.isEmpty(findData.id)){
       return this.fail("优惠券不存在");
@@ -611,11 +613,11 @@ export default class extends Base {
     //let data = this.post();
     let data = {};
     data.discount_code = this.get("code");
-    console.log(this.get("code"));
+    //console.log(this.get("code"));
     if(think.isEmpty(data.discount_code)){
         return this.fail("参数为空！");
     }
-    console.log(data.discount_code);
+    //console.log(data.discount_code);
     let findData = await this.model("discount").where({code:data.discount_code,is_del:0}).find();
     if(think.isEmpty(findData.id)){
       return this.fail("优惠券不存在");
@@ -634,7 +636,7 @@ export default class extends Base {
         discountlist = JSON.stringify(discountlist);
       }
       member.discountlist = discountlist;
-      console.log(discountlist);
+      //console.log(discountlist);
       let update = await this.model("member").where({id: this.user.uid}).update(member);
       return this.success('添加优惠券成功');
     }
@@ -655,7 +657,7 @@ export default class extends Base {
         
       }else{
         discountlist = JSON.parse(discountlist);
-        console.log(discountlist);
+        //console.log(discountlist);
         discountlist = await this.model("discount").where({code:["IN", discountlist],is_del:0}).select();
       }
       return this.json(discountlist);
@@ -684,7 +686,7 @@ export default class extends Base {
     }else{
       document_tour.score_avg = 0;
     }
-    console.log(cover_id);
+    //console.log(cover_id);
     return this.success(document_tour);
   }
 
@@ -779,7 +781,7 @@ export default class extends Base {
       return this.fail("请先登录");
     }
     let data = this.post();
-    console.log(data);
+    //console.log(data);
     let ids = data.ids.split("||");
     //检查库存
     let stock = await this.model("order").getstock(ids[0],ids[1]);
@@ -843,14 +845,14 @@ export default class extends Base {
   async addcartAction(){
     let data = this.post();
     data = think.extend({},data);
-    //console.log(data);
+    ////console.log(data);
     // 添加购物车前判断是否有库存
     let stock = await this.model("order").getstock(data.product_id,data.type);
     think.log('stock='+stock,'ADDCART');
     if(data.qty > stock){
       return this.json(false);
     }
-    console.log(data);
+    //console.log(data);
     //return false;
     let arr=[];
     let cart = this.cart.data;
@@ -859,7 +861,7 @@ export default class extends Base {
       arr.push(data);
     }else{
       //cart = JSON.parse(cart);
-      console.log(cart);
+      //console.log(cart);
       let typearr = []
       let idarr = []
       //已有购物车数量相加
@@ -898,7 +900,7 @@ export default class extends Base {
       let info = await this.model(table).find(val.product_id);
       goods = think.extend(goods,info);
       dataobj.title=goods.title;
-      //console.log(goods);
+      ////console.log(goods);
       if(think.isEmpty(goods.suk)){
         dataobj.price=get_price(goods.price,1) * Number(val.qty);
         dataobj.unit_price =get_price(goods.price,1);
@@ -908,7 +910,7 @@ export default class extends Base {
         let suk = JSON.parse(goods.suk);
         let arr_ = val.type.split(",");
         let getpr = getsuk(suk.data,arr_);
-        //console.log(getpr);
+        ////console.log(getpr);
         if(suk.is_pic==1){
           dataobj.pic = await get_pic(getpr.pic,1,100,100);
         }else {
@@ -917,7 +919,7 @@ export default class extends Base {
         dataobj.price = Number(getpr.sku_price) * Number(val.qty);
         dataobj.unit_price =Number(getpr.sku_price);
         dataobj.weight = getpr.sku_weight;
-        //console.log(dataobj.price);
+        ////console.log(dataobj.price);
       }
 
       dataobj.url = get_url(goods.name,goods.id);
@@ -1007,7 +1009,7 @@ export default class extends Base {
       }
     }
     this.assign("check_goods",check_goods);
-    //   console.log(cart_goods);
+    //   //console.log(cart_goods);
     think.log(check_goods,'CART_GETORDERINFO');
     //应付金额
     let parr = [];
@@ -1016,7 +1018,7 @@ export default class extends Base {
       parr.push(val.price);
       nums.push(val.qty)
     }
-    //console.log(parr);
+    ////console.log(parr);
     real_amount = eval(parr.join('+'));
     this.assign("real_amount",real_amount);
     //商品总数量
@@ -1080,7 +1082,7 @@ export default class extends Base {
 
     //订单金融 实付金额+邮费-订单优惠金额
     //TODO
-    // console.log(real_amount);
+    // //console.log(real_amount);
     order_amount =Number(real_amount) + Number(real_freight)
     this.assign("order_amount",order_amount);
 
@@ -1106,7 +1108,7 @@ export default class extends Base {
     for(let val of cart_goods){
       parr.push(val.price);
     }
-    //console.log(parr);
+    ////console.log(parr);
     let real_amount = eval(parr.join('+'));
     let real_freight =  await this.model("fare").getfare(cart_goods,this.get("id"),this.user.uid);
     let order_amount =Number(real_amount) + Number(real_freight);

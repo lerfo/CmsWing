@@ -87,7 +87,7 @@ export default class extends Base {
     if(searchword.length > 0){
          map.name_zh = ["like",searchword];
     }
-    console.log(map);
+    //console.log(map);
     data = await this.model("traveller").where(map).page(this.param('page'),100).order("id DESC").countSelect();
     let html = pagination(data, this.http, {
       desc: false, //show description
@@ -128,7 +128,7 @@ export default class extends Base {
 
     let data = this.post();
     data.user_id = this.user.uid;
-    console.log(data);
+    //console.log(data);
     /*
     if(data.is_default == 1){
       let find = await this.model("address").where({user_id:this.user.uid,is_default:1}).select();

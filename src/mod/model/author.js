@@ -10,7 +10,7 @@ export default class extends think.model.base {
      * @returns boolean fasle 失败 ， int  成功 返回完整的数据
      */
     async updates(data,time=new Date().getTime()){
-        //console.log(data);
+        ////console.log(data);
         data=data||null;
         //添加或者新增基础内容
         if(think.isEmpty(data.id)){//新增数据
@@ -21,7 +21,7 @@ export default class extends think.model.base {
             }
             data.update_time=new Date().getTime();
             data.status = 1;
-            console.log(data);
+            //console.log(data);
             //return false;
             var id = await this.add(data);//添加基础数据
             //let id = 100;
@@ -48,8 +48,8 @@ export default class extends think.model.base {
                             sortdata.fid = data.category_id;
                         }
                     }
-                    //console.log(sortarr);
-                    //console.log(sortdata);
+                    ////console.log(sortarr);
+                    ////console.log(sortdata);
                     //return false;
                     //添加分类
                     this.model("typeoptionvar").addMany(sortarr);
@@ -101,8 +101,8 @@ export default class extends think.model.base {
                             sortdata.fid = data.category_id;
                         }
                     }
-                    //console.log(sortarr);
-                    //console.log(sortdata);
+                    ////console.log(sortarr);
+                    ////console.log(sortdata);
                     let cou = await this.model("type_optionvalue"+data.sort_id).where({tid:data.id}).count("tid");
                     if(cou > 0){
                         await this.model("type_optionvalue"+data.sort_id).where({tid:data.id}).update(sortdata);

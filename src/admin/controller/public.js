@@ -38,7 +38,7 @@ export default class extends think.controller.base {
             if(0<res.uid){
                 //记录用户登录行为
                 await this.model("action").log("user_login","member",res.uid,res.uid,this.ip(),this.http.url);
-                //console.log(11111111111111);
+                ////console.log(11111111111111);
                 await this.session('userInfo', res);
                 //TODO 用户密钥
                 this.redirect('/admin/index');
@@ -102,7 +102,7 @@ export default class extends think.controller.base {
     //获取分类
     async getmenuAction() {
         let cate = await this.model("category").get_all_category();
-        //console.log(cate);
+        ////console.log(cate);
         //生成菜单
 
         for (let val of cate) {
@@ -120,12 +120,12 @@ export default class extends think.controller.base {
         let geetest = new Geetest();
         if(this.isPost()){
             let post =this.post();
-            //console.log(post);
+            ////console.log(post);
             let res = await geetest.validate(post);
             return this.json(res);
         }else {
             let res = await geetest.register(this.get('type'));
-            //console.log(res);
+            ////console.log(res);
             return this.json(res);
         }
 
@@ -140,11 +140,11 @@ export default class extends think.controller.base {
             seccode: data.geetest_seccode
 
         }, function (err, result) {
-            console.log(result);
+            //console.log(result);
             var data = {status: "success"};
 
             if (err || !result) {
-                console.log(err);
+                //console.log(err);
                 data.status = "fail";
             }
 

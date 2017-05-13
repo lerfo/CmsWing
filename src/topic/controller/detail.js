@@ -13,7 +13,7 @@ export default class extends Base {
     //    this.fail('文档ID错误！');
     //}
     /* 获取详细信息*/
-    //console.log('topic_controller_detail_index:id='+id);
+    ////console.log('topic_controller_detail_index:id='+id);
     let document = this.model('document');
     let info = await document.detail(id);
     if(info.errno==702){
@@ -48,7 +48,7 @@ export default class extends Base {
       }
       info.content=img
     }
-    //console.log(info);
+    ////console.log(info);
     //分类信息
     let cate = await this.category(info.category_id);
     cate = think.extend({}, cate);
@@ -87,7 +87,7 @@ export default class extends Base {
     //手机版模版
 
     this.assign('category', cate);
-    //console.log(info);
+    ////console.log(info);
     //目录/文章/段落
     let pid;
     let pinfo;
@@ -111,30 +111,30 @@ export default class extends Base {
     }
     //获取最后更新时间
     let lastinfo = await document.where({topid:pid}).order("update_time DESC").find();
-    //console.log(lasttime);
+    ////console.log(lasttime);
     this.assign("lastinfo",lastinfo);
-    //console.log(pid);
+    ////console.log(pid);
     let plist = await document.where({pid:pid}).order("level DESC").select();
     this.assign("pinfo",pinfo);
     this.assign("plist",plist);
-    //console.log(plist);
+    ////console.log(plist);
     if(plist[0]){
       //let lastlevel = plist[0].level;
-      //console.log(lastlevel);
+      ////console.log(lastlevel);
       this.assign("lastlevel",plist[0]);
     }
-    //console.log(plist);
+    ////console.log(plist);
     //文档无限级目录
     let ptree_ = await document.where({topid:pid}).field('id,title,pid,name,level as sort').select();
     let ptree = get_children(ptree_,pid,1);
-    //console.log(ptree);
+    ////console.log(ptree);
     this.assign('topid',pid);
     this.assign("ptree",ptree);
 
     //如果是目录并且模板为空,模块为视频时，目录id，显示最后更新的主题
     if(info.type == 1 && (think.isEmpty(info.template)||info.template==0)&&info.model_id==6){
       if(plist[0]){
-        console.log(111111);
+        //console.log(111111);
         let model_id =  plist[0].model_id;
         let p_id = plist[0].id;
         let table = await this.model("model").get_table_name(model_id);
@@ -143,8 +143,8 @@ export default class extends Base {
 
       }
     }
-    //console.log(info);
-    //console.log(cate);
+    ////console.log(info);
+    ////console.log(cate);
     this.assign('info', info);
     //判断浏览客户端
     if(checkMobile(this.userAgent())){
@@ -156,7 +156,7 @@ export default class extends Base {
       } else {
         temp = model;
       }
-      //console.log(temp);
+      ////console.log(temp);
       //内容分页
       if(!think.isEmpty(info.content)){
         info.content=info.content.split("_ueditor_page_break_tag_");
@@ -170,8 +170,8 @@ export default class extends Base {
       } else {
         temp = model;   //BUG，创建一个新的栏目时，应当要用对应的详情模板页面，否则会报错找不到
       }
-      console.log('temp:'+temp);
-        //console.log(info);
+      //console.log('temp:'+temp);
+        ////console.log(info);
       //内容分页
       if(!think.isEmpty(info.content)){
         info.content=info.content.split("_ueditor_page_break_tag_");
@@ -187,13 +187,13 @@ export default class extends Base {
     let id = this.get("id").split("||");
     let db = this.model('document_download');
     let info =await db.find(id[0]);
-    console.log(info);
+    //console.log(info);
     let file_id = info.file_id;
-    console.log(file_id);
+    //console.log(file_id);
     let dlink;
     if(id[1]==1){
       let location = await this.model('file').where({id:file_id}).getField("location",true);
-      console.log(location);
+      //console.log(location);
       let d = await get_file(file_id);
       if(this.setup.IS_QINIU==1 && location==1){
             //七牛下载
@@ -205,7 +205,7 @@ export default class extends Base {
               // 本地下载
               dlink = d.savepath+d.savename+"?attname="
             }
-            console.log(dlink);
+            //console.log(dlink);
           //访问统计
           await db.where({id:info.id}).increment('download');
         //return this.redirect(dlink);
@@ -225,7 +225,7 @@ export default class extends Base {
         let pan = info.panurl.split("\r\n");
         for(let v of pan){
           let varr=v.split("|");
-          console.log(varr[1]);
+          //console.log(varr[1]);
           if(!think.isEmpty(varr[2]) && think._.trim(id[2])==think._.trim(varr[1])){
             this.assign({
               title:varr[0],

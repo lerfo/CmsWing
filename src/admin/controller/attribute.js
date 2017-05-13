@@ -26,13 +26,13 @@ export default class extends Base {
     async indexAction(){
         let model_id = this.get('model_id');
         //await this.db.checkTableExist(model_id);
-        //console.log(think.isNumber(85));
+        ////console.log(think.isNumber(85));
         let modelname = await this.model("model").field('title').find(model_id);
         let list = await this.db.where({model_id:model_id}).page(this.get('page')).countSelect();
         let Pages = think.adapter("pages", "page"); //加载名为 dot 的 Template Adapter
         let pages = new Pages(this.http); //实例化 Adapter
         let page = pages.pages(list);
-       // console.log(modelname);
+       // //console.log(modelname);
         this.meta_title="字段列表";
         this.active = "admin/model/index";
         this.assign({
@@ -53,7 +53,7 @@ export default class extends Base {
         let table = think.parseConfig(true,think.config("db")).prefix + model.name;
         let db = think.model('mysql', think.config('db'));
         let result = await db.getSchema(table);
-        console.log(result);
+        //console.log(result);
         this.meta_title="字段列表";
         this.active = "admin/model/index";
         this.assign("table",table);
@@ -111,9 +111,9 @@ export default class extends Base {
      */
     async updateAction(){
         let post = this.post();
-        //console.log(post);
+        ////console.log(post);
         let res = await this.db.upattr(post,true);
-        //console.log(res);
+        ////console.log(res);
         if(res){
             this.success({name:res.id?'更新成功':'新增成功', url:`/admin/attribute/index/model_id/${res.model_id}`});
         }else{
@@ -130,7 +130,7 @@ export default class extends Base {
         think.isEmpty(id) && this.fail('参数错误！');
 
         let info = await this.db.where({id:id}).find();
-        console.log(info)
+        //console.log(info)
         think.isEmpty(info) && this.fail('该字段不存在！');
 
         //删除属性数据

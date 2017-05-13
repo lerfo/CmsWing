@@ -42,7 +42,7 @@ export default class extends Base {
         let pages = new Pages(this.http); //实例化 Adapter
         let page = pages.pages(data);
         this.assign('pagerData', page); //分页展示使用
-        //console.log(data.data);
+        ////console.log(data.data);
         this.active="admin/order/list";
         for(let val of data.data){
             val.status_desc = this.status_desc[val.status];
@@ -185,7 +185,7 @@ export default class extends Base {
         let pages = new Pages(this.http); //实例化 Adapter
         let page = pages.pages(data);
         this.assign('pagerData', page); //分页展示使用
-        //console.log(data.data);
+        ////console.log(data.data);
         this.active="admin/order/list";
         for(let val of data.data){
             switch (val.payment){
@@ -216,7 +216,7 @@ export default class extends Base {
      */
    async seeAction(){
        let id = this.get("id");
-       console.log(id);
+       //console.log(id);
        this.meta_title = "查看订单";
        //获取订单信息
        let order = await this.model("order").find(id);
@@ -297,7 +297,7 @@ export default class extends Base {
             }
         }else {
             let id = this.get("id");
-            console.log(id);
+            //console.log(id);
             this.meta_title = "编辑订单";
             //获取订单信息
             let order = await this.model("order").find(id);
@@ -416,7 +416,7 @@ export default class extends Base {
             this.assign("user",user);
             sum = eval(sum.join('+'));
             this.assign("sum",sum);
-            console.log(goods);
+            //console.log(goods);
             this.assign("goods",goods);
             this.assign("order",order);
             this.meta_title = "发货";
@@ -442,7 +442,7 @@ export default class extends Base {
         let pages = new Pages(this.http); //实例化 Adapter
         let page = pages.pages(data);
         this.assign('pagerData', page); //分页展示使用
-        //console.log(data.data);
+        ////console.log(data.data);
         // this.active="admin/order/list"
         for(let val of data.data){
             switch (val.payment_id){

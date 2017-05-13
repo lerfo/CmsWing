@@ -21,7 +21,7 @@ export default class extends Base {
       }
     //获取友情链接
     let data = await this.model("ext_link").where(map).page(this.get('page')).countSelect();
-    //console.log(data);
+    ////console.log(data);
     let Pages = think.adapter("pages", "page"); //加载名为 dot 的 Template Adapter
     let pages = new Pages(this.http); //实例化 Adapter
     let page = pages.pages(data);
@@ -79,7 +79,7 @@ export default class extends Base {
         }else {
             let id = this.get("id");
             let link = await this.model("ext_link").find(id);
-            console.log(link);
+            //console.log(link);
             this.assign("link",link);
             //获取当前插件的分类
             this.assign("type",await this.gettype());
@@ -90,7 +90,7 @@ export default class extends Base {
     }
     async delAction(){
         let ids = this.param("ids");
-        //console.log(ids);
+        ////console.log(ids);
         let res = await this.model("ext_link").where({id:["IN",ids]}).delete()
         if(res){
             return this.success({name:"删除成功!"})
@@ -115,7 +115,7 @@ export default class extends Base {
       }else {
           //获取友情链接
           let data = await this.model("ext_link").where({passed:0}).page(this.get('page')).countSelect();
-          //console.log(data);
+          ////console.log(data);
           let Pages = think.adapter("pages", "page"); //加载名为 dot 的 Template Adapter
           let pages = new Pages(this.http); //实例化 Adapter
           let page = pages.pages(data);

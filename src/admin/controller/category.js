@@ -25,10 +25,10 @@ export default class extends Base {
         if(this.get("mold")){
             where.mold=this.get("mold");
         }
-       // console.log(where);
+       // //console.log(where);
         //auto render template file index_index.html
          let tree = await this.db.gettree(0,"id,name,title,sort,pid,allow_publish,status,model,mold,isapp",where);
-         //console.log(tree)
+         ////console.log(tree)
          this.assign("active",this.get("mold")||null);
          this.assign("list",tree);
          this.meta_title = "栏目管理";
@@ -59,11 +59,11 @@ export default class extends Base {
 
             }
 
-            //console.log(data);
+            ////console.log(data);
 
             //return false;
             data.status = 1;
-            //console.log(data);
+            ////console.log(data);
             if(!think.isEmpty(data.name)){
                 let check = await this.model("category").where({name:data.name}).find();
                 if(!think.isEmpty(check)){
@@ -82,7 +82,7 @@ export default class extends Base {
             let type;
             if(!think.isEmpty(sortid)){
                 sortid = unique(sortid);
-                //console.log(sortid);
+                ////console.log(sortid);
                 //获取分类信息
                 type= await this.model("type").where({typeid:['IN',sortid]}).order('displayorder ASC').select();
             }
@@ -96,7 +96,7 @@ export default class extends Base {
                 model = await this.model("model").get_model(null,null,{extend:0});
             }
 
-            //console.log(obj_values(model));
+            ////console.log(obj_values(model));
             this.assign("models",model);
 
             //获取运行的文档类型
@@ -104,11 +104,11 @@ export default class extends Base {
             this.action = "/admin/category/add";
             //获取模版列表（pc）
             let temp_pc = await this.model("temp").gettemp(1);
-            //console.log(temp_pc);
+            ////console.log(temp_pc);
             this.assign("temp_pc",temp_pc);
             //获取手机端模版
             let temp_m = await this.model("temp").gettemp(2);
-            //console.log(temp_m);
+            ////console.log(temp_m);
             this.assign("temp_m",temp_m);
             //template_lists
             //会员组
@@ -145,7 +145,7 @@ export default class extends Base {
         if(this.isPost()){
             let data = this.post();
             data.status = 1;
-            console.log(data);
+            //console.log(data);
             //检查同节点下分类标示是否重复
             if(!think.isEmpty(data.name)){
              let check = await this.model("category").where({id:["!=",data.id],name:data.name}).find();
@@ -161,11 +161,11 @@ export default class extends Base {
             }
         }else {
           let id = this.get("cid");
-           //console.log(id);
+           ////console.log(id);
             //获取分类信息
             let info = await category.find(id);
             this.assign("info",info);
-            //console.log(info);
+            ////console.log(info);
             if(!think.isEmpty(info.documentsorts)){
                 let types = JSON.parse(info.documentsorts);
                 let typeobj = {};
@@ -179,7 +179,7 @@ export default class extends Base {
             let type;
             if(!think.isEmpty(sortid)){
                 sortid = unique(sortid);
-                //console.log(sortid);
+                ////console.log(sortid);
                 //获取分类信息
                 type= await this.model("type").where({typeid:['IN',sortid]}).order('displayorder ASC').select();
             }
@@ -193,11 +193,11 @@ export default class extends Base {
                 model = await this.model("model").get_model(null,null,{extend:0});
             }
 
-            //console.log(obj_values(model));
+            ////console.log(obj_values(model));
             this.assign("models",model);
             if(info.mold == 1) {
                 let mod = await this.model("model").get_model(info.model);
-                console.log(mod);
+                //console.log(mod);
                 this.assign("mod",mod)
             }else {
                 this.assign("mod",{temp_show: 1,
@@ -211,11 +211,11 @@ export default class extends Base {
             //获取模版列表
             //获取模版列表（pc）
             let temp_pc = await this.model("temp").gettemp(1);
-            //console.log(temp_pc);
+            ////console.log(temp_pc);
             this.assign("temp_pc",temp_pc);
             //获取手机端模版
             let temp_m = await this.model("temp").gettemp(2);
-            //console.log(temp_m);
+            ////console.log(temp_m);
             this.assign("temp_m",temp_m);
             //template_lists
             //会员组
@@ -225,7 +225,7 @@ export default class extends Base {
             this.assign('role',role);
             //提取权限
             let priv = await this.model("category_priv").where({catid:id}).select();
-            //console.log(priv);
+            ////console.log(priv);
             let priv_roleid={}
             let priv_groupid={}
 
@@ -259,8 +259,8 @@ export default class extends Base {
                 }
                 priv_roleid[v]=arr;
             }
-           //console.log(priv_groupid);
-            //console.log(priv_roleid);
+           ////console.log(priv_groupid);
+            ////console.log(priv_roleid);
             this.assign("priv_groupid",priv_groupid);
             this.assign("priv_roleid",priv_roleid);
            return this.display();
@@ -274,7 +274,7 @@ export default class extends Base {
         if(confirm==1){
             //查询该栏目是否包含子栏目
           let pid= await this.model("category").get_sub_category(id);
-            //console.log(pid);
+            ////console.log(pid);
 
             let l = pid.length;
             if(l>0){
@@ -297,7 +297,7 @@ export default class extends Base {
             return this.json({ok:0,info:"删除成功!"});
         }else if(type == "all"){
             let pid= await this.model("category").get_sub_category(id);
-            //console.log(pid);
+            ////console.log(pid);
 
             for(let v of pid){
                 await this.delcate(v);
@@ -306,7 +306,7 @@ export default class extends Base {
             return this.json({ok:0,info:"删除成功!"});
         }
         //await this.delcate(id);
-        //console.log(ids);
+        ////console.log(ids);
 
 
     }
@@ -345,11 +345,11 @@ export default class extends Base {
     async moveAction(){
         if(this.isPost()){
         let data = this.post();
-           console.log(data);
+           //console.log(data);
             //return false;
             //检查要移动的栏目是否包含子栏目
             let pid= await this.model("category").get_sub_category(data.source);
-            //console.log(pid);
+            ////console.log(pid);
             let l = pid.length;
             if(l>0){
                 return this.fail(`源栏目含有${l}个子栏目，前先删除或者移走子栏目，再进行操作！`)
@@ -364,7 +364,7 @@ export default class extends Base {
             let source = await this.model("category").find(data.source);
             let target = await this.model("category").find(data.target);
           //获取栏目模型信息
-            console.log(target);
+            //console.log(target);
             let s_model_id=[];
             if(!think.isEmpty(source.model)){
                 s_model_id = source.model.split(",");
@@ -378,7 +378,7 @@ export default class extends Base {
             if(!a2a(s_model_id,t_model_id)){
                 ntarget.model = unique(t_model_id.concat(s_model_id)).sort().join(",")
             };
-            //console.log(2222222);
+            ////console.log(2222222);
             if (!think.isEmpty(source.groups) && think.isEmpty(target.groups)) {
                 ntarget.groups = source.groups
             }
@@ -396,16 +396,16 @@ export default class extends Base {
                 for(let v of a2.types){
                     o2[v.enable]=v
                 }
-                //console.log(o1);
-                //console.log(o2);
+                ////console.log(o1);
+                ////console.log(o2);
                 let o3 = think.extend(o1,o2);
-                //console.log(o3);
+                ////console.log(o3);
                 let na = [];
                 for(let k in o3){
                    na.push(o3[k])
                 }
                 a2.types =na;
-                //console.log(na);
+                ////console.log(na);
                 ntarget.documentsorts = JSON.stringify(a2);
             }
 
@@ -422,7 +422,7 @@ export default class extends Base {
                     return this.success({"name":"源栏目与目标栏目存在不同的分组或者分类信息，转入处理页面。","url":url});
                 }else {
 
-                    //console.log(ntarget);
+                    ////console.log(ntarget);
                     this.model("category").update(ntarget);//复制栏目信息
                     this.model("document").where({category_id: source.id}).update({category_id: ntarget.id});//移动文章
                     //如果存在分类信息移动分类信息内容
@@ -459,11 +459,11 @@ export default class extends Base {
     async moveinfoAction(){
         if(this.isPost()){
             let data = this.post();
-            console.log(data);
+            //console.log(data);
             //return false;
             let source = await this.model("category").find(data.source_id);
             let ntarget = await this.session("ntarget");
-            console.log(source);
+            //console.log(source);
             if(data.option==2){
                 let arr = []
                 for(let v of JSON.parse(data.data)){
@@ -471,7 +471,7 @@ export default class extends Base {
                 }
                 ntarget.groups=ntarget.groups+arr.join("");
             }
-            //console.log(ntarget);
+            ////console.log(ntarget);
            await this.model("category").update(ntarget);//复制栏目信息
 
             this.model("document").where({category_id: source.id}).update({category_id: ntarget.id});//移动文章
@@ -500,7 +500,7 @@ export default class extends Base {
             return this.success({name: "成功！",url:"/admin/category/index"})
         }else {
             let data = this.get();
-            console.log(data);
+            //console.log(data);
             let source = await this.model("category").find(data.source);
             let target = await this.session("ntarget");
             this.assign({
@@ -511,8 +511,8 @@ export default class extends Base {
                 target_name:target.title,
                 source_id:source.id
             });
-            console.log(parse_type_attr(source.groups));
-            console.log(target);
+            //console.log(parse_type_attr(source.groups));
+            //console.log(target);
             this.active="admin/category/index";
 
             if(data.merge==1){

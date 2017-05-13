@@ -30,7 +30,7 @@ export default class extends Base {
         //let DB = think.adapter('db', this.config.type || 'mysql');
         //this._db = new DB(this.config);
         let list = await this.model().query('SHOW TABLE STATUS');
-        // console.log(list)
+        // //console.log(list)
         this.meta_title='备份数据库';
         this.assign("list", list);
         
@@ -90,7 +90,7 @@ export default class extends Base {
         let id = Number(this.param('id'))
         let start = Number(this.param('start'))
         if (this.isPost() && !think.isEmpty(tables) && think.isArray(tables)) {
-            //console.log(tables)
+            ////console.log(tables)
             let paths = think.RESOURCE_PATH + "/backup/";
             think.mkdir(paths);
             //备份配置
@@ -144,7 +144,7 @@ export default class extends Base {
             let table = await this.session('backup_tables');
             //备份指定表
             let backup_file = await this.session('backup_file');
-            //console.log(backup_file);
+            ////console.log(backup_file);
             let backup_config = await this.session('backup_config');
             let Database = think.adapter("database", "mysql");
             let db = new Database(backup_file, backup_config, 'export');
@@ -209,7 +209,7 @@ export default class extends Base {
          */
         function readFile(path, filesList) {
             let files = fs.readdirSync(path);//需要用到同步读取
-            //console.log(files);
+            ////console.log(files);
             files.forEach(walk);
             function walk(file) {
                 let states = fs.statSync(path + '/' + file);
@@ -288,7 +288,7 @@ export default class extends Base {
                         self.success({'name': "tar", 'url': self.get("dir")})
                     })
                     .catch(function (err) {
-                        console.log('Something is wrong ', err.stack);
+                        //console.log('Something is wrong ', err.stack);
                     });
 
             } else {
@@ -305,17 +305,17 @@ export default class extends Base {
     httpedAction() {
        
         http.get("http://www.kancloud.cn/tag/JavaScript", function (res) {
-            console.log('STATUS: ' + res.statusCode);
-            console.log('HEADERS: ' + JSON.stringify(res.headers));
+            //console.log('STATUS: ' + res.statusCode);
+            //console.log('HEADERS: ' + JSON.stringify(res.headers));
             res.setEncoding('utf8');
             res.on('data', function (chunk) {
-                console.log('BODY: ' + chunk);
+                //console.log('BODY: ' + chunk);
             });
             res.on('end', function () {
-                console.log('No more data in response.')
+                //console.log('No more data in response.')
             })
         }).on('error', function (e) {
-            console.log("Got error: " + e.message);
+            //console.log("Got error: " + e.message);
         });
     }
     /**

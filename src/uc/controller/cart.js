@@ -22,7 +22,7 @@ export default class extends Base {
     this.keywords = this.setup.WEB_SITE_KEYWORD ? this.setup.WEB_SITE_KEYWORD : '';//seo关键词
     this.description = this.setup.WEB_SITE_DESCRIPTION ? this.setup.WEB_SITE_DESCRIPTION : "";//seo描述
     this.active = this.http.controller+"/"+this.http.action;
-    //console.log(checkMobile(this.userAgent()));
+    ////console.log(checkMobile(this.userAgent()));
     //编辑购物车// todou
     //判断浏览客户端
     if (checkMobile(this.userAgent())) {
@@ -37,7 +37,7 @@ export default class extends Base {
       return this.fail("请先登录");
     }
     let data = this.post();
-    console.log(data);
+    //console.log(data);
     let ids = data.ids.split("||");
     //检查库存
     let stock = await this.model("order").getstock(ids[0],ids[1]);
@@ -101,14 +101,14 @@ export default class extends Base {
   async addcartAction(){
     let data = this.post();
     data = think.extend({},data);
-    //console.log(data);
+    ////console.log(data);
     // 添加购物车前判断是否有库存
     let stock = await this.model("order").getstock(data.product_id,data.type);
     think.log('stock='+stock,'ADDCART');
     if(data.qty > stock){
       return this.json(false);
     }
-    console.log(data);
+    //console.log(data);
     //return false;
     let arr=[];
     let cart = this.cart.data;
@@ -117,7 +117,7 @@ export default class extends Base {
       arr.push(data);
     }else{
       //cart = JSON.parse(cart);
-      console.log(cart);
+      //console.log(cart);
       let typearr = []
       let idarr = []
       //已有购物车数量相加
@@ -156,7 +156,7 @@ export default class extends Base {
       let info = await this.model(table).find(val.product_id);
       goods = think.extend(goods,info);
       dataobj.title=goods.title;
-      //console.log(goods);
+      ////console.log(goods);
       if(think.isEmpty(goods.suk)){
         dataobj.price=get_price(goods.price,1) * Number(val.qty);
         dataobj.unit_price =get_price(goods.price,1);
@@ -166,7 +166,7 @@ export default class extends Base {
         let suk = JSON.parse(goods.suk);
         let arr_ = val.type.split(",");
         let getpr = getsuk(suk.data,arr_);
-        //console.log(getpr);
+        ////console.log(getpr);
         if(suk.is_pic==1){
           dataobj.pic = await get_pic(getpr.pic,1,100,100);
         }else {
@@ -175,7 +175,7 @@ export default class extends Base {
         dataobj.price = Number(getpr.sku_price) * Number(val.qty);
         dataobj.unit_price =Number(getpr.sku_price);
         dataobj.weight = getpr.sku_weight;
-        //console.log(dataobj.price);
+        ////console.log(dataobj.price);
       }
 
       dataobj.url = get_url(goods.name,goods.id);
@@ -265,7 +265,7 @@ export default class extends Base {
       }
     }
     this.assign("check_goods",check_goods);
-    //   console.log(cart_goods);
+    //   //console.log(cart_goods);
     think.log(check_goods,'CART_GETORDERINFO');
     //应付金额
     let parr = [];
@@ -274,7 +274,7 @@ export default class extends Base {
       parr.push(val.price);
       nums.push(val.qty)
     }
-    //console.log(parr);
+    ////console.log(parr);
     real_amount = eval(parr.join('+'));
     this.assign("real_amount",real_amount);
     //商品总数量
@@ -338,7 +338,7 @@ export default class extends Base {
 
     //订单金融 实付金额+邮费-订单优惠金额
     //TODO
-    // console.log(real_amount);
+    // //console.log(real_amount);
     order_amount =Number(real_amount) + Number(real_freight)
     this.assign("order_amount",order_amount);
 
@@ -364,7 +364,7 @@ export default class extends Base {
     for(let val of cart_goods){
       parr.push(val.price);
     }
-    //console.log(parr);
+    ////console.log(parr);
     let real_amount = eval(parr.join('+'));
     let real_freight =  await this.model("fare").getfare(cart_goods,this.get("id"),this.user.uid);
     let order_amount =Number(real_amount) + Number(real_freight);
@@ -381,7 +381,7 @@ export default class extends Base {
   async createorderAction(){
     await this.weblogin();
     let data = this.post();
-    console.log(data);
+    //console.log(data);
     // return false;
     let order_amount;//订单金额
     let payable_amount;//应付金额，商品的原价
@@ -420,7 +420,7 @@ export default class extends Base {
     data.order_no = await this.model("order").orderid();
     //添加送货地址
     let address = await this.model("address").fieldReverse("id,user_id,is_default").find(data.address);
-    console.log(address);
+    //console.log(address);
     data = think.extend(data,address);
 
     //应付金额
@@ -428,7 +428,7 @@ export default class extends Base {
     for(let val of isgoods){
       parr.push(val.price);
     }
-    console.log(parr);
+    //console.log(parr);
     real_amount = eval(parr.join('+'));
     data.real_amount = real_amount;
 
@@ -454,7 +454,7 @@ export default class extends Base {
     data.create_time = new Date().valueOf();
     //客户订单备注
     //TODO
-    //console.log(real_amount);
+    ////console.log(real_amount);
     order_amount =Number(data.real_amount) + Number(data.real_freight)
     data.order_amount = order_amount;
     //生成订单

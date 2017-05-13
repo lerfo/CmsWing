@@ -30,8 +30,8 @@ export default class extends think.controller.rest {
    
   }
   async getAction(){
-    console.log(this.resource)
-    console.log(this.id)
+    //console.log(this.resource)
+    //console.log(this.id)
     let data;
     if (think.isNumberString(this.id)) {
       let pk = await this.modelInstance.getPk();

@@ -10,7 +10,7 @@ export default class extends Base {
    * 封面入口
    */
   indexAction(){
-    //console.log(this);
+    ////console.log(this);
     //auto render template file index_index.html
    
     this.end(2222)
@@ -126,7 +126,7 @@ export default class extends Base {
       //手机端模版
       return this.modtemp(this.mod.name,"mobile");
     }else{
-      //console.log(temp);
+      ////console.log(temp);
      // return this.display(temp);
       return this.modtemp(this.mod.name);
     }
@@ -157,7 +157,7 @@ export default class extends Base {
       await this.c_verify("visit",info.category_id);
 
       this.assign("info",info);
-      console.log(this.user);
+      //console.log(this.user);
       //seo
       this.meta_title = info.title; //标题
       this.keywords = info.keyname ? info.keyname : ''; //seo关键词
@@ -183,7 +183,7 @@ export default class extends Base {
       // let topicid = await this.model("keyword_data").where({docid:id,mod_type:1,mod_id:cate.model}).getField("tagid");
       // if(!think.isEmpty(topicid)){
       //     let topic = await this.model("keyword").where({id:["IN",topicid]}).select();
-      //     console.log(topic);
+      //     //console.log(topic);
       // }
       //获取回复
        let answer = await this.model("question_answer").where({question_id:id}).select();
@@ -191,7 +191,7 @@ export default class extends Base {
           a.ccount = await this.model("question_answer_comments").where({answer_id:a.answer_id}).count("id");
       }
        this.assign("answer",answer);
-      //console.log(cate);
+      ////console.log(cate);
       //相关问题
       let where ={docid:id,mod_type:1,mod_id:cate.model}
       //获取相关tagid
@@ -233,7 +233,7 @@ export default class extends Base {
           //手机端模版
           return this.modtemp("question","mobile");
       }else{
-          //console.log(temp);
+          ////console.log(temp);
           // return this.display(temp);
           return this.modtemp();
       }
@@ -256,7 +256,11 @@ export default class extends Base {
       //获取回复
       let answer = await this.model("question_answer").where({question_id:id}).page(page,limit).countSelect();
       for(let a of answer.data){
-          a.ccount = await this.model("question_answer_comments").where({answer_id:a.answer_id}).count("id");
+          a.count = await this.model("question_answer_comments").where({answer_id:a.answer_id}).count("id");
+          a.username = await get_nickname(a.uid);
+          a.add_time = moment(a.add_time).fromNow();
+          //a.add_time = moment(a.add_time);
+
       }
       this.success(answer);
 

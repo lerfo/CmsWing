@@ -13,11 +13,11 @@ export default class extends think.controller.base {
   }
 
   async __before() {
-    console.log('end __before');
+    //console.log('end __before');
     await this.action("uc/weixin", "oauth");
     //网站配置
     this.setup = await this.model("setup").getset();
-    // console.log(this.setup);
+    // //console.log(this.setup);
     //当前登录状态
     this.is_login = await this.islogin();
     //用户信息
@@ -29,7 +29,7 @@ export default class extends think.controller.base {
       }
       this.user = think.extend(this.user,await this.session('webuser'));
     //获取当前分类信息
-    //console.log(action);
+    ////console.log(action);
     // this.meta_title = cate.meta_title?cate.meta_title:cate.title;
     //设置主题
     //this.http.theme("default);
@@ -105,7 +105,7 @@ export default class extends think.controller.base {
       return think.statusAction(702, this.http);
     }
     let cate = await this.model("category").info(id, field);
-    //console.log(cate);
+    ////console.log(cate);
     if (cate && 1 == cate.status) {
 
       switch (cate.display) {
@@ -140,7 +140,7 @@ export default class extends think.controller.base {
           val.uid = this.user.uid;
           //验证原有的数据是否已经存在
           let res = await this.model('cart').where({product_id: val.product_id, type:val.type,uid:this.user.uid}).select();
-          //console.log(res);
+          ////console.log(res);
           if(!think.isEmpty(res)){
             val.qty =Number(val.qty)+Number(res[0].qty);
             val.id = res[0].id;
@@ -159,7 +159,7 @@ export default class extends think.controller.base {
       // cartdata = JSON.parse(cartdata);
       // }
     }
-    //console.log(cartdata);
+    ////console.log(cartdata);
     return cartdata;
   }
 
@@ -173,16 +173,16 @@ export default class extends think.controller.base {
     let attrList = await this.model('attribute').get_model_attribute(model_id, false, 'id,name,type,extra');
     //attrList=attrList[model_id];
     //this.end(attrList);
-    // console.log(attrList);
+    // //console.log(attrList);
     if (think.isArray(list)) {
       list.forEach((data, k) => {
-        //console.log(data);
+        ////console.log(data);
         for (let key in data) {
-          //console.log(key)
+          ////console.log(key)
           if (!think.isEmpty(attrList[key])) {
             let extra = attrList[key]['extra'];
             let type = attrList[key]['type'];
-            //console.log(extra);
+            ////console.log(extra);
             if ('select' == type || 'checkbox' == type || 'radio' == type || 'bool' == type) {
               // 枚举/多选/单选/布尔型
               let options = parse_config_attr(extra);
@@ -202,7 +202,7 @@ export default class extends think.controller.base {
         data.model_id = model_id;
         list[k] = data;
       })
-      //console.log(222)
+      ////console.log(222)
       return list;
     }
   }

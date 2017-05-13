@@ -110,7 +110,7 @@ export default class extends Base {
       //生成订单
 
       //判断是否已经绑定pingxx_id,如果已绑定查询pingxx订单直接支付。防止订单重复生成。
-      // console.log(111111111)
+      // //console.log(111111111)
       //获取渠道
       let channel = await this.model("pingxx").where({id: data.payment}).getField("channel", true);
       let open_id;
@@ -124,7 +124,7 @@ export default class extends Base {
       let charges = await pay.pingxx(channel, data.order_no, data.order_amount, this.ip(),open_id);
 
 
-      //console.log(charges);
+      ////console.log(charges);
       if (charges) {
         //把pingxx_id存到订单
         data.pingxx_id = charges.id;

@@ -26,7 +26,7 @@ export default class extends think.model.base {
             if (create) {
                 //新增表字段
                 let res = await this.addField(data);
-                console.log(res);
+                //console.log(res);
                 //return false;
                 if (!res) {
                     this.delete(id)
@@ -81,7 +81,7 @@ export default class extends think.model.base {
         let sql;
         if(!table_exist){
             let model_info = await this.model('model').where({id:mod_id}).field('engine_type,need_pk').find();
-            console.log(model_info);
+            //console.log(model_info);
             if (model_info.need_pk) {
                 sql = ` CREATE TABLE IF NOT EXISTS \`${this.table_name}\` (
                 \`id\`  int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT \'主键\' ,
@@ -215,9 +215,9 @@ export default class extends think.model.base {
 
         let sql = `ALTER TABLE \`${this.table_name}\` CHANGE COLUMN \`${last_field}\` \`${_field.name}\`  ${_field.field} ${def} COMMENT \'${_field.title}\' ;`
         sql = this.parseSql(sql);
-        console.log(sql);
+        //console.log(sql);
         let res = await think.model('mysql', think.config("db")).execute(sql);
-        console.log(res);
+        //console.log(res);
         return res == 0;
     }
 
@@ -234,7 +234,7 @@ export default class extends think.model.base {
         let sql = `ALTER TABLE \`${this.table_name}\` DROP COLUMN \`${_field.name}\`;`
 
         sql = this.parseSql(sql);
-       // console.log(sql);
+       // //console.log(sql);
         let res = await think.model('mysql', think.config("db")).execute(sql);
         return res == 0;
     }
@@ -272,7 +272,7 @@ export default class extends think.model.base {
         //获取属性
         map = {model_id: model_id};
         let extend = await this.model('model').where({id: model_id}).getField('extend', true);
-        //console.log(extend);
+        ////console.log(extend);
         if (extend) {
             map = {model_id: ['IN', [model_id, extend]]}
         }
@@ -295,7 +295,7 @@ export default class extends think.model.base {
             } else {
                 group = JSON.parse(model.field_sort);
                 let keys = Object.keys(group);
-                //console.log(group);
+                ////console.log(group);
                 let _group = {};
                 for (var k in group) {
                     let __group = []

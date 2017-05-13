@@ -9,7 +9,7 @@ export default class extends Base {
      * 封面入口
      */
      indexAction(){
-        //console.log(this);
+        ////console.log(this);
         //auto render template file index_index.html
 
         return this.display();
@@ -53,14 +53,14 @@ export default class extends Base {
                default:
                return this.fail("缺少参数!")
            }
-           console.log('focus end');
+           //console.log('focus end');
        }
 
     //管理员推荐主题
     async ajaxrecommendAction(){
       //前台登录验证
       await this.weblogin();
-      console.log(this.get("id"));
+      //console.log(this.get("id"));
       let question_id = this.get("id");
       //操作：0取消推荐；1推荐
       let cmd = this.get('cmd');
@@ -77,10 +77,10 @@ export default class extends Base {
                 //首页热门推荐，则添加到hot_recommend表
 
                 let recommendres = await this.model("hot_recommend").where({topic_id:data.id,topic_type:2}).find();
-                //console.log(recommendres.id);
+                ////console.log(recommendres.id);
                 if(think.isEmpty(recommendres.id) && cmd==1 ){
                     let questionInfo = await this.model('question').where({id:question_id}).find()
-                    //console.log(questionInfo);
+                    ////console.log(questionInfo);
                     if(!think.isEmpty(questionInfo)){
                         let hotrecommend ={};
                         hotrecommend.topic_id = questionInfo.id;
@@ -90,7 +90,7 @@ export default class extends Base {
                         hotrecommend.category_id = questionInfo.category_id;
                         hotrecommend.level = questionInfo.level;
                         hotrecommend.add_time = new Date().getTime();
-                        //console.log(hotrecommend);
+                        ////console.log(hotrecommend);
                         await this.model("hot_recommend").add(hotrecommend);
                     }
                     

@@ -138,7 +138,7 @@
 	.rank .srank .wangEditor-container .wangEditor-txt p img{
 		width:100% !important; 
 	}
-	a, a:focus:not(.btn),ul.side-nav ul li a:hover,ul.side-nav>li:hover>a, ul.side-nav>li a:hover {
+	li.sli>a, a:focus:not(.btn),ul.side-nav ul li a:hover,ul.side-nav>li:hover>a, ul.side-nav>li a:hover {
 		color: black;
 		
 	
@@ -177,12 +177,16 @@
 							<ul class="side-nav list-group" id="sideNav"> 
 															
 								{% column data="cates",cid=category.id%} 
+								{% set i=0 %}
 								{%for val in cates%}
-								
+								{#
+								{% set i=i+1 %}
+								{% if i==1%}
 								<li id="sli" class="sli {% if http.action == 'publish' %}active{%endif%} ">  
 								 <!-- NOTE: "active" to be open on page load -->
-									<a id="sa" data-toggle="collapse" data-parent="#sidebar-nav" href="#tab{{val.id}}" >{{val.name}}<!-- <i class="fa fa-angle-left"></i> -->
+									<a id="sa" data-toggle="collapse" data-parent="#sidebar-nav" href="#tab{{val.id}}">{{val.name}}<!-- <i class="fa fa-angle-left"></i> -->
 									</a>
+									
 									<ul id="tab{{val.id}}" class="margin-bottom-0 collapse in"  ><!-- NOTE: "collapse in" to be open on page load -->
 										{% topic data = "list",limit= "10",cid=val.id, isstu=1 %}
 										{% for val in list %}	
@@ -200,8 +204,38 @@
 											</li>
 											{% endif %}		                         
 										{%endfor%}										
-									</ul>									
-								</li>								
+									</ul>
+																		
+								</li>
+								{%else%}
+								{%endif%}
+								#}
+								<li id="sli" class="sli {% if http.action == 'publish' %}active{%endif%} ">  
+								 <!-- NOTE: "active" to be open on page load -->
+									<a id="sa" data-toggle="collapse" data-parent="#sidebar-nav" href="#tab{{val.id}}">{{val.name}}<!-- <i class="fa fa-angle-left"></i> -->
+									</a>
+									
+									<ul id="tab{{val.id}}" class="margin-bottom-0 collapse "  ><!-- NOTE: "collapse in" to be open on page load -->
+										{% topic data = "list",limit= "10",cid=val.id, isstu=1 %}
+										{% for val in list %}	
+										{% set categoryname = val.category_id|get_cate %}
+											{% if val.id == 565 %}
+
+											
+												<li class="suli bg" id="slili" >
+												<a id="t{{ val.id }}" class="titleA {% if http.action == 'publish' %}text-danger{%endif%}"><i class="fa fa-angle-right  text-muted "></i>   {{val.title}}</a>
+											</li>
+											{%else%}
+											<li class="suli" id="slili" >
+												<a id="t{{ val.id }}" class="titleA {% if http.action == 'publish' %}text-danger{%endif%}" ><i class="fa fa-angle-right "></i>
+												  {{val.title}}</a>
+											</li>
+											{% endif %}		                         
+										{%endfor%}										
+									</ul>
+																		
+								</li>
+																
 								{%endfor%} 
 							</ul>
 						</div>
@@ -213,9 +247,9 @@
 						{%for val in cates%}
 						{% topic data = "list",limit= "10",cid=val.id, isstu=1 %}
 							{% for val in list %}	
-							{% set categoryname = val.category_id|get_cate %}							
-								{% if val.id == 565 %}							
-						<div id="s{{val.id}}" class="srank">
+							{% set categoryname = val.category_id|get_cate %}	
+								{% if val.id == 565 %}								
+						<div id="s{{val.id}}" name="s{{val.id}}" class="srank">
 							<div id="srank1">
 								&nbsp;&nbsp;{{val.title}}
 							</div>
@@ -239,12 +273,14 @@
 							
 						</div> 		
 								{% endif %}
+								
 							{%endfor%}
 						{%endfor%}
 					</div>
 					<img class="ang4" src="static/assets/images/angle4.png">
 					<img class="ang3" src="static/assets/images/angle3.png">
-				</div>			
+				</div>
+				<!-- <a href="#s565">点击我就会跳s565</a> -->			
 			</section>
 
 			<section style="padding: 0; border-bottom: none;width: 100%;">
@@ -254,63 +290,67 @@
 			
 			
 {% endblock %}
-{% block script %}			
+{% block script %}
+		
 <script type="text/javascript">
-	$(".suli").on("click","a",function(){
-		//show content
-		var tId = $(this).attr("id");
-		var sId = "s"+tId.substring(1,4);
-		$("#"+sId).show();
-		$("#"+sId).siblings().css("display","none");
-		//onclick change bacground-color
-		$(this).parent("li").siblings().removeClass("bg");
-		$(this).parent("li").parent("ul").parent("li").parent("ul").children().children().children().removeClass("bg");
-		$(this).parent("li").addClass("bg");
-		//onclick realize  columns collapse
-		$(this).parent("li").parent("ul").parent("li").parent("ul").children().children().removeClass("in");
-		$(this).parent("li").parent("ul").addClass("in");
+	$(".sli").on("click",function(){
+		$(this).siblings().children("ul").removeClass("in");
 	})
-	
-	$(".sli").on("click","a",function(){
-		$(this).parent("li").siblings().children("ul").fadeOut(100	);
-		$(this).parent("li").children("ul").fadeIn(250);
-		$(this).parent("li").parent("ul").children("li").children("ul").removeClass("in");
-		/*$(this).parent("li").siblings().children("a").children("i").removeClass("fa fa-angle-down");
-		$(this).parent("li").siblings().children("a").children("i").addClass("fa fa-angle-left");*/
+	$(".suli").on("click",function(){
+		$(".side-nav").find(".suli").removeClass("bg");
+		$(this).addClass("bg");
+		var id = $(this).find(".titleA").attr("id").split("t")[1];
+		$(".rank").children("div").removeClass('srank srankn');
+		$("#s"+id).siblings().addClass("srankn");
+		$("#s"+id).addClass("srank");
 	})
+	$(".footer-links").on("click","li a",function(){
+		var id = $(this).attr("href").split("#s")[1];
+		$(".rank").children("div").removeClass('srank srankn');
+		$("#s"+id).siblings().addClass("srankn");
+		$("#s"+id).addClass("srank");
+
+
+		$(".side-nav").children("li").children("ul").removeClass("in");
+		$("#t"+id).parents(".collapse").addClass("in");
+		$(".side-nav").find(".suli").removeClass("bg");
+		$("#t"+id).parent("li").addClass("bg");
+
+
+	})
+
 
 </script>
 
 <script>
-	//alert(window.location.href);
 	window.onload=function(){
-		/*p=document.getElementsByClassName("srankn");
-		console.log(p);
-		for (var i = p.length - 1; i >= 0; i--) {
-			p[i].style.display="none";
-		}*/
-		tagname=location.href.split("webpage.html#s")[1];
-		/*tagname=location.href.split("#s");;*/
-		console.log(tagname)
-		if (null!=tagname) {
-			console.log(tagname);
-			document.getElementById("s565").style.display="none";
+		id=location.href.split("webpage.html#s")[1];
+		if (null!=id) {
+			console.log(id);
 			$(document).ready(function(){
-				$("#t"+tagname).parent("li").parent("ul").parent("li").siblings().children("ul").removeClass("in");
-				$("#t"+tagname).parent("li").parent("ul").addClass("in");
-				$("#t"+tagname).parent("li").parent("ul").parent("li").children("ul").children("li").removeClass("bg");
-				$("#t"+tagname).parent("li").addClass("bg")
+
+				$(".rank").children("div").removeClass('srank srankn');
+				$("#s"+id).siblings().addClass("srankn");
+				$("#s"+id).addClass("srank");
+
+
+				$(".side-nav").children("li").children("ul").removeClass("in");
+				$("#t"+id).parents(".collapse").addClass("in");
+				$(".side-nav").find(".suli").removeClass("bg");
+				$("#t"+id).parent("li").addClass("bg");
+
+
 			});
-			document.getElementById("s"+tagname).style.display="block";
 		}else{
 			console.log("null");
 			$(document).ready(function(){
 				$("#tab137").parent("li").siblings().children("ul").removeClass("in");
 			});
 
-
 		}
+		
 	}
 	
-</script>	
+</script>
+
 {% endblock %}

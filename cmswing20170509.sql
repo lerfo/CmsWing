@@ -3831,5 +3831,29 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+-- ----------------------------
+-- Procedure structure for seq_no
+-- ----------------------------
+
+DROP PROCEDURE IF EXISTS `seq_no`;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `seq_no`(IN `seq_no` varchar(255))
+BEGIN
+  #Routine body goes here...
+DECLARE v_cnt INT;
+DECLARE v_timestr INT;
+DECLARE rowcount BIGINT;
+SET v_timestr=DATE_FORMAT(NOW(),'%Y%m%d');
+SELECT ROUND(RAND()*100,0)+1 INTO v_cnt;
+START TRANSACTION;
+UPDATE cmswing_order_seq SET order_sn=order_sn+v_cnt WHERE timestr = v_timestr;
+IF ROW_COUNT()=0 THEN
+INSERT INTO cmswing_order_seq(timestr,order_sn) VALUES(v_timestr,v_cnt);
+END IF;
+SELECT CONCAT(v_timestr,LPAD(order_sn,7,0)) AS order_sn FROM cmswing_order_seq WHERE timestr=v_timestr;
+COMMIT;
+END
+;;
+DELIMITER ;
 
 -- Dump completed on 2017-05-09 12:05:19

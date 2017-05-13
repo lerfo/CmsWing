@@ -8,7 +8,7 @@ export default class extends Base {
    * 封面入口
    */
    indexAction(){
-    //console.log(this);
+    ////console.log(this);
     //auto render template file index_index.html
 
     return this.display();
@@ -19,21 +19,21 @@ export default class extends Base {
       await this.weblogin();
       let cid = this.get("cid");
       let type = this.get("type");
-      console.log("type:"+type);
+      //console.log("type:"+type);
       //验证用户权限
       await this.c_verify("add",cid,"您所在的用户组，没有发布权限！");
       //获取面包屑信息
       let breadcrumb = await this.model('category').get_parent_category(cid,true);
       this.assign('breadcrumb', breadcrumb);
-      console.log(breadcrumb)
-      console.log(this.m_cate)
+      //console.log(breadcrumb)
+      //console.log(this.m_cate)
       this.assign('category', this.m_cate);
       this.meta_title = "发布";
       if(checkMobile(this.userAgent())){
           //手机端模版
           return this.modtemp("question","mobile");
         }else{
-          //console.log(temp);
+          ////console.log(temp);
           // return this.display(temp);
           return this.modtemp();
         }
@@ -46,7 +46,7 @@ export default class extends Base {
      //前台登录验证
      await this.weblogin();
      let info = await this.model("question").find(this.get("id"));
-        //console.log(info);
+        ////console.log(info);
         this.assign("info",info);
         //后台管理员跳过验证
         if(!in_array(parseInt(this.user.uid), this.config('user_administrator')) && !in_array(parseInt(this.user.uid), this.config('user_editor'))){
@@ -62,11 +62,11 @@ export default class extends Base {
         this.assign('breadcrumb', breadcrumb);
         //获取栏目信息
         let cate = await this.category(info.category_id);
-       // console.log(cate);
+       // //console.log(cate);
        this.assign('category', cate);
         //获取分组
         let group = await this.model("category").get_groups(cate.id);
-       // console.log(group);
+       // //console.log(group);
        if(!think.isEmpty(group)){
         this.assign('group', think._.filter(group, {'id': info.group_id}));
       }
@@ -94,14 +94,14 @@ export default class extends Base {
       await this.weblogin();
 
       let data = this.post();
-      console.log(data);
+      //console.log(data);
       if(think.isEmpty(data.id)){//发布
         data.uid = this.user.uid;
         data.ip = _ip2int(this.ip());
           //检查本栏目发布是否需要审核
           let roleid = await this.model("member").where({id:this.is_login}).getField('groupid', true);
           let addexa = await this.model("category_priv").priv(data.category_id,roleid,'addexa');
-          console.log(addexa);
+          //console.log(addexa);
           if(addexa){
             let addp = await this.model("approval").adds(data.mod_id,this.user.uid,data.title,data);
             if(addp){
@@ -122,7 +122,7 @@ export default class extends Base {
         data.has_img = 0;
       }
 
-      //console.log(data);
+      ////console.log(data);
       // return this.fail(data);
       let res = await this.model('question').updates(data);
       if (res) {
@@ -146,13 +146,13 @@ export default class extends Base {
         //前台登录验证
         await this.weblogin();
         let data = this.post();
-        console.log(data);
+        //console.log(data);
         if(think.isEmpty(data.answer_id)){
           data.uid = this.user.uid;
           data.ip = _ip2int(this.ip());
           data.anonymous = data.anonymous||1;
         }
-        //console.log(data);
+        ////console.log(data);
         let res = await this.model('question_answer').updates(data);
         if (res) {
             //行为记录
@@ -173,7 +173,7 @@ export default class extends Base {
         //前台登录验证
         
         let data = this.post();
-        console.log(data);
+        //console.log(data);
         if(think.isEmpty(data.answer_id)){
           if(think.isEmpty(this.user.uid)){
             data.uid = 0;
@@ -183,7 +183,7 @@ export default class extends Base {
           data.ip = _ip2int(this.ip());
           data.anonymous = data.anonymous||1;
         }
-        console.log(data);
+        //console.log(data);
         let res = await this.model('question_answer').updates(data);
         if (res) {
             //行为记录
@@ -203,7 +203,7 @@ export default class extends Base {
  async recommendAction(){
       //前台登录验证
       await this.weblogin();
-      console.log(this.get("id"));
+      //console.log(this.get("id"));
       let question_id = this.get("id");
       //操作：0取消推荐；1推荐
       let cmd = this.get('cmd');

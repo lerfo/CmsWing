@@ -26,7 +26,7 @@ export default class extends Base {
 
   async indexAction(){
     //auto render template file index_index.html
-    //console.log(think.parseConfig(true,think.config("db")).prefix);
+    ////console.log(think.parseConfig(true,think.config("db")).prefix);
     //await this.model("action").log("chufa","member","sdffds",this.user.uid,this.ip(),this.http.url);//测试日志行为
       //服务器信息
     this.meta_title=this.locale('meta_title_admin');
@@ -59,7 +59,7 @@ export default class extends Base {
         ext_count:ext_count,
         type_count:type_count
     })
-    //console.log(111)
+    ////console.log(111)
     return this.display();
   }
 }

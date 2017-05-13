@@ -39,7 +39,7 @@ export default class extends Base {
           }
       });
       this.assign('pagination', html);
-      //console.log(list);
+      ////console.log(list);
       this.assign("list",list);
       //seo
       this.meta_title = "话题"; //标题
@@ -51,20 +51,20 @@ export default class extends Base {
 
  async listAction(){
      let q = this.get("key").split(",");
-     console.log(q);
+     //console.log(q);
 
      //获取所有的模型
      let models = await this.model("model").get_model(null,null,{key_show:1});
      this.assign("models",models);
      //获取当前模型
      let mod = await this.model("model").get_model(q[1]);
-     console.log(mod);
+     //console.log(mod);
      this.assign("mod",mod);
 
      //获取当前话题
      let topic = await this.model("keyword").where({keyname:q[0]}).find();
      this.assign("topic",topic);
-     console.log(topic);
+     //console.log(topic);
 
      let list=[];
      if(!think.isEmpty(q[1])){
@@ -111,7 +111,7 @@ export default class extends Base {
          }
      });
      this.assign('pagination', html);
-     console.log(list);
+     //console.log(list);
      this.assign("list",list);
      //该主题是否被关注。
      if(this.is_login) {

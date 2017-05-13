@@ -14,7 +14,7 @@ export default class extends think.model.base {
      */
     async checkTableExist(typeid) {
         this.table_name = think.parseConfig(true, think.config("db")).prefix + 'type_optionvalue'+typeid;
-        //console.log(this.table_name);
+        ////console.log(this.table_name);
         let res = await think.model('mysql', think.config("db")).query(`SHOW TABLES LIKE '${this.table_name}'`)
         return res.length;
     }
@@ -29,7 +29,7 @@ export default class extends think.model.base {
         let sql;
         //检查表是否存在
         let table_exist = await this.checkTableExist(_filed.id);
-        //console.log(this.table_name);
+        ////console.log(this.table_name);
         for(let v of _filed.datarr){
             if(!table_exist){
 
@@ -42,22 +42,22 @@ export default class extends think.model.base {
                  KEY \`dateline\` (\`dateline\`)
                  )
                  ENGINE=InnoDB DEFAULT CHARSET=utf8`
-                //console.log(sql);
+                ////console.log(sql);
                 let res = await think.model('mysql', think.config("db")).execute(sql);
-                //console.log(res);
+                ////console.log(res);
             }
             let fieldinfo = await this.getfieldsinfo(v.optionid);
-            //console.log(v.optionid);
+            ////console.log(v.optionid);
             let result = await think.model('mysql', think.config("db")).query(`show columns from \`${this.table_name}\` like '${fieldinfo.name}'`);
             if(think.isEmpty(result)){//添加字段
                 sql = `ALTER TABLE \`${this.table_name}\` ${fieldinfo.sql};`
                 let res = await think.model('mysql', think.config("db")).execute(sql);
-                console.log(sql);
+                //console.log(sql);
             }else {//更新字段 TODO
 
             }
 
-            console.log(result);
+            //console.log(result);
         }
         //return false;
         // var def;
@@ -116,7 +116,7 @@ export default class extends think.model.base {
     }
    async getfieldsinfo(id){
         let filed = await this.model("typeoption").find(id);
-        console.log(filed);
+        //console.log(filed);
        let data={};
       switch (filed.type){
           case "number":

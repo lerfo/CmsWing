@@ -28,7 +28,7 @@ export default class extends Base {
    */
   async logAction(){
     let list = await this.model("balance_log").order("id DESC").page(this.get('page')).countSelect();
-    //console.log(list);
+    ////console.log(list);
     let _pages = think.adapter("pages","page");
     let pages = new _pages(this.http);
     let page = pages.pages(list);

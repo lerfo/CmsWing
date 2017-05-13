@@ -83,9 +83,9 @@ export default class extends think.model.base {
         }
         //要删除的话题
         let dkn = think._.xor(okn,keyword);
-        // console.log("更新--"+okn);
-        // console.log("添加--"+nkn);
-        // console.log("删除--"+dkn);
+        // //console.log("更新--"+okn);
+        // //console.log("添加--"+nkn);
+        // //console.log("删除--"+dkn);
 
         if(!think.isEmpty(dkn)){
             let did = await this.where({keyname:["IN",dkn]}).getField("id");

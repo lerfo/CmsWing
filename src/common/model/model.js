@@ -11,7 +11,7 @@ export default class extends think.model.base {
     async del(id){
         let table_name;
         let model =await this.field('name,extend').find(id);
-        console.log(model);
+        //console.log(model);
         if(model.extend == 0){
              table_name = think.parseConfig(true, think.config("db")).prefix+model.name.toLowerCase();
         }else if(model.extend == 1){
@@ -20,7 +20,7 @@ export default class extends think.model.base {
             //think.fail("只支持删除文档模型和独立模型");
             return false;
         }
-        //console.log(table_name);
+        ////console.log(table_name);
         //删除属性数据
        // this.model('attribute').where({model_id:id}).delete();
         //删除模型数据
@@ -89,7 +89,7 @@ export default class extends think.model.base {
         //if(!(think.isNumberString(id) || think.isNumber(id))){
         //    return '555';
         //}
-       //console.log(333333333)
+       ////console.log(333333333)
         /* 读取缓存数据 */
         let list = await think.cache("get_document_model", () => {
             return this._get_document_model();
@@ -126,7 +126,7 @@ export default class extends think.model.base {
        }
        if(!think.isEmpty(id)&&!think.isEmpty(field)){
            let arr = think._.find(list, {id: Number(id)});
-           //console.log(arr);
+           ////console.log(arr);
            if(!think.isEmpty(arr)){
                return arr[field]
            }else {

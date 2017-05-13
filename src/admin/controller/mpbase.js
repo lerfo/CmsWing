@@ -125,7 +125,7 @@ export default class extends Base {
             let post = this.post();
              if(think.isEmpty(post)){
                 post =  JSON.stringify(post)
-                 //console.log(post);
+                 ////console.log(post);
                  this.success({name:post,url:"/admin/mpbase"});
              }else{
                  this.fail("dffdsfs");
@@ -257,8 +257,8 @@ export default class extends Base {
 
         let m_id = this.post('m_id');
         let pid = this.post('pid');
-        console.log(m_id);
-        console.log(pid);
+        //console.log(m_id);
+        //console.log(pid);
         let menu_model =this.model("wx_menu");
         let res = await menu_model.where({m_id: ["=", m_id]}).delete();
         if(res){
@@ -272,7 +272,7 @@ export default class extends Base {
                 if (res) {
                     return this.json("1");
                 } else {
-                    console.log("mawt");
+                    //console.log("mawt");
                     return this.json("2");
                 }
             }
@@ -352,7 +352,7 @@ export default class extends Base {
         //
 
         let res = await info(api);
-        console.log(res);
+        //console.log(res);
 
 
 
@@ -404,14 +404,14 @@ export default class extends Base {
                 }
                 let resusers = await userinfo(api);
                 let resinfo = resusers['user_info_list'];
-                //console.log(resusers);
+                ////console.log(resusers);
                 //return false;
                //self.end(resinfo);
-                console.log("开始：")
+                //console.log("开始：")
                for (let key in resinfo) {
                        let element = resinfo[key];
                        //self.end(element.openid);
-                       console.log('-------------'+element.openid);
+                       //console.log('-------------'+element.openid);
                        //let addres = await user_model.add(element);
                        //let nickname = element.nickname.replace(/(\\x[a-fA-F0-9]{2})*/g, ' ');
                        //let nickname = element.nickname.replace(/[\x80-\xfe]*/g, ' ');
@@ -421,7 +421,7 @@ export default class extends Base {
                        element.subscribe_time =subscribe_time;
                        
                        let addres = await user_model.thenAdd(element,{openid:element.openid});
-                       console.log(addres);
+                       //console.log(addres);
                        if(addres.type=='exist'){
                            await user_model.where({openid:element.openid}).update(element);
                            isadd = true;
@@ -651,10 +651,10 @@ export default class extends Base {
 
         let menu_model =this.model("wx_menu");
         let data = await menu_model.order('pid ASC, sort ASC').select();
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
 
         let d = createSelfMenu(data);
-        //console.log(d.menu.button[0]['type']);
+        ////console.log(d.menu.button[0]['type']);
         let str = JSON.stringify(d);
         this.assign('menu',str);
         return self.display();
@@ -670,7 +670,7 @@ export default class extends Base {
         let api = new API(this.setup.wx_AppID, this.setup.wx_AppSecret);
         //let api = new API('wx3e72261823fb62dd', '593bf2b86a00c913d8e38e9cf1d4e1ec');
 
-        console.log(menu);
+        //console.log(menu);
         let info = function(api) {
             let deferred = think.defer();
             api.createMenu(menu,(err,result)=>{
@@ -683,7 +683,7 @@ export default class extends Base {
             return deferred.promise;
         }
         let res = await info(api);
-        console.log(res);
+        //console.log(res);
         if(res.errmsg == 'ok'){
             return this.json('1');
         }else{
@@ -825,7 +825,7 @@ export default class extends Base {
             // }catch(e){
             //     return self.fail('删除失败');
             // }
-            //console.log(wxres);
+            ////console.log(wxres);
             if (wxres.errcode == 0) {
                 let res = await model.where({id: ['IN', id]}).delete();
                 // let res = true;
@@ -885,7 +885,7 @@ export default class extends Base {
         } else {
             paths = think.ROOT_PATH + '/www/' + pic;
         }
-        //console.log(pic);
+        ////console.log(pic);
         //return false;
         let wx = function (api, data) {
             let deferred = think.defer();
@@ -1042,7 +1042,7 @@ export default class extends Base {
         if (result) {
             let rulemodel = self.model('wx_keywords_rule');
             let ruledata = await rulemodel.where({id: ruleid}).find();
-            console.log(ruledata);
+            //console.log(ruledata);
             let rs = ruledata.reply_id.split(',');
             rs.push(result);
             let r = await rulemodel.where({id: ruleid}).update({'reply_id': rs.join(','), 'create_time': currtime});
@@ -1319,7 +1319,7 @@ export default class extends Base {
             data.type = 'text';
             data.content = editor_content;
         } else if (send_type == 'newsArea') {
-            console.log(!think.isEmpty(me_id));
+            //console.log(!think.isEmpty(me_id));
             if (!think.isEmpty(me_id)) {
                 let wx_content = await media_model.where({'id': me_id}).find();
                 //this.end('aaa'+wx_content['material_content']);
@@ -1352,7 +1352,7 @@ export default class extends Base {
         data.create_time = new Date().getTime();
         data.id = this.post("id");
         //this.end(data);
-        console.log(data);
+        //console.log(data);
         // return false;
         //查询该类型下是否有保存的回复信息
         let isAdd = '';
@@ -1409,7 +1409,7 @@ export default class extends Base {
         let newv = self.post('newv');
         let menuid = self.post('menuid');//菜单ID
         let currwebtoken = 0;
-        console.log(newv);
+        //console.log(newv);
         //return false;
         try {
             // return self.end(newv);
@@ -1465,7 +1465,7 @@ export default class extends Base {
             return deferred.promise;
         }
 
-        console.log(data);
+        //console.log(data);
 
         let dataObj = JSON.parse(data.custom_menu);
         let final = {button: []};
@@ -1495,9 +1495,9 @@ export default class extends Base {
         for (let a of dataObj.button) {
             let tmpbtn = {};
             tmpbtn.name = a.name;
-            //console.log(a);
+            ////console.log(a);
             if (think.isEmpty(a.sub_button)) {
-                //console.log(a.type);
+                ////console.log(a.type);
                 switch (a.type) {
                     case '1':
                         tmpbtn.type="click";
@@ -1513,7 +1513,7 @@ export default class extends Base {
                 for (let b of a.sub_button) {
                     let tmpsub = {};
                     tmpsub.name = b.name;
-                    //console.log(b.type);
+                    ////console.log(b.type);
                     switch (b.type) {
                         case '1':
                             tmpsub.type="click";
@@ -1528,14 +1528,14 @@ export default class extends Base {
                 }
             }
             final.button.push(tmpbtn);
-            console.log(tmpbtn);
+            //console.log(tmpbtn);
         }
         think.log(final)
         //return false;
         let api = new API(this.setup.wx_AppID, this.setup.wx_AppSecret);
         let res = await wxsubmit(api, final);
         // let res = true;
-        console.log(res);
+        //console.log(res);
         if (res) {
             return self.success({name: '微信菜单生成成功'});
         } else {

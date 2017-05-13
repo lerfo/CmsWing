@@ -118,10 +118,10 @@ export default {
                     }
                 })
                 env.addFilter("strToArray", function (str,sn=",") {
-                    console.log("strToArray:"+str);                        
+                    //console.log("strToArray:"+str);                        
                     if (!think.isEmpty(str)) {
                         let ss = str.split(sn);// 在每个逗号(,)处进行分解。
-                        console.log(ss);
+                        //console.log(ss);
                         return ss;
                     }else{
                         return str;
@@ -129,8 +129,8 @@ export default {
                 })
 
                 env.addFilter("in_Array", function (str, arr) {
-                    console.log('in_Array');
-                    console.log(str+','+arr);
+                    //console.log('in_Array');
+                    //console.log(str+','+arr);
                     arr= arr||0;
                     if (!think.isArray(arr)) {
                         if(think.isNumber(arr)){
@@ -138,7 +138,7 @@ export default {
                         }
                         arr = arr.split(",");
                     }
-                    console.log(arr);
+                    //console.log(arr);
                     return in_array(str, arr);
                 })
 
@@ -171,10 +171,10 @@ export default {
                 })
                 //解析分类信息当前状态
                 env.addFilter("sort_act",function (id,getid) {
-                    //console.log('-------------------------------');
-                    //console.log(id);
-                    //console.log(getid);
-                    //console.log(in_array(id, sanjiao(getid.split("."))));
+                    ////console.log('-------------------------------');
+                    ////console.log(id);
+                    ////console.log(getid);
+                    ////console.log(in_array(id, sanjiao(getid.split("."))));
                     if(!think.isEmpty(getid)){
                         return in_array(id,sanjiao(getid.split(".")));
                     }
@@ -265,7 +265,7 @@ export default {
                  */
                 env.addFilter('get_pic', async(id, type, callback)=> {
                     let m, w, h;
-                    //console.log(type);
+                    ////console.log(type);
                     let obj = {};
                     for (let v of type.split(",")) {
                         v = v.split("=");
@@ -275,7 +275,7 @@ export default {
                     w = obj.w;
                     h = obj.h;
                     let data = await get_pic(id, m, w, h);
-                    console.log("get_pic:"+data);
+                    //console.log("get_pic:"+data);
                     callback(null, data);
                 }, true)
                 /**
@@ -392,8 +392,8 @@ export default {
                  * @returns []
                  */
                 env.addFilter('get_text_line',async(textstr,index=0,callback)=>{
-                    //console.log('111111111');
-                    console.log("get_text_line textstr:"+textstr+",index:"+index);
+                    ////console.log('111111111');
+                    //console.log("get_text_line textstr:"+textstr+",index:"+index);
                     if(think.isEmpty(textstr) || textstr == ''){
                         callback(null,'');
                         return;
@@ -416,7 +416,7 @@ export default {
                  */
                 env.addFilter('priv',async(catid,roleid,action,is_admin=0,type=true,callback)=>{
                     let isp= await priv(catid,roleid,action,is_admin,type);
-                    console.log(isp);
+                    //console.log(isp);
                     callback(null,isp);
                 },true);
                 env.addExtension('tagtest', new mytags(), true);

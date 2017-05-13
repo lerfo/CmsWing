@@ -39,10 +39,10 @@ export default class extends think.model.base {
         /*获取当前分类信息*/
 
         //if(id){
-        //    console.log(id);
+        //    //console.log(id);
         //    let ids = id;
         //    let info = await this.info(ids);
-        //    console.log(info);
+        //    //console.log(info);
         //    let id   = info.id;
         //}
 
@@ -50,7 +50,7 @@ export default class extends think.model.base {
 
         let map = {"status":{">":-1}}
         let list = await this.where(map).order('sort ASC').select();
-        //console.log(list);
+        ////console.log(list);
         //list = get_children(list,id);
         for (let v of list){
             let name =0;

@@ -207,7 +207,7 @@
         display: none;
     }
     .the-td{
-        width: 80px;
+        width: 90px;
         text-align:justify;
         text-align-last:justify;line-height:1.6;
     }
@@ -291,6 +291,9 @@
     }
     .showquestion:hover h2 a{
         color: #1eb6c1;
+    }
+    .tourschool_pagination>a{
+		color: #3e3e3e;
     }
 </style>
     <!--
@@ -606,15 +609,15 @@
     function getschool(days=0) {
         var searchword = GetQueryString("q");
 
-        var getHtml = "";
-        getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td class="the-td">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td style="width: 80px;">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
+        
+        getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td class="the-td">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td class="the-td">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td class="the-td"">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
 
          $.ajax({
             type:"get",
             url:"ajax/topic?q="+searchword+"&page=1&value=141-0-0-18-tourdest_0",
             success:function(dataResult){
-                console.log(dataResult);
-                getHtml +='<div class="tourschool_pagination tpage1 ">'
+                //console.log(dataResult);
+                getHtml +='<div class="tourschool_pagination tspage1 ">'
                 $.each(dataResult.data,function(k,v){
                     if(0==v.cover_url.length){
                         getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
@@ -885,7 +888,7 @@
     function studytour_pagination(page) {
         var searchword = GetQueryString("q");
         var value = GetQueryString("value");
-        //console.log(value)
+        console.log(value)
         var pageHTML = "";
         //var url = window.location.href;
         //var para = url.split("?q=")[1];
@@ -1129,7 +1132,66 @@
         });
     }
 
+    function tourschool_pagination(page) {
+        console.log("asad");
+        var getHtml = '';
+        var searchword = GetQueryString("q");
 
+         $.ajax({
+            type:"get",
+            url:"ajax/topic?q="+searchword+"&page="+page+"&value=141-0-0-18-tourdest_0",
+
+            success:function(dataResult){
+                console.log(dataResult);
+               
+                $.each(dataResult.data,function(k,v){
+                    if(0==v.cover_url.length){
+                        getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
+                                
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.description+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';  
+                    }else{
+                        getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
+                                '<img src='+v.cover_url+'>'+
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.description+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';     
+                    }          
+                });
+                if(dataResult.currentPage < dataResult.totalPages){
+                    var nextPage = page +1 ;
+                    getHtml +='<div class="text-center ts-load-more">' + '<a href="javascript:tourschool_pagination('+nextPage+');">加载更多</a>'+'</div>';
+                    $(".tspage"+page).after("<div></div>");
+                    $(".tourschool_pagination.tspage"+page).next().addClass("tourschool_pagination tspage"+nextPage);
+
+                }
+
+               
+                $(".ts-load-more").hide();
+                $(".tspage"+page).html(getHtml);
+            }
+        })
+        
+    }
 
     $("#select100").on("click",function(){
     	var getHtml = "";

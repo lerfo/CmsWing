@@ -36,16 +36,16 @@ export default class extends think.model.base {
         /*获取当前分类信息*/
 
         //if(id){
-        //    console.log(id);
+        //    //console.log(id);
         //    let ids = id;
         //    let info = await this.info(ids);
-        //    console.log(info);
+        //    //console.log(info);
         //    let id   = info.id;
         //}
 
         //获取所有分类
         let map = think.extend({"status":{">":-1}},where)
-        console.log(map);
+        //console.log(map);
         let list = await this.field(field).where(map).order('sort ASC').select();
         for(let v of list) {
             if (!think.isEmpty(v.name)) {
@@ -54,7 +54,7 @@ export default class extends think.model.base {
                 v.url = `/${v.id}`
             }
         }
-        //console.log(list);
+        ////console.log(list);
         list = get_children(list,id);
         let info = list;
 
@@ -80,9 +80,9 @@ export default class extends think.model.base {
             if(think.isEmpty(list) || 1 != list[id].status){//不存在分类，或分类被禁用
                 return '';
             }
-            //// console.log(list);
-            // console.log(list[id]);
-            //console.log(think.isNumber(field));
+            //// //console.log(list);
+            // //console.log(list[id]);
+            ////console.log(think.isNumber(field));
             return think.isEmpty(field) ? list[id] : list[id][field];
         }else {
             return ''
@@ -131,7 +131,7 @@ export default class extends think.model.base {
     async get_sub_category(id){
         let cat = await this.select();
         let data = sub_cate(cat,id);
-        //console.log(data);
+        ////console.log(data);
         let arr=[];
         for (let v of data){
             if(think.isString(v)){
@@ -201,7 +201,7 @@ export default class extends think.model.base {
             data.model =think.isArray(data.model)? data.model.join(","):data.model;
             data.model_sub = think.isArray(data.model_sub)?data.model_sub.join(","):data.model_sub;
             data.type = think.isArray(data.type)?data.type.join(","):data.model;
-            //console.log(data);
+            ////console.log(data);
             res =await this.add(data);
             if(res){
                 //构造权限
@@ -335,7 +335,7 @@ export default class extends think.model.base {
                 v.url = `/${v.id}`
             }
         }
-        // console.log(lists);
+        // //console.log(lists);
         return lists;
     }
     //获取栏目分组

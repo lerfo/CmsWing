@@ -25,9 +25,9 @@ export default class extends Base {
     let nav = await this.model('category').get_parent_category(cate_id);
     this.assign('breadcrumb', nav);
     //获取内容
-    //console.log(cate_id);
+    ////console.log(cate_id);
     let info = await this.db.find({where:{cid:cate_id}});
-    //console.log(info);
+    ////console.log(info);
     //auto render template file index_index.html
     this.meta_title = 'PC单页内容';
     this.assign({
@@ -68,7 +68,7 @@ export default class extends Base {
   //编辑
   async updateAction(){
     let data = this.post();
-      console.log(data);
+      //console.log(data);
       //权限验证
       await this.admin_priv("edit",data.cid);
       let isup = await this.db.thenAdd(data, {cid:data.cid});

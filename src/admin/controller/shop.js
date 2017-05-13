@@ -42,7 +42,7 @@ export default class extends Base {
     editAction(){
         if(this.isPost()){
             let post = this.post();
-            console.log(post);
+            //console.log(post);
             //this.end(post);
         }else{
              return this.display();

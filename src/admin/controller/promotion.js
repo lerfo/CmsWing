@@ -87,7 +87,7 @@ export default class extends Base {
         let pages = new Pages(this.http); //实例化 Adapter
         let page = pages.pages(data);
         this.assign('pagerData', page); //分页展示使用
-        console.log(data.data);
+        //console.log(data.data);
         //this.active="admin/order/list";
         /*
         for(let val of data.data){
@@ -156,7 +156,7 @@ export default class extends Base {
     if(think.isEmpty(postdata.ids)){
         return this.fail("参数错误！");
     }
-    console.log(postdata);
+    //console.log(postdata);
     let data = [];
     for(let val of postdata.ids){
       let tempdata = {};
@@ -165,7 +165,7 @@ export default class extends Base {
       data.push(tempdata);
       
     }
-    console.log(data);
+    //console.log(data);
     let datalist = await this.model("discount").updateMany(data);
 
     this.meta_title = "删除优惠券";

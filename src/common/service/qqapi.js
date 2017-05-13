@@ -19,8 +19,8 @@ export default class extends think.service.base {
     let getuserinfo=(URL_GET_USERINFO)=>{
       let deferred = think.defer();
       https.get(URL_GET_USERINFO, (res) => {
-        //console.log('statusCode: ', res.statusCode);
-       // console.log('headers: ', res.headers);
+        ////console.log('statusCode: ', res.statusCode);
+       // //console.log('headers: ', res.headers);
         
         var body = [];
         res.on('data', (d) => {
@@ -29,7 +29,7 @@ export default class extends think.service.base {
         });
         res.on("end", function (d) {
           body = Buffer.concat(body) ;
-          //console.log(body) ;
+          ////console.log(body) ;
           deferred.resolve(JSON.parse(body));
           //boday+=d;
         });

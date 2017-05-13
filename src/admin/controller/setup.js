@@ -142,7 +142,7 @@ export default class extends Base {
     }
     async saveAction(){
         let post = this.post();
-        //console.log(post);
+        ////console.log(post);
         for(let v in post){
             this.db.where({name: v}).update({value: post[v]});
         }
@@ -170,9 +170,9 @@ export default class extends Base {
     async parsleyAction(){
         //验证
         let data=this.get();
-        // console.log(data);
+        // //console.log(data);
         let res = await this.db.where(data).find();
-        // console.log(res);
+        // //console.log(res);
         if(think.isEmpty(res)){
             return this.json(1);
         }else{

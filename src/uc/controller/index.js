@@ -50,7 +50,7 @@ export default class extends Base {
       this.fail("未登录");
     }
     let status = this.param("status") || null;
-    //console.log(status);
+    ////console.log(status);
     let map;
 
     //当前位置
@@ -98,7 +98,7 @@ export default class extends Base {
     }
 
 
-    console.log(map);
+    //console.log(map);
     // this.config("db.nums_per_page",20)
     let data = await this.model("order_tour").where(map).page(this.param('page')).order("create_time DESC").countSelect();
     let html = pagination(data, this.http, {
@@ -112,7 +112,7 @@ export default class extends Base {
         total: 'count: ${count} , pages: ${pages}'
       }
     });
-    //console.log(data);
+    ////console.log(data);
     this.assign('pagination', html);
     data.html = html;
     for (let val of data.data) {
@@ -133,7 +133,7 @@ export default class extends Base {
       if (val.pay_status == 0) {
         val.end_time = date_from(val.create_time + (Number(this.setup.ORDER_DELAY) * 60000))
       }
-      //console.log(this.setup.ORDER_DELAY_BUND)
+      ////console.log(this.setup.ORDER_DELAY_BUND)
       //查出订单里面的商品列表
       val.goods = await this.model("order_goods").where({order_id: val.id}).select();
       let numarr=[];
@@ -143,7 +143,7 @@ export default class extends Base {
         v = think.extend(v, v.prom_goods);
         delete v.prom_goods;
       }
-      //console.log(val.goods)
+      ////console.log(val.goods)
       val.nums = eval(numarr.join("+"));
     }
     //未付款统计
@@ -166,7 +166,7 @@ export default class extends Base {
     }).count("id");
     this.assign("nopaid", nopaid);
     this.assign("receipt", receipt);
-    //console.log(data.data);
+    ////console.log(data.data);
     this.assign("count",data.count);
     this.assign('list', data.data);
     this.meta_title = "我的订单";

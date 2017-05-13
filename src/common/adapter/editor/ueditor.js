@@ -41,7 +41,7 @@ export default class extends think.adapter.base {
      upFile(){
         let http=this.http;
         let file = http.file(this.fileField);
-        //console.log(file);
+        ////console.log(file);
         if(!think.isFile(file.path)){
             this.stateInfo = "找不到临时文件";
             return;
@@ -82,11 +82,11 @@ export default class extends think.adapter.base {
     {
         let http=this.http;
         let base64Data = http.post(this.fileField);
-        // console.log(base64Data);
+        // //console.log(base64Data);
         let img = new Buffer(base64Data, 'base64');
-        //console.log(img);
+        ////console.log(img);
         this.oriName = this.config['oriName'];
-        //console.log(this.oriName);
+        ////console.log(this.oriName);
         this.fileSize = img.length;
         this.fileType = this.getFileExt();
         this.fullName = this.getFullName();
@@ -147,7 +147,7 @@ export default class extends think.adapter.base {
         //TODO 各种验证后面弄
         let m = imgUrl.match(/[\/]([^\/]*)[\.]?[^\.\/]*$/)[1];
         this.oriName = m ? m:"";
-        //console.log(this.oriName);
+        ////console.log(this.oriName);
         this.fileSize = imgUrl.length;//TODO 这里有问题，后面弄
         this.fileType = this.getFileExt();
         this.fullName = this.getFullName();
@@ -157,7 +157,7 @@ export default class extends think.adapter.base {
         let fullName =this.fullName;
         think.mkdir(this.filePath.replace(this.fileName, ""));
         let promises = await this.spiderImage(imgUrl,filePath);
-        // console.log(promises);
+        // //console.log(promises);
         if(think.isFile(promises)){
             this.stateInfo = "SUCCESS";
         }else{

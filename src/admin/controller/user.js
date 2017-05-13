@@ -36,7 +36,7 @@ export default class extends Base {
         let pages = new Pages(this.http); //实例化 Adapter
         let page = pages.pages(data);
         // for(let v of data.data){
-        //     console.log(await this.model("member_group").getgroup({groupid:v.groupid}));
+        //     //console.log(await this.model("member_group").getgroup({groupid:v.groupid}));
         // }
         this.assign('pagerData', page); //分页展示使用
         this.assign('list', data.data);
@@ -64,7 +64,7 @@ export default class extends Base {
             v.last_login_time=times(v.last_login_time)
             v.last_login_ip=_int2iP(v.last_login_ip)
         })
-        //console.log(userList)
+        ////console.log(userList)
         let data={
             "draw": draw,
             "recordsTotal": userList.count,
@@ -81,10 +81,10 @@ export default class extends Base {
         if(this.isAjax("POST")){
             let data = this.post();
            let res =  await this.model("member").where({id:data.id}).increment("amount",data.balance);
-            console.log(res);
+            //console.log(res);
             if(res){
                 let amount_log = await this.model("member").where({id:data.id}).getField("amount",true);
-                console.log(amount_log);
+                //console.log(amount_log);
                 //充值成功后插入日志
                 let log = {
                     admin_id:this.user.uid,
@@ -128,7 +128,7 @@ export default class extends Base {
              }else {
                  data.overduedate = think.isEmpty(data.overduedate)?0:data.overduedate;
              }
-           //  console.log(data);
+           //  //console.log(data);
            // return this.fail("ddd")
             data.status=1;
          let res = await this.db.add(data);
@@ -186,7 +186,7 @@ export default class extends Base {
             //添加角色
             if(data.is_admin == 1){
                 let addrole =await this.model("auth_user_role").where({user_id:data.id}).thenAdd({user_id:data.id,role_id:data.role_id});
-                console.log(addrole);
+                //console.log(addrole);
                 if(addrole.type=="exist"){
                     await this.model("auth_user_role").update({id:addrole.id,role_id:data.role_id});
                 }
@@ -210,7 +210,7 @@ export default class extends Base {
 
             }
             this.assign("user",user);
-            console.log(user);
+            //console.log(user);
             //所属管理组
             if(user.is_admin==1){
                 let roleid =await this.model("auth_user_role").where({user_id:user.id}).getField("role_id",true);
@@ -243,7 +243,7 @@ export default class extends Base {
         //
         // }
         this.assign("user",user);
-        console.log(user);
+        //console.log(user);
         //所属管理组
         if(user.is_admin==1){
             let roleid =await this.model("auth_user_role").where({user_id:user.id}).getField("role_id",true);
@@ -265,7 +265,7 @@ export default class extends Base {
      */
     async userdelAction() {
         let id = this.param("ids");
-        //console.log(id);
+        ////console.log(id);
         let res;
         // 判断是否是管理员，如果是不能删除;
         if(await this.isadmin(id)){
@@ -301,9 +301,9 @@ export default class extends Base {
     async parsleyAction(){
         //验证
         let data=this.get();
-       // console.log(data);
+       // //console.log(data);
         let res = await this.db.where(data).find();
-       // console.log(res);
+       // //console.log(res);
         if(think.isEmpty(res)){
         return this.json(1);
         }else{

@@ -42,7 +42,7 @@ export default class extends Base {
 
       }else {
           let modlist = await this.model("model").where({status:1,id:[">",1]}).select();
-          //console.log(modlist);
+          ////console.log(modlist);
           this.assign("modlist",modlist);
           this.meta_title="添加搜索分类";
           return this.display();
@@ -101,7 +101,7 @@ export default class extends Base {
                    v.table="document";
                }
            }
-           //console.log(tables);
+           ////console.log(tables);
            await this.session('createindex_tables', tables);
            //清空缓存表
            await this.model("search").where("1=1").delete();
@@ -113,12 +113,12 @@ export default class extends Base {
           })
       }else if(this.isAjax("get")&&!think.isEmpty(this.get())){
            let tables = await this.session('createindex_tables');
-           console.log(tables);
+           //console.log(tables);
            let id = this.get("id");
            let start = this.get("start");
            let page = this.get("page");
            let pagesize = this.get("pagesize")
-           //console.log(this.get());
+           ////console.log(this.get());
            let map ={}
            if(tables[id].extend==1){
                map.model_id=tables[id].mod;
@@ -155,7 +155,7 @@ export default class extends Base {
                    }
                    narr.push(obj)
                }
-               console.log("wwww"+narr);
+               //console.log("wwww"+narr);
                await this.model("search").addMany(narr)
                if(olist.totalPages> olist.currentPage){
                    let page = {'id': id, 'page': olist.currentPage+1,'pagesize':olist.numsPerPage};

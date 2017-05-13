@@ -42,7 +42,7 @@ export default class extends Base {
     }
     catch (err)
     {
-      //console.log(err);
+      ////console.log(err);
         think.log(err.message,'ERROR');
       this.assign("err",err);
       return this.action("index","moderror");
@@ -59,13 +59,13 @@ export default class extends Base {
       // let cxt  = think.require("mod/controller/"+this.mod.name+"/index");
       // let cc =new cxt(this.http)
       // await this.action(cc,"list");
-        // console.log(2222);
+        // //console.log(2222);
         await this.action(this.mod.name+'/index',"list")
     }
     catch (err)
     {
         think.log(err.message,'ERROR');
-      //console.log(err);
+      ////console.log(err);
       this.assign("err",err);
      return this.action("index","moderror");
     }

@@ -35,7 +35,7 @@ export default class extends Base {
         this.assign("livesecretkey",livesecretkey);
         //获取支付渠道
         let channel = await this.model('pingxx').order('sort ASC').select();
-        //console.log(channel);
+        ////console.log(channel);
         this.assign("channel",channel);
         this.meta_title = "ping++支付设置";
        return this.display();
@@ -74,7 +74,7 @@ export default class extends Base {
     //配置商户私钥
     rsaAction(){
         let type = this.param("type");
-        console.log(type);
+        //console.log(type);
         let path ;
         switch (type){
             case "private":
@@ -87,10 +87,10 @@ export default class extends Base {
 
         if(this.isAjax("POST")){
             let rsa = this.post("rsa");
-            console.log(path);
+            //console.log(path);
             //return false;
             if(type == "private"){
-            //console.log(rsa);
+            ////console.log(rsa);
             Fs.writeFileSync(path, rsa, 'utf8');
             return this.success({name:"设置成功！"});
             }else {
@@ -211,7 +211,7 @@ export default class extends Base {
       let Pages = think.adapter("pages", "page"); //加载名为 dot 的 Template Adapter
       let pages = new Pages(this.http); //实例化 Adapter
       let page = pages.pages(list);
-      //console.log(list);
+      ////console.log(list);
       this.assign('pagerData', list); //分页展示使用
       this.assign('list', list.data);
       return this.display();

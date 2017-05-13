@@ -35,7 +35,7 @@ export default class extends think.model.base {
                 await this.model("search").addsearch(data.mod_id,id,data);
                 // if(!think.isEmpty(data.keyname)){
                 //     let keywrods = data.keyname.split(",");
-                //     console.log(keywrods);
+                //     //console.log(keywrods);
                 //     for (let v of keywrods){
                 //         let add = await this.model("keyword").thenAdd({keyname:v}, {keyname:v});
                 //         if(add.type=='exist'){
@@ -48,7 +48,7 @@ export default class extends think.model.base {
             }
         }else {//更新主题
             let status = await this.update(data);
-            console.log(data);
+            //console.log(data);
             if(data.keyname && data.mod_id){//推荐或取消推荐主题时，不更新关键字
                 //更新关键词
                 //获取相关话题;

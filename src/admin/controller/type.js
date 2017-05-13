@@ -25,7 +25,7 @@ export default class extends Base {
     //auto render template file index_index.html
     let type = this.model("type");
     let list = await type.order('displayorder ASC,typeid DESC').select();
-    //console.log(list);
+    ////console.log(list);
       let cate = await this.model("category").where({documentsorts:['!=',""]}).select();
       for(let val of cate){
           let types = JSON.parse(val.documentsorts);
@@ -35,7 +35,7 @@ export default class extends Base {
           }
           val.sortid=sortarr;
       }
-      //console.log(cate);
+      ////console.log(cate);
       if(!think.isEmpty(cate)){
       for(let val of list){
           val.cate=[]
@@ -49,7 +49,7 @@ export default class extends Base {
           }
       }
       }
-      //console.log(list);
+      ////console.log(list);
       this.assign("list",list);
     this.meta_title="分类管理"
     return this.display();
@@ -76,7 +76,7 @@ export default class extends Base {
          .order("a.displayorder ASC")
          .select();
      this.active="admin/type/index"
-     console.log(typevar);
+     //console.log(typevar);
      this.assign({
          info:info,
          typeoption:typeoption,
@@ -90,7 +90,7 @@ export default class extends Base {
     async updatetypevarAction(){
         let data = this.post('data');
         data = JSON.parse(data);
-        //console.log(data);
+        ////console.log(data);
         //return false;
        let del= await this.model('typevar').delete({
             where: {sortid: data.id}
@@ -101,7 +101,7 @@ export default class extends Base {
                 datas.push(v);
             }
         }
-        // console.log(datas);
+        // //console.log(datas);
         // return false;
         let add= await this.model('typevar').addMany(datas);
         if(!think.isEmpty(add)){
@@ -128,7 +128,7 @@ export default class extends Base {
     let optionid = this.get("classid");
       let option = await this.model('typeoption').find({where:{optionid:optionid}});
       let optionlist = await this.model('typeoption').where({classid:optionid}).select();
-      console.log(option);
+      //console.log(option);
       this.assign({
           option:option,
           optionlist:optionlist
@@ -140,7 +140,7 @@ export default class extends Base {
     async updatetypeoptionAction(){
      let data = this.post("data");
         data =JSON.parse(data);
-     console.log(data)
+     //console.log(data)
         for(let val of data){
             //添加
             if(val.isdel==0 && val.title != 0 && val.optionid ==0){//添加
@@ -159,7 +159,7 @@ export default class extends Base {
     async edittypeAction(){
         if(this.isPost()){
             let data = this.post();
-            console.log(data);
+            //console.log(data);
             let update = this.model('typeoption').where({optionid:data.optionid}).update(data);
             if(update){
                 return this.success({name:"操作成功"});
@@ -170,7 +170,7 @@ export default class extends Base {
             let id = this.get("optionid");
             let info = await this.model("typeoption").find({where:{optionid:id}});
             let clas = await this.model('typeoption').find({where:{optionid:info.classid}});
-            console.log(info);
+            //console.log(info);
             this.assign({
                 info:info,
                 clas:clas
@@ -187,7 +187,7 @@ export default class extends Base {
  async updateAction(){
    let data = this.post("data");
       data = JSON.parse(data);
-      //console.log(data);
+      ////console.log(data);
       for(let val of data){
           //添加
           if(val.isdel==0 && val.name != 0 && val.typeid ==0){//添加

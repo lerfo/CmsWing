@@ -79,7 +79,7 @@ export default class extends think.adapter.base {
       name = name.split(',');
     }
     let authList =await this.getAuthList();
-    //console.log(authList);
+    ////console.log(authList);
     if (name.length === 1) {
       return authList.indexOf(name[0]) > -1;
     }
@@ -159,7 +159,7 @@ export default class extends think.adapter.base {
    */
   async getRuleIds(){
     let data = await this.getRoles();
-      //console.log(data);
+      ////console.log(data);
       let ids = [];
     data.forEach(item => {
       let ruleIds = (item.rule_ids || '').split(',');

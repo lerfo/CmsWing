@@ -31,7 +31,7 @@ export default class extends Base {
           let qiniu = think.service("qiniu");
           let instance = new qiniu();
           let uppic = await instance.uploadpic(filepath,basename);
-          console.log(uppic);
+          //console.log(uppic);
           // { fieldName: 'file',
           //     originalFilename: '2015-07-06_BaiduPlayerNetSetup_100.exe',
           //     path: '/Users/Arterli/Projects/PeanutRoll/runtime/upload/EPKRrpZvCsSV73J-7kuDiiEY.exe',
@@ -70,7 +70,7 @@ export default class extends Base {
       }
 
     }
-      console.log(data);
+      //console.log(data);
       var res = await this.model("file").data(data).add();
     this.json({id:res,size:file.size});
   }
@@ -113,7 +113,7 @@ export default class extends Base {
         if(think.isFile(filepath)){
             fs.renameSync(filepath, uploadPath + '/' + basename);
         }else {
-            console.log("文件不存在！")
+            //console.log("文件不存在！")
         }
         file.path = uploadPath + '/' + basename;
         if(think.isFile(file.path)){
@@ -125,7 +125,7 @@ export default class extends Base {
             }
              res = await this.model("picture").data(data).add();
         }else{
-            console.log('not exist')
+            //console.log('not exist')
         }
     }
 
@@ -139,7 +139,7 @@ export default class extends Base {
   //上传多图
   picsAction(){
       let file = think.extend({},this.file('file'));
-      console.log(file);
+      //console.log(file);
   }
   //图片选择
   async selectpicAction(){
@@ -170,7 +170,7 @@ export default class extends Base {
       let up = think.adapter("editor", "ueditor"); //加载名为 ueditor 的 editor Adapter
       let upload = new up(urlstr, config, "remote"); //实例化 Adapter
       let info =  await upload.saveRemote();
-      console.log(info);
+      //console.log(info);
      // let obj = {"state":"SUCCESS","url":info.url,"size":431521,"title":info.title,"original":info.original,"source":imgUrl};
       let data ={
         path:info.url,
@@ -220,7 +220,7 @@ export default class extends Base {
             sha1:post.hash,
             md5:think.md5(post.id)
         }
-        //console.log(data);
+        ////console.log(data);
         let res = await this.model("file").data(data).add();
         return this.json(res);
     }

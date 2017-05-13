@@ -45,12 +45,12 @@ export default class extends Base {
                     if(!think.isEmpty(val.option.rules)){
                         val.option.rules = JSON.parse(val.option.rules);
                         val.rules=parse_type_attr(val.option.rules.choices);
-                        console.log(val.rules);
+                        //console.log(val.rules);
                         for(let v of val.rules){
                             v.id = "l>"+v.id
                         }
                         val.option.rules.choices = parse_config_attr(val.option.rules.choices);
-                        //console.log(val.rules);
+                        ////console.log(val.rules);
                     }
                 }else if(val.option.type == 'range'){
                     if(!think.isEmpty(val.option.rules)){
@@ -80,7 +80,7 @@ export default class extends Base {
                             }
                             searcharr.push({id:'u>'+arr[len-1],name:'高于'+arr[len-1]+val.option.unit,pid:0})
                         }
-                        //console.log(searcharr);
+                        ////console.log(searcharr);
                         val.option.rules = JSON.parse(val.option.rules);
                         val.rules=searcharr;
                         // val.option.rules.choices = parse_config_attr(val.option.rules.choices);
@@ -88,10 +88,10 @@ export default class extends Base {
                     }
                 }
             }
-            //console.log(typevar);
+            ////console.log(typevar);
             this.assign("typevar",typevar);
         }
-        //console.log(sort);
+        ////console.log(sort);
         this.assign("sort",sort);
         this.assign('sortid',sortid);
         //获取内容
@@ -101,7 +101,7 @@ export default class extends Base {
         if (cate_id) {
             //获取当前分类的所有子栏目
             let subcate = await this.model('category').get_sub_category(cate_id);
-            // console.log(subcate);
+            // //console.log(subcate);
             subcate.push(cate_id);
             map.category_id = ['IN', subcate];
         }
@@ -117,7 +117,7 @@ export default class extends Base {
                 nsobj[qarr[0]] = qarr[1];
                 if(qarr[1] !=0){
                     let vv = qarr[1].split(">");
-                    //console.log(vv);
+                    ////console.log(vv);
                     if(vv[0]=="d" && !think.isEmpty(vv[1])){
                         map["t."+qarr[0]] = ["<",vv[1]];
                     }else if(vv[0]=="u" && !think.isEmpty(vv[1])){
@@ -135,7 +135,7 @@ export default class extends Base {
             this.assign("nsobj",nsobj);
 
         }
-        console.log(map);
+        //console.log(map);
         //获取分组
         let  groups = await this.model("category").get_category(cate_id, 'groups');
         if (groups) {
@@ -159,13 +159,13 @@ export default class extends Base {
             list = await db.where(map).order('update_time DESC').page(this.get("page"),20).countSelect();
         }
 
-        console.log(list);
+        //console.log(list);
         let Pages = think.adapter("pages", "page"); //加载名为 dot 的 Template Adapter
         let pages = new Pages(this.http); //实例化 Adapter
         let page = pages.pages(list);
         this.assign('list', list);
         this.assign('pagerData', page); //分页展示使用
-        console.log(map);
+        //console.log(map);
         this.meta_title = this.m_cate.title;
         this.assign({
             "navxs": true,
@@ -224,7 +224,7 @@ export default class extends Base {
 
             this.assign("typevar",typevar);
         }
-        //console.log(sort);
+        ////console.log(sort);
         this.assign("sort",sort);
         if(think.isEmpty(cate_id)){
             this.http.error = new Error('该栏目不存在！');
@@ -255,11 +255,11 @@ export default class extends Base {
         }
         let db = this.model("author");
         let data = await db.find(id);
-        console.log(data);
+        //console.log(data);
         //权限验证
         await this.admin_priv("edit",data.category_id);
         let model = await this.model("model").get_model(data.model_id);
-        console.log(model);
+        //console.log(model);
         // 获取分组定义
         let groups = await this.model("category").get_category(data.category_id, 'groups');
         if (groups) {
@@ -299,15 +299,15 @@ export default class extends Base {
                     }
                 }
             }
-             console.log(typevar);
+             //console.log(typevar);
             this.assign("typevar",typevar);
 
         }
-        //console.log(sort);
+        ////console.log(sort);
         this.assign("sort",sort);
         //获取面包屑信息
         let nav = await this.model('category').get_parent_category(data.category_id);
-        //console.log(model);
+        ////console.log(model);
         this.assign('breadcrumb', nav);
         this.meta_title = '编辑' + model.title;
         this.active = "admin/article/index";

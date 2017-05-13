@@ -45,11 +45,11 @@ export default class extends think.service.base {
            qiniu.io.putFile(uptoken, key, localFile, extra, function(err, ret) {
                if(!err) {
                    // 上传成功， 处理返回值
-                   console.log(ret.hash, ret.key, ret.persistentId);
+                   //console.log(ret.hash, ret.key, ret.persistentId);
                    deferred.resolve(ret);
                } else {
                    // 上传失败， 处理返回代码
-                   console.log(err);
+                   //console.log(err);
                    deferred.resolve(false);
                }
            });
@@ -75,7 +75,7 @@ export default class extends think.service.base {
                     // ok
                     deferred.resolve(true);
                 } else {
-                    console.log(err);
+                    //console.log(err);
                     deferred.resolve(false);
                 }
             });
@@ -100,10 +100,10 @@ export default class extends think.service.base {
             //获取文件信息
             client.stat(bucket, key, function(err, ret) {
                 if (!err) {
-                    console.log(ret.hash, ret.fsize, ret.putTime, ret.mimeType);
+                    //console.log(ret.hash, ret.fsize, ret.putTime, ret.mimeType);
                     deferred.resolve(ret);
                 } else {
-                    console.log(err);
+                    //console.log(err);
                     deferred.resolve(err);
                 }
             });
@@ -131,19 +131,19 @@ return deferred.promise;
 //可以对转码后的文件进行使用saveas参数自定义命名，当然也可以不指定文件会默认命名并保存在当前空间
         let saveas_key = qiniu.util.urlsafeBase64Encode(saved_bucket+':'+saved_key);
         fops = fops+'|saveas/'+saveas_key;
-      // console.log(saveas_key);
+      // //console.log(saveas_key);
        let opts = {
             pipeline: pipleline
         };
 
         var PFOP = qiniu.fop.pfop(bucket, key, fops, opts, function(err, ret) {
             if(!err) {
-                console.log(ret);
+                //console.log(ret);
                 // 上传成功， 处理返回值
-                console.log('curl '+'http://api.qiniu.com/status/get/prefop?id='+ret.persistentId);
+                //console.log('curl '+'http://api.qiniu.com/status/get/prefop?id='+ret.persistentId);
             } else {
                 // 上传失败， 处理返回代码
-                console.log(err);
+                //console.log(err);
             }
         });
     }
@@ -159,7 +159,7 @@ return deferred.promise;
         var downloadUrl = policy.makeRequest(url);
 
 //打印下载的url
-        console.log(downloadUrl);
+        //console.log(downloadUrl);
         return downloadUrl;
     }
 }

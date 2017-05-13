@@ -25,7 +25,7 @@ export default class extends Base {
     }
     let cate = await this.category(id);
     cate = think.extend({}, cate);
-    //console.log(cate);
+    ////console.log(cate);
     let roleid=8;//游客
     //访问控制
     if(this.is_login){
@@ -45,13 +45,13 @@ export default class extends Base {
     //内容可以通过模板标签自行定制
     //获取面包屑信息
     let breadcrumb = await this.model('category').get_parent_category(cate.id,true);
-    console.log(breadcrumb);
+    //console.log(breadcrumb);
     this.assign('breadcrumb', breadcrumb);
     /* 模板赋值并渲染模板 */
     this.assign('category', cate);
-    //console.log(cate);
+    ////console.log(cate);
     let temp = cate.template_index ? `${cate.template_index}` : `${this.http.action}`;
-    console.log(temp);
+    //console.log(temp);
     //判断浏览客户端
     if(checkMobile(this.userAgent())){
       temp = cate.template_m_index ? `${cate.template_m_index}` : `${this.http.action}`

@@ -38,11 +38,11 @@ export default class extends Base {
     async addAction() {
         if (this.isPost()) {
             let data = this.post();
-            //console.log(data);
+            ////console.log(data);
             data.create_time = new Date().valueOf();
             data.update_time = new Date().valueOf();
             data.status = 1
-            //console.log(data);
+            ////console.log(data);
             let res = await this.db.add(data);
             if (res) {
                 this.cache("get_document_model", null);//清除模型缓存
@@ -64,17 +64,17 @@ export default class extends Base {
     async addextAction() {
         if (this.isPost()) {
             let data = this.post();
-            //console.log(data);
+            ////console.log(data);
             data.create_time = new Date().valueOf();
             data.update_time = new Date().valueOf();
             data.status = 1;
-            console.log(data);
+            //console.log(data);
 
             let res = await this.db.add(data);
             if (res) {
                 //初始化表结构
                 let addtable = await this.model("attribute").addtable(res);
-                console.log(addtable);
+                //console.log(addtable);
                 this.cache("get_document_model", null);//清除模型缓存
                 this.cache("get_model", null);//清除模型缓存
                 return this.fail("添加失败!")
@@ -113,9 +113,9 @@ export default class extends Base {
                 this.fail('参数不能为空！');
             }
             let data = await this.db.find(id);
-           // console.log(data);
+           // //console.log(data);
             data.attribute_list = think.isEmpty(data.attribute_list) ? '' : data.attribute_list.split(",");
-           // console.log(data.attribute_list);
+           // //console.log(data.attribute_list);
             let fields = await this.model('attribute').where({model_id: data.id}).field('id,name,title,is_show').select();
             //是否继承了其他模型
             if (data.extend != 0) {
@@ -124,15 +124,15 @@ export default class extends Base {
             } else {
                 allfields = fields;
             }
-           // console.log(allfields)
+           // //console.log(allfields)
             //梳理属性的可见性
             for (let field of allfields) {
                 if (!think.isEmpty(data.attribute_list) && !in_array(field.id, data.attribute_list)) {
                     field.is_show = 0;
                 }
-                //console.log(field);
+                ////console.log(field);
             }
-            //console.log(allfields);
+            ////console.log(allfields);
             //改造数组
             var obj = {}
             if (allfields) {
@@ -148,9 +148,9 @@ export default class extends Base {
             let field_sort = JSON.parse(data.field_sort);
             if (!think.isEmpty(field_sort)) {
                 for (let group in field_sort) {
-                    //console.log(field_sort[group])
+                    ////console.log(field_sort[group])
                     //for(var value of field_sort[group]){
-                    //    console.log(value)
+                    //    //console.log(value)
                     //}
 
                     field_sort[group].forEach((v, k)=> {
@@ -158,14 +158,14 @@ export default class extends Base {
                         obj[v].group = group;
                         obj[v].sort = k;
                         }
-                        //console.log(v, k)
+                        ////console.log(v, k)
                     })
 
                 }
             }
-            console.log(obj);
+            //console.log(obj);
             let order = think._.values(obj);
-            //console.log(order);
+            ////console.log(order);
             let orderbgy = think._.orderBy(order, ['group', 'sort'], ['asc', 'asc']);
 
             this.assign({'fields': fields, 'extend_fields': extend_fields, 'allfields': orderbgy, 'info': data})
@@ -200,9 +200,9 @@ export default class extends Base {
                 this.fail('参数不能为空！');
             }
             let data = await this.db.find(id);
-            // console.log(data);
+            // //console.log(data);
             data.attribute_list = think.isEmpty(data.attribute_list) ? '' : data.attribute_list.split(",");
-            // console.log(data.attribute_list);
+            // //console.log(data.attribute_list);
             let fields = await this.model('attribute').where({model_id: data.id}).field('id,name,title,is_show').select();
             //是否继承了其他模型
             if (data.extend != 0) {
@@ -211,15 +211,15 @@ export default class extends Base {
             } else {
                 allfields = fields;
             }
-            // console.log(allfields)
+            // //console.log(allfields)
             //梳理属性的可见性
             for (let field of allfields) {
                 if (!think.isEmpty(data.attribute_list) && !in_array(field.id, data.attribute_list)) {
                     field.is_show = 0;
                 }
-                //console.log(field);
+                ////console.log(field);
             }
-            //console.log(allfields);
+            ////console.log(allfields);
             //改造数组
             var obj = {}
             if (allfields) {
@@ -235,9 +235,9 @@ export default class extends Base {
             let field_sort = JSON.parse(data.field_sort);
             if (!think.isEmpty(field_sort)) {
                 for (let group in field_sort) {
-                    //console.log(field_sort[group])
+                    ////console.log(field_sort[group])
                     //for(var value of field_sort[group]){
-                    //    console.log(value)
+                    //    //console.log(value)
                     //}
 
                     field_sort[group].forEach((v, k)=> {
@@ -245,14 +245,14 @@ export default class extends Base {
                             obj[v].group = group;
                             obj[v].sort = k;
                         }
-                        //console.log(v, k)
+                        ////console.log(v, k)
                     })
 
                 }
             }
 
             let order = think._.values(obj);
-            //console.log(order);
+            ////console.log(order);
             let orderbgy = think._.orderBy(order, ['group', 'sort'], ['asc', 'asc']);
 
             this.assign({'fields': fields, 'extend_fields': extend_fields, 'allfields': orderbgy, 'info': data})

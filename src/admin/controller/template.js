@@ -58,13 +58,13 @@ export default class extends Base {
        data.name = temp.name;
        data.type = temp.type;
        data.gid = temp.gid;
-       console.log(data);
+       //console.log(data);
        //await this.model("temp").add(data);
        temp.pid = temp.id;
        delete temp.id;
        temp.baktime = new Date().getTime();
        temp.lastuser = this.user.uid;
-       console.log(temp);
+       //console.log(temp);
          // return false;
        //修改前先备份
        if(data.html!=temp.html){
@@ -80,13 +80,13 @@ export default class extends Base {
 
      }else {
        //首页网站编辑
-       //console.log(this.adminmenu["10"]);
+       ////console.log(this.adminmenu["10"]);
        this.meta_title= '首页模板';
 
-       console.log(templateFile)
+       //console.log(templateFile)
        //let tempcon = fs.readFileSync(templateFile,"utf8");
 
-       console.log(temp);
+       //console.log(temp);
        this.assign('temp',temp);
        return this.display();
      }
@@ -187,9 +187,9 @@ export default class extends Base {
             type:this.param("type")||1,
             gid:gid
         }
-        console.log(map);
+        //console.log(map);
         let temp = await this.model("temp").where(map).page(this.get('page')).countSelect();
-        console.log(temp);
+        //console.log(temp);
         let Pages = think.adapter("pages","page");
         let pages = new Pages(this.http);
         let page = pages.pages(temp);
@@ -234,9 +234,9 @@ export default class extends Base {
               temppath = `${think.ROOT_PATH}/view/${temp.module}/`;
           }
           let templateFile = `${temppath}${temp.controller}${think.config("view.file_depr",undefined,"topic")}${temp.action}${this.config("view.file_ext")}`;
-          console.log(data);
-          console.log(temp);
-          console.log(templateFile);
+          //console.log(data);
+          //console.log(temp);
+          //console.log(templateFile);
           //检查是否修改内容
           if(data.html==temp.html){
               return this.fail("请先修改模板!")
@@ -311,7 +311,7 @@ export default class extends Base {
                 temppath = `${think.ROOT_PATH}/view/${data.module}/`;
             }
             let templateFile = `${temppath}${data.controller}${think.config("view",undefined,"topic").file_depr}${data.action}${this.config("view.file_ext")}`;
-            console.log(templateFile);
+            //console.log(templateFile);
             let res = await this.model("temp").add(data);
             if(!think.isEmpty(res)){
                 fs.writeFileSync(templateFile, data.html);
@@ -355,7 +355,7 @@ export default class extends Base {
     async delAction(){
         let id = this.get("id");
         let temp = await this.model("temp").find(id);
-        //console.log(temp);
+        ////console.log(temp);
         let temppath;
         if(temp.type==2){
             temppath = `${think.ROOT_PATH}/view/${temp.module}/mobile/`;
@@ -363,7 +363,7 @@ export default class extends Base {
             temppath = `${think.ROOT_PATH}/view/${temp.module}/`;
         }
         let templateFile = `${temppath}${temp.controller}${think.config("view",undefined,"topic").file_depr}${temp.action}${this.config("view.file_ext")}`;
-        //console.log(templateFile);
+        ////console.log(templateFile);
         if(think.isFile(templateFile)){
             fs.unlinkSync(templateFile);
         }

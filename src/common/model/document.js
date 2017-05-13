@@ -19,9 +19,9 @@ export default class extends think.model.base {
         }else {
             map = {name:id}
         }
-       //console.log(map);
+       ////console.log(map);
         let info = await this.where(map).find();
-       //console.log(info);
+       ////console.log(info);
         if(think.isEmpty(info)){
            return {errno: 702, errmsg: "数据不存在"};
         }else if(!(think.isObject(info) || 1 != info.status)){
@@ -74,11 +74,11 @@ export default class extends think.model.base {
             let vs = v.split("|||");
 
             if(vs.length>1){
-                console.log(data[v]);
+                //console.log(data[v]);
              data[vs[1]]=(think.isEmpty(data[v])||data[v]==0)?0:new Date(data[v]).getTime();
             };
         }
-        //console.log(data);
+        ////console.log(data);
         data=data||null;
         //检查文档类型是否符合要求
         let type = data.type||2;
@@ -98,7 +98,7 @@ export default class extends think.model.base {
             data.update_time=new Date().getTime();
             data.status= await this.getStatus(data.id,data.category_id);
             var id = await this.add(data);//添加基础数据
-            //console.log(id);
+            ////console.log(id);
             //let id = 100;
             if(!id){
                 this.error = '新增基础内容出错！';
@@ -123,8 +123,8 @@ export default class extends think.model.base {
                             sortdata.fid = data.category_id;
                         }
                     }
-                    //console.log(sortarr);
-                    //console.log(sortdata);
+                    ////console.log(sortarr);
+                    ////console.log(sortdata);
                     //return false;
                     //添加分类
                     this.model("typeoptionvar").addMany(sortarr);
@@ -152,7 +152,7 @@ export default class extends think.model.base {
             }
             //更新关键词
             await this.model("keyword").updatekey(data.keyname,data.id,data.userid,data.model_id,0);
-            console.log(data);
+            //console.log(data);
             let status = this.update(data);
             if(!status){
                 this.error = '更新基础内容出错！';
@@ -178,8 +178,8 @@ export default class extends think.model.base {
                             sortdata.fid = data.category_id;
                         }
                     }
-                    console.log(sortarr);
-                    console.log(sortdata);
+                    //console.log(sortarr);
+                    //console.log(sortdata);
                     let cou = await this.model("type_optionvalue"+data.sort_id).where({tid:data.id}).count("tid");
                     if(cou > 0){
                         await this.model("type_optionvalue"+data.sort_id).where({tid:data.id}).update(sortdata);
@@ -225,7 +225,7 @@ export default class extends think.model.base {
         }
         //首页热门推荐，则添加到hot_recommend表
         let recommendres = await this.model("hot_recommend").where({topic_id:data.id,topic_type:1}).find();
-        console.log(recommendres.id);
+        //console.log(recommendres.id);
         if(think.isEmpty(recommendres.id) && in_array('1',position)){
             let hotrecommend ={};
             hotrecommend.topic_id = data.id;
@@ -235,7 +235,7 @@ export default class extends think.model.base {
             hotrecommend.category_id = data.category_id;
             hotrecommend.add_time = time;
             hotrecommend.level = data.level;
-            console.log(hotrecommend);
+            //console.log(hotrecommend);
             await this.model("hot_recommend").add(hotrecommend);
         }else{
             //如果已推荐，且取消推荐，则删除
@@ -275,7 +275,7 @@ export default class extends think.model.base {
         }
         //查询父文档的类型
         let ptype = think.isNumberString(pid) ? await this.where({id:pid}).getField('type',true):await this.where({name:pid}).getField('type',true);
-        // console.log(ptype);
+        // //console.log(ptype);
         //父文档为目录时
         switch(ptype){
             case 1: // 目录

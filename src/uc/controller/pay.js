@@ -14,7 +14,7 @@ export default class extends Base {
   }
   //支付
   async  payAction(){
-    console.log(this.post());
+    //console.log(this.post());
     //判断是否登录
     await this.weblogin();
     if(this.isAjax("post")){
@@ -84,9 +84,9 @@ export default class extends Base {
         return this.fail("您没有要支付的订单");
       }else {
         //判断是否已经绑定pingxx_id,如果已绑定查询pingxx订单直接支付。防止订单重复生成。
-        // console.log(order.id);
+        // //console.log(order.id);
         if(think.isEmpty(order.pingxx_id)){
-          // console.log(111111111)
+          // //console.log(111111111)
           //获取渠道
           let channel = await this.model("pingxx").where({id:post.payment}).getField("channel",true);
           let open_id;
@@ -101,13 +101,13 @@ export default class extends Base {
           //把pingxx_id存到订单
           await this.model('order').where({id:post.order_id}).update({pingxx_id:charges.id});
         }else {
-          // console.log(33333333);
+          // //console.log(33333333);
           //调用ping++ 服务端
           payment = think.service("payment");
           pay = new payment(this.http);
           charges = await pay.charge(order.pingxx_id);
         }
-        //console.log(charges);
+        ////console.log(charges);
         if(charges){
           await this.model("doc_receiving").add(receiving);
           return this.success({name:"支付订单对接成功，正在转跳！",data:charges})
@@ -129,7 +129,7 @@ export default class extends Base {
         return think.statusAction(702, this.http);
       }
       order.end_time = date_from(order.create_time+(Number(this.setup.ORDER_DELAY)*60000))
-      //console.log(order);
+      ////console.log(order);
       this.assign("order",order);
 
       //   //支付方式
@@ -196,7 +196,7 @@ export default class extends Base {
     switch (data.type) {
       case "charge.succeeded":
         // 开发者在此处加入对支付异步通知的处理代码
-        //console.log(data.data.object.paid);
+        ////console.log(data.data.object.paid);
         if(data.data.object.paid){
           let order = await this.model("order").where({order_no:data.data.object.order_no}).find();
           //支付成功改变订单状态
@@ -234,7 +234,7 @@ export default class extends Base {
     let code = this.param();
 
     //orderId: '1458722092073', respMsg: 'success'
-    console.log(code);
+    //console.log(code);
     //站内支付回掉
     if(code.c_o_id){
       let order = await this.model("order").find(code.c_o_id);

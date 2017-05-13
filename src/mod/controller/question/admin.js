@@ -15,7 +15,7 @@ export default class extends Base {
   async indexAction(){
     let cate_id = this.get('cate_id') || null;
     let group_id =  this.get('group_id') || 0;
-    console.log(cate_id);
+    //console.log(cate_id);
     if(think.isEmpty(cate_id)){
       this.http.error = new Error('该栏目不存在！');
       return think.statusAction(702, this.http);
@@ -31,7 +31,7 @@ export default class extends Base {
     if (cate_id) {
       //获取当前分类的所有子栏目
       let subcate = await this.model('category').get_sub_category(cate_id);
-      // console.log(subcate);
+      // //console.log(subcate);
       subcate.push(cate_id);
       map.category_id = ['IN', subcate];
     }
@@ -55,7 +55,7 @@ export default class extends Base {
     let page = pages.pages(list);
     this.assign('list', list);
     this.assign('pagerData', page); //分页展示使用
-    console.log(map);
+    //console.log(map);
     this.meta_title = this.m_cate.title;
     this.assign({
       "navxs": true,
@@ -82,7 +82,7 @@ export default class extends Base {
     if(!think.isEmpty(qm)){
       await this.model("question_answer_comments").where({answer_id:["IN",qm]}).delete();
     }
-      //console.log(ids);
+      ////console.log(ids);
       //删除搜索
      if(think.isArray(ids)){
       for(let id of ids){

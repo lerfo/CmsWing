@@ -76,7 +76,7 @@ export default class extends Base {
         //判断是否登陆
         await this.weblogin();
         let status = this.param("status") || null;
-        //console.log(status);
+        ////console.log(status);
         let map;
 
         //当前位置
@@ -124,7 +124,7 @@ export default class extends Base {
         }
 
 
-        //console.log(map);
+        ////console.log(map);
         // this.config("db.nums_per_page",20)
         let data = await this.model("order").where(map).page(this.param('page')).order("create_time DESC").countSelect();
         let html = pagination(data, this.http, {
@@ -157,7 +157,7 @@ export default class extends Base {
             if (val.pay_status == 0) {
                 val.end_time = date_from(val.create_time + (Number(this.setup.ORDER_DELAY) * 60000))
             }
-            //console.log(this.setup.ORDER_DELAY_BUND)
+            ////console.log(this.setup.ORDER_DELAY_BUND)
             //查出订单里面的商品列表
             val.goods = await this.model("order_goods").where({order_id: val.id}).select();
              let numarr=[];
@@ -167,7 +167,7 @@ export default class extends Base {
                 v = think.extend(v, v.prom_goods);
                 delete v.prom_goods;
             }
-            //console.log(val.goods)
+            ////console.log(val.goods)
             val.nums = eval(numarr.join("+"));
         }
         //未付款统计
@@ -190,7 +190,7 @@ export default class extends Base {
         }).count("id");
         this.assign("nopaid", nopaid);
         this.assign("receipt", receipt);
-         //console.log(data.data);
+         ////console.log(data.data);
         this.assign("count",data.count);
         this.assign('list', data.data);
         this.meta_title = "我的订单";
@@ -405,7 +405,7 @@ export default class extends Base {
             //生成订单
 
             //判断是否已经绑定pingxx_id,如果已绑定查询pingxx订单直接支付。防止订单重复生成。
-            // console.log(111111111)
+            // //console.log(111111111)
             //获取渠道
             let channel = await this.model("pingxx").where({id: data.payment}).getField("channel", true);
             let open_id;
@@ -419,7 +419,7 @@ export default class extends Base {
             let charges = await pay.pingxx(channel, data.order_no, data.order_amount, this.ip(),open_id);
 
 
-            //console.log(charges);
+            ////console.log(charges);
             if (charges) {
                 //把pingxx_id存到订单
                 data.pingxx_id = charges.id;
@@ -487,7 +487,7 @@ export default class extends Base {
             join: "left",
             on: ["id", "user_id"]
         }).find(this.user.uid);
-        //console.log(userInfo);
+        ////console.log(userInfo);
         this.assign("userInfo", userInfo);
         let province, city, county;
         //获取省份
@@ -610,7 +610,7 @@ export default class extends Base {
         //判断是否登陆
         await this.weblogin();
         let file = think.extend({}, this.file('file'));
-        console.log(file);
+        //console.log(file);
         //think.log(avatar_data);
         var filepath = file.path;
         //文件上传后，需要将文件移动到项目其他地方，否则会在请求结束时删除掉该文件
@@ -619,7 +619,7 @@ export default class extends Base {
         let res;
         if (checkMobile(this.userAgent())) {
             let jimp2 = ()=> {
-                console.log(111)
+                //console.log(111)
                 let deferred = think.defer();
                 let self = this;
                 Jimp.read(filepath, function (err, lenna) {
@@ -640,7 +640,7 @@ export default class extends Base {
                 let deferred = think.defer();
                 let self = this;
                 Jimp.read(filepath, function (err, lenna) {
-                    //console.log(lenna)
+                    ////console.log(lenna)
 
                     if (err) throw err;
                     lenna.crop(avatar_data.x, avatar_data.y, avatar_data.width, avatar_data.height)            // resize
@@ -699,7 +699,7 @@ export default class extends Base {
             }
         }else {
             // let priv = await this.model("category_priv").where({catid:39,is_admin:0,roleid:2,action:'add'}).select();
-            // console.log(priv);
+            // //console.log(priv);
             //前台投稿分类
             //TODO 权限控制(管理员)
             let parr =[];
@@ -742,7 +742,7 @@ export default class extends Base {
      * @param integer $group_id 分组id
      */
     async getDocumentList(cate_id, model_id, position, field, group_id,sortval,sortid) {
-        //console.log(2222222);
+        ////console.log(2222222);
         /* 查询条件初始化 */
         cate_id = cate_id||0,field=field||true;
         let map = {};
@@ -775,34 +775,34 @@ export default class extends Base {
         if (cate_id) {
             //获取当前分类的所有子栏目
             let subcate = await this.model('category', {}, 'admin').get_sub_category(cate_id);
-            // console.log(subcate);
+            // //console.log(subcate);
             subcate.push(cate_id);
             map.category_id = ['IN', subcate];
         }
-        // console.log(map);
+        // //console.log(map);
         map.pid = this.param('pid') || 0;
-        //console.log(map.pid);
+        ////console.log(map.pid);
         if (map.pid != 0) { // 子文档列表忽略分类
             delete map.category_id;
         }
 
-        //console.log(array_diff(tablefields,field));
+        ////console.log(array_diff(tablefields,field));
         if (!think.isEmpty(model_id)) {
             map.model_id = model_id;
             await Document.select();
             let tablefields = Object.keys(await Document.getSchema());
-            //console.log(array_diff(tablefields,field));
-            // console.log(field);
+            ////console.log(array_diff(tablefields,field));
+            // //console.log(field);
             //return
             if (think.isArray(field) && array_diff(tablefields, field)) {
                 let modelName = await this.model('model').where({id: model_id}).getField('name');
-                //console.log('__DOCUMENT_'+modelName[0].toUpperCase()+'__ '+modelName[0]+' ON DOCUMENT.id='+modelName[0]+'.id');
+                ////console.log('__DOCUMENT_'+modelName[0].toUpperCase()+'__ '+modelName[0]+' ON DOCUMENT.id='+modelName[0]+'.id');
                 // let sql = Document.parseSql(sql)
-                //console.log(`${this.config('db.prefix')}document_${modelName[0]} ${modelName[0]} ON DOCUMENT.id=${modelName[0]}.id`);
+                ////console.log(`${this.config('db.prefix')}document_${modelName[0]} ${modelName[0]} ON DOCUMENT.id=${modelName[0]}.id`);
                 // return
                 //Document.join('__DOCUMENT_'+modelName[0].toUpperCase()+'__ '+modelName[0]+' ON DOCUMENT.id='+modelName[0]+'.id');
                 //Document.alias('DOCUMENT').join(`${this.config('db.prefix')}document_${modelName[0]} ${modelName[0]} ON DOCUMENT.id=${modelName[0]}.id`);
-                //console.log(3333333333);
+                ////console.log(3333333333);
                 Document.alias('DOCUMENT').join({
                     table: `document_${modelName[0]}`,
                     join: "inner",
@@ -810,15 +810,15 @@ export default class extends Base {
                     on: ["id", "id"]
                 })
                 let key = array_search(field, 'id');
-                //console.log(key)
+                ////console.log(key)
                 if (false !== key) {
                     delete field[key];
                     field[key] = 'DOCUMENT.id';
                 }
             }
         }
-        //console.log(field);
-        //console.log(1111111);
+        ////console.log(field);
+        ////console.log(1111111);
         if (!think.isEmpty(position)) {
             map[1] = "position & {$position} = {$position}";
         }
@@ -839,7 +839,7 @@ export default class extends Base {
                 nsobj[qarr[0]] = qarr[1];
                 if(qarr[1] !=0){
                     let vv = qarr[1].split(">");
-                    //console.log(vv);
+                    ////console.log(vv);
                     if(vv[0]=="d" && !think.isEmpty(vv[1])){
                         map["t."+qarr[0]] = ["<",vv[1]];
                     }else if(vv[0]=="u" && !think.isEmpty(vv[1])){
@@ -858,10 +858,10 @@ export default class extends Base {
             // where.optionid = ["IN",optionidarr];
             // where['value'] = ["IN",valuearr];
             // let type= await this.model("typeoptionvar").where(where).select();
-            //  console.log(type);
-            // console.log(map);
+            //  //console.log(type);
+            // //console.log(map);
         }
-        //console.log(map);
+        ////console.log(map);
         let list;
         if(!think.isEmpty(sortval)){
             list = await Document.alias('DOCUMENT').join({
@@ -884,7 +884,7 @@ export default class extends Base {
             // 获取上级文档
             let article = await Document.field('id,title,type').find(map['pid']);
             this.assign('article', article);
-            // console.log(article);
+            // //console.log(article);
         }
 
         //检查该分类是否允许发布内容
@@ -895,7 +895,7 @@ export default class extends Base {
         this.assign('status', status);
         this.assign('allow', allow_publish);
         this.assign('pid', map.pid);
-        //console.log(list.data);
+        ////console.log(list.data);
         this.meta_title = '文档列表';
         return list.data;
     }
@@ -951,14 +951,14 @@ export default class extends Base {
                     }
                 }
             }
-            //console.log(typevar);
+            ////console.log(typevar);
             this.assign("typevar",typevar);
         }
-        //console.log(sort);
+        ////console.log(sort);
         this.assign("sort",sort);
         //检查该分类是否允许发布
         let allow_publish = await this.model("category",{},'admin').check_category(cate_id);
-        //console.log(allow_publish);
+        ////console.log(allow_publish);
         !allow_publish && this.fail("该分类不允许发布内容");
 
         //获取当先的模型信息
@@ -980,10 +980,10 @@ export default class extends Base {
         think.log(fields);
         //获取当前分类文档的类型
         let type_list = await this.model("category",{},'admin').get_type_bycate(cate_id);
-        //console.log(type_list);
+        ////console.log(type_list);
         //获取面包屑信息
         let nav = await this.model('category',{},'admin').get_parent_category(cate_id);
-        //console.log(model);
+        ////console.log(model);
         this.assign('groups',groups);
         this.assign('breadcrumb', nav);
         this.assign('info', info);
@@ -1058,10 +1058,10 @@ export default class extends Base {
                     }
                 }
             }
-            // console.log(typevar);
+            // //console.log(typevar);
             this.assign("typevar",typevar);
         }
-        //console.log(sort);
+        ////console.log(sort);
         this.assign("sort",sort);
         //获取表单字段排序
         let fields = await this.model("attribute",{},'admin').get_model_attribute(model.id,true);
@@ -1073,16 +1073,16 @@ export default class extends Base {
         this.assign('tags',tags);
         //获取面包屑信息
         let nav = await this.model('category',{},'admin').get_parent_category(data.category_id);
-        //console.log(model);
+        ////console.log(model);
         this.assign('breadcrumb', nav);
-        //console.log(model);
+        ////console.log(model);
         this.assign('type_list', type_list);
         this.meta_title = '编辑' + model.title;
         this.active = "admin/article/index";
         this.assign({
             "navxs": true,
         });
-        //console.log(data);
+        ////console.log(data);
         this.assign('data', data);
         this.assign('model_id', data.model_id);
         this.assign('model', model);
@@ -1100,7 +1100,7 @@ export default class extends Base {
         if(data.is_ajax != 'true'){
             return this.fail("非法提交！");
         }
-        //console.log(data);
+        ////console.log(data);
         //return false;
         let res = await this.model('document',{},'admin').updates(data);
         // let res ={ data:
@@ -1128,7 +1128,7 @@ export default class extends Base {
         //     update_time: 1470888723186,
         //     status: 1 },
         //     id: 248 }
-        //console.log(res);
+        ////console.log(res);
         if (res) {
             //行为记录
             if (!res.data.id) {

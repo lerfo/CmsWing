@@ -31,7 +31,7 @@ export default class extends think.model.base {
                 let data = await model.where({id:val.goods_id}).getField(sku,true);
                 data = JSON.parse(data);
                 let type = prom_goods.type.split(",");
-                console.log(type);
+                //console.log(type);
                 for(let v of data.data){
                     if(v.ch && v.name==type[0]){
                         for (let _v of v.ch){

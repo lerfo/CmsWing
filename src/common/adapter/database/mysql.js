@@ -65,13 +65,13 @@ export default class extends think.adapter.base {
     async write(sql) {
 
         let size = sql.length;
-        //console.log(size)
+        ////console.log(size)
         let backuppath = this.config.path + this.file.name;
         let filenmae = backuppath + '/' + this.file.name + '-' + this.file.part + '.sql';
-        // console.log(filenmae)
+        // //console.log(filenmae)
         let states = Fs.statSync(filenmae)
         this.size = states.size + size;
-        //console.log(this.size+"-"+this.config.part) ;
+        ////console.log(this.size+"-"+this.config.part) ;
         if (this.size > this.config.part) {//分卷
 
             this.file.part++;
@@ -84,7 +84,7 @@ export default class extends think.adapter.base {
         }
         let aa = Fs.appendFileSync(filenmae, sql);
 
-        //console.log(aa);
+        ////console.log(aa);
         //TODO
     }
 
@@ -96,19 +96,19 @@ export default class extends think.adapter.base {
      */
     async backup(table, start) {
         //数据库对象
-        //console.log(think.config('db'))
+        ////console.log(think.config('db'))
         let db = think.model('mysql', think.config('db'));
         //备份表结构
         if (0 == start) {
             let result = await db.query("SHOW CREATE TABLE " + table);
-            //console.log(result);
+            ////console.log(result);
             let sql = "\n";
             sql += "-- -----------------------------\n";
             sql += "-- Table structure for `" + table + "`\n";
             sql += "-- -----------------------------\n";
             sql += "DROP TABLE IF EXISTS `" + table + "`;\n";
             sql += trim(result[0]['Create Table']) + ";\n\n";
-            //console.log(sql);
+            ////console.log(sql);
             this.write(sql)
             //if(false === this.write(sql)){
             //  return false;
@@ -117,7 +117,7 @@ export default class extends think.adapter.base {
         //数据总数
         let result = await db.query("SELECT COUNT(*) AS count FROM " + table);
         let count = result[0].count;
-        //console.log(count);
+        ////console.log(count);
         //备份表数据
         if (count) {
             //写入数据注释
@@ -126,17 +126,17 @@ export default class extends think.adapter.base {
                 sql += "-- Records of `" + table + "`\n";
                 sql += "-- -----------------------------\n";
                 this.write(sql);
-                //console.log(sql);
+                ////console.log(sql);
             }
 
 
             //备份数据记录
             result = await db.query("SELECT * FROM " + table + " LIMIT " + start + " , 1000");
             result.forEach(row => {
-                //console.log(obj_values(row).join("', '"))
+                ////console.log(obj_values(row).join("', '"))
                 let sql = "INSERT INTO `" + table + "` VALUES ('" + obj_values(row).join("', '") + "');\n";
                 this.write(sql);
-                //console.log(sql);
+                ////console.log(sql);
                 //if(false === this.write(sql)){
                 //  return false;
                 //}
@@ -148,7 +148,7 @@ export default class extends think.adapter.base {
         }
         //备份下一表
         return 0;
-        //console.log(result);
+        ////console.log(result);
     }
 
 

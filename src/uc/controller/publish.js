@@ -11,7 +11,7 @@ export default class extends Base {
   async indexAction(){
     await this.weblogin();
     let cate_id = this.get('cate_id') || null;
-    console.log(cate_id);
+    //console.log(cate_id);
     //权限控制
     let priv = await this.priv(cate_id);
     if(priv){
@@ -53,12 +53,12 @@ export default class extends Base {
             if(!think.isEmpty(val.option.rules)){
               val.option.rules = JSON.parse(val.option.rules);
               val.rules=parse_type_attr(val.option.rules.choices);
-              console.log(val.rules);
+              //console.log(val.rules);
               for(let v of val.rules){
                 v.id = "l>"+v.id
               }
               val.option.rules.choices = parse_config_attr(val.option.rules.choices);
-              //console.log(val.rules);
+              ////console.log(val.rules);
             }
           }else if(val.option.type == 'range'){
             if(!think.isEmpty(val.option.rules)){
@@ -88,7 +88,7 @@ export default class extends Base {
                 }
                 searcharr.push({id:'u>'+arr[len-1],name:'高于'+arr[len-1]+val.option.unit,pid:0})
               }
-              //console.log(searcharr);
+              ////console.log(searcharr);
               val.option.rules = JSON.parse(val.option.rules);
               val.rules=searcharr;
               // val.option.rules.choices = parse_config_attr(val.option.rules.choices);
@@ -96,10 +96,10 @@ export default class extends Base {
             }
           }
         }
-        //console.log(typevar);
+        ////console.log(typevar);
         this.assign("typevar",typevar);
       }
-      //console.log(sort);
+      ////console.log(sort);
       this.assign("sort",sort);
       let pid = this.get("pid") || 0;
       // 获取列表绑定的模型
@@ -120,7 +120,7 @@ export default class extends Base {
 
         // 绑定多个模型 取基础模型的列表定义
         model = await this.model('model').where({name: 'document'}).find();
-        //console.log(model);
+        ////console.log(model);
       } else {
 
         model_id = model_id ? model_id : models;
@@ -130,7 +130,7 @@ export default class extends Base {
         if (think.isEmpty(model['list_grid'])) {
           let data = await this.model('model').field('list_grid').where({name: 'document'}).find();
           model.list_grid = data.list_grid;
-          //console.log(33);
+          ////console.log(33);
         }
       }
       this.assign('model', models.split(","))
@@ -146,7 +146,7 @@ export default class extends Base {
 //解析列表规则
     let fields = [];
     let ngrids = [];
-//console.log(model);
+////console.log(model);
     let grids = model.list_grid.split("\r\n");
     for (let value of grids) {
       //字段:标题:链接
@@ -158,14 +158,14 @@ export default class extends Base {
       if (!think.isEmpty(val[2])) {
         value.href = val[2];
       }
-      // console.log(222);
+      // //console.log(222);
       if (val[1]) {
         if (val[1].indexOf('|') > -1) {
           // 显示格式定义
           [values.title, values.format] = val[1].split('|');
         }
       }
-      //console.log(field);
+      ////console.log(field);
       for (let val  of field) {
         let array = val.split('|');
         fields.push(array[0]);
@@ -178,8 +178,8 @@ export default class extends Base {
     fields.push('pid');
 //过滤重复字段
     fields = unique(fields);
-//console.log(fields);
-// console.log(model_id);
+////console.log(fields);
+// //console.log(model_id);
     let list = await this.getDocumentList(cate_id, model_id, position, fields, group_id,sortval,sortid);
     for(let val of list){
       if(val.pics){
@@ -189,11 +189,11 @@ export default class extends Base {
         val.pics = '/static/noimg.jpg';
       }
     }
-// console.log(list);
+// //console.log(list);
     list = await this.parseDocumentList(list, model_id);
     //获取模型信息
     let modellist = [];
-    //console.log(111111111)
+    ////console.log(111111111)
     if (think.isEmpty(_model)) {
       modellist = null;
     } else {
@@ -269,14 +269,14 @@ export default class extends Base {
           }
         }
       }
-      //console.log(typevar);
+      ////console.log(typevar);
       this.assign("typevar",typevar);
     }
-    //console.log(sort);
+    ////console.log(sort);
     this.assign("sort",sort);
     //检查该分类是否允许发布
     let allow_publish = await this.model("category").check_category(cate_id);
-    //console.log(allow_publish);
+    ////console.log(allow_publish);
     !allow_publish && this.fail("该分类不允许发布内容");
 
     //获取当先的模型信息
@@ -298,10 +298,10 @@ export default class extends Base {
     think.log(fields);
     //获取当前分类文档的类型
     let type_list = await this.model("category").get_type_bycate(cate_id);
-    //console.log(type_list);
+    ////console.log(type_list);
     //获取面包屑信息
     let nav = await this.model('category').get_parent_category(cate_id);
-    //console.log(model);
+    ////console.log(model);
     this.assign('groups',groups);
     this.assign('breadcrumb', nav);
     this.assign('info', info);
@@ -376,10 +376,10 @@ export default class extends Base {
           }
         }
       }
-      // console.log(typevar);
+      // //console.log(typevar);
       this.assign("typevar",typevar);
     }
-    //console.log(sort);
+    ////console.log(sort);
     this.assign("sort",sort);
     //获取表单字段排序
     let fields = await this.model("attribute").get_model_attribute(model.id,true);
@@ -391,16 +391,16 @@ export default class extends Base {
     this.assign('tags',tags);
     //获取面包屑信息
     let nav = await this.model('category').get_parent_category(data.category_id);
-    //console.log(model);
+    ////console.log(model);
     this.assign('breadcrumb', nav);
-    //console.log(model);
+    ////console.log(model);
     this.assign('type_list', type_list);
     this.meta_title = '编辑' + model.title;
     this.active = "admin/article/index";
     this.assign({
       "navxs": true,
     });
-    //console.log(data);
+    ////console.log(data);
     this.assign('data', data);
     this.assign('model_id', data.model_id);
     this.assign('model', model);
@@ -448,7 +448,7 @@ export default class extends Base {
               }
           }
       }
-    //console.log(data);
+    ////console.log(data);
     //return false;
     let res = await this.model('document').updates(data);
     // let res ={ data:
@@ -476,7 +476,7 @@ export default class extends Base {
     //     update_time: 1470888723186,
     //     status: 1 },
     //     id: 248 }
-    //console.log(res);
+    ////console.log(res);
     if (res) {
       //行为记录
       if (!res.data.id) {
@@ -502,7 +502,7 @@ export default class extends Base {
    * @param integer $group_id 分组id
    */
   async getDocumentList(cate_id, model_id, position, field, group_id,sortval,sortid) {
-    //console.log(2222222);
+    ////console.log(2222222);
     /* 查询条件初始化 */
     cate_id = cate_id||0,field=field||true;
     let map = {};
@@ -535,34 +535,34 @@ export default class extends Base {
     if (cate_id) {
       //获取当前分类的所有子栏目
       let subcate = await this.model('category').get_sub_category(cate_id);
-      // console.log(subcate);
+      // //console.log(subcate);
       subcate.push(cate_id);
       map.category_id = ['IN', subcate];
     }
-    // console.log(map);
+    // //console.log(map);
     map.pid = this.param('pid') || 0;
-    //console.log(map.pid);
+    ////console.log(map.pid);
     if (map.pid != 0) { // 子文档列表忽略分类
       delete map.category_id;
     }
 
-    //console.log(array_diff(tablefields,field));
+    ////console.log(array_diff(tablefields,field));
     if (!think.isEmpty(model_id)) {
       map.model_id = model_id;
       await Document.select();
       let tablefields = Object.keys(await Document.getSchema());
-      //console.log(array_diff(tablefields,field));
-      // console.log(field);
+      ////console.log(array_diff(tablefields,field));
+      // //console.log(field);
       //return
       if (think.isArray(field) && array_diff(tablefields, field)) {
         let modelName = await this.model('model').where({id: model_id}).getField('name');
-        //console.log('__DOCUMENT_'+modelName[0].toUpperCase()+'__ '+modelName[0]+' ON DOCUMENT.id='+modelName[0]+'.id');
+        ////console.log('__DOCUMENT_'+modelName[0].toUpperCase()+'__ '+modelName[0]+' ON DOCUMENT.id='+modelName[0]+'.id');
         // let sql = Document.parseSql(sql)
-        //console.log(`${this.config('db.prefix')}document_${modelName[0]} ${modelName[0]} ON DOCUMENT.id=${modelName[0]}.id`);
+        ////console.log(`${this.config('db.prefix')}document_${modelName[0]} ${modelName[0]} ON DOCUMENT.id=${modelName[0]}.id`);
         // return
         //Document.join('__DOCUMENT_'+modelName[0].toUpperCase()+'__ '+modelName[0]+' ON DOCUMENT.id='+modelName[0]+'.id');
         //Document.alias('DOCUMENT').join(`${this.config('db.prefix')}document_${modelName[0]} ${modelName[0]} ON DOCUMENT.id=${modelName[0]}.id`);
-        //console.log(3333333333);
+        ////console.log(3333333333);
         Document.alias('DOCUMENT').join({
           table: `document_${modelName[0]}`,
           join: "inner",
@@ -570,15 +570,15 @@ export default class extends Base {
           on: ["id", "id"]
         })
         let key = array_search(field, 'id');
-        //console.log(key)
+        ////console.log(key)
         if (false !== key) {
           delete field[key];
           field[key] = 'DOCUMENT.id';
         }
       }
     }
-    //console.log(field);
-    //console.log(1111111);
+    ////console.log(field);
+    ////console.log(1111111);
     if (!think.isEmpty(position)) {
       map[1] = "position & {$position} = {$position}";
     }
@@ -599,7 +599,7 @@ export default class extends Base {
         nsobj[qarr[0]] = qarr[1];
         if(qarr[1] !=0){
           let vv = qarr[1].split(">");
-          //console.log(vv);
+          ////console.log(vv);
           if(vv[0]=="d" && !think.isEmpty(vv[1])){
             map["t."+qarr[0]] = ["<",vv[1]];
           }else if(vv[0]=="u" && !think.isEmpty(vv[1])){
@@ -618,10 +618,10 @@ export default class extends Base {
       // where.optionid = ["IN",optionidarr];
       // where['value'] = ["IN",valuearr];
       // let type= await this.model("typeoptionvar").where(where).select();
-      //  console.log(type);
-      // console.log(map);
+      //  //console.log(type);
+      // //console.log(map);
     }
-    //console.log(map);
+    ////console.log(map);
     let list;
     if(!think.isEmpty(sortval)){
       list = await Document.alias('DOCUMENT').join({
@@ -644,7 +644,7 @@ export default class extends Base {
       // 获取上级文档
       let article = await Document.field('id,title,type').find(map['pid']);
       this.assign('article', article);
-      // console.log(article);
+      // //console.log(article);
     }
 
     //检查该分类是否允许发布内容
@@ -655,7 +655,7 @@ export default class extends Base {
     this.assign('status', status);
     this.assign('allow', allow_publish);
     this.assign('pid', map.pid);
-    //console.log(list.data);
+    ////console.log(list.data);
     this.meta_title = '文档列表';
     return list.data;
   }
@@ -671,7 +671,7 @@ export default class extends Base {
       }
     }else {
       // let priv = await this.model("category_priv").where({catid:39,is_admin:0,roleid:2,action:'add'}).select();
-      // console.log(priv);
+      // //console.log(priv);
       //前台投稿分类
       //TODO 权限控制(管理员)
       let parr =[];
@@ -726,7 +726,7 @@ export default class extends Base {
         for(let val of modlist){
             val.count = await this.model("approval").where({model:val.id}).count();
         }
-        //console.log(modlist);
+        ////console.log(modlist);
         this.assign("model",modlist);
         this.assign("count",await this.model("approval").where({uid:this.user.uid}).count())
    this.meta_title="待审稿件";
@@ -766,7 +766,7 @@ export default class extends Base {
     let cate = await this.model("category").get_all_category({mold:0});
     let roleid = await this.model("member").where({id:this.user.uid}).getField('groupid', true);
     // let priv = await this.model("category_priv").where({catid:39,is_admin:0,roleid:2,action:'add'}).select();
-    // console.log(priv);
+    // //console.log(priv);
     //前台投稿分类
     //TODO 权限控制(管理员)
     let parr =[];
@@ -797,7 +797,7 @@ export default class extends Base {
       }
     }
 
-    //console.log(cates);
+    ////console.log(cates);
     //think.log(cate);
     return this.json(arr_to_tree(cates, 0))
   }

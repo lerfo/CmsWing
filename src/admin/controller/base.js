@@ -21,22 +21,22 @@ export default class extends think.controller.base {
         if (!is_login) {
            return this.redirect('/admin/public/signin');
         }
-        console.log('------------enter admin/base __before---------------------');
+        //console.log('------------enter admin/base __before---------------------');
         //用户信息
         this.user = await this.session('userInfo');
         this.assign("userinfo", this.user);
-        console.log('------------1---------------------');
+        //console.log('------------1---------------------');
         this.roleid = await this.model("member").where({id:this.user.uid}).getField('groupid', true);
-        console.log('------------2---------------------');
+        //console.log('------------2---------------------');
         //网站配置
         this.setup = await this.model("setup").getset();
-        // console.log(this.setup);
-        console.log('------------3---------------------');
+        // //console.log(this.setup);
+        //console.log('------------3---------------------');
         this.is_admin = await this.isadmin();
         //后台菜单
         this.adminmenu = await this.model('menu').getallmenu(this.user.uid,this.is_admin);
-        console.log('------------4---------------------');
-        //console.log(this.adminmenu);
+        //console.log('------------4---------------------');
+        ////console.log(this.adminmenu);
         this.assign("setup", this.setup);
         //菜单当前状态
 
@@ -44,15 +44,15 @@ export default class extends think.controller.base {
          * 权限验证超级管理员
          */
         //let url = `${this.http.module}/${this.http.controller}/${think.sep+this.http.action}`;
-        //console.log(url);
+        ////console.log(url);
 
-        //console.log(is_admin);
+        ////console.log(is_admin);
         let url = `${this.http.module}/${this.http.controller}/${this.http.action}`;
-        console.log(url);
+        //console.log(url);
         if (!this.is_admin && !in_array(this.user.uid,this.config("user_editor"))) {
             let Auth = think.adapter("auth", "rbac");
             let auth = new Auth(this.user.uid);
-            //console.log(auth);
+            ////console.log(auth);
             let res = await auth.check(url);
             if (!res) {
                 //return this.fail('未授权访问!');
@@ -61,9 +61,9 @@ export default class extends think.controller.base {
             }
         }
 
-        //console.log(this.user.uid);
+        ////console.log(this.user.uid);
         //this.active = this.http.url.slice(1),
-            // console.log(this.active);
+            // //console.log(this.active);
             this.active =this.http.module+"/"+this.http.controller+"/"+this.http.action;
             //think.log(this.active);
         //后台提示
@@ -78,7 +78,7 @@ export default class extends think.controller.base {
         }
 
 
-        console.log(notifications);
+        //console.log(notifications);
         this.assign({
                 "navxs": false,
                 "bg": "bg-black",
@@ -342,16 +342,16 @@ export default class extends think.controller.base {
         let attrList = await this.model('attribute').get_model_attribute(model_id, false, 'id,name,type,extra');
         //attrList=attrList[model_id];
         //this.end(attrList);
-        // console.log(attrList);
+        // //console.log(attrList);
         if (think.isArray(list)) {
             list.forEach((data, k) => {
-                //console.log(data);
+                ////console.log(data);
                 for (let key in data) {
-                    //console.log(key)
+                    ////console.log(key)
                     if (!think.isEmpty(attrList[key])) {
                         let extra = attrList[key]['extra'];
                         let type = attrList[key]['type'];
-                        //console.log(extra);
+                        ////console.log(extra);
                         if ('select' == type || 'checkbox' == type || 'radio' == type || 'bool' == type) {
                             // 枚举/多选/单选/布尔型
                             let options = parse_config_attr(extra);
@@ -371,7 +371,7 @@ export default class extends think.controller.base {
                 data.model_id = model_id;
                 list[k] = data;
             })
-            //console.log(222)
+            ////console.log(222)
             return list;
         }
     }

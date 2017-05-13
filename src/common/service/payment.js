@@ -89,11 +89,11 @@ export default class extends think.service.base {
             app: {id: setup.PINGXX_APP_ID},
             extra: extra
         }
-        console.log(config);
+        //console.log(config);
         function create(pingpp, config) {
             let deferred = think.defer();
             pingpp.charges.create(config, function (err, charge) {
-                console.log(err);
+                //console.log(err);
                 deferred.resolve(charge);
             });
             return deferred.promise;
@@ -110,7 +110,7 @@ export default class extends think.service.base {
         function retrieve(pingpp, id) {
             let deferred = think.defer();
             pingpp.charges.retrieve(id, function (err, charge) {
-                    console.log(err);
+                    //console.log(err);
                     deferred.resolve(charge);
                 }
             );
@@ -118,7 +118,7 @@ export default class extends think.service.base {
         }
 
         let res = await retrieve(pingpp, id);
-        //console.log(res);
+        ////console.log(res);
         return res;
     }
 }

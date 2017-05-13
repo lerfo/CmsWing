@@ -31,7 +31,7 @@ export default class extends think.service.base {
              let deferred = think.defer();
              // 向极验申请一次验证所需的challenge
              geetest.register(function (err,data) {
-                 console.log(data);
+                 //console.log(data);
                  deferred.resolve({
                      gt: geetest.geetest_id,
                      challenge: data.challenge,
@@ -71,11 +71,11 @@ export default class extends think.service.base {
         seccode: data.geetest_seccode
 
       }, function (err, result) {
-        console.log(result);
+        //console.log(result);
         var data = {status: "success"};
 
         if (err || !result) {
-          console.log(err);
+          //console.log(err);
           data.status = "fail";
         }
 

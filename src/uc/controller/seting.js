@@ -13,8 +13,8 @@ export default class extends Base {
     await this.weblogin();
     //获取用户信息
     let userInfo = await this.model("member").find(this.user.uid);
-      console.log(userInfo);
       //console.log(userInfo);
+      ////console.log(userInfo);
     this.assign("userInfo", userInfo);
     let province, city, county, start_city;
     //获取省份
@@ -59,8 +59,8 @@ export default class extends Base {
 
     //获取用户信息
     let userInfo = await this.model("member").find(this.user.uid);
-      console.log(userInfo);
       //console.log(userInfo);
+      ////console.log(userInfo);
     //this.assign("userInfo", userInfo);
     let province, city, county, start_city;
     //获取省份
@@ -161,11 +161,11 @@ export default class extends Base {
 
   //上传头像
   async updateavatarAction() {
-    console.log("-------------");
+    //console.log("-------------");
     //判断是否登陆
     await this.weblogin();
     let file = think.extend({}, this.file('file'));
-    console.log(file);
+    //console.log(file);
     //think.log(avatar_data);
     var filepath = file.path;
     //文件上传后，需要将文件移动到项目其他地方，否则会在请求结束时删除掉该文件
@@ -174,7 +174,7 @@ export default class extends Base {
     let res;
     if (checkMobile(this.userAgent())) {
       let jimp2 = ()=> {
-        console.log(111)
+        //console.log(111)
         let deferred = think.defer();
         let self = this;
         Jimp.read(filepath, function (err, lenna) {
@@ -195,7 +195,7 @@ export default class extends Base {
         let deferred = think.defer();
         let self = this;
         Jimp.read(filepath, function (err, lenna) {
-          //console.log(lenna)
+          ////console.log(lenna)
 
           if (err) throw err;
           lenna.crop(avatar_data.x, avatar_data.y, avatar_data.width, avatar_data.height)            // resize
@@ -217,7 +217,7 @@ export default class extends Base {
       "errno": 0,
       "message": "头像上传成功！"
     }
-    console.log(data);
+    //console.log(data);
     return this.end(data);
   }
 }

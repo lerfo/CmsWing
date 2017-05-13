@@ -47,7 +47,7 @@ export default class extends Base {
             data[url] = temp;
 
         })
-        console.log(rules);
+        //console.log(rules);
         let update = [];//保存需要更新的节点
         let ids = [];//保存需要删除的节点的id
         let diff = {};
@@ -58,11 +58,11 @@ export default class extends Base {
                 data[key].id = rule.id;//为需要更新的节点补充id值
                 update.push(data[key]);
                 delete data[key];
-                // console.log(i);
+                // //console.log(i);
                 // rules.splice(i,1);
                 delete rule.condition;
                 delete rule.pid;
-                //console.log(rule);
+                ////console.log(rule);
                 diff[rule.id] = rule;
             } else {
                 if (rule.status == 1) {
@@ -71,28 +71,28 @@ export default class extends Base {
             }
         });
 
-        // console.log(update);
-        //console.log(rules);
-        // console.log(diff);
-        //console.log(data);
+        // //console.log(update);
+        ////console.log(rules);
+        // //console.log(diff);
+        ////console.log(data);
         if (!think.isEmpty(update)) {
             update.forEach(row=> {
-                //console.log(isObjectValueEqual(row, diff[row.id]))
-               // console.log(row)
-                //console.log(diff[row.id])
+                ////console.log(isObjectValueEqual(row, diff[row.id]))
+               // //console.log(row)
+                ////console.log(diff[row.id])
                 if (!isObjectValueEqual(row, diff[row.id])) {
 
                     AuthRule.where({id: row.id}).update(row);
-                    //console.log(row);
+                    ////console.log(row);
                 }
             })
         }
-        //console.log(ids);
+        ////console.log(ids);
         if (!think.isEmpty(ids)) {
             AuthRule.where({id: ['IN', ids]}).update({'status': -1});
             //删除规则是否需要从每个用户组的访问授权表中移除该规则?
         }
-        // console.log(data);
+        // //console.log(data);
         if (!think.isEmpty(data)) {
             AuthRule.addMany(obj_values(data));
         }
@@ -153,7 +153,7 @@ export default class extends Base {
             data.allowsendmessage= data.allowsendmessage||0;
             data.allowattachment= data.allowattachment||0;
             data.allowsearch= data.allowsearch||0;
-            console.log(data);
+            //console.log(data);
             let update = await this.model("member_group").where({groupid:data.groupid}).update(data);
 
             if (update) {
@@ -237,7 +237,7 @@ export default class extends Base {
             "draw": draw,
             "data": res
         }
-        //console.log(data);
+        ////console.log(data);
         return this.json(data);
     }
 
@@ -265,7 +265,7 @@ export default class extends Base {
     async roleaddAction() {
         if(this.isPost()){
             let data = this.post();
-            //console.log(1111111111111111)
+            ////console.log(1111111111111111)
             let res = await this.model('auth_role').add(data);
 
             if(res){
@@ -286,7 +286,7 @@ export default class extends Base {
      */
     async roledelAction() {
         let id = this.param("ids");
-        //console.log(id);
+        ////console.log(id);
         if(think.isEmpty(id)){
             return this.fail("参数不能为空！")
         }
@@ -316,7 +316,7 @@ export default class extends Base {
                     this_role = role;
                 }
             })
-        //console.log(node_list);
+        ////console.log(node_list);
         this.active="admin/auth/index";
         this.meta_title="权限管理"
         this.assign({
@@ -336,7 +336,7 @@ export default class extends Base {
         let node_list = await this.returnnodes();
         let map       = {module:"admin",type:['IN',[1,2]],status:1};
         let main_rules=await this.model('auth_rule').where(map).field("name,id").select();
-        console.log(main_rules);
+        //console.log(main_rules);
         //let nap       = {module:"admin",type:1,status:1};
         //let child_rules =await this.model('auth_rule').where(nap).field('name,id').select();
         let this_role = {};
@@ -356,7 +356,7 @@ export default class extends Base {
             "node_list":node_list,
             "this_role":this_role
         }
-        //console.log(data);
+        ////console.log(data);
         return this.json(data);
     }
 
@@ -428,7 +428,7 @@ export default class extends Base {
     async testAction() {
 
         let ss = await this.updaterules();
-        //console.log(ss);
+        ////console.log(ss);
         this.end();
     }
 

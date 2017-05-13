@@ -20,7 +20,7 @@
             where.is_dev    =   0;
         }
         let groups = setup.MENU_GROUP;
-        //console.log(groups);
+        ////console.log(groups);
         //let pid = await this.topmenu();
         var arr = {};
         for(var v of Object.keys(groups)){
@@ -31,7 +31,7 @@
                 if( where.group != 0){
                     menu =await this.where(where).order('sort asc').select();
                 }
-                //console.log(menu);
+                ////console.log(menu);
                 if(!think.isEmpty(menu)){
                     //arr.push(obj[v.id]=menu)
                     let nmenu=[];
@@ -41,7 +41,7 @@
                         let auth = new Auth(uid);
                         for(let m of menu){
                             let res = await auth.check(m.url);
-                            //console.log(res);
+                            ////console.log(res);
                             if(res){
                                 nmenu.push(m);
                             }
@@ -56,7 +56,7 @@
         }
 
        //let menu = get_children(menu,0)
-        //console.log(menu);
+        ////console.log(menu);
         return arr;
     }
     //获取顶级菜单
@@ -69,7 +69,7 @@
          where.is_dev    =   0;
      }
      let menu =await this.where(where).order('sort asc').select();
-       //console.log(menu);
+       ////console.log(menu);
        return menu;
    }
 
@@ -83,7 +83,7 @@
             where.is_dev    =   0;
         }
         let groups =await this.where(where).field("group").order('sort asc').select();
-        //console.log(menu);
+        ////console.log(menu);
         return groups;
     }
 }

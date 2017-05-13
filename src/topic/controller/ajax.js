@@ -18,7 +18,7 @@ export default class extends Base {
    */
   indexAction(){
         let doaction = this.get('action');
-        console.log(doaction);
+        //console.log(doaction);
         if(doaction == 'topic'){
           this.action('ajax',doaction);
         }else if(doaction == "question"){
@@ -28,6 +28,10 @@ export default class extends Base {
         }else if(doaction == "focus"){
           this.action('ajax',doaction)
         }else if(doaction == "focuslist"){
+          this.action('ajax',doaction)
+        }else if(doaction == "productcommentlist"){
+          this.action('ajax',doaction)
+        }else if(doaction == "productcommentall"){
           this.action('ajax',doaction)
         }else{
           this.http.error = new Error('分类不存在或者被禁用！');
@@ -76,7 +80,7 @@ export default class extends Base {
             simple: true,
             stripPunctuation: true
         });
-        console.log(segment_q);
+        //console.log(segment_q);
         for (let k=0; k<segment_q.length ;k++){
             searchword.push("%"+segment_q[k]+"%");
         }
@@ -84,7 +88,7 @@ export default class extends Base {
       //1.获取分类栏目
       let get = this.get("value") ? this.get("value") : "youxue" ;//this.get('value') || 'youxue'; //默认显示游学搜索
 
-      console.log('args:'+get);
+      //console.log('args:'+get);
       let id=0;
       let query = get.split("-");
       if(get != 0){
@@ -106,11 +110,11 @@ export default class extends Base {
           if(!think.isEmpty(this.param('order'))){
               type = this.param('order');
           }
-          console.log('page:'+page);
-          console.log('limit:'+limit);
-          console.log(where);
+          //console.log('page:'+page);
+          //console.log('limit:'+limit);
+          //console.log(where);
           let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(type).countSelect();
-          //console.log(questions);
+          ////console.log(questions);
           return this.json(questions);
       }
 
@@ -143,7 +147,7 @@ export default class extends Base {
       let o = {};
       o.level = 'DESC';
       let order = query[1]||0;
-      //console.log('order:'+order);
+      ////console.log('order:'+order);
       order = Number(order);
       switch (order){
         case 1:
@@ -178,14 +182,14 @@ export default class extends Base {
       //this.assign('order',order);
       //5.2获取模型对应的排序分类信息132-0-0-17
       let sortid = query[3]||0;
-      console.log('sortid:'+sortid);
+      //console.log('sortid:'+sortid);
       if(!think.isEmpty(sortid)){
         map.sort_id = sortid;
       }
       let sortarr = query[4]||null;
       let nsobj = {};
       let sort = await this.model("category").get_category(cate.id, 'documentsorts');
-      console.log('got category document sorts:'+sort);
+      //console.log('got category document sorts:'+sort);
       if (sort) {
         this.assign("sorturl",get.split("-")[4])
         sort = JSON.parse(sort);
@@ -201,19 +205,19 @@ export default class extends Base {
               val.option.rules = JSON.parse(val.option.rules);
               val.rules=parse_type_attr(val.option.rules.choices);
               val.option.rules.choices = parse_config_attr(val.option.rules.choices);
-              //console.log(val.rules);
+              ////console.log(val.rules);
             }
 
           }else if(val.option.type == 'checkbox'){
             if(!think.isEmpty(val.option.rules)){
               val.option.rules = JSON.parse(val.option.rules);
               val.rules=parse_type_attr(val.option.rules.choices);
-              console.log(val.rules);
+              //console.log(val.rules);
               for(let v of val.rules){
                 v.id = "l>"+v.id
               }
               val.option.rules.choices = parse_config_attr(val.option.rules.choices);
-              //console.log(val.rules);
+              ////console.log(val.rules);
             }
           }else if(val.option.type == 'range'){
             if(!think.isEmpty(val.option.rules)){
@@ -243,7 +247,7 @@ export default class extends Base {
                 }
                 searcharr.push({id:'u>'+arr[len-1],name:arr[len-1]+'以上',pid:0})
               }
-              //console.log(searcharr);
+              ////console.log(searcharr);
               val.option.rules = JSON.parse(val.option.rules);
               val.rules=searcharr;
               // val.option.rules.choices = parse_config_attr(val.option.rules.choices);
@@ -251,7 +255,7 @@ export default class extends Base {
             }
           }
         }
-        console.log(typevar);
+        //console.log(typevar);
         this.assign("typevar",typevar);
       }
       //5.3解析URL中的分类排序参数信息tourdest_100.102|tourtype_0|tourfeature_0|tourdays_0|tourmonth_0
@@ -264,7 +268,7 @@ export default class extends Base {
           nsobj[qarr[0]] = qarr[1];
           if(qarr[1] !=0){
             let vv = qarr[1].split(">");
-            //console.log(vv);
+            ////console.log(vv);
             if(vv[0]=="d" && !think.isEmpty(vv[1])){
               map["t."+qarr[0]] = ["<",vv[1]];
             }else if(vv[0]=="u" && !think.isEmpty(vv[1])){
@@ -313,7 +317,7 @@ export default class extends Base {
         num=10;
       }
 
-      console.log(map);
+      //console.log(map);
       let data;
       if(!think.isEmpty(sortarr)){
         data = await this.model('document').join({
@@ -327,7 +331,7 @@ export default class extends Base {
         data = await this.model('document').where(map).page(this.param('page'),num).order(o).countSelect();
       }
       for(let val of data.data){
-          console.log(val.cover_id);
+          //console.log(val.cover_id);
           val.cover_url = await get_pic(val.cover_id,1,200,120);
           val.price = await get_price(val.price,1);
           
@@ -338,7 +342,7 @@ export default class extends Base {
    /*
   async topicAction(){
           let args = this.post();
-          console.log(args);
+          //console.log(args);
           let where = {'status':1};
           let data = think.isEmpty(args.data) ? "data" : args.data;
           let limit = think.isEmpty(args.limit) ? "10" : args.limit;
@@ -363,7 +367,7 @@ export default class extends Base {
                   args.cid=unique(cidarr).sort();
               }
           }
-          console.log('topic().args.cid:'+args.cid)
+          //console.log('topic().args.cid:'+args.cid)
           //subcate.push(cate.id);
           let cid = think.isEmpty(args.cid) ? false :{'category_id':['IN',args.cid]};
           if(cid){
@@ -394,9 +398,9 @@ export default class extends Base {
               }
           }
 
-          console.log(where);
+          //console.log(where);
           let topic = await think.model('document', think.config("db")).where(where).page(page,limit).order(type).select();
-          console.log(topic);
+          //console.log(topic);
           //副表数据
           if(args.isstu == 1){
               let topicarr = []
@@ -424,13 +428,13 @@ export default class extends Base {
    */
   async questionAction(){
           let args = this.post();
-          console.log(this.get("page"));
+          //console.log(this.get("page"));
           let where = {};//{'status':1};
           //let data = think.isEmpty(args.data) ? "data" : args.data;
           let limit = this.get("limit") ? this.get("limit"): 5 ;
           let page = this.get("page") ? this.get("page") : 1 ;
           let has_img = this.get("has_img") ? this.get("has_img") : 0 ;
-          console.log("limit:"+limit+",page:"+page);
+          //console.log("limit:"+limit+",page:"+page);
           //帖子包含图片
           if(has_img == 1){
               where = think.extend({},where,{'has_img':1});
@@ -480,7 +484,7 @@ export default class extends Base {
               where = think.extend({},where,{'title':["like",searchword]});
             }
           }
-          console.log(searchword);
+          //console.log(searchword);
           //查询时间
           let days = this.get("day");
           if(!think.isEmpty(days) && days>0){
@@ -494,11 +498,11 @@ export default class extends Base {
           }
 
           
-          console.log('page:'+page);
-          console.log(where);
-          console.log(odrerMap);
+          //console.log('page:'+page);
+          //console.log(where);
+          //console.log(odrerMap);
           let questions = await think.model('question', think.config("db")).page(page,limit).where(where).order(odrerMap).countSelect();
-          //console.log(questions);
+          ////console.log(questions);
           if(!think.isEmpty(questions.data)){
             //前端字符显示处理
             for(let val of questions.data){
@@ -517,12 +521,12 @@ export default class extends Base {
               }
               if(val.uid){
                 val.username = await get_nickname(val.uid);
-                console.log(val.username);
+                //console.log(val.username);
               }
-              //console.log(val.detailtext);
+              ////console.log(val.detailtext);
             }
           }
-          console.log(questions)
+          //console.log(questions)
           return this.json(questions);
       }
 
@@ -585,7 +589,7 @@ export default class extends Base {
       let where = {};//{'status':1};
       let limit = this.get("limit") ? this.get("limit"): 5 ;
       let page = this.get("page") ? this.get("page") : 1 ;
-      console.log("limit:"+limit+",page:"+page);
+      //console.log("limit:"+limit+",page:"+page);
       where.uid = this.user.uid;
 
       //0.获取查询关键字
@@ -608,7 +612,7 @@ export default class extends Base {
           where = think.extend({},where,{'title':["like",searchword]});
         }
       }
-      console.log(searchword);
+      //console.log(searchword);
       /*
       //查询时间
       let days = this.get("day");
@@ -624,17 +628,90 @@ export default class extends Base {
       */
       let productids = [];
       let questions = await think.model('document_focus', think.config("db")).page(page,limit).where(where).order('add_time DESC').countSelect();
-      console.log(questions);
+      //console.log(questions);
       if(!think.isEmpty(questions.data)){
         //前端字符显示处理
         for(let val of questions.data){
           let productinfo = await this.model('document').where({id:val.question_id}).getField("cover_id,title,price",true);
+          productinfo.cover_url = await get_pic(productinfo.cover_id,1,120,80);
           productinfo.price = await get_price(productinfo.price,1);
           val.productinfo = productinfo;
         }
       }
-      //console.log(questions);
+      ////console.log(questions);
       return this.success(questions);
   }
 
+  /**
+   * 获取产品点评列表
+   * limit 每页条数
+   * page:页数 从1开始
+   * q: 搜索文字
+   * day: 发表时间 
+   * cid: 帖子分类
+   * 
+   */
+  async productcommentlistAction(){
+      let where = {}; 
+      let limit = this.get("limit") ? this.get("limit"): 5 ;
+      let page = this.get("page") ? this.get("page") : 1 ;
+      //console.log("limit:"+limit+",page:"+page);
+      
+      if(think.isEmpty(this.get("productid"))){
+        return this.fail("productid is null");
+      }
+      where.product_id = this.get("productid");
+      if(!think.isEmpty(this.get("score"))){
+      	where.score_total = this.get("score");
+      }
+      if(!think.isEmpty(this.get("has_img"))){
+      	where.comment_img = ['!=', null];
+      }
+      
+
+      let productids = [];
+      let productcomment = await think.model('tour_comment', think.config("db")).page(page,limit).where(where).order('add_time DESC').countSelect();
+      //console.log(productcomment);
+      if(!think.isEmpty(productcomment)){
+        //前端字符显示处理
+        for(let val of productcomment.data){
+          if(!think.isEmpty(val.comment_img)){
+            var imgIDarr = val.comment_img.split(",");
+            var imgurls = [];
+            for(let imgid of imgIDarr){
+              let imgurl = await get_pic(imgid,1,112,112);
+              imgurls.push(imgurl);
+            }
+            val["imgurls"] = imgurls;
+          }
+        }
+      }
+      //console.log(productcomment);
+      //console.log(imgurls) 
+      return this.success(productcomment);
+
+  }
+
+  /**
+* 获取所有产品点评列表
+*/
+	async productcommentallAction(){
+
+      let where = {};//{'status':1};
+      let limit = 10000000;
+      let page =  1;
+      //console.log("limit:"+limit+",page:"+page);
+      
+      if(think.isEmpty(this.get("productid"))){
+        return this.fail("productid is null");
+      }
+      where.product_id = this.get("productid");
+
+      let productids = [];
+      let productcomment = await think.model('tour_comment', think.config("db")).page(page,limit).where(where).order('add_time DESC').countSelect();
+      //console.log(productcomment);
+      return this.success(productcomment);
+  }
+
 }
+

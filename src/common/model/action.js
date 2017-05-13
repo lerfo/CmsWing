@@ -83,7 +83,7 @@ export default class extends think.model.base {
                for(let val of match){
                    val= val.replace(/(^\[)|(\]$)/g, "");
                    let param = val.split('|');
-                   //console.log(param);
+                   ////console.log(param);
                    if(!think.isEmpty(param[1])){
 
                       if(param[0]=='user'){
@@ -98,7 +98,7 @@ export default class extends think.model.base {
                }
 
                data.remark= str_replace(match,replace,action_info.log);
-               //console.log(data.remark)
+               ////console.log(data.remark)
 
            }else {
                data.remark = action_info.log;
@@ -108,12 +108,12 @@ export default class extends think.model.base {
            data.remark = '操作url:'+url
 
        }
-        //console.log(data);
+        ////console.log(data);
        await this.model("action_log").add(data);
 
         if(!think.isEmpty(action_info.rule)){
             let rules = await this.parse_action(action,user_id);
-           // console.log(rules);
+           // //console.log(rules);
             let res = await this.execute_action(rules,action_info.id,user_id);
         }
     }
@@ -156,7 +156,7 @@ export default class extends think.model.base {
         let rules = info.rule;
         rules = str_replace('${self}',self,rules);
         rules = rules.split(";");
-         //console.log(rules);
+         ////console.log(rules);
         let ret = [];
         for (let val of rules){
             if(val){
@@ -164,7 +164,7 @@ export default class extends think.model.base {
                let rule = val.split("|");
                 for(let v of rule){
                     let field = think.isEmpty(v)?[]:v.split(":");
-                   console.log(field);
+                   //console.log(field);
                     if(!think.isEmpty(field)){
                         obj[field[0]]=field[1];
                     }
@@ -185,7 +185,7 @@ export default class extends think.model.base {
      * @author zhengqsh <zhengqsh@126.com>
      */
     async execute_action(rules, action_id, user_id){
-       // console.log(rules + action_id + user_id);
+       // //console.log(rules + action_id + user_id);
 
         if(!rules || think.isEmpty(action_id) || think.isEmpty(user_id)){
             return false;
@@ -200,9 +200,9 @@ export default class extends think.model.base {
             }
             if(!think.isEmpty(rule.cycle)&&!think.isEmpty(rule.max)){
             map.create_time = [">",new Date().valueOf() - rule.cycle * 3600 * 1000]
-           // console.log(map);
+           // //console.log(map);
            let exec_count = await this.model("action_log").where(map).count();
-            //console.log(exec_count);
+            ////console.log(exec_count);
             if(exec_count>rule.max){
                 continue;
             }
@@ -218,7 +218,7 @@ export default class extends think.model.base {
                 step = Math.abs(step);
                 res = await model.where(rule.condition).decrement(field, step);
             }
-            //console.log(Math.abs(step));
+            ////console.log(Math.abs(step));
             if(!res){
                 ret = false;
             }

@@ -77,7 +77,7 @@ export default class extends Base {
 
 
     }
-    console.log(searchword);
+    //console.log(searchword);
     let data;
     if(searchword.length > 0){
         map.accept_name = ["like",searchword];

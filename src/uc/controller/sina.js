@@ -35,10 +35,10 @@ export default class extends Base {
           let SINA = think.service("sina");
           let sina = new SINA(code,redirectURI);
           let token =await sina.gettoken();
-          console.log(token);
+          //console.log(token);
           let userinfo = await sina.getuserinfo(token.access_token,token.uid);
           let sina_user=await this.model("sina_user").find(userinfo.id);
-          console.log(sina_user);
+          //console.log(sina_user);
           if(think.isEmpty(sina_user)){
               await this.model("sina_user").add(userinfo);
               return this.redirect(`/uc/sina/login/id/${userinfo.id}`);
@@ -83,7 +83,7 @@ export default class extends Base {
         }
         let id = this.get("id");
         let sina_user=await this.model("sina_user").find(id);
-        console.log(sina_user);
+        //console.log(sina_user);
         this.assign("sina_user",sina_user);
         this.meta_title="账号绑定"
         if(checkMobile(this.userAgent())){
@@ -144,7 +144,7 @@ export default class extends Base {
                 await this.spiderImage(data.headimgurl,filePath+'/avatar.png')
             }
         }
-        console.log(data);
+        //console.log(data);
         await this.model("member").autoLogin({id:reg}, this.ip());//更新用户登录信息，自动登陆
         let sina_userInfo = {
             'uid':reg,
@@ -159,20 +159,20 @@ export default class extends Base {
     /**登录绑定 */
     async logonbindingAction(){
         let data = this.post();
-        //console.log(data);
+        ////console.log(data);
         let username = this.post('username');
         let password = this.post('password');
         password = encryptPassword(password);
-        console.log(data);
+        //console.log(data);
 
         let res = await this.model("member").signin(username, password, this.ip(), 5,0);
-        console.log(res);
+        //console.log(res);
         if (0 < res.uid) {
             //记录用户登录行为
             // await this.model("action", {}, "admin").log("user_login", "member", res.uid, res.uid, this.ip(), this.http.url);
-            //console.log(11111111111111);
+            ////console.log(11111111111111);
             let sina_info = await this.model("sina_user").where({id:data.openid}).find();
-            console.log(sina_info);
+            //console.log(sina_info);
             await this.model("sina_user").where({id:data.openid}).update({uid:res.uid});
             //更新微信头像
             let filePath=think.RESOURCE_PATH + '/upload/avatar/' +res.uid;

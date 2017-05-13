@@ -9,7 +9,7 @@ export default class extends Base {
     this.tactive = "ext";
     this.active ='admin/ext/index';
     this.ext = await this.model("ext").where({ext:this.http.controller.split("/")[0]}).find();
-    //console.log(this.ext);
+    ////console.log(this.ext);
     this.meta_title = this.ext.name+"管理";
     if(!think.isEmpty(this.ext.setting)){
       this.setting = JSON.parse(this.ext.setting)
@@ -62,7 +62,7 @@ export default class extends Base {
       if(think.isEmpty(data.ext)){
         data.ext = this.ext.ext;
       }
-     // console.log(data);
+     // //console.log(data);
       let res = await this.model("ext").where({ext:this.ext.ext}).update({setting:JSON.stringify(data)});
       if (res) {
         return this.success({ name: "更新成功！"});
@@ -82,7 +82,7 @@ export default class extends Base {
  async typeAction(){
     //获取友情链接
     let data = await this.model("ext_type").where({ext:this.ext.ext}).page(this.get('page')).order("sort ASC").countSelect();
-    //console.log(data);
+    ////console.log(data);
     let Pages = think.adapter("pages", "page"); //加载名为 dot 的 Template Adapter
     let pages = new Pages(this.http); //实例化 Adapter
     let page = pages.pages(data);
@@ -121,7 +121,7 @@ export default class extends Base {
    */
   async typedelAction(){
     let ids = this.param("ids");
-    //console.log(ids);
+    ////console.log(ids);
     let res = await this.model("ext_type").where({typeid:["IN",ids]}).delete()
     if(res){
       return this.success({name:"删除成功!"})
@@ -165,7 +165,7 @@ export default class extends Base {
     }else {
       let id = this.get("id");
       let type = await this.model("ext_type").where({typeid:id}).find();
-      console.log(type);
+      //console.log(type);
       this.assign("type",type);
       //获取当前插件的分类
       this.meta_title="修改类别";

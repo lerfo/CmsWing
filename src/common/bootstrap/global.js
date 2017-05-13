@@ -143,7 +143,7 @@ function sort_node1(v, w) {
  * 获取子集分类 （这里是获取所有子集）
  */
 global.get_children = function(nodes, parent , sn=0) {
-   // console.log(11);
+   // //console.log(11);
     var children = [];
     var last = [];
     /* 未访问的节点 */
@@ -362,7 +362,7 @@ global.parse_type_attr = function (str) {
                 arr.push(obj);
                 }
             }
-        //console.log(arr);
+        ////console.log(arr);
         let tree = arr_to_tree(arr,0)
        //think.log(tree);
         return tree;
@@ -424,7 +424,7 @@ global.sub_cate = function(data, pid) {
     var length=data.length;
     for(var i=0;i<length;i++) {
         if (data[i].pid == pid) {
-            //console.log(data[i]);
+            ////console.log(data[i]);
             result.push(data[i].id);
             temp = sub_cate(data, data[i].id);
             if (temp.length > 0) {
@@ -532,25 +532,25 @@ global.array_diff = function(arr1, arr2) {
 /* global get_list_field */
 global.get_list_field = function(data, grid, controller, module) {
     module = module || "admin";
-    //console.log(module);
+    ////console.log(module);
     let data2 = {};
     let value;
 
     // 获取当前字段数据
-    //console.log(grid);
+    ////console.log(grid);
     for (let field of grid.field) {
         let temp;
         let array = field.split('|');//TODO
-        //console.log(array);
+        ////console.log(array);
         temp = data[array[0]];
-        //console.log(temp);
+        ////console.log(temp);
         // 函数支持
         if (!think.isEmpty(array[1])) {
             temp = call_user_func(array[1], temp);
         }
         data2[array[0]] = temp;
     }
-    //console.log(data2);
+    ////console.log(data2);
     if (!think.isEmpty(grid.format)) {
         // value  =   preg_replace_callback('/\[([a-z_]+)\]/', function($match) use($data2){return $data2[$match[1]];}, $grid['format']);
     } else {
@@ -574,14 +574,14 @@ global.get_list_field = function(data, grid, controller, module) {
             let array = link.split('|');
             let href = array[0];
 
-            //console.log(href);
+            ////console.log(href);
             let matches = href.match(/^\[([a-z_]+)\]$/);
             if (matches) {
                 val.push(data2[matches[1]])
-                // console.log(val);
+                // //console.log(val);
             } else {
                 let show = !think.isEmpty(array[1]) ? array[1] : value;
-                // console.log(show)
+                // //console.log(show)
                 // 替换系统特殊字符串
                 let hrefs = {
                     '[DELETE]': 'setstatus/status/-1/ids/[id]',
@@ -589,16 +589,16 @@ global.get_list_field = function(data, grid, controller, module) {
                     '[LIST]': 'index/pid/[id]/model/[model_id]/cate_id/[category_id]'
                 }
                 let match = hrefs[href].match(/\[(\S+?)\]/g);
-                // console.log(match);
+                // //console.log(match);
                 let u = [];
                 for (let k of match) {
                     let key = k.replace(/(^\[)|(\]$)/g, "");
                     u.push(data[key]);
                 }
-                // console.log(u);
+                // //console.log(u);
                 let query = str_replace(match, u, hrefs[href]);
                 let href1 = `/${module}/${controller}/${query}`;
-                //console.log(query);
+                ////console.log(query);
                 if (href == "[DELETE]") {
                     val.push('<a href="' + href1 + '" class="text-info ajax-get confirm">' + show + '</a> ');
                 } else {
@@ -608,7 +608,7 @@ global.get_list_field = function(data, grid, controller, module) {
         }
         value = val.join(" ");
     }
-    //console.log(value)
+    ////console.log(value)
     return value;
 }
 
@@ -654,7 +654,7 @@ global.call_user_func = function(cb, params) {
  */
 /* global get_nickname */
 global.get_nickname = async (uid) => {
-    //console.log(uid);
+    ////console.log(uid);
     if(uid == 0){
         return '遊客'
     }
@@ -748,7 +748,7 @@ global.get_cover = async (cover_id, field) => {
  * @param h 高
  */
 global.get_pic = async(id,m=null,w=null,h=null)=>{
-    //console.log('enter get_pic id = '+id);
+    ////console.log('enter get_pic id = '+id);
     if(think.isEmpty(id)){
         return "/static/noimg.jpg";
     }
@@ -806,7 +806,7 @@ global.get_pics_one = async (arr_id, field) => {
 global.formatprice = function(price) {
     let pr = JSON.parse(price);
     var present_price;
-    //console.log(pr);
+    ////console.log(pr);
     if (think.isNumber(pr.present_price)) {
         pr.present_price = pr.present_price.toString();
     }
@@ -825,7 +825,7 @@ global.formatprice = function(price) {
 }
 //获取价格格式化
 global.get_price_format = function(price, type) {
-    //console.log("get_price_format:"+price+",type:"+type);
+    ////console.log("get_price_format:"+price+",type:"+type);
     if(think.isEmpty(price)){
         return '';
     }
@@ -851,7 +851,7 @@ global.get_price_format = function(price, type) {
         }
 
     }
-    //console.log("get_price_format return:"+price);
+    ////console.log("get_price_format return:"+price);
     return price;
 }
 //获取价格不格式化
@@ -922,7 +922,7 @@ global.formatCurrencyTenThou = function(num) {
 
 /*global getsuk */
 global.getsuk = function(suk, arr) {
-    //console.log(suk);
+    ////console.log(suk);
     var suk_;
     suk.forEach(function(v, k) {
 
@@ -1108,7 +1108,7 @@ global.date_from=(time)=>{
 }
 
 global.image_view=(str,w,m)=>{
-    //console.log(info);
+    ////console.log(info);
     let imgReg = /<img.*?(?:>|\/>)/gi;
     let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
     let arr = str.match(imgReg);
@@ -1116,9 +1116,9 @@ global.image_view=(str,w,m)=>{
         let narr=[];
         for(let img of arr){
             let _img = img.match(srcReg)
-            //console.log(_img);
+            ////console.log(_img);
             let nimg = _img[1]+'?imageView2/'+m+'/w/'+w;
-            //console.log(nimg)
+            ////console.log(nimg)
             let inputimg = _img['input'].replace(_img[1],nimg)
             narr.push(inputimg);
         }
@@ -1129,7 +1129,7 @@ global.image_view=(str,w,m)=>{
 }
 
 global.img_text_view=(str,w,h)=>{
-    //console.log(info);
+    ////console.log(info);
     let imgReg = /<img.*?(?:>|\/>)/gi;
     let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
     if(think.isEmpty(str)){
@@ -1140,15 +1140,15 @@ global.img_text_view=(str,w,h)=>{
         let narr=[];
         for(let img of arr){
             let _img = img.match(srcReg)
-            //console.log(_img[1]);
+            ////console.log(_img[1]);
             let nimg =_img[1];
             if(!think.isEmpty(w) && !think.isEmpty(h)){
                 nimg = _img[1]+'?imageView2/1/w/'+w+'/h/'+h;
             }
-            //console.log(nimg)
+            ////console.log(nimg)
             narr.push(nimg);
         }
-        //console.log(narr);
+        ////console.log(narr);
         return narr;
     }else {
         return [];
@@ -1194,7 +1194,7 @@ global.get_cate=async(cid)=>{
 
     for(let v of column){
         if(v.id==cid){
-           // console.log(v)
+           // //console.log(v)
            return v;
         }
     }
@@ -1206,7 +1206,7 @@ global.get_cate=async(cid)=>{
  * @param arr
  */
 global.sort_url = (id,val,arr,http)=>{
-    //console.log(http.get(val))
+    ////console.log(http.get(val))
     let url;
         url=`${val}_${id}`;
         for(let v of arr){
@@ -1214,7 +1214,7 @@ global.sort_url = (id,val,arr,http)=>{
                 url += `|${v.option.identifier}_${http[v.option.identifier]||0}`
             }
         }
-    //console.log(url);
+    ////console.log(url);
     return url;
 }
 /*
@@ -1284,12 +1284,12 @@ global.update_cache =(type)=>{
  * @returns {bool} 返回flase 或true false:没权限，true:有权限。
  */
 global.priv = async(catid,roleid,action,is_admin=0,type=true)=>{
-    // console.log(catid);
-    // console.log(roleid);
-    // console.log(action);
-    // console.log(is_admin);
+    // //console.log(catid);
+    // //console.log(roleid);
+    // //console.log(action);
+    // //console.log(is_admin);
     let priv = await think.model("category_priv",think.config("db")).priv(catid,roleid,action,is_admin,type);
-    console.log(priv);
+    //console.log(priv);
     if(!priv){
         return false;
     }else {

@@ -62,7 +62,7 @@ export default class extends think.controller.base {
       case 'uploadfile':
 
         result =await this.uploads();
-        //console.log(result);
+        ////console.log(result);
         break;
 
         /* 列出图片 */
@@ -107,7 +107,7 @@ export default class extends think.controller.base {
     let base64 = "upload";
     let config = {};
     let fieldName;
-    //console.log(setup);
+    ////console.log(setup);
     switch (action) {
       case 'uploadimage':
         config = {
@@ -148,7 +148,7 @@ export default class extends think.controller.base {
      //加入七牛接口
      if(this.setup.IS_QINIU==1 && base64=="upload"){
        let file = think.extend({}, this.file(fieldName));
-       // console.log(file);
+       // //console.log(file);
        let filepath = file.path;
        let basename = path.basename(filepath);
        let qiniu = think.service("qiniu");
@@ -193,10 +193,10 @@ export default class extends think.controller.base {
       let up = think.adapter("editor", "ueditor"); //加载名为 ueditor 的 editor Adapter
       let upload = new up(imgUrl, config, "remote"); //实例化 Adapter
       let info =  await upload.saveRemote();
-      //console.log(info);
+      ////console.log(info);
       list.push({"state":"SUCCESS","url":info.url,"size":431521,"title":info.title,"original":info.original,"source":imgUrl});
     }
-    //console.log(think.isEmpty(list));
+    ////console.log(think.isEmpty(list));
     return {
       state:!think.isEmpty(list) ? 'SUCCESS':'ERROR',
       list:list
@@ -286,7 +286,7 @@ export default class extends think.controller.base {
 
     walk(path, fileList, folderList);
 
-    console.log('扫描' + path + '成功');
+    //console.log('扫描' + path + '成功');
 
     return {
       'files': fileList,

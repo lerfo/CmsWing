@@ -63,7 +63,7 @@ export default class extends Base {
                 }else{
                     v.up_title="一级菜单";
                 }
-                //console.log(this.setup.MEUN_GROUP)
+                ////console.log(this.setup.MEUN_GROUP)
                 v.group=this.setup.MENU_GROUP[v.group];
             })
         }
@@ -72,7 +72,7 @@ export default class extends Base {
             "data": list,
             "breadcrumb":breadcrumb.reverse()
         }
-        //console.log(data);
+        ////console.log(data);
         return this.json(relist);
 
     }
@@ -83,7 +83,7 @@ export default class extends Base {
     async chstaAction(){
           //let gets = this.get();
           let map = {};
-        //console.log(gets);
+        ////console.log(gets);
         if(this.get("key")==1){
             map.hide = this.get("status");
         }else{
@@ -109,7 +109,7 @@ export default class extends Base {
         } else {
             let id = this.get("id");
             let res = await this.db.where({id: id}).find();
-           // console.log(res);
+           // //console.log(res);
             this.assign({
                 data: res
             })
@@ -140,7 +140,7 @@ export default class extends Base {
       async deleteAction(){
 
           let id = this.post("id");
-          //console.log(id);
+          ////console.log(id);
           let res = await this.db.where({id: id}).delete();
         think.cache("adminenu", null);//清除菜单缓存
           return this.json(res);
@@ -152,7 +152,7 @@ export default class extends Base {
      */
     async getmenuAction(){
         let menu = await this.returnnodes();
-       // console.log(menu);
+       // //console.log(menu);
         return this.json(menu);
     }
     async aabbAction(){

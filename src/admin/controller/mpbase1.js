@@ -41,7 +41,7 @@ export default class extends Base {
         let page = pages.pages(data);
         this.assign('pagerData', page); //分页展示使用
         this.assign('list', data.data);
-        console.log(data.data);
+        //console.log(data.data);
         for(let val of data.data){
             val.uid = yield this.model('member').get_nickname(val.uid);
         }
@@ -58,7 +58,7 @@ export default class extends Base {
                 post =  JSON.stringify(post);
                  let api = new weiapi('wxf417a542a02aa8fc', '564033623a2ea9b19119f0164289ba45');
                  /*api.sendText('oJMTsw7cOcQRr32Cze3nDQ9mJKCU', 'Hello world', (err, result)=>{
-                     console.log("hehe");
+                     //console.log("hehe");
                  });*/
                  let self = this;
                  api.getUser("oJMTsw7cOcQRr32Cze3nDQ9mJKCU", (err,result)=>{
@@ -93,7 +93,7 @@ export default class extends Base {
         let subcat = await this.model('category').get_sub_category(1);
         let cate = await this.model('category').select();
         //let treecat = arr_to_tree(cate,42)
-        //console.log(treecat)
+        ////console.log(treecat)
         this.display();
     }
 
@@ -105,7 +105,7 @@ export default class extends Base {
         let self = this;
         wapi.uploadMaterial('F:\\nodejs-www\\PeanutRoll\\www\\static\\admin\\img\\m0.jpg', "image", function(err, res){
             think.log(res);
-            console.log("err= "+err);
+            //console.log("err= "+err);
             self.end(res);
         });
         //this.end();
