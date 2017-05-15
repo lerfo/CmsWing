@@ -41,6 +41,7 @@ $("body").click(function(){
 //收藏
 function collect(id){
 	var type;
+	/*
 	$.ajax({
 		url:"/ajax/focuslist?page="+1+"&limit="+200,
 		async:false,
@@ -63,11 +64,17 @@ function collect(id){
 		}
 	})
 	console.log(type)
+	*/
 	$.ajax({
-		url:"/ajax/focus?id="+id+"&type="+type,
+		url:"/ajax/focus?id="+id+"&type="+1,
 		success:function(result){
-			//console.log(result)
-			alert(result.data)
+			console.log(result)
+			if(result.errno != 0){
+				alert("您未登录，请先登录！");
+			}else{
+				alert(result.data);
+			}
+			
 		}
 	})
 
@@ -76,11 +83,12 @@ function collect(id){
 //总体评分
 $(document).ready(function(){
 	var id = $(".proid").val()
+	console.log(id);
 	var allcount=0;
 	$.ajax({
 		url:"/uc/booking/getproductinfo/product_id/"+id,
 		success:function(result){
-			//console.log(result)
+			console.log(result)
 			allcount = result.data.commentcount;
 			if(result.data.commentcount != 0){
 	        	var mark = result.data.score/result.data.commentcount;

@@ -488,7 +488,7 @@ function pagination(n){
 		}
 	} 
 
-	if(currentPage + count < totalPages && currentPage >= 1 && totalPages > count){
+	if(currentPage + count < totalPages-1 && currentPage >= 1 && totalPages > count){
 		var end = totalPages
 		html += `<span>...</span><a href="" data-page="${totalPages}">${end}</a>`;
 	}

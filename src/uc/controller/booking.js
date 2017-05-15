@@ -669,7 +669,7 @@ export default class extends Base {
   * product_id:产品ID 必填
   */
   async getproductinfoAction(){
-    await this.weblogin();
+    //await this.weblogin();
     let product_id = this.get("product_id");
     if(think.isEmpty(product_id) || product_id == 0 ){
       return this.fail("产品ID为空");

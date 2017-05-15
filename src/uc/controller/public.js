@@ -179,9 +179,9 @@ export default class extends Base {
       type:data.type
     }
     map.create_time = [">",new Date().valueOf() - 24 * 3600 * 1000]
-    // //console.log(map);
+    //console.log(map);
     let exec_count = await this.model("sms_log").where(map).count();
-    ////console.log(exec_count);
+    //console.log(exec_count);
     if(exec_count >= 3 ){
       return this.fail("发送过于频发请24小时后，再尝试。")
     }
@@ -202,12 +202,13 @@ export default class extends Base {
       'sms_template_code':temp_code
     }
     let result = await instance.send(info);
+    console.log(result);
     // let result ={ err_code: '0',
     //     model: '102201717069^1102848633337',
     //     success: true }
     //console.log(result);
     //发送成功记录到数据库
-    if( 0 == result.result.err_code){
+    if( result.result && 0 == result.result.err_code){
       await this.model("sms_log").add({
         mobile:data.mobile,
         type:data.type,
