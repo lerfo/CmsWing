@@ -33,6 +33,7 @@
     	height:85px;
     	font-size: 25px;
     	color: #fff;
+        border-radius: 5px;
     	background: url('/static/assets/images/search_nav.png') no-repeat; 	
     }
     .phb li{
@@ -342,10 +343,10 @@
 
         <div class="home-search-bar">
             <!-- INLINE SEARCH -->
-            <div class="searchin inline-search clearfix" >
+            <div class="searchin inline-search clearfix" style="border-radius: 5px;" >
                 <form action="/search" method="get" class="widget_search">
                     <input type="search" placeholder="想带宝宝去哪？" name="q" {% if queryword %} value={{queryword}}{%endif%} class="serch-input" style="color: black;">
-                    <button type="submit" style="background-color:#1eb6c1 ">
+                    <button type="submit" style="background-color:#1eb6c1;">
                         <i class="fa fa-search" style="color: #fff;"></i>
                     </button>
                 </form>
@@ -652,7 +653,7 @@
                     }          
                 });
                 if(dataResult.currentPage < dataResult.totalPages){
-                    getHtml +='<div class="text-center ts-load-more">' + '<a href="javascript:tourschool_pagination(2);">加载更多</a>'+'</div></div><div class="tournote_pagination tpage2 "></div>'
+                    getHtml +='<div class="text-center ts-load-more">' + '<a href="javascript:tourschool_pagination(2);">加载更多</a>'+'</div></div><div class="tourschool_pagination tspage2 "></div>'
                 }
                 $(".school").html(getHtml);
             }
@@ -890,14 +891,10 @@
         var value = GetQueryString("value");
         console.log(value)
         var pageHTML = "";
-        //var url = window.location.href;
-        //var para = url.split("?q=")[1];
         $.ajax({
             type:"get",
-            //url:"/ajax/search?q="+para+"&page="+page,
             url:"/ajax/topic?q="+searchword+"&page="+page+"&value="+value,
-            success:function(dataResult){     
-                //console.log(dataResult);
+            success:function(dataResult){    
                 $.each(dataResult.data,function(k,v){
                     if(null==v.cover_url){
                         pageHTML +='<a target="_blank" href="/p/'+v.tid+'.html"><div class="strategy-content">'+
@@ -1140,10 +1137,8 @@
          $.ajax({
             type:"get",
             url:"ajax/topic?q="+searchword+"&page="+page+"&value=141-0-0-18-tourdest_0",
-
             success:function(dataResult){
                 console.log(dataResult);
-               
                 $.each(dataResult.data,function(k,v){
                     if(0==v.cover_url.length){
                         getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
@@ -1182,10 +1177,7 @@
                     getHtml +='<div class="text-center ts-load-more">' + '<a href="javascript:tourschool_pagination('+nextPage+');">加载更多</a>'+'</div>';
                     $(".tspage"+page).after("<div></div>");
                     $(".tourschool_pagination.tspage"+page).next().addClass("tourschool_pagination tspage"+nextPage);
-
                 }
-
-               
                 $(".ts-load-more").hide();
                 $(".tspage"+page).html(getHtml);
             }
@@ -1193,6 +1185,8 @@
         
     }
 
+
+    {#
     $("#select100").on("click",function(){
     	var getHtml = "";
     	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td class="the-td">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td style="width: 80px;">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
@@ -1228,6 +1222,7 @@
         	}
         })
     });
+    #}
 
 
 </script>

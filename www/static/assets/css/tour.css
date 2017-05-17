@@ -1,3 +1,6 @@
+.row{
+	margin:0;
+}
 li{
 	    list-style: none;
 	}
@@ -404,7 +407,7 @@ li{
 	    float: left;
 	    margin-left: -92px;
 	    padding: 0 10px;
-	    background: #f7f7f7;
+	   /* background: #f7f7f7;*/
 	    color: #333;
 	    _display: inline;
 	}
@@ -506,8 +509,9 @@ li{
 	    border-bottom: 1px solid #D5D5D5;
 	/*    width: 1180px;
 	    background: url(http://pic.c-ctrip.com/vacation_v1/bg_miancolor.png);
-	*/    position: relative;
+	*/  position: relative;
 	    z-index: 2;
+	    margin-top:10px;
 	}
 	.detail_tab_col {
 	    float: left;
@@ -773,7 +777,7 @@ li{
 		padding:0;
 	}
 	#detail-list{
-		height:405px;
+		height:393px;
 		padding:0 15px 0 15px;
 		border:2px solid #ddd;
 		border-left:0px;
@@ -1129,4 +1133,28 @@ li{
 }
 #bdshare_weixin_qrcode_dialog{
 	min-height:293px;
+}
+.evaluate-box .pagination{
+	float:right;
+}
+.evaluate-box .pagination a{
+	display:inline-block;
+	padding:6px 11px;
+	margin:0 5px;
+	border:1px solid #999999;
+} 
+.evaluate-box .pagination a.active-page{
+	background:#1eb6c1;
+	border:1px solid #1eb6c1;
+	color:#fff;
+}
+.evaluate-box .pagination b{
+	font-weight:normal;
+	margin:0 6px;
+}
+.evaluate-box .pagination input{
+	width:45px;
+}
+.introduce{
+	font-size:14.3px;
 }

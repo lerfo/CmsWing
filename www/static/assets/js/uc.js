@@ -1,41 +1,37 @@
-$(function(){
-	function uname(){
-		$.ajax({
-			url:"/uc/seting/query",
-			success:function(result){
-				localStorage.setItem("username",JSON.stringify(result.username));
-			}
-		})
-	}
-	uname();
-	function main(){
-		var html = "";
-		var uname = JSON.parse(localStorage.getItem("username"));
-		html+= '<div class="order-handing">'+
-					'<div class="order-title">'+
-		              	'<img src="/uc/index/avatar"  class=" rounded" alt="'+uname+'" style="width: 65px" />'+
-			            '<span>'+uname+'</span>'+
-			            //'<a class="btn btn-info apply" href="">申请成为商家</a>'+
-		          	'</div>'+
-		          	'<div class="order-content min-height">'+
-		          		'<div class="table-list">'+
-			                '<a class="all-order" href="javascript:allOrder();">全部订单</a>'+
-			                //'<a class="not-start">未出行</a>'+
-			                //'<a class="obligation-order">待付款</a>'+
-			                //'<a class="pending-evaluation">待评价</a>'+
-		        		'</div>'+
-		        		'<div class="table-responsive order-table">'
-		    ;
-		html+=resultEach(1);
-		html+=`							
-				</div>
-          	</div>
-        </div>
-			`;
-		$(".aside-right").html(html);     
-	}
-	main();
-
+$(document).ready(function(){
+	$.ajax({
+		url:"/uc/seting/query",
+		success:function(result){
+			localStorage.setItem("username",JSON.stringify(result.username));
+		}
+	})
+})
+$(document).ready(function(){
+	var html = "";
+	var uname = JSON.parse(localStorage.getItem("username"));
+	html+= '<div class="order-handing">'+
+				'<div class="order-title">'+
+	              	'<img src="/uc/index/avatar"  class=" rounded" alt="'+uname+'" style="width: 65px" />'+
+		            '<span>'+uname+'</span>'+
+		            //'<a class="btn btn-info apply" href="">申请成为商家</a>'+
+	          	'</div>'+
+	          	'<div class="order-content min-height">'+
+	          		'<div class="table-list">'+
+		                '<a class="all-order" href="javascript:allOrder();">全部订单</a>'+
+		                '<input class="pagetype" type="hidden" value="order"/>'+
+		                //'<a class="not-start">未出行</a>'+
+		                //'<a class="obligation-order">待付款</a>'+
+		                //'<a class="pending-evaluation">待评价</a>'+
+	        		'</div>'+
+	        		'<div class="table-responsive order-table">'
+	    ;
+	html+=resultEach(1);
+	html+=`							
+			</div>
+      	</div>
+    </div>
+		`;
+	$(".aside-right").html(html);  
 })
 //显示和隐藏
 function showHidden(){
@@ -292,6 +288,7 @@ function orderEvaluation(){
 			        	`;
 			        if(result.data.commentcount != 0){
 			        	var mark = result.data.score/result.data.commentcount;
+			        	mark = mark.toFixed(2)
 			        	//console.log(mark)
 			        }
 			       
@@ -432,6 +429,7 @@ function queryorderlist(){
 		            //'<a class="btn btn-info apply" href="">申请成为商家</a>'+
 	          	'</div>'+
 	          	'<div class="order-content min-height">'+
+	          	'<input class="pagetype" type="hidden" value="order"/>'+
 	          		'<div class="table-list">'+
 		                '<a class="all-order">全部订单</a>'+
 		                //'<a class="not-start">未出行</a>'+
@@ -454,15 +452,12 @@ function queryorderlist(){
 };
 
 //分页功能
-function pagination(n){
+function pagination(n,page){
 	var html = "";
 	var  count = 2;                               //当前页前后分页个数
-	var pageDataList = localStorage.getItem("pageList");
-	pageDataList = JSON.parse(pageDataList);
-	console.log(pageDataList)
 	//动态填充分页页码
-	var totalPages = pageDataList.totalPages      //总页数
-	var currentPage = n     //当前页
+	var totalPages = page;      //总页数
+	var currentPage = n;     	//当前页
 	html += `<div class="pagination">`;
 	if(currentPage > 1){        				  //上一页
 		html += `<a class="prev-page" href=""><</a>`;
@@ -477,7 +472,7 @@ function pagination(n){
 	var start = currentPage - count,
 		end = currentPage + count;
 	((start > 1 && currentPage < count) || currentPage == 1) && end++;
-	(currentPage > totalPages - count && currentPage >= totalPages) && start++;
+	(currentPage > totalPages - count && currentPage >= totalPages && start!=1) && start++;
 	for(;start <= end;start++){
 		if(start <= totalPages && start >= 1){
 			if(start != currentPage){
@@ -509,6 +504,8 @@ $(".aside-right").on("click",".pagination>a",function(e){
 	}else{
 		window.event.returnValue=false;
 	}
+	var pagetype = $(".pagetype").val();
+	console.log(pagetype)
 	if($(this).hasClass("prev-page")){
 		var index = parseInt($(".aside-right").find(".active-page").text()) - 1;
 		//console.log(index)
@@ -522,7 +519,14 @@ $(".aside-right").on("click",".pagination>a",function(e){
         var index = parseInt($(this).data('page'));
         //console.log(index)
     }
-    pageTable(index);
+    if(pagetype == "order"){
+    	//console.log($(".pagetype").val())
+    	pageTable(index);
+    }else if(pagetype == "collection"){
+    	console.log($(".pagetype").val());
+    	collectionPage(index);
+    }
+   
 })
 
 function pageTable(n){
@@ -541,8 +545,6 @@ function resultEach(pageNum){
 		async:false,
 		success:function(result){
 			localStorage.setItem("odrerData",JSON.stringify(result.data));
-
-			localStorage.setItem("pageList",JSON.stringify(result));
 
 			var orderDataList = localStorage.getItem("odrerData");
 			orderDataList = JSON.parse(orderDataList);
@@ -628,7 +630,7 @@ function resultEach(pageNum){
 				</table>	
 			    `;
 			}
-			h += pagination(pageNum);
+			h += pagination(pageNum,result.totalPages);
 		}
 	})   
 	return h;		
@@ -911,7 +913,77 @@ function ucAccount(){
 /****
 *收藏
 **/
-function ucCollection(){}
+function ucCollection(){
+	showHidden();
+	var html="";
+	$.ajax({
+		url:"/ajax/focuslist?page=1&limit=8",
+		success:function(result){
+			console.log(result.data)
+			html+=`
+				<div class="collection">
+			        <div class="collection-title">
+			            收藏
+			            <input class="pagetype" type="hidden" value="collection"/>
+			        </div>
+			        <div class="collection-content min-height clear">
+			`;
+			html+=collection(result.data)
+
+			html+=`</div>
+				</div>`;
+			$(".aside-right").html(html)
+		}
+	})
+}
+//取消收藏
+function cancelCollect(id){
+		$.ajax({
+		url:"/ajax/focus?id="+id+"&type="+2,
+		success:function(result){
+			 _toastr(result.data,"top-right","success",false);
+			 ucCollection();
+		}
+	})
+}
+function collectionPage(page){
+	var html="";
+	$.ajax({
+		url:"/ajax/focuslist?page="+page+"&limit=8",
+		success:function(result){
+			html = collection(result.data)
+			$(".collection-content").html(html)
+		}
+	})
+}
+function collection(data){
+	var html="";
+	var v = data.data
+	for(var i=0;i<v.length;i++){
+		html+=`
+			<div class="collection-box clear">
+                <div class="cover-img">
+                	<a target="_blank" href="/p/${v[i].question_id}.html">
+						<img src="${v[i].productinfo.cover_url}" width="169px" height="108px" alt="">
+                	</a>                  
+                </div>
+                <div class="collection-detail">
+                	<a target="_blank" href="/p/${v[i].question_id}.html">
+						<span class="product-title">
+	                    	${v[i].productinfo.title} 
+	                  	</span>
+                	</a>
+                  <p class="clear">
+                    <a href="javascript:cancelCollect(${v[i].question_id});">取消收藏</a>
+                    <span class="product-price">￥${v[i].productinfo.price}</span>
+                  </p>
+                </div>
+        	</div>
+		`
+	}
+	html+= pagination(data.currentPage,data.totalPages);
+	return html;
+}
 
 
 /****
@@ -1241,18 +1313,18 @@ function deleteTraveller(n){
 //全选删除
 function deleteAllTrave(){
 	var a = $(".aside-right .addr-checkbox:checked").siblings("table")
-	swal({
-        title: "您确定要删除旅客信息吗?",
-        text: "删除旅客信息!",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        closeOnConfirm: false
-        },
-        function(){
-        	if(a.length>0){
+	if(a.length>0){
+		swal({
+	        title: "您确定要删除旅客信息吗?",
+	        text: "删除旅客信息!",
+	        type: "warning",
+	        showCancelButton: true,
+	        confirmButtonColor: "#DD6B55",
+	        confirmButtonText: "确定",
+	        cancelButtonText: "取消",
+	        closeOnConfirm: false
+	        },
+	        function(){
 				for(var i=0;i<a.length;i++){
 					var k = parseInt(a[i].className);
 					  $.ajax({
@@ -1267,10 +1339,12 @@ function deleteAllTrave(){
 			                    }
 			            	}
 			        	})
-				}
-			}
-       
-        })
+				}	       
+	        })
+	}else{
+		alert("请选择要删除的信息")
+	}
+
 }
 //回调:旅客编辑主体
 function add(n){
@@ -1374,7 +1448,8 @@ function add(n){
 			    	</div>
 			  	</div>
 				<div class="col-md-offset-2 self">
-				    <input type="checkbox" name="is_default" value=${v.is_default}>设置为本人
+				    <input class="checkself" type="checkbox" >设置为本人
+				    <input class="self" type="hidden" name="is_default" value/>
 				</div>
 	  
 				<div class="form-group clear">
@@ -1669,6 +1744,9 @@ function validityBlur(){
 
 //表单提交
 $(".aside-right").on("click","button.sub-increase",function(e){
+	if($(".checkself").is(":checked")){
+		$(".self").val(1);
+	}
 	var birthday = $(".aside-right .bir").val();
 	var birth = new Date(birthday).getTime(); 
 	var current = new Date().getTime();
@@ -2196,7 +2274,8 @@ function deleteAddr(n){
 //全选删除地址信息
 function deleteAll(){
 	var a = $(".aside-right .addr-checkbox:checked").siblings("table")
-	swal({
+	if(a.length>0){
+		swal({
         title: "您确定要删除该收货地址吗?",
         text: "删除收货人信息!",
         type: "warning",
@@ -2207,24 +2286,26 @@ function deleteAll(){
         closeOnConfirm: false
         },
         function(){
-        	if(a.length>0){
-				for(var i=0;i<a.length;i++){
-					var k = parseInt(a[i].className);
-					  $.ajax({
-			            url:"/uc/address/deladdr/id/"+k,
-			            success: function (res) {
-			                  if(res.errno == 0){
-			                       swal(res.data.name, "您选择的地址已经被删除.", "success");
-			                       ucAddress() ;                                                    
-			                       }else{
-			                            swal(res.errmsg, "您选择的地址删除失败.", "error");                            
-			                       }
-			            	}
-			        	})
-				}
+			for(var i=0;i<a.length;i++){
+				var k = parseInt(a[i].className);
+				  $.ajax({
+		            url:"/uc/address/deladdr/id/"+k,
+		            success: function (res) {
+		                  if(res.errno == 0){
+		                       swal(res.data.name, "您选择的地址已经被删除.", "success");
+		                       ucAddress() ;                                                    
+		                       }else{
+		                            swal(res.errmsg, "您选择的地址删除失败.", "error");                            
+		                       }
+		            	}
+		        	})
 			}
-       
-        })
+
+       })
+	}else{
+		alert("请选择要删除的信息")
+	}
+	
 }
 /****
 *地址表单验证

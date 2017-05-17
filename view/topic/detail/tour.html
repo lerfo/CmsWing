@@ -158,58 +158,71 @@ CLASSES:
 			<div class="pull-left text-left bold">产品特色</div>
 		</div>
 		<div class="col-lg-9 col-sm-9">
-			<div class="">{{info.productshortfeature}}</div>
+			<div class="introduce">{{info.productshortfeature}}</div>
 		</div>
 	</div>
+
+	{% if info.serviceguarantee %}
 	<div class="row">
 		<div class="col-lg-3 col-sm-3">
 			<div class="pull-left text-left bold">服务保障</div>
 		</div>
 		<div class="col-lg-9 col-sm-9">
-			<div class="">{{info.serviceguarantee}}</div>
+			<div class="introduce">{{info.serviceguarantee}}</div>
 		</div>
 	</div>
+	{% endif %}
+
 	<div class="row">
 		<div class="col-lg-3 col-sm-3">
 			<div class="pull-left text-left bold" style="letter-spacing: 0.5em;">供应商</div>
 		</div>
 		<div class="col-lg-9 col-sm-9">
-			<div class="">{{info.vendor_name}}</div>
+			<div class="introduce">{{info.vendor_name}}</div>
 		</div>
 	</div>
+
 	<div class="row margin-top-20 recommend">
+	{% if info.description!=='' and info.description!=='' and info.description!=='' %}
 		<div class="col-lg-3 col-sm-3 vertical-center">
 			<img src="/static/assets/images/head1.png">
 		</div>
-		
+
 		{#
 			<div class="col-lg-9 col-sm-9">
 						<div class="">{{info.editorrecommend}}</div>
 			</div>
 		#}
 
+		
 		<p>产品经理推荐</p>
 		<ul>
+			{% if info.description|get_text_line(0) %}
 			<li>
 				<i class="glyphicon glyphicon-star"></i>
 				{{info.description | get_text_line(0)}}
 			</li>
+			{% endif %}
+			{% if info.description|get_text_line(1) %}
 			<li>
 				<i class="glyphicon glyphicon-star"></i>
 				{{info.description | get_text_line(1)}}
 			</li>
+			{% endif %}
+			{% if info.description|get_text_line(2)%}
 			<li>
 				<i class="glyphicon glyphicon-star"></i>
 				{{info.description | get_text_line(2)}}
 			</li>
+			{% endif %}
 		</ul>
-		
+	{% endif %}
 	</div>
 
 
 	{% if info.description %}
 	<!-- short description -->
-	<small class="text-muted">{{info.description}}</small>
+	<!-- <small class="text-muted">{{info.description}}</small> -->
 	<!-- /short description -->
 	{% endif %}
 
@@ -461,6 +474,9 @@ CLASSES:
 </div>
     
 <div id="product_detail" class="margin-top-20">
+	{% if info.outlinehotel == '' and info.outlineview == '' and info.outlinetraffic == '' and info.outlinedinner == '' and info.outlineactive == '' and info.outlineplane == ''%}
+	<div class="abc_detail_col"></div>
+	{% else %}
 	<div class="abc_detail_col">
 	    <dl class="abc_detail">
 	        <dt>产品概要</dt>
@@ -518,6 +534,7 @@ CLASSES:
 	        </dd>
 	    </dl>
 	</div>
+	{% endif %}
 	<div class="detail_tab_div" style="height: 40px;">
         <div class="detail_tab basefix" style="z-index: 1;">
             <ul class="detail_tab_col" id="js_detail_tab">
@@ -629,12 +646,16 @@ CLASSES:
 				<!-- 用户点评占位 --> 
 			    <i id="pj" class="under_tab_anchor" ></i>
 		        <i class="under_tab_anchor_abc" id="qz_abc"></i>
+				{% if info.score!== 0 and info.score!== '' and info.commentcount !== 0 and info.commentcount !== '' %}			
 		        <div id="js_review" class="detail_content">	
 					<h3 class="resource_title">用户评价<i class="icon_b icon_b_08 ce-comment"></i></h3>
 					<div class="product_feature" id="product_review">
-						<!-- {% model data="list",table="tour_comment",where='{"product_id":'+info.id+'}',order="add_time DESC",limit="4"%}
-				        <h3 class="evaluate">点评4.5分</h3>
-				    	<div class="evaluate-number"></div>
+						<!--  {% model data="list",table="tour_comment",where='{"product_id":'+info.id+'}',order="add_time DESC",limit="8"%}
+						  {% for v in list %}
+
+				        <h3 class="evaluate">点评{{info.score | safe }}{{info.commentcount}}分</h3>
+				        {% endfor %} -->
+				    	<!--<div class="evaluate-number"></div>
 				        {% for v in list %}
 				        <div class="clearfix" style="height: auto; background: #fff; margin-bottom: 15px; padding: 4px 6px 0 6px;">
 					        <p class="margin-bottom-20"> {{v.comment_content | safe }}</p>
@@ -646,8 +667,9 @@ CLASSES:
 				        <div class="more-info text-center margin-top-20">
 							<a href="">点击查看更多》</a>
 						</div>-->
-						<div class="col-sm-5 global-score">
-							<p></p>
+						<div class="col-sm-5 global-score">	
+							{% set score = info.score/info.commentcount %}
+							<p>{{ score | round(1, 'round')}}</p>
 							<span>总体评分</span>
 							<input class="proid" type="hidden" value="{{info.id}}">
 						</div>
@@ -729,7 +751,14 @@ CLASSES:
 				<div class="evaluate-box">
 					
 				</div>
-				
+				{% else %}
+				 <div id="js_review" class="detail_content">	
+					<h3 class="resource_title">用户评价<i class="icon_b icon_b_08 ce-comment"></i></h3>
+					<div class="product_feature" id="product_review">
+					暂无该产品评价！
+					</div>				
+		        </div>
+				{% endif %}
 
 		    </div> 
 	    </div>
@@ -786,10 +815,17 @@ CLASSES:
 				{% set i = i + 1 %}
 				{% endfor %}
 				<li class="mix development float-share col-md-12 col-sm-12">
+					{% if not controller.is_login %}
+					<a class="col-xs-4" href="javascript:;">
+						收藏
+						<i class="collect"></i>
+					</a>	
+					{% else %}
 					<a class="col-xs-4" href="javascript:collect({{info.id}})">
 						收藏
 						<i class="collect"></i>
 					</a>
+					{% endif %}
 					<a class="col-xs-4" href="javascript:share()">
 						分享
 						<i class="share"></i>
@@ -805,11 +841,13 @@ CLASSES:
 	            <div class="bdsharebuttonbox">
 	            	<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
 	            	<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-	            	<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
 	            	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
 	            </div>
 	            <script>
-	            	window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	            	window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}
+	            	// ,"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}
+	            };
+	            	with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 	            </script>
 	            
 	        </div>
@@ -1642,9 +1680,11 @@ CLASSES:
 	//         return output;
 	//     }
 	// };
-
+	
 	$(document).ready(function() {
-
+	let str = "{{info.price|get_price_format('1')}}";
+	price = str.substr(0,str.length-3);
+	console.log(price)
 		$('#calendar').fullCalendar({
 			theme: true,
 			header: {
@@ -1663,7 +1703,7 @@ CLASSES:
 			// eventLimit: true, // allow "more" link when too many events
 			events: [
 				{
-					title: '¥{{info.price|get_price_format('1')}}起',
+					title: '¥'+price+'起',
                     allDay: true,
 					start: new Date({{info.start_date}})
 				}

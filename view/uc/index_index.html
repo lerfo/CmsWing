@@ -111,7 +111,8 @@
     .new-increase,
     .check-title,
     .evaluation-title,
-    .stroke-title{
+    .stroke-title,
+    .collection-title{
       padding:10px 0 10px 20px;
       background: -webkit-linear-gradient(left,#425575, #8E8693 30%,#38628B 100%); /* Safari 5.1 - 6.0 */
       background: -o-linear-gradient(left,#425575, #8E8693 30%,#38628B 100%); /* Opera 11.1 - 12.0 */
@@ -139,7 +140,8 @@
     .check-information,
     .order-content,
     .evaluation-information,
-    .stroke-content{
+    .stroke-content,
+    .collection-content{
       padding-bottom:20px;
       background: -webkit-linear-gradient(left,#6D8DB3, #9DB7D8); /* Safari 5.1 - 6.0 */
       background: -o-linear-gradient(left,#6D8DB3, #9DB7D8); /* Opera 11.1 - 12.0 */
@@ -644,6 +646,43 @@
 	.cue{
 		color:#fff;
 	}
+    .collection-title{
+          font-size: 20px;
+          color: #fff;
+          padding-left:20px;
+    }
+    .collection-content{
+      padding-top:18px;
+      padding-bottom:54px;
+    }
+    .collection-box{
+      float:left;
+      margin-top:24px;
+      margin-left:2.5%;
+      width:45%;
+      max-height:108px;
+      background:#f9fafa;
+    }
+    .collection-box>div{
+      float:left;
+    }
+    .collection-detail{
+      max-width:53%;
+      height:108px;
+      padding:7px 5px;
+    }
+    .product-title{
+      color:#000;
+      font-size:16px;
+    }
+    .collection-detail>p a{
+      float:left;
+    }
+    .collection-detail>p span{
+      float:right;
+      font-size:17px;
+      color:#1eb6c1;
+    }
 
     .lf{
       float:left;
@@ -1262,7 +1301,7 @@
 				<li><a class="uc-community" href="javascript:ucCommunity();">我的社区主页</a></li>-->
 				<li><a class="uc-account" href="javascript:ucAccount();">账号安全</a></li>
 
-				<!--<li><a class="uc-collection" href="javascript:ucCollection();">收藏</a></li>-->
+				<li><a class="uc-collection" href="javascript:ucCollection();">收藏</a></li>
 				<li class="drop-down">
 		    		<a class="formation" data-toggle="collapse" href="#dropdown-menu">常用信息</a>
 		    		<i></i>
@@ -1282,8 +1321,8 @@
       <div class="asideRight tab-content">
 
      
-      {% for item in list %}
-      {% if item.status == 8 %}
+        {% for item in list %}
+        {% if item.status == 8 %}
         <div class="evaluation-order tab-pane fade" id="evaluation-order{{item.product_id}}">
           <form class="evaluation-information form-info{{item.product_id}}" action="/uc/booking/addcomment" mothod="post">
 
@@ -2094,225 +2133,13 @@
 
 
     	<div class="aside-right">
-      {#
-
-	        <div class="head-title">
-	              头像设置
-	        </div>
-            <div class="add-picture min-height">
-              
-              
-                <div class="" id="avatar-modal" aria-labelledby="avatar-modal-label" >
-                  <div class="">
-                    <div class="">
-                      <form class="avatar-form" action="/uc/seting/updateavatar" enctype="multipart/form-data" method="post">
-
-                        <div class="modal-body">
-                          <div class="avatar-body">
-                            <div class="avatar-upload">
-                              <input class="avatar-src" name="avatar_src" type="hidden">
-                              <input class="avatar-data" name="avatar_data" type="hidden">
-
-                              </div>
-                            <div class="fancy-file-upload fancy-file-primary">
-                              <b class="upload">头像</b>
-                              
-                              <input type="file" class="form-control avatar-input" id="avatarInput" name="file" onchange="jQuery(this).next('input').val(this.value);" />
-                              
-                              <span class="button">上传图片</span>
-                              <span class="upload">仅支持jpg.gif.png格式图片,且文件小于2M</span>
-                            </div>
-                            <div class="row">
-
-                              <div class="col-md-6 col-md-offset-1">
-                                <div class="avatar-wrapper"></div>
-                              </div>
-                              <div class="col-md-4" style="vertical-align: bottom">
-                                <div class="avatar-preview preview-lg"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
-                                <div class="avatar-preview preview-md"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
-                                <div class="avatar-preview preview-sm"><img src="/uc/index/avatar"  alt="{{controller.user.username}}" /></div>
-                              </div>
-
-                            </div>
-                            <div class="row avatar-btns">
-                              <div class="col-md-3">
-                                <button class="btn btn-primary btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
-                              </div>
-                              <div class="col-md-9">
-                                <div class="btn-group">
-                                  <button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
-                                </div>
-                                <div class="btn-group">
-                                  <button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
-                                </div>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
-            
-            </div>
-
-
-          
-          
-
-
-          <div>
-            <div class="new-increase">
-              <span class="new-increase1">新增常用旅客信息</span>
-              <span class="new-increase2">请填写如下常用旅客信息,*为必选项</span>
-              <span class="new-increase3">查看所有旅客信息</span>
-            </div>
-
-
-            <div class="increase-content">
-              <div class="increase-title">旅客信息</div>
-              <form action="">
-              <div class="col-md-offset-2 ce">*中文名与英文名两者必填一项</div>
-              <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">中文名</label>
-                <span class="star">*</span>
-                <div class="col-md-4">
-
-                    <input class="form-control masked" type="text" placeholder="请输入中文姓名">
-                </div>                                              
-              </div>
-              <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">英文名</label>
-                <span class="star">*</span>
-                <div class="col-md-2 clear">
-                  <input class="form-control masked" type="text" placeholder="LastName(姓)">
-                </div>
-                <div class="col-md-2 clear">
-                  <input class="form-control masked" type="text" placeholder="FirsName(名)">
-                </div>
-              </div>
-              <div class="col-md-offset-2 self">
-                <input type="checkbox">设置为本人
-              </div>
-              
-              <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">国籍</label>
-                <span class="star">*</span>
-                <div class="col-md-4">
-                  <input class="form-control masked" type="text" placeholder="中文/英文">
-                </div>               
-              </div>
-              <div class="form-group">
-                <label class="col-md-2 control-label">性别</label>
-                <span class="star">*</span>
-                <div class="col-md-10">
-                  <label class="radio" style="margin-top: 3px;padding-top: 3px">
-                    <input type="radio" value="1" name="sex">
-                    <i></i> 男
-                  </label>
-                  <label class="radio" style="margin-top: 3px;padding-top: 3px">
-                    <input type="radio" checked="checked" value="2" name="sex">
-                    <i></i> 女
-                  </label>
-                  </div>
-                       
-              </div>
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">生日</label>
-                <div class="col-md-4">
-                  <input type="text" name="birthday" value="{{userInfo.birthday|dateformat('Y-m-d')}}" class="form-control masked" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
-                </div>
-              </div>
-              <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">出生地</label>
-                <div class="col-md-4">
-                  <input class="form-control masked" type="text">
-                </div>                
-              </div>
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">手机号码</label>
-                <span class="star">*</span>
-                <div class="col-md-4">
-                  <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="大陆手机">
-                </div>
-              </div>
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">非大陆号码</label>*
-                <div class="col-md-3">
-                  <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="中国香港825">
-                 
-                </div>
-                <div class="col-md-2">
-                    <input type="text" name="mobile" value="{{userInfo.mobile}}" class="form-control masked" data-format="99999999999" data-placeholder="X" placeholder="非大陆手机">
-                </div>
-              </div>
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">联系电话</label>
-                <div class="col-md-10   landline-telephone">
-                    <input type="text" name="phone_zone" value="${data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
-                    <input type="text" name="phone_number" value="${data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
-                    <input type="text" name="phone_ext" value="${data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
-                </div>
-              </div>
-              <div class="form-group clear">
-                <label class="col-md-2 control-label">传真号码</label>
-                <div class="col-md-10   landline-telephone">
-                    <input type="text" name="phone_zone" value="${data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
-                    <input type="text" name="phone_number" value="${data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
-                    <input type="text" name="phone_ext" value="${data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
-                </div>
-              </div>
-             <div class="form-group clear">
-                <label class="col-md-2 control-label" for="">Email</label>
-                <div class="col-md-4">
-                  <input class="form-control masked" type="text">
-                </div>                
-              </div>
-              <div class="form-group clear">
-                <div class="credentials">
-                  证件信息
-                </div>
-                <label class="col-md-2 control-label" for="">证件类型</label>
-                <span class="star">*</span>
-                <div class="col-md-2">
-                  <input class="form-control " type="text">
-                </div> 
-                <label class="col-md-1 control-label credentials-num" for="">证件号码</label>
-                <span class="star">*</span>
-                <div class="col-md-3">
-                  <input class="form-control " type="text">
-                </div>                
-                <label class="col-md-1 control-label credentials-num" for="">有效期</label>
-                <div class="col-md-2">
-                  <input class="form-control " type="text" placeholder="yyyy-mm-dd">
-                </div>                               
-              </div>
-
-              <div class="form-group margin-top-30 clear">
-                <div class="col-md-2 col-md-offset-2">
-                  <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" ><i class="fa fa-check"></i> 保存 </button>
-                </div>
-                 <div class="col-md-2">
-                  <button class="btn btn-primary ajax-post" target-form="form-info" type="submit" > 取消 </button>
-                </div>
-              </div>
-
-
-            </form>
-            </div>
-            
-          </div>
-
-#}
-
+       
 
     	</div>
+
   	</div>
 
-
+        
 
 
 

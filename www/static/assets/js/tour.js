@@ -41,64 +41,17 @@ $("body").click(function(){
 //收藏
 function collect(id){
 	var type;
-	/*
-	$.ajax({
-		url:"/ajax/focuslist?page="+1+"&limit="+200,
-		async:false,
-		success:function(result){
-			var data = result.data.data;
-
-			//console.log(data)
-			var idArr = [];
-			for(var i=0;i<data.length;i++){
-				idArr.push(data[i].question_id)
-			}
-			//console.log(idArr)
-			var a = $.inArray(id,idArr)
-			//console.log(a)
-			if(a == -1){
-				type = 1;
-			}else{
-				type = 2
-			}
-		}
-	})
-	console.log(type)
-	*/
 	$.ajax({
 		url:"/ajax/focus?id="+id+"&type="+1,
 		success:function(result){
-			console.log(result)
-			if(result.errno != 0){
-				alert("您未登录，请先登录！");
-			}else{
-				alert(result.data);
-			}
-			
+			//console.log(result)
+			//alert(result.data)
+			 _toastr(result.data,"top-right","success",false);
 		}
 	})
 
 }
 
-//总体评分
-$(document).ready(function(){
-	var id = $(".proid").val()
-	console.log(id);
-	var allcount=0;
-	$.ajax({
-		url:"/uc/booking/getproductinfo/product_id/"+id,
-		success:function(result){
-			console.log(result)
-			allcount = result.data.commentcount;
-			if(result.data.commentcount != 0){
-	        	var mark = result.data.score/result.data.commentcount;
-	        	mark = mark.toFixed(1)
-	  			$(".global-score p").html(mark);
-	  			$(".allCount").html("("+allcount+")")
-	        }
-		}
-	})
-})
 //评分统计
 $(document).ready(function(){
 	var id = $(".proid").val();
@@ -138,87 +91,111 @@ $(document).ready(function(){
 //页面加载完之后异步加载点评信息
 $(document).ready(function(){
 	var id = $(".proid").val();
+	var html = "";
 	$.ajax({
-		url:"/ajax/productcommentlist?page=1&productid="+id,
+		url:"/ajax/productcommentlist?limit="+5+"&page=1&productid="+id,
 		success:function(result){
-			evaluatecontent(result);
+			html += evaluatecontent(result);
+			html += `<input class="page-type" type="hidden" value="0"/>`;
+			$(".evaluate-box").html(html);
 		}
 	})
 })
 //全部点评
-function allevaluate(){
+function allevaluate(pagenum){
 	var id = $(".proid").val();
+	var html = "";
 	$.ajax({
-		url:"/ajax/productcommentlist?page=1&productid="+id,
+		url:"/ajax/productcommentlist?limit="+5+"&page="+pagenum+"&productid="+id,
 		success:function(result){
-			evaluatecontent(result);
+			html += evaluatecontent(result);
+			html += `<input class="page-type" type="hidden" value="0"/>`;
+			$(".evaluate-box").html(html);
 		}
 	})
 }
 //5分评价
-function evaluate5(){
+function evaluate5(pagenum){
 	var id = $(".proid").val();
+	var html = "";
 	$.ajax({
-		url:"/ajax/productcommentlist?page=1&productid="+id+"&score="+5,
+		url:"/ajax/productcommentlist?limit="+5+"&page="+pagenum+"&productid="+id+"&score="+5,
 		success:function(result){
-			evaluatecontent(result);
+			html += evaluatecontent(result);
+			html += `<input class="page-type" type="hidden" value="5"/>`;
+			$(".evaluate-box").html(html);
 		}
 	})
 }
 //4分评价
-function evaluate4(){
+function evaluate4(pagenum){
 	var id = $(".proid").val();
+	var html = "";
 	$.ajax({
-		url:"/ajax/productcommentlist?page=1&productid="+id+"&score="+4,
+		url:"/ajax/productcommentlist?limit="+5+"&page="+pagenum+"&productid="+id+"&score="+4,
 		success:function(result){
-			evaluatecontent(result);
+			html += evaluatecontent(result);
+			html += `<input class="page-type" type="hidden" value="4"/>`;
+			$(".evaluate-box").html(html);
 		}
 	})
 }
 //3分评价
-function evaluate3(){
+function evaluate3(pagenum){
 	var id = $(".proid").val();
+	var html = "";
 	$.ajax({
-		url:"/ajax/productcommentlist?page=1&productid="+id+"&score="+3,
+		url:"/ajax/productcommentlist?limit="+5+"&page="+pagenum+"&productid="+id+"&score="+3,
 		success:function(result){
-			evaluatecontent(result);
+			html += evaluatecontent(result);
+			html += `<input class="page-type" type="hidden" value="3"/>`;
+			$(".evaluate-box").html(html);
 		}
 	})
 }
 //2分评价
-function evaluate2(){
+function evaluate2(pagenum){
 	var id = $(".proid").val();
+	var html = "";
 	$.ajax({
-		url:"/ajax/productcommentlist?page=1&productid="+id+"&score="+2,
+		url:"/ajax/productcommentlist?limit="+5+"&page="+pagenum+"&productid="+id+"&score="+2,
 		success:function(result){
-			evaluatecontent(result);
+			html += evaluatecontent(result);
+			html += `<input class="page-type" type="hidden" value="2"/>`;
+			$(".evaluate-box").html(html);
 		}
 	})
 }
 //1分评价
-function evaluate1(){
+function evaluate1(pagenum){
 	var id = $(".proid").val();
+	var html = "";
 	$.ajax({
-		url:"/ajax/productcommentlist?page=1&productid="+id+"&score="+1,
+		url:"/ajax/productcommentlist?limit="+5+"&page="+pagenum+"&productid="+id+"&score="+1,
 		success:function(result){
-			evaluatecontent(result);
+			html += evaluatecontent(result);
+			html += `<input class="page-type" type="hidden" value="1"/>`;
+			$(".evaluate-box").html(html);
 		}
 	})
 }
 //有图评价
-function evaluateimg(){
+function evaluateimg(pagenum){
+	var html = "";
 	var id = $(".proid").val();
 	$.ajax({
-		url:"/ajax/productcommentlist?page=1&productid="+id+"&has_img="+1,
+		url:"/ajax/productcommentlist?limit="+5+"&page="+pagenum+"&productid="+id+"&has_img="+1,
 		success:function(result){
-			evaluatecontent(result);
+			html += evaluatecontent(result);
+			html += `<input class="page-type" type="hidden" value="p"/>`;
+			$(".evaluate-box").html(html);
 		}
 	})
 }
 //用户评价内容
 function evaluatecontent(result){
 	var html = "";
-
+	console.log(result)
 
 	var v = result.data.data;
 	for(var i=0;i<v.length;i++){
@@ -435,5 +412,115 @@ function evaluatecontent(result){
 			</div>
 		`;
 	}
-	$(".evaluate-box").html(html);
+	html+=pagination(result.data.totalPages,result.data.currentPage);
+	return html;
+	//$(".evaluate-box").html(html);
 }
+
+//分页功能
+function pagination(totalPages,currentPage){
+	var html = "";
+	var  count = 2;                               //当前页前后分页个数
+	//动态填充分页页码
+	var totalPages = totalPages      //总页数
+	console.log(totalPages)
+	localStorage.setItem("totalPages",JSON.stringify(totalPages));
+	var currentPage = currentPage    //当前页
+	html += `<div class="pagination clear">`;
+	if(currentPage > 1){        				  //上一页
+		html += `<a class="prev-page" href=""><</a>`;
+	}else{
+		$(".evaluate-box").find(".prev-page").remove();
+	}
+
+	if(currentPage >= count*2 && totalPages != count){
+		html += `<a href="" data-page="${1}">1</a><span>...</span>`;
+	}
+
+	var start = currentPage - count,
+		end = currentPage + count;
+	((start > 1 && currentPage < count) || currentPage == 1) && end++;
+	(currentPage > totalPages - count && currentPage >= totalPages && start!=1) && start++;
+	for(;start <= end;start++){
+		if(start <= totalPages && start >= 1){
+			if(start != currentPage){
+				html += `<a href="" data-page="${start}">${start}</a>`;
+			}else{
+				html += `<a class="active-page" data-page="${start}" href="">${start}</a>`;
+			}
+		}
+	} 
+
+	if(currentPage + count < totalPages-1 && currentPage >= 1 && totalPages > count){
+		var end = totalPages
+		html += `<span>...</span><a href="" data-page="${totalPages}">${end}</a>`;
+	}
+
+	if(currentPage < totalPages){                 //下一页
+		html += `<a class="next-page" href="">下一页></a>`;
+	}else{
+		$(".evaluate-box").find(".next-page").remove();
+	}
+	if(totalPages!=0 && totalPages!=""){
+		html += `
+			<b>到</b><input class="jump-page" type="number" /><b>页</b><a class="jump" href="">确定</a>
+		`;
+	}
+	
+	html += "</div>"
+	return html;	
+}
+
+//为分页页码绑定单击事件
+$(".evaluate-box").on("click",".pagination>a",function(e){
+	if(e.preventDefault){
+		e.preventDefault();
+	}else{
+		window.event.returnValue=false;
+	}
+	if($(this).hasClass("prev-page")){
+		var index = parseInt($(".evaluate-box").find(".active-page").text()) - 1;
+		//console.log(index)
+	}else if($(this).hasClass("next-page")){
+        var index = parseInt($(".evaluate-box").find(".active-page").text()) + 1;
+        //console.log(index)
+    }else if($(this).hasClass("active-page")){
+        var index = parseInt($(this).data('page'));
+        //console.log(index)
+    }else if($(this).hasClass("jump")){
+    	var index = parseInt($(".jump-page").val());
+    	//console.log(index)
+    }else{
+        var index = parseInt($(this).data('page'));
+        //console.log(index)
+    }
+    pageTable(index);
+})
+
+function pageTable(n){
+	var totalPages = parseInt(localStorage.getItem("totalPages"));
+	//console.log(totalPages);
+	var reg = /^\+?[1-9][0-9]*$/;
+	var pageType = $(".page-type").val()
+	//console.log(pageType);
+	if(reg.test(n) && n>0 && n<=totalPages){
+		console.log(n)
+		if(pageType == "0"){
+			allevaluate(n)
+		}else if(pageType == "1"){
+			evaluate1(n)
+		}else if(pageType == "2"){
+			evaluate2(n)
+		}else if(pageType == "3"){
+			evaluate3(n)
+		}else if(pageType == "4"){
+			evaluate4(n)
+		}else if(pageType == "5"){
+			evaluate5(n)
+		}else if(pageType == "p"){
+			evaluateimg(n)
+		}
+	}
+	
+}
+
