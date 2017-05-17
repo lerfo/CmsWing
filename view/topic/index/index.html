@@ -218,7 +218,7 @@ section#slider input{
 		<header class="section-header margin-bottom-20">
 			<div class="heading-title">
 				<h3>热门</h3>
-				<!--<a class="peanutRoll_a" href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>-->
+				<a class="peanutRoll_a" href="javascript:getHot()" >换一换 <img src="/static/assets/images/change.png"></a>
 			</div>
 		</header>
 		<div  class=" portfolio-title-over">
@@ -293,7 +293,7 @@ section#slider input{
 		<header class="section-header margin-bottom-20">
 			<div class="heading-title">
 				<h3 style="background-color:rgba(239,247,249,0.9) ">游学</h3>
-				<!--<a class="peanutRoll_a" href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>-->
+				<a class="peanutRoll_a" href="javascript:getTourStudy()" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
 			</div>
 		</header>
 		<div  class=" portfolio-title-over">
@@ -363,13 +363,16 @@ section#slider input{
 		<header class="section-header margin-bottom-20">
 			<div class="heading-title">
 				<h3>社区</h3>
-				<!--<a class="peanutRoll_a" href="" id="community-change">换一换 <img src="/static/assets/images/change.png"></a>-->
+				<a class="peanutRoll_a" href="javascript:getCommunity()" id="community-change" >换一换 <img src="/static/assets/images/change.png"></a>
 			</div>
 		</header>
 		<div  class=" portfolio-title-over">
 			<div class="row mix-grid">
 				<ul id="community-ul" style="padding-left: 0px;">
 					{%question data="list", has_img="1", order="is_recommend DESC,update_time DESC", limit="4", page="0" %}
+					{#
+						{%question data="list",limit="4", page="2",cid="124" %}
+					#}
 					{%set i = 1%}
 					{% for v in list %}
 					{% if i == 4 %}
@@ -651,6 +654,7 @@ section#slider input{
 {% endblock %}
 
 {%block script%}
+<script src="/static/assets/js/exchange.js"></script>
 	<script type="text/javascript">
 		/*jQuery(window).ready(function () {
 			$("#destination ul#destination-ul").children("li").eq(0).addClass("col-md-3 col-sm-3 destination-item-1");

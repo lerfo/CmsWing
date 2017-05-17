@@ -41,21 +41,21 @@ export default class extends Base {
   }
   /**
    * 获取数据标签
-   * {% topic data = "data"%}
-   * topic:标签名称
-   * data:接受返回数据的变量名称，例: data = "data"
+   * 示例：/ajax/topic?q=&page=1&limit=6&&value=132-0-0-17-tourtype_1|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0
+   * q:查询关键字
    * page: 设置查询开始页面，从1开始，默认为0，例：page = "2"
-   * limit: 设置查询结果的条数，例: limit="10",limit="3,10"
-   * cid: 栏目id ,单个栏目 cid="1",多个栏目 cid = "1,2,3,4" , 不写调取全部栏目
-   * {{name|get_url(id)}}文章链接
-   * type: 标签类型,hot-按照浏览量从高到底,level-安装优先级从高到低排序,默认安装更新时间排序
-   * //{% topic data = "data",limit= "5",cid=category.id,type="hot"%}
-   * position:1:列表推荐,2:频道推荐,4:首页推荐
-   * ispic:是否包涵缩略图,1:包含缩略图的内容,2:不包含缩略图,默认所有
-   * issub:1:包含自栏目,2:不包含自栏目,默认包含自栏目
-   * ischild:1:包含子目录，其它：不包含子目录
-   * isstu:1:获取副表内容,2:只从主表拿数据,默认只从主表拿
-   * group:分组id，单个分组：group="1",多个分组 :group="1,2,3,4",不写调取全部分组。
+   * limit: 设置查询结果的条数，例: limit="10"
+   * value: 过滤条件 分类ID-排序ID-分组ID-分类ID-分类详情
+   *                 分类ID:0 全部；132 游学产品；141 学校；135 目的地
+   *                 排序ID:0 按更新时间降序；1 按更新时间升序；2 按浏览量降序；3 按浏览量升序；
+   *                 分组ID:0 全部 
+   *                 分类ID:0 无分类 各个模型的分类ID 游学：17  学校：18 
+   *                 分类详情:游学产品：tourtype_1|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0
+   *                                    tourtype 适合年龄 1:青少年2:儿童3:幼儿
+   *                                    tourfeature 产品分类 1:学术类2:特殊类
+   *                                    tourdest 目的地  100:亚洲200:非洲300:欧洲00:拉丁美洲500:北美洲600:大洋洲700:南极洲
+   *                                    tourdays行程天数  天数
+   *                                    tourmonth出发日期 1:一月2:二月3:三月4:四月5:五月6:六月7:七月8:八月9:九月10:十月11:十一月12:十二月
    */
   async topicAction() {
 
@@ -88,7 +88,7 @@ export default class extends Base {
       //1.获取分类栏目
       let get = this.get("value") ? this.get("value") : "youxue" ;//this.get('value') || 'youxue'; //默认显示游学搜索
 
-      //console.log('args:'+get);
+      console.log('args:'+get);
       let id=0;
       let query = get.split("-");
       if(get != 0){
@@ -97,18 +97,18 @@ export default class extends Base {
       if(id == '0'){
 
           let where = {};//{'status':1};
-          let limit = this.config("db.nums_per_page");
-          let page = think.isEmpty(this.param('page')) ? "0" : this.param('page');
+          let limit = think.isEmpty(this.get("limit")) ? this.config("db.nums_per_page") : this.get("limit");
+          let page = think.isEmpty(this.get('page')) ? "0" : this.get('page');
           //帖子包含图片
           where = think.extend({},where,{'has_img':1});
           
-          if(this.param('cid')){
-              where = think.extend({},where,{'category_id':this.param('cid')});
+          if(this.get('cid')){
+              where = think.extend({},where,{'category_id':this.get('cid')});
           }
           //排序
           let type='update_time DESC';
-          if(!think.isEmpty(this.param('order'))){
-              type = this.param('order');
+          if(!think.isEmpty(this.get('order'))){
+              type = this.get('order');
           }
           //console.log('page:'+page);
           //console.log('limit:'+limit);
@@ -303,21 +303,25 @@ export default class extends Base {
       }
       //5.6 获取查询数量
       let num;
-      if(cate.list_row>0){
-        num = cate.list_row;
-      } else if(cate.model.split(",").length == 1){
-        let pagenum=await this.model('model').get_model(cate.model,"list_row");
-        if(pagenum !=0){
-          num = pagenum;
+      if( think.isEmpty(this.get("limit")) ){
+        if(cate.list_row>0){
+          num = cate.list_row;
+        } else if(cate.model.split(",").length == 1){
+          let pagenum=await this.model('model').get_model(cate.model,"list_row");
+          if(pagenum !=0){
+            num = pagenum;
+          }
+        }else {
+          num =this.config("db.nums_per_page");
         }
-      }else {
-        num =this.config("db.nums_per_page");
+        if(checkMobile(this.userAgent())){
+          num=10;
+        }
+      }else{
+        num = this.get("limit");
       }
-      if(checkMobile(this.userAgent())){
-        num=10;
-      }
-
-      //console.log(map);
+      //console.log( this.get("limit") );
+      //console.log(num);
       let data;
       if(!think.isEmpty(sortarr)){
         data = await this.model('document').join({
@@ -326,9 +330,9 @@ export default class extends Base {
           as: "t",
           on: ["id", "tid"]
 
-        }).where(map).page(this.param('page'),num).order(o).countSelect();
+        }).where(map).page(this.get("page"),num).order(o).countSelect();
       }else {
-        data = await this.model('document').where(map).page(this.param('page'),num).order(o).countSelect();
+        data = await this.model('document').where(map).page(this.get('page'),num).order(o).countSelect();
       }
       for(let val of data.data){
           //console.log(val.cover_id);
