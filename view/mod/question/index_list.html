@@ -109,17 +109,12 @@ section.content-section{
 	width: 740px;
 	min-height:400px;
 	padding-top: 21px;
-	padding-left: 39px; 
-	/* margin-left: 10px !important; */
 }
 .qsn-awr{
-	/* background-color: pink; */
 	width: 740px;
 	min-height:400px;
 	display: none;
-	/* margin-left: 10px !important;  */
 	padding-top: 21px;
-	padding-left: 39px;
 }
 .community{
 	width: 700px;
@@ -131,8 +126,7 @@ section.content-section{
 	margin-left: 20px;
 }
 .search-box{
-	width: 600px;
-	/* height: 50px; */
+	width: 728px;
 }
 .country-box{
 	padding-left: 39px;
@@ -205,8 +199,8 @@ section.content-section{
 }
 .blog_item_content{
 	display: inline-block;
-	width: 420px;
-	margin-left: 40px;
+	width: 475px;
+	margin-left: 20px;
 }
 .qa_blog_congtent{
 
@@ -215,12 +209,13 @@ section.content-section{
 	margin-left: 40px;
 }
 .blog_item_content h2{
-	height: 56px;
+	height: auto;
 	font-size: 16px;
-	color:#121212;
-}
-.blog_item_content p{
-	text-indent: 1em;
+	margin-top: 15px;
+	margin-bottom:10px;
+	background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(102, 102, 102, 1)), to(rgba(51, 51, 51, 1)));
+    -webkit-background-clip: text;
+    /* -webkit-text-fill-color: transparent; */
 }
 ul#studytour-ul{
 	list-style-type:none; 
@@ -241,16 +236,11 @@ ul#studytour-ul li .item-box {
 	width:262px;
 	height: 600px;
 	margin-left: 0px;
-	margin-top:65px;
+	margin-top:50px;
 	display: inline;
-	/* 
-	margin-top:90px;
-	margin-right:156px; */
 }
 .con_pro{
 	width:740px;
-	 /* margin-left: 160px; */
-
 }
 .peanutRoll_a{
 	color: #565656;
@@ -302,8 +292,7 @@ ul.blog-post-info li a:after {
 	cursor: pointer;
 }
 .blog_post_item:hover .blog_item_content h2{
-	color: #1eb6c1;
-
+	color: #1eb6c1 !important;
 }
 .studynote a, a:focus:not(.btn){
 	color: #666;
@@ -340,7 +329,7 @@ CLASSES:
         <header class="section-header margin-bottom-0">
             <div class="heading-title">
                 <h3>热门</h3>
-                <!--<a class="peanutRoll" href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>-->
+               	<a class="peanutRoll" href="javascript:getHotTour();" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
             </div>
         </header>
         <div  class=" portfolio-title-over">
@@ -432,7 +421,7 @@ CLASSES:
 				<div class="search-box" style="margin-bottom: 15px;">
 
 					{#<form action="/search" method="get" class="widget_search">#}
-	                    <input id="searchTourNote" type="search" placeholder="  搜索游记攻略" name="q" {% if queryword %} value={{queryword}}{%endif%} class="serch-input" style="color: black;width: 430px;height: 50px;font-size:18px;border: 3px solid #95734D;border-radius: 5px;">
+	                    <input id="searchTourNote" type="search" placeholder="  搜索游记攻略" name="q" {% if queryword %} value={{queryword}}{%endif%} class="serch-input" style="color: black;width: 584px;height: 50px;font-size:18px;border: 3px solid #95734D;border-radius: 5px;">
 	                    <button type="submit" style="background-color:#1EB6C1;color: #fff;width:120px;height: 50px;margin-left: 20px;font-size:18px;border-radius: 5px;" onclick="updateTourNoteSearchWord();">
 	                        搜    索
 	                    </button>
@@ -440,7 +429,7 @@ CLASSES:
 				</div>
 				<!--/搜索框-->			
 	            <!-- LEFT -->
-	            <div class="co col-md-12 col-sm-9 studynote" >   
+	            <div class="co col-md-12 col-sm-12 studynote" >   
 	            {#            
 	                <div class="studynote_page1">
 	                	
@@ -486,7 +475,7 @@ CLASSES:
 	        	<!-- 搜索框-->
 				<div class="search-box" style="margin-bottom: 15px;">
 					{#<form action="/search" method="get" class="widget_search">#}
-	                    <input id="searchTourQuestion" type="search" placeholder="  问答" name="q" {% if queryword %} value={{queryword}}{%endif%}class="serch-input" style="color: black;width: 430px;height: 50px;font-size:18px;border: 3px solid #95734D;border-radius: 5px;">
+	                    <input id="searchTourQuestion" type="search" placeholder="  问答" name="q" {% if queryword %} value={{queryword}}{%endif%}class="serch-input" style="color: black;width: 584px;height: 50px;font-size:18px;border: 3px solid #95734D;border-radius: 5px;">
 	                    <button type="submit" style="background-color:#1EB6C1;color: #fff;width:120px;height: 50px;margin-left: 20px;font-size:18px;border-radius: 5px;" onclick="updateTourQuestionSearchWord()">
 	                        搜    索
 	                    </button>
@@ -517,7 +506,7 @@ CLASSES:
 				</div>
 	             <!--/筛选框-->
 	              <!-- LEFT -->
-	            <div class="co col-md-12 col-sm-9 tourquestion" >
+	            <div class="co col-md-12 col-sm-12 tourquestion" >
 					{#
                     {% for val in list %}
                     {% set categoryname = val.category_id|get_cate %}
@@ -648,7 +637,7 @@ CLASSES:
 		   		
 
 		<div class="right_content col-md-2 col-sm-2 ">
-			<div>
+			<div style="margin-left: 14px;">
 				<div style="width: ">
 						<img src="/static/assets/images/tournote.png" style="width: 64px;height: 64px;">
 						<a href="/mod/question/sys/add/cid/124" class="btn btn-primary btn-3d btn-block" style="font-size: 24px;width:132px;display: inline-block;margin-left: 0px;">
@@ -716,8 +705,8 @@ CLASSES:
 							<div class="item-box thumbnail" style="">
 							<a href="{{v.name|get_url(v.id)}}">
 								<figure style="width: auto;">
-									<div class="col-lg-12 col-sm-12" style="padding: 0 4px;">
-										<img class="img-responsive" style="height: 84px;" src="{{v.cover_id|get_pic('m=1,w=134,h=72')}}"  alt="">
+									<div class="col-lg-12 col-sm-12" style="padding: 0 10px;">
+										<img class="img-responsive" style="height: 120px;" src="{{v.cover_id|get_pic('m=1,w=190,h=120')}}"  alt="">
 									</div>
 									<div class="col-lg-12 col-sm-12" style="padding: 0 4px;">
 										<span class="item-hover" >
@@ -726,7 +715,7 @@ CLASSES:
 
 										<!-- overlay title -->
 										<div class="item-box-overlay-title text-center" >
-											<h3 class="nomargin">{{v.title}}</h3>
+											<h3 class="nomargin" style="font-size: 15px;">{{v.title}}</h3>
 										</div><!-- /overlay title -->
 
 									</div>
@@ -759,6 +748,7 @@ CLASSES:
 <!-- /PEANUT ROLL -->
 {% endblock %}
 {% block script %}  
+<script src="/static/assets/js/exchange.js"></script> 
 <script>
 
 	$(".cgy").on("click",function(){
@@ -807,6 +797,7 @@ CLASSES:
 			type:"get",
 			url:"/ajax/question?cid=124&q="+searchword+"&page="+page,
 			success:function(dataResult){
+				console.log(dataResult);
 				var sn_html ='';
 		    	if(page <= 1){
 		    		sn_html_page1 ='<div class="studynote_page1"></div>';
@@ -819,7 +810,6 @@ CLASSES:
 	                            <img class="immg" src="'+v.imgurl+'" >\
 	                        </figure>\
 	                        <div class="blog_item_content blog-item-small-content">\
-								<p>&nbsp;</p>\
 	                            <h2>'+v.title+'</h2>\
 	                            <p>'+v.detailtext+'</p>\
 	                        </div>\
@@ -827,7 +817,6 @@ CLASSES:
 					}else{
 						sn_html +='<a href="/mod/question/'+v.id+'"><div class="blog_post_item blog-post-item blog-post-item-inverse padding-top-10 padding-bottom-10 margin-bottom-0 clearfix" >\
 	                        <div class="blog_item_content blog-item-small-content" style="margin-left:263px;">\
-								<p>&nbsp;</p>\
 	                            <h2>'+v.title+'</h2>\
 	                            <p>'+v.detailtext+'</p>\
 	                        </div>\
@@ -888,7 +877,7 @@ CLASSES:
 			type:"get",
 			url:"/ajax/question?cid=125&q="+searchword+"&page="+page+"&order="+order,
 			success:function(dataResult){
-				//console.log(dataResult);
+				console.log(dataResult);
 				//console.log("/ajax/question?cid=125&q="+searchword+"&page="+page+"&order="+order);
 				if(page <= 1){
 		    		tq_html_page1 ='<div class="tourquestion_page1"></div>';

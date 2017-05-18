@@ -348,12 +348,12 @@ function evaluatecontent(result){
 					${v[i].comment_content}
 				</div>
 			`;
-		if(v[i].comment_img!==""&&v[i].comment_img!==null&&v[i].comment_img!==undefined){
+		if(v[i].imgurls!==""&&v[i].imgurls!==null&&v[i].imgurls!==undefined){
 			var img = v[i].imgurls;
-			//console.log(img)
+			console.log(img)
 			html+=`<div class="img-box">`;
-			for(var i=0;i<img.length;i++){
-				html+=`<img src="${img[i]}" alt="">`;
+			for(var n=0;n<img.length;n++){
+				html+=`<img src="${img[n]}" alt="">`;
 			}
 			html+=`</div>`;
 		}					

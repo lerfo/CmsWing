@@ -150,7 +150,7 @@ CLASSES:
 	</div>
 	{% if not controller.is_login %}
 	<div class="row margin-bottom-10" style="margin-left: 0px; margin-right: 0px; font-size: 13px;">
-		<div class="pull-left text-left">（<a href="/uc/public/login">登录</a>后查看更多优惠）</div>
+		<div class="pull-left text-left">（<a class="" data-toggle="ajaxModal" href="/uc/public/loginmodal">登录</a>后查看更多优惠）</div>
 	</div>
 	{% endif %}
 	<div class="row">
@@ -540,9 +540,15 @@ CLASSES:
             <ul class="detail_tab_col" id="js_detail_tab">
                 <li><a href="#xcjs" class="current">行程介绍</a></li>
                 <!-- <li id="J_zyld" style="display: none"><a href="#zyld">专业领队</a></li> -->
+                {% if info.product_expenses  %}
                 <li style=""><a href="#fy" class="">费用</a></li>
+                {% endif %}
+                {% if info.product_booking_info  %} 
                 <li style=""><a href="#ydxz" class="">预订须知</a></li>
+                {% endif %}
+                {% if info.product_visainfo  %}  
                 <li style=""><a href="#qz" class="">签证/签注</a></li>
+                {% endif %}
                 <li style=""><a href="#pj" class="">用户评价</a></li>
               
             </ul>
@@ -550,7 +556,7 @@ CLASSES:
     </div>
     <div>
 	    <div class="col-lg-9 col-sm-9 clear">
-			<div class="under_tab_detail">
+			<div class="under_tab_detail clear">
 		      	<i class="under_tab_anchor" id="xcjs"></i>
 		        <i class="under_tab_anchor_abc" id="xcjs_abc"></i> 
 		    	{% if info.product_recommend or info.product_route %}   
@@ -816,7 +822,7 @@ CLASSES:
 				{% endfor %}
 				<li class="mix development float-share col-md-12 col-sm-12">
 					{% if not controller.is_login %}
-					<a class="col-xs-4" href="javascript:;">
+					<a class="col-xs-4" data-toggle="ajaxModal" href="/uc/public/loginmodal">
 						收藏
 						<i class="collect"></i>
 					</a>	
@@ -879,10 +885,14 @@ CLASSES:
 
 			<!-- RIGHT -->
 			<div class="col-md-9 col-sm-9">
-				<h3 class="page-header consult weight-300 ">
-					咨询
-					<i class="ce-consult"></i>
-				</h3>
+			
+			<div class="under_tab_detail"> 
+				<i class="under_tab_anchor" id="zx"></i>
+		        <i class="under_tab_anchor_abc" id="zx_abc"></i>
+
+		        <div id="js_expense" class="detail_content">
+
+				<h3 class="resource_title"> 咨&nbsp;&nbsp;询<i class="icon_b icon_b_03 ce-consult"></i> </h3>
                 {#
 				<div class="timeline">
 					<div class="timeline-hline"><!-- horizontal line cache='1000'--></div>
@@ -1018,7 +1028,7 @@ CLASSES:
                          	{% for c in list %}
 								<li class="comment comment-reply">
 									<b class="triangle"></b>
-									<img class="avatar" src="/uc/index/avatar/uid/1" width="50" height="50" alt="avatar">
+									<img class="avatar" src="/uc/index/avatar/uid/1" style="width:50px;height:50px" alt="avatar">
 									<div class="comment-body">
 										<a href="#" class="comment-author">
 											
@@ -1052,6 +1062,10 @@ CLASSES:
                     </div>
 
                 </div>
+
+				</div>
+				</div>
+
                 <!--评论结束============================-->
                 {#
                 {%if controller.is_login %}
@@ -1061,13 +1075,13 @@ CLASSES:
                         <h4 class="uppercase padding-bottom-0 clearfix margin-bottom-0 noborder row">  <div class="col-md-9 col-sm-9"><div class="clearfix margin-bottom-0"><!-- rounded item -->
                             {% if controller.user.uid %}
                             <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/{{controller.user.uid}}" width="40" height="40" alt="">
-                            <h4 class="size-14 nomargin noborder nopadding bold"><a href="#">{{controller.user.uid|get_nickname}}</a></h4>
+                            <h4 class="size-14 nomargin noborder nopadding"><a class="tours" href="#">{{controller.user.uid|get_nickname}}</a></h4>
                             {% else%}
                             <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/0" width="40" height="40" alt="">
-                            <h4 class="size-14 nomargin noborder nopadding bold"><a href="#">遊客</a></h4>
+                            <h4 class="size-14 nomargin noborder nopadding"><a class="tours" href="#">遊客</a></h4>
                             
                             {%endif%}
-                            <span class="size-12 text-muted">....</span>
+                           <!--  <span class="size-12 text-muted">....</span> -->
                         </div>   </div><div class="col-md-3 col-sm-3">
                         <!--<label class="switch switch-primary margin-top-10 pull-right">
                             <input type="checkbox" checked="" name="anonymous" value="0">

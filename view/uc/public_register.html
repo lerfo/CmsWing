@@ -127,7 +127,7 @@
 										<a href="#" class="btn btn-3d btn-sm btn-reveal " style="margin-left: 0; padding-left: 24px; padding-right: 24px;" id="verifycodesend" data-type="1">
 											<!-- <i class="fa fa-send-o"></i> -->
 											<span class="qian">获取短信验证码</span>
-											<span class="hou" style="display: none"><m id="wait" class="">60</m>秒后重新获取</span>
+											<span class="hou" style="display: none"><m id="waittime" class="">60</m>秒后重新获取</span>
 										</a>
 									</div>
 								</div>
@@ -460,12 +460,12 @@
 						$(".hou").show();
 						var wait = document.getElementById('wait')
 						var interval = setInterval(function(){
-							var time = --wait.innerHTML;
+							var time = --waittime.innerHTML;
 							if(time <= 0) {
 								$(".qian").show();
 								$(".hou").hide();
 								$(that).removeClass('disabled').prop('disabled',false);
-								$("#wait").text('60');
+								$("#waittime").text('60');
 								clearInterval(interval);
 							};
 						}, 1000);

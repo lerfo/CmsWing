@@ -389,7 +389,45 @@
 
             <div class="school" id="page1">
 				<!-- 学校 -->
+                 <table class="table table  m-b-none" style="margin:10px 0px;">
+                    <tbody>
+                        <tr class="type_tr_m ">
+                            <td class="the-td">地  区：</td>
+                            <td class="tourdest">
+                                <a href="javascript:;" class="btn btn-danger btn-xs relative" id="tourdest_0">全部</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="tourdest_100">亚洲</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="tourdest_200">非洲</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="tourdest_300">欧洲</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="tourdest_400">拉丁美洲</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="tourdest_500">北美洲</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="tourdest_600">大洋洲</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="tourdest_700">南极洲</a>
+                            </td>
+                        </tr>
+                        <tr class="type_tr_m">
+                            <td class="the-td">学校类别：</td>
+                            <td class="schoolclass"> 
+                                <a href="javascript:;" class="btn btn-danger btn-xs relative" id="schoolclass_0">全部</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="schoolclass_1">幼儿园</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="schoolclass_2">小学</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="schoolclass_3">中学</a>
+                                <a href="javascript:;" class="btn btn-xs relative" id="schoolclass_4">大学</a>
+                            </td>
+                        </tr>
+                        <tr class="type_tr_m">
+                            <td class="the-td"">学校性质:</td>
+                            <td class="schooltype">
+                                <a href="javascript:;" class="btn btn-danger btn-xs relative" id="schooltype_0">全部</a>
+                                <a href="javascript:;" class="btn btn-clean btn-xs relative" id="schooltype_1">私立</a>
+                                <a href="javascript:;" class="btn btn-clean btn-xs relative" id="schooltype_2">公立</a>
+                                <a href="javascript:;" class="btn btn-clean btn-xs relative" id="schooltype_3">综合</a>
+                             </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="tour_school">
 
+                </div>
             </div>
 
             <div class="strategy" id="page3">
@@ -574,7 +612,14 @@
     {% endblock %}
 
 {% block script %}	
+<script src="/static/assets/js/search.js"></script>
+{#
 <script>
+    $(function(){
+        console.log("search");
+        var schoolType = '';
+        localStorage.setItem("schoolType",schoolType);
+    });
 
     function GetQueryString(name){
         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -606,16 +651,35 @@
     	window.open(hrf);
     });
 
+    $(".tourdest,.schooltype,.schoolclass").on("click","a",function(){
+        console.log($(this).attr("id"));
+        $(this).siblings().removeClass("btn-danger");
+        $(this).addClass("btn-danger");
+        getSchoolType();
+
+    });
+    
+    function getSchoolType() {
+        var tourdest_id = $(".tourdest").children(".btn-danger").attr("id");
+        var schoolclass_id = $(".schoolclass").children(".btn-danger").attr("id");
+        var schooltype_id = $(".schooltype").children(".btn-danger").attr("id");
+        var schoolType = tourdest_id+'|'+schooltype_id+'|'+schoolclass_id;
+        //console.log(schoolType);
+        //localStorage.setItem("schoolType",JSON.stringify(schoolType));
+        localStorage.setItem("schoolType",schoolType);
+        getschool();
+
+    }
+
     //学校页面
     function getschool(days=0) {
         var searchword = GetQueryString("q");
-
-        
-        getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td class="the-td">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td class="the-td">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td class="the-td"">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
-
+        var  getHtml = '';
+        var schoolType = localStorage.getItem("schoolType");
+        //console.log(schoolType);
          $.ajax({
             type:"get",
-            url:"ajax/topic?q="+searchword+"&page=1&value=141-0-0-18-tourdest_0",
+           url:"ajax/topic?q="+searchword+"&page=1&limit=5&value=141-0-0-18-"+schoolType,
             success:function(dataResult){
                 //console.log(dataResult);
                 getHtml +='<div class="tourschool_pagination tspage1 ">'
@@ -655,7 +719,7 @@
                 if(dataResult.currentPage < dataResult.totalPages){
                     getHtml +='<div class="text-center ts-load-more">' + '<a href="javascript:tourschool_pagination(2);">加载更多</a>'+'</div></div><div class="tourschool_pagination tspage2 "></div>'
                 }
-                $(".school").html(getHtml);
+                $(".tour_school").html(getHtml);
             }
         })
     }
@@ -1130,13 +1194,12 @@
     }
 
     function tourschool_pagination(page) {
-        console.log("asad");
         var getHtml = '';
         var searchword = GetQueryString("q");
-
+        var schoolType = localStorage.getItem("schoolType");
          $.ajax({
             type:"get",
-            url:"ajax/topic?q="+searchword+"&page="+page+"&value=141-0-0-18-tourdest_0",
+            url:"ajax/topic?q="+searchword+"&page="+page+"&limit=5&value=141-0-0-18-"+schoolType,
             success:function(dataResult){
                 console.log(dataResult);
                 $.each(dataResult.data,function(k,v){
@@ -1185,45 +1248,6 @@
         
     }
 
-
-    {#
-    $("#select100").on("click",function(){
-    	var getHtml = "";
-    	getHtml = '<table class="table table  m-b-none" style="margin:10px 0px;"><tbody><tr class="type_tr_m"><td class="the-td">国  家：</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">中国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">英国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">法国</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美国</a></td></tr><tr class="type_tr_m"><td style="width: 70px;">学校类别：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">幼儿园</a><a href="javascript:;" class="btn btn-clean btn-xs relative">小学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">中学</a><a href="javascript:;" class="btn btn-clean btn-xs relative">大学</a></td></tr><tr class="type_tr_m"><td style="width: 80px;">学校性质:</td><td><span class="btn btn-danger btn-xs relative">全部</span><a href="javascript:;" class="btn btn-clean btn-xs relative">私立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">公立</a><a href="javascript:;" class="btn btn-clean btn-xs relative">综合</a></td></tr></tbody></table>'
-
-    	 $.ajax({
-        	type:"get",
-        	url:"/ajax/question",
-        	success:function(dataResult){
-        		$.each(dataResult,function(k,v){
-        			var detail_title = v.title;
-        			var detail = v.detail.split("</p><p>");
-        			var detail_img = detail[0].split("<p>")[1].split("<br>")[0];
-        			var detail_txt = detail[1] + detail[2] + detail[3];
-        		
-        			getHtml +='<div class="strategy-content">'+
-        						detail_img+
-        						'<div class="strategy-txt"> '+
-        							'<p>'+
-        							'&nbsp;'+
-        							'</p>'+
-        							'<h2>'+
-        								detail_title +
-        							'</h2>'+
-        							'<p>'+
-        								detail_txt+
-        							'</p>'+
-        						'</div>'+
-        						
-        					 '</div>';        			
-        		});
-        		getHtml +='<div class="text-center" style="margin-top: 20px;margin-bottom: 20px;">' + '<a href="javascript:;" style="text-decoration-color: #8a8e9f;font-size: 18;">加载更多</a>'+'</div>'
-        		$(".school").html(getHtml);
-        	}
-        })
-    });
-    #}
-
-
 </script>
+#}
 {% endblock %}

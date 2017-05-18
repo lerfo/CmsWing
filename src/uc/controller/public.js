@@ -150,6 +150,11 @@ export default class extends Base {
 
   }
 
+  //登录模态框
+  async loginmodalAction(){
+    return this.display()
+  }
+
 /* 获取短信验证码
 *  mobile:手机号 目前支持大陆地区 默认+86
 *  type:短信类型 1：注册短信，2：忘记密码短信

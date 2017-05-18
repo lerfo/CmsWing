@@ -733,6 +733,7 @@ export default class extends Base {
     //更新产品总评分
     let document_tour = await this.model("document_tour").where({id:data.product_id}).getField("score,commentcount,socre5,socre4,socre3,socre2,socre1,imgcommentcount",true);
     document_tour.commentcount += 1;
+
     switch ( Number(data.score_total)) {
         case 5:
           document_tour.socre5 += 1 ;
@@ -756,6 +757,9 @@ export default class extends Base {
       document_tour.imgcommentcount += 1;
     }
     await this.model("document_tour").where({id:data.product_id}).update(document_tour);
+    //更新订单状态
+    //订单状态 status 1,未提交(草稿)2:已提交待确认待付款，3:已取消,4：已付款待确认，5：，6:卖家已确认订单，7:已确认待成团，8:已成团完成订单待评价，9：商户已作废订单， 10:请求退款待确认,11:确认退款，12,:退款中，13退款成功 14:，15:已成团已评价
+    //await this.model("order_tour").where({user_id: this.user.uid,order_no:orderid}).update({status: 15});
     return this.success("评论成功");
   }
 

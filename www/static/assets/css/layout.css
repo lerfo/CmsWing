@@ -6754,7 +6754,7 @@ li.comment .comment-body {
 	padding-left:60px;
 }
 li.comment.comment-reply {
-	margin-left:60px;
+	/*margin-left:60px;*/
 	background-color:#F3F8FB;
 	padding:6px;
 	margin-bottom:6px;
@@ -8654,4 +8654,10 @@ i.ico-60 {
 .bg-grey .nav-tabs.nav-button-tabs>li.active>a {
 	color:#fff !important;
 	background-color:rgba(0,0,0,0.6);
+}
+#topNav>div>ul>li>a{
+	color:#fff;
+}
+#topNav>div>ul>li>a:hover{
+	color:#1eb6c1;
 }
