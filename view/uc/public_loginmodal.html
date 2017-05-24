@@ -27,22 +27,22 @@
 	.modal-content{
 		border:0;
 	}
-	input::-webkit-input-placeholder { /* WebKit browsers */ 
+	/*input::-webkit-input-placeholder { 
 		color: #1eb6c1;
 		font-size:14px;  
 	} 
-	input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+	input:-moz-placeholder { 
 		color: #1eb6c1;
 		font-size:14px;   
 	} 
-	input::-moz-placeholder { /* Mozilla Firefox 19+ */ 
+	input::-moz-placeholder { 
 		color: #1eb6c1;
 		font-size:14px;    
 	} 
-	input:-ms-input-placeholder { /* Internet Explorer 10+ */ 
+	input:-ms-input-placeholder { 
 		color: #1eb6c1; 
 		font-size:14px;  
-	}
+	}*/
 	#validate-submit{
 		width:100%;
 		margin:0;
@@ -75,7 +75,7 @@
                 <div class="col-sm-12 form-box">
                     <!--<h3 class="m-t-none m-b">已有账号</h3>
                     <p>Sign in to meet your friends.</p>-->
-                    <form role="form" class="sky-form" id="login" method="post">
+                    <form role="form" class="sky-form" id="login" method="post" autocomplete="off">
                         
                            <div class="form-group">
                             <label>账号</label>
@@ -92,13 +92,13 @@
                             </div>
                         </div>
                         <!--是否开启验证码-->
-                        {%if controller.setup.GEETEST_IS_LOGIN ==1%}
+                        <!-- {%if controller.setup.GEETEST_IS_LOGIN ==1%}
                         <div class="form-group">
                             <div id="captcha"></div>
                             <p id="wait" class="show">正在加载验证码......</p>
                             <p id="notice" class="hide">请先拖动验证码到相应位置</p>
                         </div>
-                        {%endif%}
+                        {%endif%} -->
 
                             <div id="alert"></div>
                         <div class="row">
@@ -148,17 +148,14 @@
     </div>
     <!-- /.modal-content -->
 </div>
-<!-- /.modal-dialog -->
-{%if controller.setup.GEETEST_IS_LOGIN ==1%}
+{%if controller.setup.GEETEST_IS_LOGIN ==0%}
 <!-- 引入封装了failback的接口--initGeetest -->
 
-{%if http.config("http_")==1%}
 <!-- 引入封装了failback的接口--initGeetest -->
-<script src="http://static.geetest.com/static/tools/gt.js"></script>
-{%else%}
+<script src="//static.geetest.com/static/tools/gt.js"></script>
+
 <!-- 若是https，使用以下接口 -->
- <script src="https://static.geetest.com/static/tools/gt.js"></script>
-{%endif%}
+<!-- <script src="https://static.geetest.com/static/tools/gt.js"></script> -->
 <script>
     $(function () {
         var handlerEmbed = function (captchaObj) {

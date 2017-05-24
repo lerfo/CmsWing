@@ -47,6 +47,11 @@
         padding: 0; 
         margin-bottom: 14px;
     }
+    .tours {
+        color: #666666;
+        display: inline-block;
+        margin-top: 10px;
+    }
     {% if category.id== 124 %}
     .blog-post-info>li+li:before {
      content: none;
@@ -699,8 +704,8 @@ CLASSES:
                     <div class="box-inner padding-0">
                         <h4 class="uppercase padding-bottom-0 clearfix margin-bottom-0 noborder row">  <div class="col-md-9 col-sm-9"><div class="clearfix margin-bottom-0"><!-- rounded item -->
                             <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/{{controller.user.uid}}" width="40" height="40" alt="">
-                            <h4 class="size-14 nomargin noborder nopadding bold"><a href="#">{{controller.user.uid|get_nickname}}</a></h4>
-                            <span class="size-12 text-muted">....</span>
+                            <h4 class="size-14 nomargin noborder nopadding bold"><a class="tours" href="#">{{controller.user.uid|get_nickname}}</a></h4>
+                            <!-- <span class="size-12 text-muted">....</span> -->
                         </div>   </div><div class="col-md-3 col-sm-3"><label class="switch switch-primary margin-top-10 pull-right">
                             <input type="checkbox" checked="" name="anonymous" value="0">
                             <!--<span class="switch-label" data-on="不匿" data-off="匿名"></span>-->
@@ -715,10 +720,34 @@ CLASSES:
                     </div>
                 </form>
                 {%else%}
+                <form method="post" action="/mod/question/sys/updateanswer" class="box-light margin-top-20 padding-0 validate"><!-- .box-light OR .box-dark -->
+                    <div class="box-inner padding-0">
+                        {#<h4 class="uppercase padding-bottom-0 clearfix margin-bottom-0 noborder row">  <div class="col-md-9 col-sm-9"><div class="clearfix margin-bottom-0"><!-- rounded item -->
+                            <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/{{controller.user.uid}}" width="40" height="40" alt="">
+                            <h4 class="size-14 nomargin noborder nopadding bold"><a class="tours" href="#">{{controller.user.uid|get_nickname}}</a></h4>
+                            <!-- <span class="size-12 text-muted">....</span> -->
+                        </div>   </div><div class="col-md-3 col-sm-3"><label class="switch switch-primary margin-top-10 pull-right">
+                            <input type="checkbox" checked="" name="anonymous" value="0">
+                            <!--<span class="switch-label" data-on="不匿" data-off="匿名"></span>-->
+                        </label></div></h4>#}
+
+                        <textarea id="detail" name="answer_content"  class="form-control required" style="height: 280px"  placeholder="Type your message here..."></textarea>
+
+                        <input type="hidden" name="question_id" value="{{info.id}}">
+                        <input type="hidden" name="category_id" value="{{info.category_id}}">
+                        <input type="hidden" name="backurl" value="{{http.url}}">
+                        {#
+                        <button type="submit" class="btn btn-primary pull-right margin-top-20"><i class="fa fa-check"></i> 回复</button>
+                        #}
+                        <a href="/uc/public/loginmodal" data-toggle="ajaxModal" class="btn btn-primary pull-right margin-top-20"><i class="fa fa-check"></i>回复</a>
+                    </div>
+                </form>
+                {#
                 <div class="alert alert-success margin-bottom-30 margin-top-30"><!-- SUCCESS -->
                     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
                     要回复问题请先 <a class="" href="/uc/public/login">登录</a> 或 <a href="/uc/public/register">注册</a>
                 </div>
+                #}
                 {%endif%}
             </div>
 

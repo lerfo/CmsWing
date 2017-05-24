@@ -98,18 +98,28 @@
     }
     .area_figure{
         width: 249px;
-        height: 116px;
+       height: 116px;
+      /*  height: 100px; */
     }
     .area_img {
-        width: 110px;
-        height: 110px;
-        margin:3px 10px;
+        /* 116 120 */
+        width: 70px;
+        /* height: 110px; */
+        height: 80px;
+        margin:18px 25px;
     }
     .area_span{
         font-size:26px;
         margin-top: 20px;
     }
-    
+    a:focus:not(.btn){
+    	color: #1eb6c1;
+    }
+    .title{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap
+    }
 </style>
 {% endblock %}
 {% block content %}
@@ -152,7 +162,7 @@
         <!-- INLINE SEARCH -->
             <div class="inline-search clearfix" style="border: 10px solid rgba(26,21,31,0.5);border-radius: 5px;">
                 <form action="/search" method="get" class="widget_search">
-                    <input type="search" style="background: #fff;color: #111;" placeholder="想带宝宝去哪？" name="q" {% if queryword %} value={{queryword}} {%endif%}class="serch-input" style="color: black;">
+                    <input type="search" style="background: #fff;color: #111;" placeholder="" name="q" {% if queryword %} value={{queryword}} {%endif%}class="serch-input" style="color: black;">
                     <button type="submit" style="background-color:#1EB6C1 ">
                         <i class="fa fa-search" style="color: #fff;"></i>
                     </button>
@@ -166,13 +176,13 @@
 
 <!-- MAP -->
 <section class="alternate" id="area">
-    <div class="container portfolio">
-        <header class="section-header margin-bottom-20">
+    <div class="container portfolio" style="width: 1014px;">
+        <!-- <header class="section-header margin-bottom-20">
             <div class="heading-title">
                 <h3 style="background-color: #F9F9F9">国家列表</h3>
-                <!-- <a class="peanutRoll_a" href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a> -->
+                <a class="peanutRoll_a" href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
             </div>
-        </header>
+        </header> -->
         <div  class=" portfolio-title-over">
             <div class="row mix-grid">
                 <ul id="area-ul" style="padding-left: 0px;">
@@ -307,7 +317,7 @@
         <header class="section-header margin-bottom-20">
             <div class="heading-title">
                 <h3>明星产品</h3>
-                <!--<a class="peanutRoll_a" href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>-->
+                <a class="peanutRoll_a" href="javascript:getStarProduct();" >换一换 <img src="/static/assets/images/change.png"></a>
             </div>
         </header>
         <div  class=" portfolio-title-over">
@@ -321,21 +331,22 @@
 
                         <div class="item-box thumbnail">
                         <a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
-                            <figure style="height: 373px;">
+                            <figure>
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
                                 </span>
                                 <!-- overlay title -->
-                                <div class="item-box-overlay-title text-center" style="height: 50px;">
-                                    <h4 class="nomargin">{{v.title}}</h4>
+                                <div class="item-box-overlay-title text-center">
+                                    <h4 class="nomargin title">{{v.title}}</h4>
                                 </div><!-- /overlay title -->
                                 <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=373')}}"  alt="">
                                 
                             </figure>
                             <!-- overlay title -->
-                                <div class="item-box-overlay-title text-center" style="height: 60px;background-color:#fff ">
-                                    <h4 class="nomargin" style="font-size: 14px; color: #414141; text-overflow:ellipsis;">{{v.title}}</h4>
-                                </div><!-- /overlay title -->
+                            <!-- <div class="item-box-overlay-title" style="height: 60px;background-color:#fff ">
+                                <h4 class="nomargin" style="font-size: 14px; color: #414141; height: 38px;overflow: hidden;">{{v.description}}</h4>
+                            </div> -->
+                            <!-- /overlay title -->
                         </a>
                         </div>
 
@@ -363,7 +374,7 @@
         <header class="section-header margin-bottom-20">
             <div class="heading-title">
                 <h3 style="background-color: rgba(239,247,249,0.9)">学术类</h3>
-                <!--<a class="peanutRoll_a" href="" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>-->
+                 <a class="peanutRoll_a" href="javascript:getScienceProduct()" id="studytour-change">换一换 <img src="/static/assets/images/change.png"></a>
             </div>
         </header>
         <div  class=" portfolio-title-over">
@@ -377,7 +388,7 @@
 
                         <div class="item-box thumbnail">
                         <a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
-                            <figure style="height: 373px;">
+                            <figure>
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
                                     {#
@@ -399,17 +410,18 @@
 
                                 
                                 <!-- overlay title -->
-                                <div class="item-box-overlay-title text-center" style="height: 50px;">
-                                    <h4 class="nomargin">{{v.title}}</h4>
+                                <div class="item-box-overlay-title text-center">
+                                    <h4 class="nomargin title">{{v.title}}</h4>
                                 </div><!-- /overlay title -->
                             
                                 <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=373')}}"  alt="">
                            
                             </figure>
                             <!-- overlay title -->
-                                <div class="item-box-overlay-title text-center" style="height: 64px;background-color:#fff ">
-                                    <h4 class="nomargin" style="font-size: 14px; color: #414141; text-overflow:ellipsis;">{{v.title}}</h4>
-                                </div><!-- /overlay title -->
+                            <!-- <div class="item-box-overlay-title" style="height: 64px;background-color:#fff ">
+                                <h4 class="nomargin" style="font-size: 14px; color: #414141;overflow: hidden;height: 38px;">{{v.description}}</h4>
+                            </div> -->
+                            <!-- /overlay title -->
                         </a>
                         </div>
 
@@ -436,7 +448,7 @@
         <header class="section-header margin-bottom-20">
             <div class="heading-title">
                 <h3>特色类</h3>
-                <!--<a class="peanutRoll_a" href="" id="community-change">换一换 <img src="/static/assets/images/change.png"></a>-->
+                <a class="peanutRoll_a" href="javascript:getSpecialProduct()" id="community-change">换一换 <img src="/static/assets/images/change.png"></a>
             </div>
         </header>
         <div  class=" portfolio-title-over">
@@ -449,7 +461,7 @@
 
                         <div class="item-box thumbnail" title="{{v.title}}">
                         <a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}">
-                            <figure style="height: 373px;">
+                            <figure>
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
                                     {#
@@ -471,17 +483,19 @@
 
                                 
                                 <!-- overlay title -->
-                                <div class="item-box-overlay-title text-center" style="height: 50px;">
-                                    <h4 class="nomargin">{{v.title}}</h4>
-                                </div><!-- /overlay title -->
+                                <div class="item-box-overlay-title text-center">
+                                    <h4 class="nomargin title">{{v.title}}</h4>
+                                </div>
+                                <!-- /overlay title -->
                             
-                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=373')}}"  alt="">
+                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=443')}}"  alt="">
                            
                             </figure>
                             <!-- overlay title -->
-                                <div class="item-box-overlay-title text-center" style="height: 64px;background-color:#fff ">
-                                    <h4 class="nomargin" style="font-size: 14px; color: #414141; text-overflow:ellipsis;">{{v.title}}</h4>
-                                </div><!-- /overlay title -->
+                            <!-- <div class="item-box-overlay-title" style="height: 64px;background-color:#fff ">
+                                <h4 class="nomargin" style="font-size: 14px; color: #414141;overflow: hidden;height: 38px;">{{v.description}}</h4>
+                            </div> -->
+                            <!-- /overlay title -->
                         </a>
                         </div>
 
@@ -725,6 +739,7 @@
 {% endblock %}
 
 {%block script%}
+<script src="/static/assets/js/exchange.js"></script>
     <script type="text/javascript">
         /*jQuery(window).ready(function () {
             $("#destination ul#destination-ul").children("li").eq(0).addClass("col-md-3 col-sm-3 destination-item-1");
@@ -766,5 +781,18 @@
             });
 
         });
+
+        $(".mix-grid").on("mouseenter","figure",function(){         
+            if($(this).find(".item-box-overlay-title h4").hasClass("title")){
+                $(this).find(".item-box-overlay-title h4").removeClass("title")                
+            }
+        })
+        $(".mix-grid").on("mouseleave","figure",function(){
+            //if($(this).find(".goup").hasClass("title")){
+                $(this).find(".item-box-overlay-title h4").addClass("title")
+            //}
+
+        })
+
     </script>
 {%endblock%}

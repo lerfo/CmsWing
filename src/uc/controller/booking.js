@@ -615,7 +615,7 @@ export default class extends Base {
     data.discount_code = this.get("code");
     //console.log(this.get("code"));
     if(think.isEmpty(data.discount_code)){
-        return this.fail("参数为空！");
+        return this.fail("输入不能为空！");
     }
     //console.log(data.discount_code);
     let findData = await this.model("discount").where({code:data.discount_code,is_del:0}).find();

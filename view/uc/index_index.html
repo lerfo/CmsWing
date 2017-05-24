@@ -140,7 +140,6 @@
     .check-information,
     .order-content,
     .evaluation-information,
-    .stroke-content,
     .collection-content{
       padding-bottom:20px;
       background: -webkit-linear-gradient(left,#6D8DB3, #9DB7D8); /* Safari 5.1 - 6.0 */
@@ -494,7 +493,8 @@
       margin-top:10px;
     }
     .stroke-content{
-      text-align: center;
+       background:#fff;
+       padding:30px 20px;
     }
     .stroke-content p{
       color:#fff;
@@ -682,6 +682,10 @@
       float:right;
       font-size:17px;
       color:#1eb6c1;
+    }
+     .order-num>td{
+      padding-left:0;
+      padding-right:0;
     }
 
     .lf{
@@ -1328,7 +1332,33 @@
 
           <input type="hidden" name="product_id" value="{{item.product_id}}">
 
-            <div class="order-evaluation{{item.product_id}}"></div>        
+            <div class="order-evaluation{{item.product_id}}">
+              
+              <div class="form-group">
+                <div class="evaluation-title">
+                    评价订单
+                </div>
+                <div class="evaluation-detail">
+                  <span>订单号:</span><span class="order-number"></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="evaluation-title">
+                    产品信息
+                </div>
+                <div class="evaluation-detail clear">
+                  <img src="" alt="" style="width: 65px;float:left">
+                  <div class="totality-grade lf"> 
+                    <span class="order-tit"></span>
+                    <br>
+                    <span class="lf marking">产品总体打分:</span>
+                    <div class="comment-evaluate lf"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>        
     
 
             <div class="form-group">

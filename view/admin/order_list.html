@@ -57,7 +57,7 @@
                                         <th>联系人电话</th>
                                         <th>产品信息</th>
                                         <th>出发日期</th>
-                                        <!--<th>支付状态</th>-->
+                                        <th>优惠券</th>
                                         <th>订单状态</th>
                                         <th>操作</th>
                                         <!--<th>打印</th>-->
@@ -75,7 +75,7 @@
                                         <td>{{item.connect_phone}}</td>
                                         <td><a target="_blank" href="/p/{{item.product_id}}.html">{{item.title}}</a></td>
                                         <td >{{item.start_date}}</td>
-                                        <!--<td > {%if item.pay_status == 0%}<span class="text-muted">未支付</span>{%else%}<span class="text-success">已支付</span>{%endif%}</td>-->
+                                        <td > {%if item.discount_code%}{{item.discount_code}}{%else%}-{%endif%}</td>
                                         <td class="text-danger">
                                           <span class="text-muted">{{item.status_desc}} </span>
                                         </td>

@@ -35,7 +35,7 @@ $(".bpm").on("click",function(){
 });
 
 $(".tourdest,.schooltype,.schoolclass").on("click","a",function(){
-    console.log($(this).attr("id"));
+    //console.log($(this).attr("id"));
     $(this).siblings().removeClass("btn-danger");
     $(this).addClass("btn-danger");
     getSchoolType();
@@ -65,44 +65,50 @@ function getschool(days=0) {
        url:"ajax/topic?q="+searchword+"&page=1&limit=5&value=141-0-0-18-"+schoolType,
         success:function(dataResult){
             //console.log(dataResult);
-            getHtml +='<div class="tourschool_pagination tspage1 ">'
-            $.each(dataResult.data,function(k,v){
-                if(0==v.cover_url.length){
-                    getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
-                            
-                            '<div class="strategy-txt"> '+
-                                '<p>'+
-                                '&nbsp;'+
-                                '</p>'+
-                                '<h2>'+
-                                    v.title +
-                                '</h2>'+
-                                '<p>'+
-                                    v.description+
-                                '</p>'+
-                            '</div>'+
-                            '</div></a>';  
-                }else{
-                    getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
-                            '<img src='+v.cover_url+'>'+
-                            '<div class="strategy-txt"> '+
-                                '<p>'+
-                                '&nbsp;'+
-                                '</p>'+
-                                '<h2>'+
-                                    v.title +
-                                '</h2>'+
-                                '<p>'+
-                                    v.description+
-                                '</p>'+
-                            '</div>'+
-                            '</div></a>';     
-                }          
-            });
-            if(dataResult.currentPage < dataResult.totalPages){
-                getHtml +='<div class="text-center ts-load-more">' + '<a href="javascript:tourschool_pagination(2);">加载更多</a>'+'</div></div><div class="tourschool_pagination tspage2 "></div>'
+            console.log(dataResult);
+            if (dataResult.length!=null) {
+                getHtml +='<div class="tourschool_pagination tspage1 ">'
+                $.each(dataResult.data,function(k,v){
+                    if(0==v.cover_url.length){
+                        getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
+                                
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.description+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';  
+                    }else{
+                        getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
+                                '<img src='+v.cover_url+'>'+
+                                '<div class="strategy-txt"> '+
+                                    '<p>'+
+                                    '&nbsp;'+
+                                    '</p>'+
+                                    '<h2>'+
+                                        v.title +
+                                    '</h2>'+
+                                    '<p>'+
+                                        v.description+
+                                    '</p>'+
+                                '</div>'+
+                                '</div></a>';     
+                    }          
+                });
+                if(dataResult.currentPage < dataResult.totalPages){
+                    getHtml +='<div class="text-center ts-load-more">' + '<a href="javascript:tourschool_pagination(2);">加载更多</a>'+'</div></div><div class="tourschool_pagination tspage2 "></div>'
+                }
+                $(".tour_school").html(getHtml);
+
+            }else{
+                $(".school").html('<h4 class="text-center margin-top-100" style="font-weight:800;">即将上线 敬请期待</h4>');
             }
-            $(".tour_school").html(getHtml);
         }
     })
 }

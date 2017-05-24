@@ -680,7 +680,7 @@ li{
 
 	#destination ul#destination-ul li {
 		margin-bottom: 30px !important;
-		height: 217px;
+		height: 317px;
 	}
 	section.alternate {
 		border-bottom: none;
@@ -693,7 +693,7 @@ li{
 		background-color: transparent;
 	}
 	.item-box figure {
-		height: 100%;
+		height: 87%;
 	}
 	.thumbnail {
 		padding: 0px;
@@ -722,7 +722,7 @@ li{
 		padding: 3px 12px;
 	}
 	.portfolio .item-box-overlay-title h4 {
-		font-size: 17px;
+		font-size: 22px;
 	}
 	.portfolio header {
 		height: 60px;
@@ -790,6 +790,7 @@ li{
 	}
 	#detail-list div div.num-place{
 		margin-top:5px;
+		padding:0px;
 	}
 	#detail-list div div.num-place:first-child{
 		border-right:2px solid #ddd;
@@ -873,7 +874,7 @@ li{
 		color:#000000;
 	}
 	.edit-delete{
-		color:#28a4c9;
+		color:#1eb6c1;
 		font-size:11px;
 	}
 	.avatar{
@@ -1161,10 +1162,23 @@ li{
 }
 .tours{
 	color:#666666;
+	display:inline-block;
+	margin-top:10px;
 }
 .box-light{
 	padding:0;
 }
 .box-inner{
 	padding:0;
+}
+a#destination-change{
+	color: #565656;
+}
+a#destination-change:hover{
+	color: #1eb6c1;
+}
+.title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
 }

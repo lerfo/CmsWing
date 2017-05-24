@@ -2,11 +2,12 @@
 $(document).ready(function(e) {			
 	t = $('.float-box').offset().top;
 	//console.log(t)
-	var m =  document.body.scrollHeight;
+	//var m =  document.body.scrollHeight;
 		//console.log(m)
 	//mh = $('.main').height();
 	fh = $('.float-box').height();
 	$(window).scroll(function(e){
+		var m =  document.body.scrollHeight;
 		s = $(document).scrollTop();
 		var b = m-s;
 		//console.log(m-s)	
@@ -15,7 +16,7 @@ $(document).ready(function(e) {
 		}else{
 			$('.float-box').css({'position':'','background':''});
 		}
-		if(b<975){
+		if(b<1537){
 			$('.float-box').css({'position':'','background':''});
 		}
 	})
@@ -195,11 +196,11 @@ function evaluateimg(pagenum){
 //用户评价内容
 function evaluatecontent(result){
 	var html = "";
-	console.log(result)
+	//console.log(result)
 
 	var v = result.data.data;
 	for(var i=0;i<v.length;i++){
-		console.log(v[i])
+		//console.log(v[i])
 		html+=`
 			<div class="clear">
 				<div class="evaluate-user clear">
@@ -350,7 +351,7 @@ function evaluatecontent(result){
 			`;
 		if(v[i].imgurls!==""&&v[i].imgurls!==null&&v[i].imgurls!==undefined){
 			var img = v[i].imgurls;
-			console.log(img)
+			//console.log(img)
 			html+=`<div class="img-box">`;
 			for(var n=0;n<img.length;n++){
 				html+=`<img src="${img[n]}" alt="">`;
@@ -423,7 +424,7 @@ function pagination(totalPages,currentPage){
 	var  count = 2;                               //当前页前后分页个数
 	//动态填充分页页码
 	var totalPages = totalPages      //总页数
-	console.log(totalPages)
+	//console.log(totalPages)
 	localStorage.setItem("totalPages",JSON.stringify(totalPages));
 	var currentPage = currentPage    //当前页
 	html += `<div class="pagination clear">`;
@@ -504,7 +505,7 @@ function pageTable(n){
 	var pageType = $(".page-type").val()
 	//console.log(pageType);
 	if(reg.test(n) && n>0 && n<=totalPages){
-		console.log(n)
+		//console.log(n)
 		if(pageType == "0"){
 			allevaluate(n)
 		}else if(pageType == "1"){
@@ -524,3 +525,14 @@ function pageTable(n){
 	
 }
 
+$(".mix-grid").on("mouseenter","figure",function(){         
+    if($(this).find(".text-title").hasClass("title")){
+        $(this).find(".text-title").removeClass("title")                
+    }
+})
+$(".mix-grid").on("mouseleave","figure",function(){
+    //if($(this).find(".goup").hasClass("title")){
+        $(this).find(".text-title").addClass("title")
+    //}
+
+})

@@ -3248,17 +3248,19 @@ section.dark.page-header ul.page-options a {
 	/** ************************************************************* **/
 	/* submenu */
 	#topNav ul.dropdown-menu {
+		top:91%;
 		text-align:left;
 		margin-top:0;
 		box-shadow:none;
-		border:#eee 1px solid;
+		border:0;
 		border-top:#eee 0 solid;
 		list-style:none;
 		background-color:#fff;
-		box-shadow:rgba(0,0,0,0.2) 0 6px 12px;
-		min-width:200px;
-		padding:0;
-
+		/*box-shadow:rgba(0,0,0,0.2) 0 6px 12px;*/
+		min-width:162px;
+		height:82px;
+		padding:7px 0 0 17px;
+		background:url(/static/assets/images/backgrounds/q6.png) no-repeat 14px 0px;
 		border-color: #1ABC9C #fff #fff;
 
 		-webkit-transition: top .4s ease;
@@ -3272,7 +3274,7 @@ section.dark.page-header ul.page-options a {
 
 	#topNav ul.dropdown-menu li {
 		position:relative;
-		border-bottom: rgba(0,0,0,0.06) 1px solid;
+		/*border-bottom: rgba(0,0,0,0.06) 1px solid;*/
 	}
 		#topNav .submenu-dark ul.dropdown-menu li {
 			border-bottom-color: rgba(0,0,0,0.2);
@@ -3295,6 +3297,30 @@ section.dark.page-header ul.page-options a {
 		margin-right:6px;
 		font-size:12px;
 	}
+
+	#topNav ul.dropdown-menu>li a i.my-uc{
+		float:left;
+		width:19px;
+		height:19px;
+		background:url(/static/assets/images/backgrounds/q1.png);
+		margin-top:2px;
+	} 
+	#topNav ul.dropdown-menu>li a i.sign-out{
+		float:left;
+		width:19px;
+		height:19px;
+		background:url(/static/assets/images/backgrounds/q2.png);
+		margin-top:2px;
+	} 
+	#topNav ul.dropdown-menu>li:hover a{
+		color:#1eb6c1;
+	}
+	#topNav ul.dropdown-menu>li:hover a i.my-uc{
+		background:url(/static/assets/images/backgrounds/q3.png);
+	}
+	#topNav ul.dropdown-menu>li:hover a i.sign-out{
+		background:url(/static/assets/images/backgrounds/q4.png);
+	}
 	#topNav ul.dropdown-menu a.dropdown-toggle {
 		background-position: right center;
 		background-repeat: no-repeat;
@@ -3302,7 +3328,7 @@ section.dark.page-header ul.page-options a {
 	#topNav ul.dropdown-menu li.active>a, 
 	#topNav ul.dropdown-menu li.active:hover>a, 
 	#topNav ul.dropdown-menu li.active:focus>a, 
-	#topNav ul.dropdown-menu li:hover>a, 
+	/*#topNav ul.dropdown-menu li:hover>a,*/ 
 	#topNav ul.dropdown-menu li:focus>a, 
 	#topNav ul.dropdown-menu li:focus>a {
 		color:#000;

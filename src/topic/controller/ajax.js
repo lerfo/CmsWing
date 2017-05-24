@@ -669,7 +669,7 @@ export default class extends Base {
       	where.score_total = this.get("score");
       }
       if(!think.isEmpty(this.get("has_img"))){
-      	where.comment_img = ['!=', null];
+      	where.comment_img = ['!=', ""];
       }
       
 

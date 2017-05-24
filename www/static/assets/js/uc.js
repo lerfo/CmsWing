@@ -1,14 +1,22 @@
+// $(document).ready(function(){
+// 	$.ajax({
+// 		url:"/uc/seting/query",
+// 		success:function(result){
+// 			localStorage.setItem("username",JSON.stringify(result.username));
+// 		}
+// 	})
+// })
 $(document).ready(function(){
+	var uname;
 	$.ajax({
 		url:"/uc/seting/query",
+		async:false,
 		success:function(result){
 			localStorage.setItem("username",JSON.stringify(result.username));
+			uname = result.username;
 		}
 	})
-})
-$(document).ready(function(){
 	var html = "";
-	var uname = JSON.parse(localStorage.getItem("username"));
 	html+= '<div class="order-handing">'+
 				'<div class="order-title">'+
 	              	'<img src="/uc/index/avatar"  class=" rounded" alt="'+uname+'" style="width: 65px" />'+
@@ -100,6 +108,13 @@ function orderDetail(n){
             </div>         
     	`;
     }
+    var newdate = new Date(orderDataDetail.end_time)
+	var y = newdate.getFullYear();  
+	var m = newdate.getMonth() + 1;  
+	m = m < 10 ? ('0' + m) : m;  
+	var d = newdate.getDate();  
+	d = d < 10 ? ('0' + d) : d;   
+	var time = y + '-' + m + '-' + d
     
 	html += `          
 	            </div>
@@ -115,7 +130,7 @@ function orderDetail(n){
 	              <p>
 	                <span>出发城市上海</span>
 	                <span>出发日期${orderDataDetail.start_date}</span>
-	                <span>返回日期${orderDataDetail.end_time}</span>
+	                <span>返回日期${time}</span>
     `;
 	var travellersinfo = JSON.parse(orderDataDetail.travellersinfo);
 	var n=0;
@@ -259,36 +274,18 @@ function orderEvaluation(){
   		var html="";
   		var orderDataDetail = orderDataList[i];
   		if(orderDataDetail.status == 8){
-			console.log(orderDataDetail);
+			//console.log(orderDataDetail);
 			$.ajax({
 				url:"/uc/booking/getproductinfo/product_id/"+orderDataDetail.product_id,
 				async:false,
 				success:function(result){
-					console.log(result);
-					html +=`
-						<div class="form-group">
-			                <div class="evaluation-title">
-			                  	评价订单
-			                </div>
-			                <div class="evaluation-detail">
-			                  <span>订单号:</span><span>${orderDataDetail.order_no}</span>
-			                </div>
-			              </div>
-
-			              <div class="form-group">
-			                <div class="evaluation-title">
-			                    产品信息
-			                </div>
-			                <div class="evaluation-detail clear">
-			                  <img src="${result.data.cover_url}" alt="" style="width: 65px;float:left">
-			                  <div class="totality-grade lf"> 
-			                    <span>【${orderDataDetail.title}】</span>
-			                    <br>
-			                    <span class="lf marking">产品总体打分:</span>
-			        	`;
+					//console.log(result);
+					$(`.order-evaluation${orderDataDetail.product_id} .order-number`).html(orderDataDetail.order_no);
+					$(`.order-evaluation${orderDataDetail.product_id} .evaluation-detail img`).attr("src",result.data.cover_url);
+					$(`.order-evaluation${orderDataDetail.product_id} .evaluation-detail .order-tit`).html("【"+orderDataDetail.title+"】");
 			        if(result.data.commentcount != 0){
 			        	var mark = result.data.score/result.data.commentcount;
-			        	mark = mark.toFixed(2)
+			        	mark = mark.toFixed(1)
 			        	//console.log(mark)
 			        }
 			       
@@ -359,24 +356,19 @@ function orderEvaluation(){
 		                    <b style="padding-left:5px;">${mark}分</b>
 			        	`;
 			        }     
-			        html += `      
-								
-			                  </div>
-			                </div>
-			              </div>
-					`;					
+			       	$(`.order-evaluation${orderDataDetail.product_id} .comment-evaluate`).html(html);	
 				}
 			})
-		$(`.order-evaluation${orderDataDetail.product_id}`).html(html);
   		}
   			
   	}
 }
-orderEvaluation();
+orderEvaluation()
+ 
 //动态显示数量
 function textCounter(n) {
 	 var length=$('.totality'+n).val().length;
-	 console.log(length)
+	 //console.log(length)
 	 $(".word-number").html(500-length);
 }
 //显示订单评价
@@ -387,9 +379,9 @@ function showEvaluation(product_id){
 
 //提交订单评价
 $(".asideRight").on("click","button.sub-evaluation",function(){
-	console.log("ok");
+	//console.log("ok");
 	var data = $(".asideRight").find("form.form-info561").serialize();
-	console.log(data);
+	//console.log(data);
 })
 //查看行程
 function viewStroke(n){
@@ -397,7 +389,7 @@ function viewStroke(n){
 	$.ajax({
 		url:"/uc/booking/getproductinfo/product_id/"+n,
 		success:function(result){
-			console.log(result);
+			console.log(result.data.product_route);
 			html += `
 				<div class="view-stroke">
 		          	<div class="stroke-title">
@@ -505,7 +497,7 @@ $(".aside-right").on("click",".pagination>a",function(e){
 		window.event.returnValue=false;
 	}
 	var pagetype = $(".pagetype").val();
-	console.log(pagetype)
+	//console.log(pagetype)
 	if($(this).hasClass("prev-page")){
 		var index = parseInt($(".aside-right").find(".active-page").text()) - 1;
 		//console.log(index)
@@ -523,7 +515,7 @@ $(".aside-right").on("click",".pagination>a",function(e){
     	//console.log($(".pagetype").val())
     	pageTable(index);
     }else if(pagetype == "collection"){
-    	console.log($(".pagetype").val());
+    	//console.log($(".pagetype").val());
     	collectionPage(index);
     }
    
@@ -550,18 +542,18 @@ function resultEach(pageNum){
 			orderDataList = JSON.parse(orderDataList);
 			for(var i=0;i<orderDataList.length;i++){
 				var v = orderDataList[i];
-				console.log(v)
+				//console.log(v)
 				h+=`
 					<table>
-					<tr>
-						<td>
-			              	订单号：<a href="#" target="_blank">${v.order_no}</a>
+					<tr class="order-num">
+						<td class="col-xs-3">
+			              	<span>订单号：</span><a href="#" target="_blank">${v.order_no}</a>
 			            </td>
-			            <td>姓名</td>
-			            <td>出发日期</td>
-			            <td>总金额</td>
-			            <td>订单状态</td>
-			            <td>操作</td>
+			            <td class="col-xs-2">姓名</td>
+			            <td class="col-xs-2">出发日期</td>
+			            <td class="col-xs-1">总金额</td>
+			            <td class="col-xs-1">订单状态</td>
+			            <td class="col-xs-1">操作</td>
 					</tr>
 					<tr>
 						<td>
@@ -637,13 +629,13 @@ function resultEach(pageNum){
 }
 //取消订单
 function cannelorder(orderid){
-	console.log(orderid);
+	//console.log(orderid);
 	var pro;
 	$.ajax({
 		url:"/uc/booking/cannelorder?orderid="+orderid,
 		async:false,
 		success:function(result){
-			console.log(result);
+			//console.log(result);
 			queryorderlist();
 		}
 	});
@@ -673,7 +665,7 @@ function ucArchives(){
   	$.ajax({
   		url:"/uc/seting/query",
   		success:function(data){
-  			console.log(data)
+  			//console.log(data)
   			html+=`
 				<div class="person-archives">
 					<div class="archives-header">
@@ -686,22 +678,34 @@ function ucArchives(){
 								<div class="form-group">
 			                    	<label class="col-md-2 control-label">手机</label>
 			                    	<div class="col-md-4">
-			                    		<p class="form-control-static uname">${data.phone_number}</p>
-			                      		
-			                    	</div>
-			                    </div>
-		                  		<div class="form-group">
-		                    		<label class="col-md-2 control-label">昵称</label>
-			                    	<div class="col-md-10">
-			                      		<p class="form-control-static uname">${data.username}</p>
-			                    	</div>
-		                  		</div>	                  
-		                  		<div class="form-group">
-		                    		<label class="col-md-2 control-label">姓名</label>
-		                    		<div class="col-md-4">
-		                    			<input type="text" placeholder="真实姓名" class="form-control" name="real_name" value="${data.real_name}">
-		                    		</div>
-		                  		</div>
+			    `;
+			    if(data.phone_number!=null&&data.phone_number!=undefined&&data.phone_number!=""){
+			    	html+=`<p class="form-control-static uname">${data.phone_number}</p>`;
+			    }else{
+			    	html+=`<p class="form-control-static uname">未设置</p>`;
+			    }
+			    html+=`			                    					                      		
+                    	</div>
+                    </div>
+              		<div class="form-group">
+                		<label class="col-md-2 control-label">昵称</label>
+                    	<div class="col-md-10">
+                      		<p class="form-control-static uname">${data.username}</p>
+                    	</div>
+              		</div>	                  
+              		<div class="form-group">
+                		<label class="col-md-2 control-label">姓名</label>
+                		<div class="col-md-4">
+               	`
+               	if(data.real_name!=null&&data.real_name!=undefined&&data.real_name!=""){
+               		html+=`<input type="text" placeholder="真实姓名" class="form-control" name="real_name" value="${data.real_name}">`;
+               	}else{
+               		html+=`<input type="text" placeholder="真实姓名" class="form-control" name="real_name">`;
+               	}
+               	html+=`
+                			
+                		</div>
+              		</div>
 		        `;
 		    if(data.sex==1){
 		    	html+=`
@@ -740,16 +744,37 @@ function ucArchives(){
           		<div class="form-group">
                     <label class="col-md-2 control-label">生日</label>
                     <div class="col-md-4">
-                      	<input type="text" name="birthday" onblur="birthBlur()" value="${data.birthday}" class="form-control masked bir" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
+            `;
+            if(data.birthday!=null&&data.birthday!=undefined&&data.birthday!=""){
+            	html+=`<input type="text" name="birthday" onblur="birthBlur()" value="${data.birthday}" class="form-control masked bir" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">`;
+            }else{
+            	html+=`<input type="text" name="birthday" onblur="birthBlur()" class="form-control masked bir" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">`;
+            }
+            html+=`
+                      	
                     </div>
                     <span class="cue"></span>
           		</div>
           		<div class="form-group">
             		<label class="col-md-2 control-label">固定电话</label>
             		<div class="col-md-10   landline-telephone">
-              			<input type="text" name="phone_zone" value="${data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">
-              			<input type="text" name="phone_number" value="${data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">
-              			<input type="text" name="phone_ext" value="${data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">
+            	`;
+            if(data.phone_zone!=null&&data.phone_zone!=""){
+            	html+=`<input type="text" name="phone_zone" value="${data.phone_zone}" class="area"  data-placeholder="区号" placeholder="区号">`;
+            }else{
+            	html+=`<input type="text" name="phone_zone" class="area"  data-placeholder="区号" placeholder="区号">`;
+            }
+            if(data.phone_number!=null&&data.phone_number!=""){
+            	html+=`<input type="text" name="phone_number" value="${data.phone_number}" class="telephone"  data-placeholder="电话" placeholder="电话">`;
+            }else{
+            	html+=`<input type="text" name="phone_number" class="telephone"  data-placeholder="电话" placeholder="电话">`;
+            }
+            if(data.phone_ext!=null&&data.phone_ext!=""){
+            	html+=`<input type="text" name="phone_ext" value="${data.phone_ext}" class="extension"  data-placeholder="分机" placeholder="分机">`;
+            }else{
+            	html+=`<input type="text" name="phone_ext" class="extension"  data-placeholder="分机" placeholder="分机">`;
+            }
+           	html+=`                          			              
             		</div>
           		</div>
 				<div class="form-group">
@@ -761,10 +786,8 @@ function ucArchives(){
 		    let area = getprovince();
 		    $.each(area,function(k,n){
 		    	if(n.id == data.start_province){
-		    		html+=`
-					
-            			<option value="${n.id}" selected>${n.name}</option>
-            		
+		    		html+=`					
+            			<option value="${n.id}" selected>${n.name}</option>            		
 		    		`;
 		    	}
 		    	html+=`
@@ -777,21 +800,25 @@ function ucArchives(){
 		    html+=`                  		
           		</select>
           		<select class="form-control pointer  " id="start_city1" name="start_city" style="width: 150px;display: inline-block">
-          		<option value="">--- 城市 ---</option>
+          		
           	`;
 		    let m = data.start_province;//$(".aside-right").find("#start_province1>option:selected").attr("value");
-		    console.log(m);
+		    //console.log(m);
 		    let city2 = getcity(m);
-		    $.each(city2,function(k,n){
-		    	if(n.id == data.start_city){
-		    		html+=`                    		
-            			<option value="${n.id}" selected>${n.name}</option>                   		
-		    		`;
-		    	}
-		    	html+=`                    		
-            		<option value="${n.id}">${n.name}</option>                   		
-		    	`;
-		    })
+		    if(m==null||m==""){
+		    	html+=`<option value="">--- 城市 ---</option>`;
+		    }else{
+			    $.each(city2,function(k,n){
+			    	if(n.id == data.start_city){
+			    		html+=`                    		
+	            			<option value="${n.id}" selected>${n.name}</option>                   		
+			    		`;
+			    	}
+			    	html+=`                    		
+	            		<option value="${n.id}">${n.name}</option>                   		
+			    	`;
+			    })
+			}
 		    html+=`
 		                      		</select>
 		                      		<p class="arhcives-state">为了更好地帮助您查询、使用花生卷提供的产品，您可以在此设置您的常用出发城市。</p>
@@ -834,7 +861,7 @@ function getcity(m){
 				citys = result;
 			}
 		})
-		console.log(citys);
+		//console.log(citys);
 		return citys;
 }
 
@@ -919,7 +946,7 @@ function ucCollection(){
 	$.ajax({
 		url:"/ajax/focuslist?page=1&limit=8",
 		success:function(result){
-			console.log(result.data)
+			//console.log(result.data)
 			html+=`
 				<div class="collection">
 			        <div class="collection-title">
@@ -1007,10 +1034,10 @@ function ucTraveller(){
 	            <div class="information-list">  
 	              <div class="traveller-list clear">
 	                <div class="clear">
-	                  <a class="col-xs-1">姓名</a>
+	                  <a class="col-xs-2">姓名</a>
 	                  <a class="col-xs-2">手机/电话</a>
 	                  <a class="col-xs-2">证件类型</a>
-	                  <a class="col-xs-3">证件号码</a>
+	                  <a class="col-xs-2">证件号码</a>
 	                  <a class="col-xs-1">国籍</a>
 	                  <a class="col-xs-1">性别</a>
 	                  <a class="col-xs-2">操作</a>
@@ -1021,7 +1048,7 @@ function ucTraveller(){
   			var  v = result.data;
   			localStorage.setItem("travellerList",JSON.stringify(v));
   			for(var i=0;i<v.length;i++){
-  				console.log(v[i])
+  				//console.log(v[i])
   				html+=`												               				              
 	               <div class="clear">
 	                <input class="addr-checkbox" type="checkbox">
@@ -1029,15 +1056,15 @@ function ucTraveller(){
 	                    <tr>
 	            `;
 	            if(v[i].name_zh != "" && v[i].name_zh != undefined){
-	            	html+=`<td class="col-xs-1">${v[i].name_zh}</td>`;
+	            	html+=`<td class="col-xs-2">${v[i].name_zh}</td>`;
 	            }else{
-	            	html+=`<td class="col-xs-1">${v[i].name_en_last} ${v[i].name_en_first}</td>`
+	            	html+=`<td class="col-xs-2">${v[i].name_en_last} ${v[i].name_en_first}</td>`
 	            }
 	            html+=`
 	                      
 	                      <td class="col-xs-2">${v[i].phone}</td>
 	                      <td class="col-xs-2">${v[i].credentials_type_name}</td>
-	                      <td class="col-xs-3">${v[i].credentials_value}</td>
+	                      <td class="col-xs-2">${v[i].credentials_value}</td>
 	                      <td class="col-xs-1">${v[i].country}</td>
 	            `;
 	            if(v[i].sexual == 1){
@@ -1073,7 +1100,7 @@ function ucTraveller(){
 function seeTraveller(n){
   	var val = JSON.parse(localStorage.getItem("travellerList"));
   	var v = val[n];
-  	console.log(v);
+  	//console.log(v);
   	var html = "";
   	html += `
 		<div class="check-traveller">
@@ -1283,64 +1310,51 @@ function addTraveller(n){
 }
 //删除旅客信息
 function deleteTraveller(n){
-	swal({
-          title: "您确定要删除该旅客信息吗?",
-          text: "删除旅客信息!",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          closeOnConfirm: false
-        },
-        function(){
-          	$.ajax({
-	            url:"/uc/traveller/deladdr",
-	            data:{id:n},
-	            success: function (res) {
-	            	console.log(res)
-	                if(res.errno == 0){
-		               swal(res.data, "您选择的旅客信息已经被删除.", "success");
-		               ucTraveller();		                		                
-	               	}else{
-	                    swal(res.errmsg, "您选择的旅客信息删除失败.", "error");
-	               	}
-            	}
-            })
-           
-    })
+	var r = confirm("您确定要删除旅客信息吗?")
+	//console.log(r)
+	if(r){
+		$.ajax({
+	        url:"/uc/traveller/deladdr",
+	        data:{id:n},
+	        success: function (res) {
+	        	console.log(res)
+	            if(res.errno == 0){
+	               //swal(res.data, "您选择的旅客信息已经被删除.", "success");
+	               _toastr("您选择的旅客信息已经被删除","top-right","success",false);
+	               ucTraveller();		                		                
+	           	}else{
+	                //swal(res.errmsg, "您选择的旅客信息删除失败.", "error");
+	                 _toastr("您选择的旅客信息删除失败！","top-right","error",false);
+	           	}
+	    	}
+	    })
+	}
 }
 //全选删除
 function deleteAllTrave(){
 	var a = $(".aside-right .addr-checkbox:checked").siblings("table")
 	if(a.length>0){
-		swal({
-	        title: "您确定要删除旅客信息吗?",
-	        text: "删除旅客信息!",
-	        type: "warning",
-	        showCancelButton: true,
-	        confirmButtonColor: "#DD6B55",
-	        confirmButtonText: "确定",
-	        cancelButtonText: "取消",
-	        closeOnConfirm: false
-	        },
-	        function(){
-				for(var i=0;i<a.length;i++){
-					var k = parseInt(a[i].className);
-					  $.ajax({
-			            url:"/uc/traveller/deladdr",
-	            		data:{id:k},
-			            success: function (res) {
-			                  if(res.errno == 0){
-			                       swal(res.data, "您选择的旅客信息已经被删除.", "success");
-			                       ucTraveller();                                                    
-			                    }else{
-			                        swal(res.errmsg, "您选择的旅客信息删除失败.", "error");                           
-			                    }
-			            	}
-			        	})
-				}	       
-	        })
+		var r = confirm("您确定要删除旅客信息吗?")
+		var a;
+		if(r){
+			for(var i=0;i<a.length;i++){
+			var k = parseInt(a[i].className);
+			  $.ajax({
+	            url:"/uc/traveller/deladdr",
+        		data:{id:k},
+	            success: function (res) {
+	                  if(res.errno == 0){
+	                       //swal(res.data, "您选择的旅客信息已经被删除.", "success");
+	                        _toastr("您选择的旅客信息已经被删除","top-right","success",false);
+	                       ucTraveller();                                                    
+	                    }else{
+	                        //swal(res.errmsg, "您选择的旅客信息删除失败.", "error"); 
+	                        _toastr("您选择的旅客信息删除失败！","top-right","error",false);                           
+	                    }
+	            	}
+	        	})
+			}
+		}
 	}else{
 		alert("请选择要删除的信息")
 	}
@@ -1603,11 +1617,11 @@ function searchTraveller(){
 	$.ajax({
 		url:"/uc/traveller/query?q="+uname,
 		success:function(result){
-			console.log(result.data);
+			//console.log(result.data);
 			var v = result.data;
 			var html = "";
 			for(var i=0;i<v.length;i++){
-  				console.log(v[i])
+  				//console.log(v[i])
   				html+=`												               				              
 	               <div class="clear">
 	                <input class="addr-checkbox" type="checkbox">
@@ -1656,7 +1670,7 @@ function unameBlur(){
 	var cname = $(".aside-right .chinese-name").val();
 	var lname = $(".aside-right .last-name").val();
 	var fname = $(".aside-right .first-name").val();
-	console.log(cname)
+	//console.log(cname)
 	if(cname == "" && (lname == "" || fname == "")){
 		$(".aside-right .chinese-name").parent().siblings("span.cue").html("X 中文名与英文名两者必填一项")
 	}else{
@@ -1771,13 +1785,13 @@ $(".aside-right").on("click","button.sub-increase",function(e){
 		$(".aside-right .cre-confir").siblings("span.cre-num").html("X 请输入证件号码");
 	}else{
 		var data = $(".aside-right").find("form.edit-trav").serialize();
-		console.log(data);
+		//console.log(data);
 		$.ajax({
 		     type: "POST", 
 		     url: "/uc/traveller/addaddr",
 		     data: data,
 		     success: function(msg){ 
-		     	console.log(msg)
+		     	//console.log(msg)
 		           if(msg.errno == 0){
 		            	_toastr("保存成功","top-right","success",false);	            
 		           }else{
@@ -1798,7 +1812,7 @@ function ucAddress(){
 	$.ajax({
 		url:"/uc/address/query",
 		success:function(result){
-			console.log(result);
+			//console.log(result);
 			html+=`
 	            <div class="information-title">
 	              <span>关键字</span>
@@ -1811,11 +1825,11 @@ function ucAddress(){
 	              <div class="traveller-list clear">
 	                <div class="clear">
 	                	
-	                  <a class="col-xs-1">收件人</a>
-	                  <a class="col-xs-2">省份</a>
-	                  <a class="col-xs-2">城市</a>
+	                  <a class="col-xs-2">收件人</a>
+	                  <a class="col-xs-1">省份</a>
+	                  <a class="col-xs-1">城市</a>
 	                  <a class="col-xs-1">区县</a>
-	                  <a class="col-xs-3">详细地址</a>
+	                  <a class="col-xs-4">详细地址</a>
 	                  <a class="col-xs-1">邮编</a>
 	                  <a class="col-xs-2">操作</a>
 	                </div>
@@ -1825,18 +1839,18 @@ function ucAddress(){
 			`;
 			var  v = result.data;
 			localStorage.setItem("addressList",JSON.stringify(v));
-			console.log(v);
+			//console.log(v);
 			for(var i=0;i<v.length;i++){
 				html+=`												               				              
 	                <div class="clear">
 		                <input class="addr-checkbox" type="checkbox">
 		                <table class="${v[i].id}">
 		                    <tr>
-		                      <td class="col-xs-1">${v[i].accept_name}</td>
-		                      <td class="col-xs-2">${v[i].province}</td>
-		                      <td class="col-xs-2">${v[i].city}</td>
+		                      <td class="col-xs-2">${v[i].accept_name}</td>
+		                      <td class="col-xs-1">${v[i].province}</td>
+		                      <td class="col-xs-1">${v[i].city}</td>
 		                      <td class="col-xs-1">${v[i].county}</td>
-		                      <td class="col-xs-3">${v[i].addr}</td>
+		                      <td class="col-xs-4">${v[i].addr}</td>
 		                      <td class="col-xs-1">${v[i].zip}</td>
 		                      <td class="col-xs-2">
 		                        <a class="see-address" href="javascript:seeAddress(${i})">查看</a>
@@ -1952,8 +1966,32 @@ function editAddress(n){
 	var m = {};
 	if(typeof(n) !="undefined" && n < val.length && n >= 0){
 		m = val[n];
-		console.log(m);
+		//console.log(m);
 	}
+	if(m.sortname == null || !m.sortname){
+  		m.sortname = "";
+  	}
+  	if(m.accept_name == null || !m.accept_name){
+  		m.accept_name = "";
+  	}
+  	if(m.addr == null || !m.addr){
+  		m.addr = "";
+  	}
+  	if(m.zip == null || !m.zip){
+  		m.zip = "";
+  	}
+  	if(m.mobile == null || !m.mobile){
+  		m.mobile == "";
+  	}
+  	if(m.phone_zone == null || !m.phone_zone){
+  		m.phone_zone = "";
+  	}
+  	if(m.phone_number == null || !m.phone_number){
+  		m.phone_number = "";
+  	}
+  	if(m.phone_ext == null || !m.phone_ext){
+  		m.phone_ext = "";
+  	}
 	//console.log(m)
 	var html=`
 		<div calss="add-address">
@@ -2130,7 +2168,7 @@ function addAddress(){
         `;
 
         let m = $(".aside-right").find("#start_province1>option:selected").attr("value");
-		    console.log(m);
+		    //console.log(m);
 		if(m == "" || m == undefined){
 			html += `<option value="城市">-- 城市 --</option>`; 
 		}else{
@@ -2244,67 +2282,55 @@ $(".aside-right").on("click",".check-all",function(){
 })
 //删除地址信息
 function deleteAddr(n){
-	//console.log(n);
-	 swal({
-            title: "您确定要删除该收货地址吗?",
-            text: "删除收货人信息!",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            closeOnConfirm: false
-            },
-            function(){
-              $.ajax({
-                url:"/uc/address/deladdr",
-                data:{id:n},
-                success: function (res) {
-                      if(res.errno == 0){
-                           swal(res.data.name, "您选择的地址已经被删除.", "success");
-                           ucAddress() ;                                                    
-                           }else{
-                                swal(res.errmsg, "您选择的地址删除失败.", "error");                            
-                           }
-                	}
-            	})
-           
-            })
+	var r = confirm("您确定要删除该收货地址吗?")
+	//console.log(r)
+	if(r){
+		$.ajax({
+	        url:"/uc/address/deladdr",
+	        data:{id:n},
+	        success: function (res) {
+	        	console.log(res)
+	            if(res.errno == 0){
+	               //swal(res.data, "您选择的旅客信息已经被删除.", "success");
+	               _toastr("您选择的地址已经被删除.","top-right","success",false);
+	               ucAddress() ;		                		                
+	           	}else{
+	                //swal(res.errmsg, "您选择的旅客信息删除失败.", "error");
+	                 _toastr("您选择的地址删除失败！","top-right","error",false);
+	           	}
+	    	}
+	    })
+	}
 }
 //全选删除地址信息
 function deleteAll(){
 	var a = $(".aside-right .addr-checkbox:checked").siblings("table")
 	if(a.length>0){
-		swal({
-        title: "您确定要删除该收货地址吗?",
-        text: "删除收货人信息!",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        closeOnConfirm: false
-        },
-        function(){
+		var r = confirm("您确定要删除该收货地址吗?")
+		var a;
+		if(r){
 			for(var i=0;i<a.length;i++){
-				var k = parseInt(a[i].className);
-				  $.ajax({
-		            url:"/uc/address/deladdr/id/"+k,
-		            success: function (res) {
-		                  if(res.errno == 0){
-		                       swal(res.data.name, "您选择的地址已经被删除.", "success");
-		                       ucAddress() ;                                                    
-		                       }else{
-		                            swal(res.errmsg, "您选择的地址删除失败.", "error");                            
-		                       }
-		            	}
-		        	})
+			var k = parseInt(a[i].className);
+			  $.ajax({
+	            url:"/uc/address/deladdr",
+        		data:{id:k},
+	            success: function (res) {
+	                  if(res.errno == 0){
+	                       //swal(res.data, "您选择的旅客信息已经被删除.", "success");
+	                        _toastr("您选择的地址已经被删除.","top-right","success",false);
+	                       ucAddress();                                                    
+	                    }else{
+	                        //swal(res.errmsg, "您选择的旅客信息删除失败.", "error"); 
+	                        _toastr("您选择的地址删除失败！","top-right","error",false);                           
+	                    }
+	            	}
+	        	})
 			}
-
-       })
+		}
 	}else{
 		alert("请选择要删除的信息")
 	}
+
 	
 }
 /****
@@ -2375,7 +2401,7 @@ $(".aside-right").on("click",".sub-addr",function(){
 	}else if(!zipBlur()){
 		$(".aside-right .zip-confir").parent().siblings("span.cue").html("X 请输入邮编")
 	}else if(!phoneBlur() && $(".telephone").val() == ""){
-		console.log($(".telephone").val())
+		//console.log($(".telephone").val())
 		$(".aside-right .phone-confir").parent().siblings("span.cue").html("X 请选择一项输入")
 	}else{
 		$.ajax({
@@ -2383,7 +2409,7 @@ $(".aside-right").on("click",".sub-addr",function(){
 		     url: "/uc/address/addaddr",
 		     data: data,
 		     success: function(msg){ 
-		     	console.log(msg)
+		     	//console.log(msg)
 		           if(msg.errno == 0){
 		            	_toastr("保存成功","top-right","success",false);	            
 		           }else{
@@ -2428,7 +2454,7 @@ function ucCoupon(){
   			localStorage.setItem("mcoupon",JSON.stringify(data));
   			var coupon = JSON.parse(localStorage.getItem("mcoupon"));
   			var m = data.length;
-  			console.log(coupon)
+  			//console.log(coupon)
   			var N=0;
   			$.each(data,function(k,v){
   				
@@ -2450,7 +2476,7 @@ function ucCoupon(){
   				var date = v.validity_date;
   				var validity = time(date)
   				var current = new Date().getTime();
-  				console.log(current);
+  				//console.log(current);
   				html+=`
 				
 			              <table>
@@ -2484,17 +2510,22 @@ function ucCoupon(){
 //添加优惠券
 function addCoupon(){
 	var coupon = $(".aside-right .add-coupon").val()
-	var pro;
+	//var pro;
 	$.ajax({
 		url:"/uc/booking/discountadd/code/"+coupon,
 		async:false,
 		success:function(result){
-			console.log(result);
-			ucCoupon();
+			if(result.errno == 1000){
+				_toastr(result.errmsg,"top-right","error",false);
+				ucCoupon();
+			}else if(result.errno == 0){
+				_toastr(result.data,"top-right","success",false);
+				ucCoupon();
+			}
 		}
 	});
 	//console.log(pro)
-	return pro;
+	//return pro;
 }
 //更改时间格式
 function time(date){

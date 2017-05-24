@@ -836,10 +836,17 @@ CLASSES:
 						分享
 						<i class="share"></i>
 					</a>
+					{% if info.vendor_qq!="" and info.vendor_qq!=null and info.vendor_qq!=undefined%}
+					<a class="col-xs-4"  target="_blank"  href="http://wpa.qq.com/msgrd?v=3&uin={{info.vendor_qq}}&site=qq&menu=yes" alt="点击这里给我发消息" title="点击这里给我发消息">
+						在线客服
+						<i class="custom-service"></i>
+					</a>
+					{% else %}
 					<a class="col-xs-4"  target="_blank"  href="http://wpa.qq.com/msgrd?v=3&uin=306420988&site=qq&menu=yes" alt="点击这里给我发消息" title="点击这里给我发消息">
 						在线客服
 						<i class="custom-service"></i>
 					</a>
+					{% endif %}
 				</li>
 			</ul>
 			<!-- SHARE POST -->
@@ -1007,10 +1014,10 @@ CLASSES:
                                     {%if controller.user.uid == a.uid or (controller.user.uid|in_Array(http.config('user_administrator'))) %}
                                     
                                     <li class="pull-right">
-                                        <a class="edit-delete" href="/mod/question/ajax/delanswer/qid/{{info.id}}/id/{{a.answer_id}}" class="text-danger confirm ajax-get">删除</a>
+                                        <a href="/mod/question/ajax/delanswer/qid/{{info.id}}/id/{{a.answer_id}}" class="edit-delete confirm ajax-get">删除</a>
                                     </li>
                                     <li class="pull-right">
-                                        <a class="edit-delete" href="/mod/question/ajax/editanswer/id/{{a.answer_id}}" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='{"type":"ajax", "closeOnBgClick":false}'>编辑</a>
+                                        <a href="/mod/question/ajax/editanswer/id/{{a.answer_id}}" class="edit-delete lightbox" data-lightbox="iframe" data-plugin-options='{"type":"ajax", "closeOnBgClick":false}'>编辑</a>
                                     </li>
                                     <li  class="pull-right">
                                        <a href="javascript:;"  class="text-info comment-reply commentary" data-comment="write-reply-{{a.answer_id}}">
@@ -1075,10 +1082,10 @@ CLASSES:
                         <h4 class="uppercase padding-bottom-0 clearfix margin-bottom-0 noborder row">  <div class="col-md-9 col-sm-9"><div class="clearfix margin-bottom-0"><!-- rounded item -->
                             {% if controller.user.uid %}
                             <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/{{controller.user.uid}}" width="40" height="40" alt="">
-                            <h4 class="size-14 nomargin noborder nopadding"><a class="tours" href="#">{{controller.user.uid|get_nickname}}</a></h4>
+                            <h4 class="size-14 nomargin noborder nopadding"><a class="tours">{{controller.user.uid|get_nickname}}</a></h4>
                             {% else%}
                             <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/0" width="40" height="40" alt="">
-                            <h4 class="size-14 nomargin noborder nopadding"><a class="tours" href="#">遊客</a></h4>
+                            <h4 class="size-14 nomargin noborder nopadding"><a class="tours">遊客</a></h4>
                             
                             {%endif%}
                            <!--  <span class="size-12 text-muted">....</span> -->
@@ -1588,32 +1595,34 @@ CLASSES:
 
 </section>
 
+
 <section class="alternate" id="destination">
 <div class="container">
 	<div class="portfolio">
 		<header class="section-header margin-bottom-20">
 			<div class="heading-title">
 				<h3>热门</h3>
-				<!--<a href="###" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>-->
+				<a href="javascript:getPopular();" id="destination-change">换一换 <img src="/static/assets/images/change.png"></a>
 			</div>
 		</header>
 		<div  class=" portfolio-title-over">
 			<div class="row mix-grid">
 				<ul id="destination-ul" style="padding-left: 0px;">
-					{% topic data = "list", limit= "8", cid=135, isstu=1, issub=1, ischild=1, type="level", page=0 %}
+					{% topic data = "list", limit= "8", cid=130, isstu=1, issub=1, ischild=1, type="level", page=0 %}
 					{%set i = 1%}
 					{% for v in list %}
 
 					<li class="mix development col-md-3 col-sm-3"><!-- item -->
 
 						<div class="item-box thumbnail">
-						<a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}">
+						<!-- <a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}"> -->
+						<a href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
 							<figure>
 								<span class="item-hover">
 									<span class="overlay dark-5"></span>
-									{#
+									
 									<span class="inner">
-
+										{#
 										<!-- lightbox -->
 										<a class="ico-rounded lightbox" href="/static/dome/s_wenzhang.jpg" data-plugin-options='{"type":"image"}'>
 											<span class="glyphicon glyphicon-qrcode size-20"></span>
@@ -1623,18 +1632,20 @@ CLASSES:
 										<a class="ico-rounded" href="/wenzhangceshi" target="_blank">
 											<span class="glyphicon glyphicon-option-horizontal size-20"></span>
 										</a>
-
+										#}
 									</span>
-									#}
+									
 								</span>
 
 								<!-- overlay title -->
-								<div class="item-box-overlay-title">
-									<h4 class="nomargin pull-left text-left">{{v.title}}</h4>
-									<h4 class="nomargin pull-right text-right">{{v.title}}</h4>
+								<div class="item-box-overlay-title text-center title text-title">
+									<h4 class="nomargin ">{{v.title}}</h4>
 								</div><!-- /overlay title -->
-								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=222,h=217')}}"  alt="">
+								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=222,h=317')}}"  alt="">
 							</figure>
+							<div class="item-box-overlay-title text-center" style="height: 42px;background-color:#fff ">
+                                <h5 style="margin-bottom: 0px;">{{v.description}}</h5>
+                            </div>
 						</a>
 						</div>
 
@@ -1646,12 +1657,13 @@ CLASSES:
 
 			</div>
 		</div>
-		<div class="more-info text-center margin-top-20">
-			<a href="/search{{http.config('view.file_ext')}}">点击查看更多》</a>
+		<div class="more-info text-center">
+			<a href="/search{{http.config('view.file_ext')}}" style="color: #75716b;">点击查看更多》</a>
 		</div>
 	</div>
 	</div>
 </section>
+
 
 
 
@@ -1669,6 +1681,7 @@ CLASSES:
 <script src="/static/admin/js/datepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 <script src="/static/admin/js/datepicker/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
 <script src="/static/assets/js/tour.js"></script>
+<script src="/static/assets/js/exchange.js"></script>
 <script>
 	// var HtmlUtil = {
 	//     /*1.用浏览器内部转换器实现html转码*/
