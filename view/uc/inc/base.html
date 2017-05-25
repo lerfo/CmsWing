@@ -76,7 +76,11 @@
 
 	<!-- wrapper -->
 	<div id="wrapper" >
-
+		<div id="contact-way" class="youpiao">
+			<div class="way"></div>
+			<div class="way-phone"><a class="way-phonum"></a></div>
+			<div class="way-weixin"><a class="way-weima"></a></div>
+		</div>
 		<!-- Top Bar -->
 		<!-- /Top Bar -->
 
@@ -262,12 +266,37 @@
 	<!-- /PRELOADER -->
 #}
 
+
+	<script type="text/javascript" src="/static/assets/plugins/jquery/jquery-2.1.4.min.js"></script>
 	<!-- JAVASCRIPT FILES -->
 	<script type="text/javascript">
 		var plugin_path = '/static/assets/plugins/';
-	</script>
-	<script type="text/javascript" src="/static/assets/plugins/jquery/jquery-2.1.4.min.js"></script>
 
+		//固定浮动
+		$(document).ready(function(e) {			
+			t = $('#contact-way').offset().top;
+			//console.log(t)
+			//var m =  document.body.scrollHeight;
+				//console.log(m)
+			//mh = $('.main').height();
+			fh = $('#contact-way').height();
+			$(window).scroll(function(e){
+				
+				var m =  document.body.scrollHeight;
+				//console.log(m)
+				s = $(document).scrollTop();
+				//console.log(s)
+				var b = m-s;
+				//console.log(b)
+				if(s>0 && b>650 ){
+					$("#contact-way").removeClass("youpiao").addClass("zuopiao")
+				}else if(b<650){
+					$("#contact-way").removeClass("zuopiao").addClass("youpiao")
+				}	
+				
+			})
+		});
+	</script>
 	<script type="text/javascript" src="/static/assets/js/scripts.js"></script>
 {#
 	<!-- STYLESWITCHER - REMOVE -->

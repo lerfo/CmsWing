@@ -8687,3 +8687,67 @@ i.ico-60 {
 #topNav>div>ul>li>a:hover{
 	color:#1eb6c1;
 }
+
+#contact-way{
+	width:80px;
+	height:200px;
+	position:fixed;
+	top:170px;
+	z-index:2000;
+	transition:all 0.3s linear;
+}
+.zuopiao{
+	right:10px;
+}
+.youpiao{
+	right:-80px;
+}
+.way{
+	width:100%;
+	height:80px;
+	background:url(/static/assets/images/backgrounds/contact.png) no-repeat 0 0;
+}
+.way-phone{
+	width:100%;
+	height:60px;
+	position:relative;
+	background:url(/static/assets/images/backgrounds/phone.png) no-repeat 0 0;
+}
+.way-weixin{
+	width:100%;
+	height:60px;
+	position:relative;
+	background:url(/static/assets/images/backgrounds/weixin.png) no-repeat 0 0;
+}
+.way-phone:hover,
+.way-weixin:hover{
+	cursor:pointer;
+}
+.way-phonum{
+	display:block;
+	width:0px;
+	height:58px;
+	position:absolute;
+	left:0px;
+	top:1px;
+	background:url(/static/assets/images/backgrounds/pho_num.png) no-repeat 0 0;
+	transition:all 0.5s linear;
+}
+.way-phone:hover .way-phonum{
+	width:198px;
+	left:-199px;
+}
+.way-weima{
+	display:block;
+	width:0px;
+	height:120px;
+	position:absolute;
+	left:0px;
+	top:-61px;
+	background:url(/static/assets/images/backgrounds/weixin_ma.png) no-repeat 0 0;
+	transition:all 0.5s linear;
+}
+.way-weixin:hover .way-weima{
+	width:120px;
+	left:-121px;
+}

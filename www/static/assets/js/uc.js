@@ -1828,8 +1828,7 @@ function ucAddress(){
 	                  <a class="col-xs-2">收件人</a>
 	                  <a class="col-xs-1">省份</a>
 	                  <a class="col-xs-1">城市</a>
-	                  <a class="col-xs-1">区县</a>
-	                  <a class="col-xs-4">详细地址</a>
+	                  <a class="col-xs-5">详细地址</a>
 	                  <a class="col-xs-1">邮编</a>
 	                  <a class="col-xs-2">操作</a>
 	                </div>
@@ -1848,9 +1847,8 @@ function ucAddress(){
 		                    <tr>
 		                      <td class="col-xs-2">${v[i].accept_name}</td>
 		                      <td class="col-xs-1">${v[i].province}</td>
-		                      <td class="col-xs-1">${v[i].city}</td>
-		                      <td class="col-xs-1">${v[i].county}</td>
-		                      <td class="col-xs-4">${v[i].addr}</td>
+		                      <td class="col-xs-1">${v[i].city}</td>		               
+		                      <td class="col-xs-5">${v[i].addr}</td>
 		                      <td class="col-xs-1">${v[i].zip}</td>
 		                      <td class="col-xs-2">
 		                        <a class="see-address" href="javascript:seeAddress(${i})">查看</a>
@@ -2329,9 +2327,7 @@ function deleteAll(){
 		}
 	}else{
 		alert("请选择要删除的信息")
-	}
-
-	
+	}	
 }
 /****
 *地址表单验证

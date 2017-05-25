@@ -77,6 +77,11 @@
 
 	<!-- wrapper -->
 	<div id="wrapper" >
+		<div id="contact-way" class="youpiao">
+			<div class="way"></div>
+			<div class="way-phone"><a class="way-phonum"></a></div>
+			<div class="way-weixin"><a class="way-weima"></a></div>
+		</div>
 
 		<!-- Top Bar -->
 		<!-- /Top Bar -->
@@ -336,6 +341,61 @@
 			}
 
 		})
+
+		//固定浮动
+		$(document).ready(function(e) {
+			if(document.getElementsByClassName("sayadd-contact").length>0){
+				$(window).scroll(function(e){				
+				var m =  document.body.scrollHeight;
+				//console.log(m)
+				s = $(document).scrollTop();
+				//console.log(s)
+				var b = m-s;
+				//console.log(b)
+				if(s<340 && s>0){
+					$("#contact-way").removeClass("zuopiao").addClass("youpiao")
+				}else if(s>340 && b>600 ){
+					$("#contact-way").removeClass("youpiao").addClass("zuopiao")
+				}else if(b<600){
+					$("#contact-way").removeClass("zuopiao").addClass("youpiao")
+				}	
+				
+				})
+			}else if(document.getElementsByClassName("webpage-contact").length>0){
+				$(window).scroll(function(e){				
+				var m =  document.body.scrollHeight;
+				//console.log(m)
+				s = $(document).scrollTop();
+				//console.log(s)
+				var b = m-s;
+				//console.log(b)
+				if(s>0 && b>780 ){
+					$("#contact-way").removeClass("youpiao").addClass("zuopiao")
+				}else if(b<780){
+					$("#contact-way").removeClass("zuopiao").addClass("youpiao")
+				}	
+				
+				})
+			}else{
+				$(window).scroll(function(e){				
+				var m =  document.body.scrollHeight;
+				//console.log(m)
+				s = $(document).scrollTop();
+				//console.log(s)
+				var b = m-s;
+				//console.log(b)
+				if(s<592 && s>0){
+					$("#contact-way").removeClass("zuopiao").addClass("youpiao")
+				}else if(s>592 && b>855 ){
+					$("#contact-way").removeClass("youpiao").addClass("zuopiao")
+				}else if(b<855){
+					$("#contact-way").removeClass("zuopiao").addClass("youpiao")
+				}	
+				
+				})
+			}			
+
+		});
 	</script>
 	<script type="text/javascript" src="/static/assets/js/scripts.js"></script>
 {#

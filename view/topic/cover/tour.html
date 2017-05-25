@@ -336,10 +336,10 @@
                                     <span class="overlay dark-5"></span>
                                 </span>
                                 <!-- overlay title -->
-                                <div class="item-box-overlay-title text-center">
+                                <div class="item-box-overlay-title text-center text-title">
                                     <h4 class="nomargin title">{{v.title}}</h4>
                                 </div><!-- /overlay title -->
-                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=373')}}"  alt="">
+                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=433')}}"  alt="">
                                 
                             </figure>
                             <!-- overlay title -->
@@ -410,11 +410,11 @@
 
                                 
                                 <!-- overlay title -->
-                                <div class="item-box-overlay-title text-center">
+                                <div class="item-box-overlay-title text-center text-title">
                                     <h4 class="nomargin title">{{v.title}}</h4>
                                 </div><!-- /overlay title -->
                             
-                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=373')}}"  alt="">
+                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=433')}}"  alt="">
                            
                             </figure>
                             <!-- overlay title -->
@@ -483,12 +483,12 @@
 
                                 
                                 <!-- overlay title -->
-                                <div class="item-box-overlay-title text-center">
+                                <div class="item-box-overlay-title text-center text-title">
                                     <h4 class="nomargin title">{{v.title}}</h4>
                                 </div>
                                 <!-- /overlay title -->
                             
-                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=443')}}"  alt="">
+                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=324,h=433')}}"  alt="">
                            
                             </figure>
                             <!-- overlay title -->
@@ -781,18 +781,6 @@
             });
 
         });
-
-        $(".mix-grid").on("mouseenter","figure",function(){         
-            if($(this).find(".item-box-overlay-title h4").hasClass("title")){
-                $(this).find(".item-box-overlay-title h4").removeClass("title")                
-            }
-        })
-        $(".mix-grid").on("mouseleave","figure",function(){
-            //if($(this).find(".goup").hasClass("title")){
-                $(this).find(".item-box-overlay-title h4").addClass("title")
-            //}
-
-        })
 
     </script>
 {%endblock%}

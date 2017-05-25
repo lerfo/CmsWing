@@ -259,7 +259,7 @@ section#slider input{
 								</span>
 
 								<!-- overlay title -->
-								<div class="item-box-overlay-title text-center">
+								<div class="item-box-overlay-title text-center text-title">
 									<h4 class="nomargin title">{{v.title}}</h4>
 								</div><!-- /overlay title -->
 								{% if i == 1 or i == 3 %}
@@ -333,7 +333,7 @@ section#slider input{
 								</span>
 
 								<!-- overlay title -->
-								<div class="item-box-overlay-title text-center">
+								<div class="item-box-overlay-title text-center text-title">
 									<h4 class="nomargin title">{{v.title}}</h4>
 								</div><!-- /overlay title -->
 
@@ -410,7 +410,7 @@ section#slider input{
 								</span>
 
 								<!-- overlay title -->
-								<div class="item-box-overlay-title text-center">
+								<div class="item-box-overlay-title text-center text-title">
 									<h4 class="nomargin title">{{v.title}}</h4>
 								</div><!-- /overlay title -->
 
@@ -660,6 +660,8 @@ section#slider input{
 
 {%block script%}
 <script src="/static/assets/js/exchange.js"></script>
+	
+	
 	<script type="text/javascript">
 		/*jQuery(window).ready(function () {
 			$("#destination ul#destination-ul").children("li").eq(0).addClass("col-md-3 col-sm-3 destination-item-1");
@@ -701,18 +703,6 @@ section#slider input{
 	        });
 
 		});
-
-        $(".mix-grid").on("mouseenter","figure",function(){         
-            if($(this).find(".item-box-overlay-title h4").hasClass("title")){
-                $(this).find(".item-box-overlay-title h4").removeClass("title")                
-            }
-        })
-        $(".mix-grid").on("mouseleave","figure",function(){
-            //if($(this).find(".goup").hasClass("title")){
-                $(this).find(".item-box-overlay-title h4").addClass("title")
-            //}
-
-        })
 
 	</script>
 {%endblock%}

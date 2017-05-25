@@ -41,13 +41,13 @@ export default class extends Base {
   }
   /**
    * 获取数据标签
-   * 示例：/ajax/topic?q=&page=1&limit=6&&value=132-0-0-17-tourtype_1|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0
+   * 示例：/ajax/topic?q=&page=1&limit=6&&value=132-0-0-17-tourtype_1|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0&position=1
    * q:查询关键字
    * page: 设置查询开始页面，从1开始，默认为0，例：page = "2"
    * limit: 设置查询结果的条数，例: limit="10"
-   * value: 过滤条件 分类ID-排序ID-分组ID-分类ID-分类详情
+   * value: 过滤条件 分类ID-排序ID-分组ID-分类ID-分类详情-
    *                 分类ID:0 全部；132 游学产品；141 学校；135 目的地
-   *                 排序ID:0 按更新时间降序；1 按更新时间升序；2 按浏览量降序；3 按浏览量升序；
+   *                 排序ID:0 按更新时间降序；1 按更新时间升序；2 按浏览量降序；3 按浏览量升序 
    *                 分组ID:0 全部 
    *                 分类ID:0 无分类 各个模型的分类ID 游学：17  学校：18 
    *                 分类详情:游学产品：tourtype_1|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0
@@ -56,6 +56,7 @@ export default class extends Base {
    *                                    tourdest 目的地  100:亚洲200:非洲300:欧洲00:拉丁美洲500:北美洲600:大洋洲700:南极洲
    *                                    tourdays行程天数  天数
    *                                    tourmonth出发日期 1:一月2:二月3:三月4:四月5:五月6:六月7:七月8:八月9:九月10:十月11:十一月12:十二月
+   * position:1:首页热门推荐,2:列表推荐   固定为 首页热门推荐1
    */
   async topicAction() {
 
@@ -295,6 +296,12 @@ export default class extends Base {
         map.group_id=query[2];
         group_id = map.group_id;
       }
+      //5.4后台编辑推荐
+      if( !think.isEmpty( this.get("position") ) ){
+          map.position = ["like",'%"'+this.get("position")+'"%'];
+          o.level = 'DESC';
+      }
+
       //this.assign("group_id",group_id)
       //5.5获取查询关键字
 
@@ -321,7 +328,7 @@ export default class extends Base {
         num = this.get("limit");
       }
       //console.log( this.get("limit") );
-      //console.log(num);
+      console.log(map);
       let data;
       if(!think.isEmpty(sortarr)){
         data = await this.model('document').join({

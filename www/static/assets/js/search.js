@@ -1,5 +1,5 @@
 $(function(){
-    console.log("search");
+    //console.log("search");
     var schoolType = '';
     localStorage.setItem("schoolType",schoolType);
 });
@@ -518,7 +518,7 @@ function tourquestion_pagination(page) {
         type:"get",
         url:"/ajax/question?cid=125&day="+day+"&page="+page+"&q="+searchword,
         success:function(dataResult){
-            console.log(dataResult);       
+            //console.log(dataResult);       
             $.each(dataResult.data,function(k,v){
                 pageHtml +='<a target="_blank" href="/mod/question/'+v.id+'.html"><div class="showquestion">'+
                             '<ul class="blog-post-info list-inline padding-bottom-10" style="border: 0px;width:825px;">\
@@ -590,7 +590,7 @@ function tourschool_pagination(page) {
         type:"get",
         url:"ajax/topic?q="+searchword+"&page="+page+"&limit=5&value=141-0-0-18-"+schoolType,
         success:function(dataResult){
-            console.log(dataResult);
+            //console.log(dataResult);
             $.each(dataResult.data,function(k,v){
                 if(0==v.cover_url.length){
                     getHtml +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+

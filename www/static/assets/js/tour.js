@@ -10,13 +10,13 @@ $(document).ready(function(e) {
 		var m =  document.body.scrollHeight;
 		s = $(document).scrollTop();
 		var b = m-s;
-		//console.log(m-s)	
-		if(s > t - 10){
+		//console.log(b)	
+		if(s > t-40){
 			$('.float-box').css({'position':'fixed','top':'40px','background':'#fff','z-index':'130'});				
 		}else{
 			$('.float-box').css({'position':'','background':''});
 		}
-		if(b<1537){
+		if(b<1674){
 			$('.float-box').css({'position':'','background':''});
 		}
 	})
@@ -524,15 +524,3 @@ function pageTable(n){
 	}
 	
 }
-
-$(".mix-grid").on("mouseenter","figure",function(){         
-    if($(this).find(".text-title").hasClass("title")){
-        $(this).find(".text-title").removeClass("title")                
-    }
-})
-$(".mix-grid").on("mouseleave","figure",function(){
-    //if($(this).find(".goup").hasClass("title")){
-        $(this).find(".text-title").addClass("title")
-    //}
-
-})

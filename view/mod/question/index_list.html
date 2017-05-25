@@ -369,8 +369,8 @@ CLASSES:
                                 </span>
                 
                                 <!-- overlay title -->
-                                <div class="item-box-overlay-title title">
-                                    <h4 class="nomargin">{{v.title}}</h4>
+                                <div class="item-box-overlay-title text-center text-title">
+                                    <h4 class="nomargin title">{{v.title}}</h4>
                                 </div><!-- /overlay title -->
                                 {% if i == 1 or i == 3 %}
                                 <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=307,h=457')}}"  alt="">
@@ -769,17 +769,4 @@ CLASSES:
 {% block script %}  
 <script src="/static/assets/js/exchange.js"></script> 
 <script src="/static/assets/js/question_list.js"></script> 
-<script>
-    $(".mix-grid").on("mouseenter","figure",function(){         
-        if($(this).find(".item-box-overlay-title").hasClass("title")){
-            $(this).find(".item-box-overlay-title").removeClass("title")                
-        }
-    })
-    $(".mix-grid").on("mouseleave","figure",function(){
-        //if($(this).find(".goup").hasClass("title")){
-            $(this).find(".item-box-overlay-title").addClass("title")
-        //}
-
-    })
-</script>
 {% endblock %}

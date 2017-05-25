@@ -1,7 +1,6 @@
 
 $(function(){
-	console.log("EXCHANGE");
-	console.log("on line");
+	//console.log("EXCHANGE");
 	localStorage.setItem("hotstudytour_page",2);//热门
 	localStorage.setItem("studytour_page",2);//游学
 	localStorage.setItem("community_page",2);//社区
@@ -28,7 +27,7 @@ $(function(){
 
 //当页面加载条数不够 页数重复为1时 添加信息
 function addInfo(info) {
-	console.log('info');
+	//console.log('info');
 	switch(info){
 		case "hotstudytour_info":
 			localStorage.setItem("hotstudytour_info",'repeat');
@@ -109,7 +108,7 @@ function getHot() {
 												<span class="item-hover">\
 													<span class="overlay dark-5"></span>\
 												</span>\
-												<div class="item-box-overlay-title text-center">\
+												<div class="item-box-overlay-title text-center text-title">\
 													<h4 class="nomargin title">'+v.title+'</h4>\
 												</div>\
 												<img class="img-responsive" src="'+img+'"  alt="">\
@@ -129,7 +128,7 @@ function getHot() {
 					getHot();
 					addInfo('hotstudytour_info');
 				}else{
-					console.log('no-repeat');
+					//console.log('no-repeat');
 				}
 
 			}
@@ -153,7 +152,7 @@ function getTourStudy() {
 		url:"/ajax/topic?q=&page="+page+"&limit=4",
 		success:function(dataResult){
 			if (dataResult.data.length == 4) {
-				console.log(page);
+				//console.log(page);
 				$.each(dataResult.data,function(k,v){
 					img = v.cover_url;	
 					if (0==img.length) {
@@ -176,7 +175,7 @@ function getTourStudy() {
 												<span class="item-hover">\
 													<span class="overlay dark-5"></span>\
 												</span>\
-												<div class="item-box-overlay-title text-center">\
+												<div class="item-box-overlay-title text-center text-title">\
 													<h4 class="nomargin title">'+v.title+'</h4>\
 												</div>\
 												<img class="img-responsive" src="'+img+'"  alt="">\
@@ -196,7 +195,7 @@ function getTourStudy() {
 					getHot();
 					addInfo('studytour_info');
 				}else{
-					console.log('no-repeat');
+					//console.log('no-repeat');
 				}
 		
 			}
@@ -243,7 +242,7 @@ function getCommunity() {
 											<span class="item-hover">\
 												<span class="overlay dark-5"></span>\
 											</span>\
-											<div class="item-box-overlay-title text-center">\
+											<div class="item-box-overlay-title text-center text-title">\
 												<h4 class="nomargin title">'+v.title+'</h4>\
 											</div>\
 											<img class="img-responsive" src="'+img+'"  alt="">\
@@ -259,8 +258,8 @@ function getCommunity() {
 											<span class="item-hover">\
 												<span class="overlay dark-5"></span>\
 											</span>\
-											<div class="item-box-overlay-title text-center" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">\
-												<h4 class="nomargin">'+v.title+'</h4>\
+											<div class="item-box-overlay-title text-center text-title">\
+												<h4 class="nomargin title">'+v.title+'</h4>\
 											</div>\
 											<img class="img-responsive" src="'+img+'"  alt="">\
 										</figure>\
@@ -280,7 +279,7 @@ function getCommunity() {
 					getCommunity();
 					addInfo('community_info');
 				}else{
-					console.log('no-repeat');
+					//console.log('no-repeat');
 				}
 			}
 
@@ -316,16 +315,15 @@ function getHotProduct(){
 					html+='<li class="mix development col-xs-3 studytour-item" style="display: block;  opacity: 1;">\
 							    <div class="item-box thumbnail">\
 							        <a href="/p/'+v.id+'.html" title="'+v.title+'">\
-							            <figure style="height: 332px;">\
+							            <figure>\
 							                <span class="item-hover">\
 							                    <span class="overlay dark-5"></span>\
 							                </span>\
+							                 <div class="item-box-overlay-title text-center text-title">\
+                                    			<h4 class="nomargin title">'+v.title+'</h4>\
+                                			</div>\
 							                <img class="img-responsive" src="'+img+'"  alt="">\
 							            </figure>\
-							            <div class="item-box-overlay-title " style="height: 100px;background-color:#fff ">\
-							                <h4 class="nomargin show-two text-center" style="font-size: 14px; color: #414141; text-overflow:ellipsis;font-weight: 600;height: 24px;">'+v.title+'</h4>\
-							                <h5 style="height: 40px;overflow: hidden;margin-bottom:0px;">'+v.description+'</h5>\
-							            </div>\
 							        </a>\
 							    </div>\
 							</li>';					
@@ -341,7 +339,7 @@ function getHotProduct(){
 					getHotProduct();
 					addInfo('hotproduct_info');
 				}else{
-					console.log('no-repeat');
+					//console.log('no-repeat');
 				}
 			}
 
@@ -372,7 +370,7 @@ function getStarProduct() {
 					}
 					if (img.indexOf('//oq39378n2.bkt.clouddn.com/')>=0) {
 						img = img.split("w/")[0];
-						img = img+'w/324/h/373';
+						img = img+'w/324/h/433';
 					}
 					var j = k+1;
 					html+='<li class="mix development col-md-3 col-sm-3 destination-item" style="display: block;  opacity: 1;">\
@@ -382,14 +380,11 @@ function getStarProduct() {
 							                <span class="item-hover">\
 							                    <span class="overlay dark-5"></span>\
 							                </span>\
-							                <div class="item-box-overlay-title text-center">\
+							                <div class="item-box-overlay-title text-center text-title">\
                                     			<h4 class="nomargin title">'+v.title+'</h4>\
                                				</div>\
 							                <img class="img-responsive" src="'+img+'"  alt="">\
 							            </figure>\
-							            <div class="item-box-overlay-title" style="height: 60px;background-color:#fff ">\
-                                    		<h4 class="nomargin" style="font-size: 14px; color: #414141; height: 38px;overflow: hidden;">'+v.description+'</h4>\
-                                		</div>\
 							        </a>\
 							    </div>\
 							</li>';					
@@ -405,7 +400,7 @@ function getStarProduct() {
 					getStarProduct();
 					addInfo('starproduct_info');
 				}else{
-					console.log('no-repeat');
+					//console.log('no-repeat');
 				}
 			}
 
@@ -435,24 +430,21 @@ function getScienceProduct() {
 					}
 					if (img.indexOf('//oq39378n2.bkt.clouddn.com/')>=0) {
 						img = img.split("w/")[0];
-						img = img+'w/324/h/373';
+						img = img+'w/324/h/433';
 					}
 					var j = k+1;
 					html+='<li class="mix development col-md-3 col-sm-3 studytour-item" style="display: block;  opacity: 1;">\
 							    <div class="item-box thumbnail">\
 							        <a href="/p/'+v.id+'.html" title="'+v.title+'">\
-							            <figure style="height: 373px;">\
+							            <figure>\
 							                <span class="item-hover">\
 							                    <span class="overlay dark-5"></span>\
 							                </span>\
-							                <div class="item-box-overlay-title text-center title">\
-                                    			<h4 class="nomargin">'+v.title+'</h4>\
+							                <div class="item-box-overlay-title text-center text-title">\
+                                    			<h4 class="nomargin title">'+v.title+'</h4>\
                                				</div>\
 							                <img class="img-responsive" src="'+img+'"  alt="">\
 							            </figure>\
-							            <div class="item-box-overlay-title" style="height: 60px;background-color:#fff ">\
-                                    		<h4 class="nomargin" style="font-size: 14px; color: #414141;height: 38px;overflow: hidden;">'+v.description+'</h4>\
-                                		</div>\
 							        </a>\
 							    </div>\
 							</li>';					
@@ -468,7 +460,7 @@ function getScienceProduct() {
 					getScienceProduct();
 					addInfo('scienceproduct_info');
 				}else{
-					console.log('no-repeat');
+					//console.log('no-repeat');
 				}
 			}
 
@@ -505,18 +497,15 @@ function getSpecialProduct() {
 					html+='<li class="mix development col-md-3 col-sm-3 community-item" style="display: block;  opacity: 1;">\
 							    <div class="item-box thumbnail">\
 							        <a href="/p/'+v.id+'.html" title="'+v.title+'">\
-							            <figure style="height: 373px;">\
+							            <figure>\
 							                <span class="item-hover">\
 							                    <span class="overlay dark-5"></span>\
 							                </span>\
-							                <div class="item-box-overlay-title text-center title">\
-                                    			<h4 class="nomargin">'+v.title+'</h4>\
+							                <div class="item-box-overlay-title text-center text-title">\
+                                    			<h4 class="nomargin title">'+v.title+'</h4>\
                                				</div>\
 							                <img class="img-responsive" src="'+img+'"  alt="">\
 							            </figure>\
-							            <div class="item-box-overlay-title" style="height: 60px;background-color:#fff ">\
-                                    		<h4 class="nomargin" style="font-size: 14px; color: #414141; height: 38px;overflow: hidden;">'+v.description+'</h4>\
-                                		</div>\
 							        </a>\
 							    </div>\
 							</li>';					
@@ -532,7 +521,7 @@ function getSpecialProduct() {
 					getSpecialProduct();
 					addInfo('specialproduct_info');
 				}else{
-					console.log('no-repeat');
+					//console.log('no-repeat');
 				}
 			
 			}
@@ -577,8 +566,8 @@ function getHotTour() {
 												<span class="item-hover">\
 													<span class="overlay dark-5"></span>\
 												</span>\
-												<div class="item-box-overlay-title text-center title">\
-													<h4 class="nomargin">'+v.title+'</h4>\
+												<div class="item-box-overlay-title text-center text-title text-title">\
+													<h4 class="nomargin title">'+v.title+'</h4>\
 												</div>\
 												<img class="img-responsive" src="'+img+'"  alt="">\
 											</figure>\
@@ -597,7 +586,7 @@ function getHotTour() {
 					getHotTour();
 					addInfo('hottour_info');
 				}else{
-					console.log('no-repeat');
+					//console.log('no-repeat');
 				}
 			}
 
@@ -681,7 +670,7 @@ function getRelate() {
 					getHot();
 					addInfo('relateproduct_info');
 				}else{
-					console.log('no-repeat');
+					//console.log('no-repeat');
 				}
 
 			}
@@ -692,7 +681,7 @@ function getRelate() {
 }
 //产品详情-热门 
 function getPopular() {
-	console.log("popular");
+	//console.log("popular");
 	var html = '';
 	var img = '';
 	var page = parseInt(localStorage.getItem("popularproduct_page")) ;
@@ -723,14 +712,11 @@ function getPopular() {
 												<span class="item-hover">\
 													<span class="overlay dark-5"></span>\
 												</span>\
-												<div class="item-box-overlay-title text-center title text-title">\
-													<h4 class="nomargin">'+v.title+'</h4>\
+												<div class="item-box-overlay-title text-center text-title">\
+													<h4 class="nomargin title">'+v.title+'</h4>\
 												</div>\
 												<img class="img-responsive" src="'+img+'"  alt="">\
 											</figure>\
-											<div class="item-box-overlay-title text-center" style="height: 42px;background-color:#fff ">\
-				                                <h5 style="margin-bottom: 0px;">'+v.description+'</h5>\
-				                            </div>\
 										</a>\
 										</div>\
 									</li>';					
@@ -745,7 +731,7 @@ function getPopular() {
 					getPopular();
 					addInfo('popularproduct_info');
 				}else{
-					console.log('no-repeat');
+					//console.log('no-repeat');
 				}
 
 			}
@@ -754,3 +740,15 @@ function getPopular() {
 	});
 	
 }
+
+$(".mix-grid").on("mouseenter","figure",function(){         
+    if($(this).find(".text-title h4").hasClass("title")){
+        $(this).find(".text-title h4").removeClass("title")                
+    }
+})
+$(".mix-grid").on("mouseleave","figure",function(){
+    //if($(this).find(".goup").hasClass("title")){
+        $(this).find(".text-title h4").addClass("title")
+    //}
+
+})

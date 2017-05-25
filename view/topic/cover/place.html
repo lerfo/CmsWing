@@ -105,7 +105,7 @@
         width: 25%;
         padding-left: 10px;
         padding-right: 10px;
-        height: 424px;
+        height: 332px;
     }
     #studytour ul#studytour-ul .studytour-item-2 {
         width: 25.71%;
@@ -298,7 +298,7 @@
                                 </span>
 
                                 <!-- overlay title -->
-                                <div class="item-box-overlay-title text-center">
+                                <div class="item-box-overlay-title text-center text-title">
                                     <h4 class="nomargin title">{{v.title}}</h4>
                                 </div><!-- /overlay title -->
                                 {% if i == 1 or i == 3 %}
@@ -352,7 +352,7 @@
 
                         <div class="item-box thumbnail">
                         <a href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
-                            <figure style="height: 332px;">
+                            <figure>
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
                                     {#
@@ -371,7 +371,10 @@
                                     </span>
                                     #}
                                 </span>
-
+								<!-- overlay title -->
+                                <div class="item-box-overlay-title text-center text-title">
+                                    <h4 class="nomargin title">{{v.title}}</h4>
+                                </div><!-- /overlay title -->
                                 
 
                             
@@ -379,10 +382,9 @@
                            
                             </figure>
                             <!-- overlay title -->
-                                <div class="item-box-overlay-title " style="height: 100px;background-color:#fff ">
+                                <!-- <div class="item-box-overlay-title " style="height: 100px;background-color:#fff ">
                                     <h4 class="nomargin show-two text-center" style="font-size: 14px; color: #414141; text-overflow:ellipsis;font-weight: 600;height: 24px;">{{v.title}}</h4>
-                                    <h5 style="height: 40px;overflow: hidden;margin-bottom:0px;">{{v.description}}</h5>
-                                </div><!-- /overlay title -->
+                                </div> --><!-- /overlay title -->
                         </a>
                         </div>
 
@@ -2967,19 +2969,6 @@
                $(".community-ul").css("background","#fff")
             }
    
-        })
-
-
-        $(".mix-grid").on("mouseenter","figure",function(){         
-            if($(this).find(".item-box-overlay-title h4").hasClass("title")){
-                $(this).find(".item-box-overlay-title h4").removeClass("title")                
-            }
-        })
-        $(".mix-grid").on("mouseleave","figure",function(){
-            //if($(this).find(".goup").hasClass("title")){
-                $(this).find(".item-box-overlay-title h4").addClass("title")
-            //}
-
         })
 
 
