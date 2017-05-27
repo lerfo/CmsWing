@@ -304,6 +304,12 @@ ul.blog-post-info li a:after {
     text-overflow: ellipsis;
     white-space: nowrap
 }
+.end-single{
+    position: absolute;
+    height: 140px;
+    top: -10px;
+    right: 14px;
+}
 </style>
 <!--
 PAGE HEADER
@@ -340,15 +346,18 @@ CLASSES:
             <div class="row mix-grid">
                 <ul id="destination-ul" style="padding-left: 0px;">
                     
-                    {% hotrecommend data = "lis", limit= "3", issub=1, ischild=1, page=0 %}
+                    {% hotrecommend data = "list", position="1",limit= "3", issub=1, ischild=1, page=0 %}
                     {%set i = 1%}
-                    {% for v in lis %}
+                    {% for v in list %}
                 
                     <li class="mix development 	col-md-3 col-sm-3 destination-item-{{i}}"><!-- item -->
                 
                         <div class="item-box thumbnail">
                         <a href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
                             <figure>
+                                {% if v.favflag == 1 %}  
+                                <img class="end-single"  src="/static/assets/images/end_single.png" />  
+                                {% endif%}
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
                                     {#

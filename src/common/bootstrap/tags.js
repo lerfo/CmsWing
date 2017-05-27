@@ -614,7 +614,7 @@
         }
         //推荐
         if(!think.isEmpty(args.position)){
-            where = think.extend(where,{position:args.position})
+            where = think.extend(where,{position:["like",'%"'+args.position+'"%'] })
         }
         //是否缩略图
         if(!think.isEmpty(args.ispic)){

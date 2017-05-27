@@ -25,7 +25,13 @@ $(function(){
 	localStorage.removeItem("popularproduct_info");
 });
 
-//当页面加载条数不够 页数重复为1时 添加信息
+/**
+ * 当页面加载条数不够 
+ * 导致页数重复为1时 
+ * 添加重复信息*_info到localStorage
+ * 分页方法中判断是否存在重复信息
+ * 避免死循环
+ */
 function addInfo(info) {
 	//console.log('info');
 	switch(info){
@@ -66,24 +72,28 @@ function addInfo(info) {
 	}
 }
 
+/**
+ * @param: {int}  favflag:是否存在尾单. 1:存在 
+ * @return: {string}  html
+ *
+ * @data:2017-05-26 
+ */
+function isFavflag(favflag) {
+	return favflag==1?'<img class="end-single"  src="/static/assets/images/end_single.png"/>':null;
+}
+
 //首页--热门  
 //目的地-热门
 function getHot() {
-	//console.log("hot");
 	var html = '';
 	var img = '';
 	var page = parseInt(localStorage.getItem("hotstudytour_page")) ;
-	//console.log(page);
 	$.ajax({
 		type:"get",
-		url:"/ajax/topic?q=&page="+page+"&limit=6&value=132-2-0-17-tourtype_0|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0",
+		url:"/ajax/topic?q=&page="+page+"&limit=6&position=1&value=132-0-0-17-tourtype_0|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0",
 		success:function(dataResult){
-			//console.log(dataResult);
-
 			if (dataResult.data.length == 6) {
-				//console.log(page);
 				$.each(dataResult.data,function(k,v){
-					//console.log(v.title+':'+v.view);
 					img = v.cover_url;	
 					if (0==img.length) {
 						img = '/static/noimg.jpg';
@@ -104,8 +114,11 @@ function getHot() {
 					html+='<li class="mix development col-md-3 col-sm-3 destination-item-'+j+'" style="display: block;  opacity: 1;">\
 										<div class="item-box thumbnail">\
 										<a class="peanutRoll_a" href="/p/'+v.id+'.html" title="'+v.title+'">\
-											<figure>\
-												<span class="item-hover">\
+											<figure>';
+					if (null!=isFavflag(v.favflag)){
+						html += isFavflag(v.favflag);
+					}
+					html+=						'<span class="item-hover">\
 													<span class="overlay dark-5"></span>\
 												</span>\
 												<div class="item-box-overlay-title text-center text-title">\
@@ -122,8 +135,6 @@ function getHot() {
 				localStorage.setItem("hotstudytour_page",page);
 			}else{
 				localStorage.setItem("hotstudytour_page",1);
-				//getHot();
-
 				if (null== localStorage.getItem("hotstudytour_info")) {
 					getHot();
 					addInfo('hotstudytour_info');
@@ -139,14 +150,9 @@ function getHot() {
 }
 //首页--游学
 function getTourStudy() {
-	//console.log("youxue");
 	var html = '';
 	var img = '';
 	var page = parseInt(localStorage.getItem("studytour_page")) ;
-	//console.log(page);
-	/*if (isNaN(page) || null==page ) {
-		page = 2 ;  
-	}*/
 	$.ajax({
 		type:"get",
 		url:"/ajax/topic?q=&page="+page+"&limit=4",
@@ -162,7 +168,6 @@ function getTourStudy() {
 						img = img.split("w/")[0];
 						if (k==0 || k==3) {	
 							img = img+'w/612/h/324';
-							//console.log("1--4");
 						}else{
 							img = img+'w/508/h/324';
 						}
@@ -171,8 +176,11 @@ function getTourStudy() {
 					html+='<li class="mix development col-md-4 col-sm-4 studytour-item-'+j+'" style="display: block;  opacity: 1;">\
 										<div class="item-box thumbnail">\
 										<a class="peanutRoll_a" href="/p/'+v.id+'.html" title="'+v.title+'">\
-											<figure>\
-												<span class="item-hover">\
+											<figure>';
+					if (null!=isFavflag(v.favflag)){
+						html += isFavflag(v.favflag);
+					}
+					html+=						'<span class="item-hover">\
 													<span class="overlay dark-5"></span>\
 												</span>\
 												<div class="item-box-overlay-title text-center text-title">\
@@ -189,8 +197,6 @@ function getTourStudy() {
 				localStorage.setItem("studytour_page",page);
 			}else{
 				localStorage.setItem("studytour_page",1);
-				//getTourStudy();
-				
 				if (null== localStorage.getItem("studytour_info")) {
 					getHot();
 					addInfo('studytour_info');
@@ -207,13 +213,8 @@ function getTourStudy() {
 function getCommunity() {
 	var  html = '';
 	var  img = '';
+	var col = '';
 	var page = parseInt(localStorage.getItem("community_page")) ;
-	//console.log(page);
-	/*if (isNaN(page)) {
-		page = 1 ;  
-	}else if (null==page) {
-		page = 1;
-	}*/
 	$.ajax({
 		type:"get",
 		url:"ajax/question?cid=124&page="+page+"&limit=4",
@@ -228,21 +229,46 @@ function getCommunity() {
 						img = img.split("w/")[0];
 						if (k<3) {	
 							img = img+'w/372/h/434';
+							col = 'col-md-4 col-sm-4 ';
 						}else{
 							img = img+'w/1140/h/514';
+							col = 'col-md-12 col-sm-12 ';
 						}
 					}
 
-					if (k<3) {
+					var j = k+1;
+					html+= '<li class="mix development '+col+'community-item-'+j+'" style="display: block;  opacity: 1;">\
+								<div class="item-box thumbnail">\
+								<a class="peanutRoll_a" href="/mod/question/'+v.id+'.html" title="'+v.title+'">\
+									<figure>'
+					if (null!=isFavflag(v.favflag)){
+						html += isFavflag(v.favflag);
+					}				
+					html+='				<span class="item-hover">\
+    										<span class="overlay dark-5"></span>\
+										</span>\
+										<div class="item-box-overlay-title text-center text-title">\
+											<h4 class="nomargin title">'+v.title+'</h4>\
+										</div>\
+										<img class="img-responsive" src="'+img+'"  alt="">\
+									</figure>\
+								</a>\
+								</div>\
+							</li>';
+
+
+					/*if (k<3) {
 						var j = k+1;
+						console.log(j);
 						html+= '<li class="mix development col-md-4 col-sm-4 community-item-'+j+'" style="display: block;  opacity: 1;">\
 									<div class="item-box thumbnail">\
 									<a class="peanutRoll_a" href="/mod/question/'+v.id+'.html" title="'+v.title+'">\
-										<figure>\
-											<span class="item-hover">\
-												<span class="overlay dark-5"></span>\
-											</span>\
-											<div class="item-box-overlay-title text-center text-title">\
+										<figure>'
+						if (null!=isFavflag(v.favflag)){
+							console.log('no favflag');
+							html += isFavflag(v.favflag);
+						}				
+						html+='				<div class="item-box-overlay-title text-center text-title">\
 												<h4 class="nomargin title">'+v.title+'</h4>\
 											</div>\
 											<img class="img-responsive" src="'+img+'"  alt="">\
@@ -254,11 +280,12 @@ function getCommunity() {
 						html+= '<li class="mix development col-md-12 col-sm-12 community-item-4" style="display: block;  opacity: 1;">\
 									<div class="item-box thumbnail">\
 									<a class="peanutRoll_a" href="/mod/question/'+v.id+'.html" title="'+v.title+'">\
-										<figure>\
-											<span class="item-hover">\
-												<span class="overlay dark-5"></span>\
-											</span>\
-											<div class="item-box-overlay-title text-center text-title">\
+										<figure>'
+						if (null!=isFavflag(v.favflag)){
+							console.log('no favflag');
+							html += isFavflag(v.favflag);
+						}	
+						html+='				<div class="item-box-overlay-title text-center text-title">\
 												<h4 class="nomargin title">'+v.title+'</h4>\
 											</div>\
 											<img class="img-responsive" src="'+img+'"  alt="">\
@@ -266,14 +293,14 @@ function getCommunity() {
 									</a>\
 									</div>\
 								</li>';
-						}
+						}*/
 			    });
+			    //console.log(html);
 			    page=page+1;
 				localStorage.setItem("community_page",page);
 			   	$("#community").find("#community-ul").html(html);
 			}else{
 				localStorage.setItem("community_page",1);
-				//getCommunity();
 
 				if (null== localStorage.getItem("community_info")) {
 					getCommunity();
@@ -288,21 +315,15 @@ function getCommunity() {
 }
 //目的地-热门产品
 function getHotProduct(){
-	//console.log("hotproduct");
 	var html = '';
 	var img = '';
 	var page = parseInt(localStorage.getItem("hotproduct_page")) ;
-	//console.log(page);
 	$.ajax({
 		type:"get",
 		url:"/ajax/topic?q=&page="+page+"&limit=8&value=132-3-0-17-tourtype_0|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0",
 		success:function(dataResult){
-			//console.log(dataResult);
-
 			if (dataResult.data.length == 8) {
-				//console.log(page);
 				$.each(dataResult.data,function(k,v){
-					//console.log(v.title+':'+v.view);
 					img = v.cover_url;	
 					if (0==img.length) {
 						img = '/static/noimg.jpg';
@@ -315,11 +336,14 @@ function getHotProduct(){
 					html+='<li class="mix development col-xs-3 studytour-item" style="display: block;  opacity: 1;">\
 							    <div class="item-box thumbnail">\
 							        <a href="/p/'+v.id+'.html" title="'+v.title+'">\
-							            <figure>\
-							                <span class="item-hover">\
-							                    <span class="overlay dark-5"></span>\
-							                </span>\
-							                 <div class="item-box-overlay-title text-center text-title">\
+							            <figure>';
+					if (null!=isFavflag(v.favflag)){
+						html += isFavflag(v.favflag);
+					}
+					html+='	                <span class="item-hover">\
+											    <span class="overlay dark-5"></span>\
+											</span>\
+											<div class="item-box-overlay-title text-center text-title">\
                                     			<h4 class="nomargin title">'+v.title+'</h4>\
                                 			</div>\
 							                <img class="img-responsive" src="'+img+'"  alt="">\
@@ -348,22 +372,15 @@ function getHotProduct(){
 }
 //游学-明星产品
 function getStarProduct() {
-	//console.log("star");
 	var html = '';
 	var img = '';
 	var page = parseInt(localStorage.getItem("starproduct_page")) ;
-	//console.log(page);
 	$.ajax({
 		type:"get",
 		url:"/ajax/topic?q=&page="+page+"&limit=3&value=132-3-0-17-tourtype_0|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0",
 		success:function(dataResult){
-			//console.log(dataResult);
-
 			if (dataResult.data.length == 3) {
-				//console.log(page);
 				$.each(dataResult.data,function(k,v){
-					//console.log(v.title+':'+v.view);
-					//console.log(v.description);
 					img = v.cover_url;	
 					if (0==img.length) {
 						img = '/static/noimg.jpg';
@@ -376,11 +393,14 @@ function getStarProduct() {
 					html+='<li class="mix development col-md-3 col-sm-3 destination-item" style="display: block;  opacity: 1;">\
 							    <div class="item-box thumbnail">\
 							        <a href="/p/'+v.id+'.html" title="'+v.title+'">\
-							            <figure>\
-							                <span class="item-hover">\
-							                    <span class="overlay dark-5"></span>\
-							                </span>\
-							                <div class="item-box-overlay-title text-center text-title">\
+							            <figure>';
+					if (null!=isFavflag(v.favflag)){
+						html += isFavflag(v.favflag);
+					}
+					html+='					<span class="item-hover">\
+											    <span class="overlay dark-5"></span>\
+											</span>\
+											<div class="item-box-overlay-title text-center text-title">\
                                     			<h4 class="nomargin title">'+v.title+'</h4>\
                                				</div>\
 							                <img class="img-responsive" src="'+img+'"  alt="">\
@@ -436,11 +456,14 @@ function getScienceProduct() {
 					html+='<li class="mix development col-md-3 col-sm-3 studytour-item" style="display: block;  opacity: 1;">\
 							    <div class="item-box thumbnail">\
 							        <a href="/p/'+v.id+'.html" title="'+v.title+'">\
-							            <figure>\
-							                <span class="item-hover">\
-							                    <span class="overlay dark-5"></span>\
-							                </span>\
-							                <div class="item-box-overlay-title text-center text-title">\
+							            <figure>';
+					if (null!=isFavflag(v.favflag)){
+						html += isFavflag(v.favflag);
+					}
+					html+='					<span class="item-hover">\
+											    <span class="overlay dark-5"></span>\
+											</span>\
+											<div class="item-box-overlay-title text-center text-title">\
                                     			<h4 class="nomargin title">'+v.title+'</h4>\
                                				</div>\
 							                <img class="img-responsive" src="'+img+'"  alt="">\
@@ -469,22 +492,15 @@ function getScienceProduct() {
 }
 //游学-特色类产品
 function getSpecialProduct() {
-	//console.log('tese');
 	var html = '';
 	var img = '';
 	var page = parseInt(localStorage.getItem("specialproduct_page")) ;
-	//console.log(page);
 	$.ajax({
 		type:"get",
 		url:"/ajax/topic?q=&page="+page+"&limit=6&value=132-3-0-17-tourtype_0|tourfeature_2|tourdest_0|tourdays_0|tourmonth_0",
 		success:function(dataResult){
-			//console.log(dataResult);
-
 			if (dataResult.data.length == 6) {
-				//console.log(page);
 				$.each(dataResult.data,function(k,v){
-					//console.log(v.title+':'+v.view);
-					//console.log(v.description);
 					img = v.cover_url;	
 					if (0==img.length) {
 						img = '/static/noimg.jpg';
@@ -497,11 +513,14 @@ function getSpecialProduct() {
 					html+='<li class="mix development col-md-3 col-sm-3 community-item" style="display: block;  opacity: 1;">\
 							    <div class="item-box thumbnail">\
 							        <a href="/p/'+v.id+'.html" title="'+v.title+'">\
-							            <figure>\
-							                <span class="item-hover">\
-							                    <span class="overlay dark-5"></span>\
-							                </span>\
-							                <div class="item-box-overlay-title text-center text-title">\
+							            <figure>';
+					if (null!=isFavflag(v.favflag)){
+						html += isFavflag(v.favflag);
+					}
+					html+='					<span class="item-hover">\
+											    <span class="overlay dark-5"></span>\
+											</span>\
+											<div class="item-box-overlay-title text-center text-title">\
                                     			<h4 class="nomargin title">'+v.title+'</h4>\
                                				</div>\
 							                <img class="img-responsive" src="'+img+'"  alt="">\
@@ -531,21 +550,15 @@ function getSpecialProduct() {
 }
 //社区-热门
 function getHotTour() {
-	//console.log("hottour");
 	var html = '';
 	var img = '';
 	var page = parseInt(localStorage.getItem("hottour_page")) ;
-	//console.log(page);
 	$.ajax({
 		type:"get",
-		url:"/ajax/topic?q=&page="+page+"&limit=3&value=132-2-0-17-tourtype_0|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0",
+		url:"/ajax/topic?q=&page="+page+"&limit=3&position=1&value=132-0-0-17-tourtype_0|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0",
 		success:function(dataResult){
-			//console.log(dataResult);
-
 			if (dataResult.data.length == 3) {
-				//console.log(page);
 				$.each(dataResult.data,function(k,v){
-					//console.log(v.title+':'+v.view);
 					img = v.cover_url;	
 					if (0==img.length) {
 						img = '/static/noimg.jpg';
@@ -562,9 +575,13 @@ function getHotTour() {
 					html+='<li class="mix development col-md-3 col-sm-3 destination-item-'+j+'" style="display: block;  opacity: 1;">\
 										<div class="item-box thumbnail">\
 										<a class="peanutRoll_a" href="/p/'+v.id+'.html" title="'+v.title+'">\
-											<figure>\
-												<span class="item-hover">\
-													<span class="overlay dark-5"></span>\
+											<figure>';
+					if (null!=isFavflag(v.favflag)){
+						console.log('no favflag');
+						html += isFavflag(v.favflag);
+					}
+					html+='						<span class="item-hover">\
+											    	<span class="overlay dark-5"></span>\
 												</span>\
 												<div class="item-box-overlay-title text-center text-title text-title">\
 													<h4 class="nomargin title">'+v.title+'</h4>\
@@ -605,12 +622,8 @@ function getRelate() {
 		type:"get",
 		url:"/ajax/topic?q=&page="+page+"&limit=8&value=132-0-0-17-tourtype_0|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0",
 		success:function(dataResult){
-			//console.log(dataResult);
-			//localStorage.setItem("relateproduct_page",2);//相关产品
 			if (dataResult.data.length == 8) {
-				//console.log(page);
 				$.each(dataResult.data,function(k,v){
-					//console.log(v.title+':'+v.view);
 					img = v.cover_url;	
 					if (0==img.length) {
 						img = '/static/noimg.jpg';
@@ -620,26 +633,6 @@ function getRelate() {
 						img = img+'w/226/h/332';
 					}
 					var j = k+1;
-					/*
-					<li class="mix development col-xs-3 studytour-item">
-					    <div class="item-box thumbnail">
-					        <a href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
-					            <figure style="height: 332px;">
-					                <span class="item-hover">
-					                    <span class="overlay dark-5"></span>
-					                </span>
-					            	<div class="item-box-overlay-title text-center" style="height: 50px;">
-					                    <h4 class="nomargin">{{v.title}}</h4>
-					                </div>
-					                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=226,h=332')}}"  alt="">
-					            </figure>
-					            <div class="item-box-overlay-title " style="height: 60px;background-color:#fff ">
-					                <h5>{{v.description}}</h5>
-					            </div>
-					        </a>
-					    </div>
-					</li>
-					 */
 					html+='<li class="mix development col-md-3 col-sm-3 studytour-item" style="display: block;opacity: 1;">\
 										<div class="item-box thumbnail">\
 										<a class="peanutRoll_a" href="/p/'+v.id+'.html" title="'+v.title+'">\
@@ -681,21 +674,15 @@ function getRelate() {
 }
 //产品详情-热门 
 function getPopular() {
-	//console.log("popular");
 	var html = '';
 	var img = '';
 	var page = parseInt(localStorage.getItem("popularproduct_page")) ;
-	//console.log(page);
 	$.ajax({
 		type:"get",
-		url:"/ajax/topic?q=&page="+page+"&limit=8&value=132-2-0-17-tourtype_0|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0",
+		url:"/ajax/topic?q=&page="+page+"&limit=8&position=1&value=132-0-0-17-tourtype_0|tourfeature_0|tourdest_0|tourdays_0|tourmonth_0",
 		success:function(dataResult){
-			//console.log(dataResult);
-
 			if (dataResult.data.length == 8) {
-				//console.log(page);
 				$.each(dataResult.data,function(k,v){
-					//console.log(v.title+':'+v.view);
 					img = v.cover_url;	
 					if (0==img.length) {
 						img = '/static/noimg.jpg';
@@ -708,9 +695,13 @@ function getPopular() {
 					html+='<li class="mix development col-md-3 col-sm-3 destination-item-'+j+'" style="display: block;  opacity: 1;">\
 										<div class="item-box thumbnail">\
 										<a href="/p/'+v.id+'.html" title="'+v.title+'">\
-											<figure>\
-												<span class="item-hover">\
-													<span class="overlay dark-5"></span>\
+											<figure>';
+					if (null!=isFavflag(v.favflag)){
+						console.log('no favflag');
+						html += isFavflag(v.favflag);
+					}
+					html+='						<span class="item-hover">\
+											    	<span class="overlay dark-5"></span>\
 												</span>\
 												<div class="item-box-overlay-title text-center text-title">\
 													<h4 class="nomargin title">'+v.title+'</h4>\
@@ -741,14 +732,13 @@ function getPopular() {
 	
 }
 
+
+// Title 显示超出大小隐藏多余并...  鼠标移上去时显示完全
 $(".mix-grid").on("mouseenter","figure",function(){         
     if($(this).find(".text-title h4").hasClass("title")){
         $(this).find(".text-title h4").removeClass("title")                
     }
 })
 $(".mix-grid").on("mouseleave","figure",function(){
-    //if($(this).find(".goup").hasClass("title")){
-        $(this).find(".text-title h4").addClass("title")
-    //}
-
+	$(this).find(".text-title h4").addClass("title")
 })

@@ -219,6 +219,8 @@ export default class extends Base {
             //会员组
             let usergroup = await this.model("member_group").select();
             this.assign("usergroup",usergroup);
+            this.assign("is_admin",this.is_admin);
+            this.assign("uid",this.user.uid);
             //获取管理组
             let role = this.model("auth_role").where({status:1}).select();
             this.assign("role",role);

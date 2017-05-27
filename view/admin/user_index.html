@@ -20,9 +20,9 @@
 
                     <div class="col-sm-9 m-b-xs">
                         <div class="">
-                            <a href="/admin/user/adduser" class="btn btn-sm btn-info " data-toggle="ajaxModal">
+                            <!--<a href="/admin/user/adduser" class="btn btn-sm btn-info " data-toggle="ajaxModal">
                                 添加用户
-                            </a>
+                            </a>-->
                             <a class="btn btn-sm btn-info ajax-post" href="/admin/user/setstatus/status/1/model/member"  target-form="ids">
                                 启用
                             </a>
@@ -52,11 +52,15 @@
                             <th >uid</th>
                             <th class="">用户名</th>
                             <th class="">邮箱</th>
-                            <th class="">用户组</th>
-                            <th class="">注册ip</th>
+                            <th class="">手机</th>
+                            <th class="">姓名</th>
+                            <th class="">性别</th>
+                            <!--<th class="">用户组</th>
+                            <th class="">注册ip</th>-->
                             <th class="">最后登录</th>
-                            <th class="">金钱总数</th>
-                            <th class="">积分点数</th>
+                            <th class="">注册日期</th>
+                            <!--<th class="">金钱总数</th>
+                            <th class="">积分点数</th>-->
                             <th class="">状态</th>
                             <th >操作</th>
                         </tr>
@@ -69,11 +73,15 @@
                             <td>{{item.id}}</td>
                             <td><a href="/admin/user/showuser/id/{{item.id}}" class="text-info" data-toggle="ajaxModal">{{item.username}} <i class="fa fa-search-plus"></i> </a> </td>
                             <td>{{item.email}}</td>
-                            <td>{{group.name}}</td>
-                            <td>{{item.reg_ip|int2ip}}</td>
+                            <td>{{item.mobile}}</td>
+                            <td>{{item.real_name}}</td>
+                            <td>{%if item.sex ==1 %}男{%elseif item.sex ==2%}女{%else%}未知{%endif%}</td>
+                            <!--<td>{{group.name}}</td>
+                            <td>{{item.reg_ip|int2ip}}</td>-->
                             <td>{{item.last_login_time | moment('YYYY-MM-DD HH:mm:ss')}}</td>
-                            <td>{{item.amount}}</td>
-                            <td>{{item.score}}</td>
+                            <td>{{item.reg_time | moment('YYYY-MM-DD HH:mm:ss')}}</td>
+                           <!-- <td>{{item.amount}}</td>
+                            <td>{{item.score}}</td>-->
                             <td>
                                 {%if item.id|in_Array(controller.config('user_administrator'))%}{%else%}
                                 <a href="/admin/user/setstatus/ids/{{item.id}}/status/{{1-item.status}}/model/member" class="active ajax-get" data-toggle="class">
@@ -84,9 +92,10 @@
                             </td>
 
                             <td>
-                                <a href="/admin/user/edituser/id/{{item.id}}" class="text-info" data-toggle="ajaxModal">编辑</a>
-                                <a href="/admin/user/recharge/ids/{{item.id}}" class="text-info" data-toggle="ajaxModal">充值</a>
+                                
+                                <!--<a href="/admin/user/recharge/ids/{{item.id}}" class="text-info" data-toggle="ajaxModal">充值</a>-->
                                 {%if item.id|in_Array(controller.config('user_administrator'))%}{%else%}
+                                <a href="/admin/user/edituser/id/{{item.id}}" class="text-info" data-toggle="ajaxModal">编辑</a>
                                 <a href="/admin/user/userdel?ids={{item.id}}" class="confirm ajax-get text-info">删除</a>
                                 {%endif%}
                             </td>

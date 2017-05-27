@@ -284,9 +284,10 @@ function orderEvaluation(){
 					$(`.order-evaluation${orderDataDetail.product_id} .evaluation-detail img`).attr("src",result.data.cover_url);
 					$(`.order-evaluation${orderDataDetail.product_id} .evaluation-detail .order-tit`).html("【"+orderDataDetail.title+"】");
 			        if(result.data.commentcount != 0){
-			        	var mark = result.data.score/result.data.commentcount;
+			        	var mark = result.data.score;//result.data.commentcount;
 			        	mark = mark.toFixed(1)
 			        	//console.log(mark)
+			        	//console.log(result.data.commentcount)
 			        }
 			       
 			        if(result.data.commentcount == 0){
@@ -377,12 +378,61 @@ function showEvaluation(product_id){
 	$(".aside-right").html("");
 }
 
+//验证订单评价
+function commentBlur(n){
+	var commentcontent = $('.totality'+n).val()
+	console.log(commentcontent)
+	var reg = /^\s*$/g
+	if(reg.test(commentcontent)){
+		console.log("aaa")
+		$('.totality'+n).val("请填写您的评价")
+	}
+}
+
 //提交订单评价
-$(".asideRight").on("click","button.sub-evaluation",function(){
-	//console.log("ok");
-	var data = $(".asideRight").find("form.form-info561").serialize();
+function submitComment(id){
+	console.log(id);
+	// var data = $(".form-sub"+id).serialize();
 	//console.log(data);
-})
+	let score_total = $(".form-sub"+id).find(".score-total").val()
+	console.log(score_total)
+	let commentcontent = $('.totality'+id).val()
+	console.log(commentcontent)
+	var reg = /^\s*$/g;
+	let score_guide = $(".form-sub"+id).find(".score-guide").val(),
+		score_service=$(".form-sub"+id).find(".score-service").val(),
+		score_traffic=$(".form-sub"+id).find(".score-traffic").val(),
+		score_hotel = $(".form-sub"+id).find(".score-hotel").val();
+	if(score_total==0 || score_total==""){
+		$(".form-sub"+id).find(".score-total").siblings("b").html("您还没有评分");
+	}else if(reg.test(commentcontent)){
+		$('.totality'+id).val("请填写您的评价");
+	}else if(score_guide==""&&score_service==""&&score_traffic==""&&score_hotel==""){
+		console.log("ad")
+		var r = confirm("您未对产品满意度进行任何评分，系统将默认为5分")
+		if(r){
+			$(".form-sub"+id).find(".score-guide").val(5)
+			$(".form-sub"+id).find(".score-service").val(5)
+			$(".form-sub"+id).find(".score-traffic").val(5)
+			$(".form-sub"+id).find(".score-hotel").val(5)
+		}
+	}else{
+		var data = $(".form-sub"+id).serialize();
+		$.ajax({
+			type:"post",
+			url:"/uc/booking/addcomment",
+			data:data,
+			success:function(result){
+				console.log(result)
+				if(result.errno == 0){
+					 _toastr("评价成功.","top-right","success",false);
+				}else{
+					 _toastr("评价失败！","top-right","error",false);   
+				}
+			}
+		})
+	}
+} 
 //查看行程
 function viewStroke(n){
 	var html="";

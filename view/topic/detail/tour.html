@@ -7,6 +7,15 @@
 <link href="/static/assets/plugins/fullcalendar-3.2.0/fullcalendar.print.min.css" rel="stylesheet"  media='print' />
 <link rel="stylesheet" href="/static/admin/js/datepicker/bootstrap-datetimepicker.min.css" type="text/css">
 <link rel="stylesheet" href="/static/assets/css/tour.css">
+<style type="text/css">
+	.end-single{
+	    position: absolute;
+	    height: 120px;
+	    width: 70;
+	    top: 0px;
+	    right: -10px;
+	}
+</style>
 {% endblock %}
 {% block content %}
 <!--
@@ -116,18 +125,33 @@ CLASSES:
 
 	<div class="row margin-bottom-10" style="padding-left:15px;">
 		<div class="col-lg-6 col-sm-6 price-num">
-			<div class="shop-item-price text-danger">
+			<div class="shop-item-price">
 				{#
                 {% if info.price|get_price_format('2') %}<span class="line-through nopadding-left">¥{{info.price|get_price_format('2')}}</span>{%endif%} 
                 #}
-				¥<price>{{info.price|get_price_format('1')}}</price><span>/人起</span>
+
+				{% set itemPrice = info.price|get_price_format('1') %}
+				<price class="text-danger">¥{{itemPrice | replace(",","") | round(0, "floor")}}</price><span>/人起
+				</span>							
+				{% if info.favflag == 1 %}
+					{% set originalPrice = info.price|get_price_format('2') %}
+					<s>¥{{originalPrice | replace(",","") | round(0, "floor")}}<i></i></s>
+				{% endif %}
 			</div>
 		</div>
 		<div class="col-lg-2 col-sm-2 price-num">
-			<div class="score">{{info.score}}<span>分</span></div>
+			<div class="score">{{ info.score }}<span>分</span></div>
+			{#
+				{% if info.score!== 0 and info.score!== '' and info.commentcount !== 0 and info.commentcount !== '' %}
+					{% set score = info.score/info.commentcount %}
+					
+				{% else %}
+					<div class="score">{{info.score}}<span>分</span></div>
+				{% endif %}
+			#}
 		</div>
 		<div class="col-lg-2 col-sm-2 price-num">
-			<div class="score"><span>{{info.comment}}条点评</span></div>
+			<div class="score"><span>{{info.commentcount}}条点评</span></div>
 		</div>
 		<div class="col-lg-2 col-sm-2 price-num">
 			<div class="score"><span>{{info.ordercount}}人出游</span></div>
@@ -674,74 +698,108 @@ CLASSES:
 							<a href="">点击查看更多》</a>
 						</div>-->
 						<div class="col-sm-5 global-score">	
+						{#
 							{% set score = info.score/info.commentcount %}
-							<p>{{ score | round(1, 'round')}}</p>
+						#}
+							<p>{{ info.score }}</p>
 							<span>总体评分</span>
 							<input class="proid" type="hidden" value="{{info.id}}">
 						</div>
 						<div class="col-sm-7 score-detail">
-							<ul>
-								<li class="clear">
-									<b>5分</b>
-									<b class="count count5"></b>
-									<span>
-										<i class="big-solid"></i>
-										<i class="big-solid"></i>
-										<i class="big-solid"></i>
-										<i class="big-solid"></i>
-										<i class="big-solid"></i>										
-									</span>
-									<b>非常好</b>
-								</li>
-								<li class="clear">
-									<b>4分</b>
-									<b class="count count4"></b>
-									<span>
-										<i class="big-solid"></i>
-										<i class="big-solid"></i>
-										<i class="big-solid"></i>
-										<i class="big-solid"></i>
-										<i class="big-heart"></i>										
-									</span>
-									<b>很好</b>
-								</li>
-								<li class="clear">
-									<b>3分</b>
-									<b class="count count3"></b>
-									<span>
-										<i class="big-solid"></i>
-										<i class="big-solid"></i>
-										<i class="big-solid"></i>
-										<i class="big-heart"></i>
-										<i class="big-heart"></i>										
-									</span>
-									<b>一般</b>
-								</li>
-								<li class="clear">
-									<b>2分</b>
-									<b class="count count2"></b>
-									<span>
-										<i class="big-solid"></i>
-										<i class="big-solid"></i>
-										<i class="big-heart"></i>
-										<i class="big-heart"></i>
-										<i class="big-heart"></i>										
-									</span>
-									<b>差</b>
-								</li>
-								<li class="clear">
-									<b>1分</b>
-									<b class="count count1"></b>
-									<span>
-										<i class="big-solid"></i>
-										<i class="big-heart"></i>
-										<i class="big-heart"></i>
-										<i class="big-heart"></i>
-										<i class="big-heart"></i>										
-									</span>
-									<b>很糟</b>
-								</li>
-							</ul>
+							<table>
+								<tr class="clear">
+									<td>
+										<b>5分</b>
+										<b class="count count5"></b>
+									</td>
+									<td>
+										<span>
+											<i class="big-solid"></i>
+											<i class="big-solid"></i>
+											<i class="big-solid"></i>
+											<i class="big-solid"></i>
+											<i class="big-solid"></i>										
+										</span>
+									</td>
+									<td>
+										<b>非常好</b>
+									</td>
+									
+								</tr>
+								<tr class="clear">
+									<td>
+										<b>4分</b>
+										<b class="count count4"></b>
+									</td>
+									<td>
+										<span>
+											<i class="big-solid"></i>
+											<i class="big-solid"></i>
+											<i class="big-solid"></i>
+											<i class="big-solid"></i>
+											<i class="big-heart"></i>										
+										</span>
+									</td>
+									<td>
+										<b>很好</b>
+									</td>
+
+								</tr>
+								<tr class="clear">
+									<td>
+										<b>3分</b>
+										<b class="count count3"></b>
+									</td>
+									<td>
+										<span>
+											<i class="big-solid"></i>
+											<i class="big-solid"></i>
+											<i class="big-solid"></i>
+											<i class="big-heart"></i>
+											<i class="big-heart"></i>										
+										</span>
+									</td>
+									<td>
+										<b>一般</b>
+									</td>
+								</tr>
+								<tr class="clear">
+									<td>
+										<b>2分</b>
+										<b class="count count2"></b>
+									</td>
+									<td>
+										<span>
+											<i class="big-solid"></i>
+											<i class="big-solid"></i>
+											<i class="big-heart"></i>
+											<i class="big-heart"></i>
+											<i class="big-heart"></i>										
+										</span>
+									</td>
+									<td>
+										<b>差</b>
+									</td>
+								</tr>
+								<tr class="clear">
+									<td>
+										<b>1分</b>
+										<b class="count count1"></b>
+									</td>
+									<td>
+										<span>
+											<i class="big-solid"></i>
+											<i class="big-heart"></i>
+											<i class="big-heart"></i>
+											<i class="big-heart"></i>
+											<i class="big-heart"></i>										
+										</span>
+									</td>
+									<td>
+										<b>很糟</b>
+									</td>
+								</tr>
+							</table>
 						</div>
 					</div>					
 		        </div>
@@ -1617,7 +1675,10 @@ CLASSES:
 						<div class="item-box thumbnail">
 						<!-- <a href="/youxue-0-0-17-tourdest_{{v.place_id}}|tourfeature_0|tourtype_0|tourmonth_0{{http.config('view.file_ext')}}"> -->
 						<a href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
-							<figure>
+							<figure> 
+								{% if v.favflag == 1 %} 
+                                <img class="end-single"  src="/static/assets/images/end_single.png" />  
+                                {% endif%} 
 								<span class="item-hover">
 									<span class="overlay dark-5"></span>
 									

@@ -1328,7 +1328,7 @@
         {% for item in list %}
         {% if item.status == 8 %}
         <div class="evaluation-order tab-pane fade" id="evaluation-order{{item.product_id}}">
-          <form class="evaluation-information form-info{{item.product_id}}" action="/uc/booking/addcomment" mothod="post">
+          <form class="evaluation-information form-sub{{item.product_id}}">
 
           <input type="hidden" name="product_id" value="{{item.product_id}}">
 
@@ -1385,9 +1385,10 @@
                   </li>
                 </ul>
                 <b></b>
-                <input class="hidden-score" name="score_total" value="" type="hidden"/>
+                <input class="hidden-score score-total" name="score_total" value="" type="hidden"/>
                 <div class="write-evaluation clear">
-              <textarea name="comment_content" id="totality" class="totality{{item.product_id}}" maxlength="500" onkeyup="javascript:textCounter({{item.product_id}});"></textarea>
+              <textarea name="comment_content" id="totality" class="totality{{item.product_id}}" maxlength="500" onkeyup="javascript:textCounter({{item.product_id}});" onblur="commentBlur({{item.product_id}})"
+              placeholder=""></textarea>
                   <span>还可以输入<a class="word-number" href="javascript:;">500</a>字</span>
                   <a class="btn btn-primary show-upload" href="">上传照片</a>
               
@@ -2001,7 +2002,7 @@
                       </li>
                     </ul>
                     <b></b>
-                    <input class="hidden-score" name="score_guide" value="" type="hidden"/>
+                    <input class="hidden-score score-guide" name="score_guide" value="" type="hidden"/>
                     <input class="out commentguide" type="text" placeholder="还可以输入70个字" name="comment_guide" maxlength="70">
                     <a class="btn btn-primary guide" href="">评价</a>
                   </li>
@@ -2025,7 +2026,7 @@
                       </li>
                     </ul>
                     <b></b>
-                    <input class="hidden-score" name="score_service" value="" type="hidden"/>
+                    <input class="hidden-score score-service" name="score_service" value="" type="hidden"/>
                     <input class="out commentguide" type="text" placeholder="还可以输入70个字" name="comment_service" maxlength="70">
                     <a class="btn btn-primary guide" href="">评价</a>
                   </li>
@@ -2049,7 +2050,7 @@
                       </li>
                     </ul>
                     <b></b>
-                    <input class="hidden-score" name="score_traffic" value="" type="hidden"/>
+                    <input class="hidden-score score-traffic" name="score_traffic" value="" type="hidden"/>
                     <input class="out commentguide" type="text" placeholder="还可以输入70个字" name="comment_traffic" maxlength="70">
                     <a class="btn btn-primary guide" href="">评价</a>
                   </li>
@@ -2073,7 +2074,7 @@
                       </li>
                     </ul>
                     <b></b>
-                    <input class="hidden-score" name="score_hotel" value="" type="hidden"/>
+                    <input class="hidden-score score-hotel" name="score_hotel" value="" type="hidden"/>
                     <input class="out commentguide" type="text" placeholder="还可以输入70个字" name="comment_hotel" maxlength="70">
                     <a class="btn btn-primary guide" href="">评价</a>
                   </li>
@@ -2082,7 +2083,7 @@
             </div>
 
             <div calss="form-group" style="text-align:center">
-                <button class="btn btn-primary ajax-post sub-evaluation" target-form="form-info{{item.product_id}}" type="submit" ><i class="fa fa-check"></i>发表评论</button>
+                  <a href="javascript:submitComment({{item.product_id}});" class="btn btn-primary sub-evaluation"><i class="fa fa-check"></i>发表评论</a>
             </div>        
           </form>
 

@@ -385,9 +385,10 @@ export default class extends Base {
                 as: "t",
                 on: ["id", "tid"]
 
-            }).where(map).order('level DESC,DOCUMENT.id DESC').field(field.join(",")).page(this.get("page"),20).countSelect();
+            }).where(map).order('DOCUMENT.id DESC').field(field.join(",")).page(this.get("page"),20).countSelect();
         }else {
-             list = await Document.alias('DOCUMENT').where(map).order('level DESC,DOCUMENT.id DESC').field(field.join(",")).page(this.get("page"),20).countSelect();
+            //list = await Document.alias('DOCUMENT').where(map).order('level DESC,DOCUMENT.id DESC').field(field.join(",")).page(this.get("page"),20).countSelect();
+            list = await Document.alias('DOCUMENT').where(map).order('DOCUMENT.id DESC').field(field.join(",")).page(this.get("page"),20).countSelect();
         }
         //let list=await this.model('document').where(map).order('level DESC').field(field.join(",")).page(this.get("page")).countSelect();
         let Pages = think.adapter("pages", "page"); //加载名为 dot 的 Template Adapter
@@ -691,6 +692,28 @@ export default class extends Base {
      */
     async updateAction() {
         let data = this.post();
+        console.log(data);
+        let res = await this.model('document').updates(data);
+
+        if (res) {
+            //行为记录
+            if (!res.data.id) {
+                await this.model("action").log("add_document", "document", res.id, this.user.uid, this.ip(), this.http.url);
+                this.success({name: "添加成功", url: "/admin/article/index/cate_id/" + res.data.category_id,id:res.data.id});
+            } else {
+                this.success({name: "更新成功", url: "/admin/article/index/cate_id/" + res.data.category_id,id:res.data.id});
+                
+            }
+
+        } else {
+            this.fail("操作失败！");
+        }
+    }
+    /**
+     * 更新或者添加数据 ,成功后不跳转
+     */
+    async saveAction() {
+        let data = this.post();
         ////console.log(data);
         let res = await this.model('document').updates(data);
 
@@ -698,9 +721,9 @@ export default class extends Base {
             //行为记录
             if (!res.data.id) {
                 await this.model("action").log("add_document", "document", res.id, this.user.uid, this.ip(), this.http.url);
-                this.success({name: "添加成功", url: "/admin/article/index/cate_id/" + res.data.category_id});
+                this.success({name: "添加成功", url: "/admin/article/edit/id/" + res.data.id + "/model/" + res.data.model_id +"/cate_id/"+res.data.category_id,id:res.data.id});
             } else {
-                this.success({name: "更新成功", url: "/admin/article/index/cate_id/" + res.data.category_id});
+                this.success({name: "更新成功", url: "/admin/article/edit/id/" + res.data.id + "/model/" + res.data.model_id +"/cate_id/"+res.data.category_id,id:res.data.id});
             }
 
         } else {

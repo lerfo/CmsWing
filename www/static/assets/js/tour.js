@@ -259,7 +259,7 @@ function evaluatecontent(result){
 						<div class="detaile-score">
 			`
 
-		if(v[i].score_guide !== null && v[i].score_guide !== undefined && v[i].score_guide!==""){
+		if(v[i].score_guide !== null && v[i].score_guide !== undefined && v[i].score_guide!==0){
 			html+=`
 				<div>
 					<span>导游讲解:</span>
@@ -280,7 +280,7 @@ function evaluatecontent(result){
 								</div>
 				`
 		}
-		if(v[i].score_service!==null&&v[i].score_service!==undefined && v[i].score_service!==""){	
+		if(v[i].score_service!==null&&v[i].score_service!==undefined && v[i].score_service!==0){	
 			html+=`						
 				<div>
 					<b></b>
@@ -301,7 +301,7 @@ function evaluatecontent(result){
 								</div>
 					`;
 		}
-		if(v[i].score_traffic!==null&&v[i].score_traffic!==undefined&&v[i].score_traffic!==""){	
+		if(v[i].score_traffic!==null&&v[i].score_traffic!==undefined&&v[i].score_traffic!==0){	
 			html+=`				
 				<div>
 					<b></b>
@@ -322,7 +322,7 @@ function evaluatecontent(result){
 					</div>
 					`;
 		}
-		if(v[i].score_hotel!==null&&v[i].score_hotel!==undefined&&v[i].score_hotel!==""){
+		if(v[i].score_hotel!==null&&v[i].score_hotel!==undefined&&v[i].score_hotel!==0){
 			html+=`				
 				<div>
 					<b></b>

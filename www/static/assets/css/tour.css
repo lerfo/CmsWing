@@ -1047,12 +1047,12 @@ li{
 	height:20px;
 	background:url(/static/assets/images/tour/big_heart.png) no-repeat -112px -82px;
 }
-.score-detail ul li b,
-.score-detail ul li span{
+.score-detail table tr td b,
+.score-detail table tr td span{
 	font-weight:normal;
 	float:left;
 }
-.score-detail ul li span{
+.score-detail table tr td span{
 	margin:0 20px;
 }
 .count{
@@ -1181,4 +1181,26 @@ a#destination-change:hover{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap
+}
+
+
+
+div.shop-item-price>span{
+	padding:0;
+}
+.shop-item-price s{
+	position:relative;
+	font-size:17px;
+	font-weight:bold;
+	font-family:"Microsoft Yahei";
+	color:#7d7d7d;
+}
+div.shop-item-price>s>i{
+	display: inline-block;
+	width:57px;
+	height:20px;
+	position:absolute;
+	left:4px;
+	top:-15px;
+	background: url(/static/assets/images/tour/end_single.png) no-repeat 0 0 ;
 }

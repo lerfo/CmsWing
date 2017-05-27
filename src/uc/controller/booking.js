@@ -731,7 +731,7 @@ export default class extends Base {
     //data.anonymous = data.anonymous||1;
     await this.model("tour_comment").add(data);
     //更新产品总评分
-    let document_tour = await this.model("document_tour").where({id:data.product_id}).getField("score,commentcount,socre5,socre4,socre3,socre2,socre1,imgcommentcount",true);
+    let document_tour = await this.model("document_tour").where({id:data.product_id}).getField("score,totalsocre,commentcount,socre5,socre4,socre3,socre2,socre1,imgcommentcount",true);
     document_tour.commentcount += 1;
 
     switch ( Number(data.score_total)) {
@@ -752,7 +752,8 @@ export default class extends Base {
           break;
         default:    
     }
-    document_tour.score += Number(data.score_total);
+    document_tour.totalsocre += Number(data.score_total);
+    document_tour.score = (document_tour.totalsocre/document_tour.commentcount).toFixed(1);
     if(!think.isEmpty(data.comment_img)){
       document_tour.imgcommentcount += 1;
     }

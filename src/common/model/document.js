@@ -78,7 +78,7 @@ export default class extends think.model.base {
              data[vs[1]]=(think.isEmpty(data[v])||data[v]==0)?0:new Date(data[v]).getTime();
             };
         }
-        ////console.log(data);
+        //console.log(data);
         data=data||null;
         //检查文档类型是否符合要求
         let type = data.type||2;
@@ -98,12 +98,13 @@ export default class extends think.model.base {
             data.update_time=new Date().getTime();
             data.status= await this.getStatus(data.id,data.category_id);
             var id = await this.add(data);//添加基础数据
-            ////console.log(id);
+            console.log(id);
             //let id = 100;
             if(!id){
                 this.error = '新增基础内容出错！';
                 return false
             }else {
+                data.id = id;
                 //添加分类信息
                 if(data.sort_id !=0 && !think.isEmpty(data.sort_id)){
                     let sortarr = [];

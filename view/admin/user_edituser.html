@@ -74,6 +74,7 @@
                     </div>
                 </div>
             </div>
+            {%if is_admin == 1 %}
             <div class="form-group">
                 <label class="col-sm-2 control-label">会员组</label>
 
@@ -106,6 +107,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="form-group">
                 <label class="col-sm-2 control-label">用户类型</label>
 
@@ -124,6 +126,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="form-group is_admin_group {%if user.is_admin==0%}hide{%endif%}">
                 <label class="col-sm-2 control-label">管理组</label>
 
@@ -158,6 +161,7 @@
                     </div>
                 </div>
             </div>
+            {%endif%}
         </div>
         <div class="modal-footer">
             <input type="hidden" value="{{user.id}}" name="id">

@@ -120,6 +120,12 @@
         text-overflow: ellipsis;
         white-space: nowrap
     }
+    .end-single{
+        position: absolute;
+        height: 140px;
+        top: -10px;
+        right: 14px;
+    }
 </style>
 {% endblock %}
 {% block content %}
@@ -332,6 +338,9 @@
                         <div class="item-box thumbnail">
                         <a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
                             <figure>
+                                {% if v.favflag == 1 %}  
+                                <img class="end-single"  src="/static/assets/images/end_single.png" />  
+                                {% endif%}
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
                                 </span>
@@ -389,6 +398,9 @@
                         <div class="item-box thumbnail">
                         <a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}" title="{{v.title}}">
                             <figure>
+                                {% if v.favflag == 1 %}  
+                                <img class="end-single"  src="/static/assets/images/end_single.png" />  
+                                {% endif%}
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
                                     {#
@@ -462,6 +474,9 @@
                         <div class="item-box thumbnail" title="{{v.title}}">
                         <a class="peanutRoll_a" href="{{v.name|get_url(v.id)}}">
                             <figure>
+                                {% if v.favflag == 1 %} 
+                                <img class="end-single"  src="/static/assets/images/end_single.png" />  
+                                {% endif%} 
                                 <span class="item-hover">
                                     <span class="overlay dark-5"></span>
                                     {#
