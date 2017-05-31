@@ -156,16 +156,22 @@ export default class extends Base {
     if(think.isEmpty(postdata.ids)){
         return this.fail("参数错误！");
     }
-    //console.log(postdata);
+    console.log(postdata);
     let data = [];
-    for(let val of postdata.ids){
+    if(think.isArray(postdata.ids) ){
+      for(let val of postdata.ids){
+        let tempdata = {};
+        tempdata.id = val;
+        tempdata.is_del = 1;
+        data.push(tempdata); 
+      }
+    }else{
       let tempdata = {};
-      tempdata.id = val;
+      tempdata.id = postdata.ids;
       tempdata.is_del = 1;
-      data.push(tempdata);
-      
+      data.push(tempdata); 
     }
-    //console.log(data);
+    console.log(data);
     let datalist = await this.model("discount").updateMany(data);
 
     this.meta_title = "删除优惠券";

@@ -49,14 +49,16 @@
                                 <table class="table table-hover b-t b-light">
                                     <thead>
                                     <tr>
-                                        <th style="width:20px;"><label class="checkbox m-n i-checks"><input type="checkbox"><i></i></label></th>
+                                        <th style="width:10px;"><label class="checkbox m-n i-checks"><input type="checkbox"><i></i></label></th>
                                         <th>订单号</th>
-                                        <th>订单总额</th>
+                                        <th>商品总价</th>
+                                        <th>优惠促销</th>
+                                        <th>订单金额</th>
                                         <th>会员账号</th>
                                         <th>联系人</th>
                                         <th>联系人电话</th>
                                         <th>产品信息</th>
-                                        <th>出发日期</th>
+                                        <!--<th>出发日期</th>-->
                                         <th>优惠券</th>
                                         <th>订单状态</th>
                                         <th>操作</th>
@@ -67,14 +69,15 @@
                                     {% for item in list %}
                                     <tr >
                                         <td><label class="checkbox m-n i-checks"><input class="ids" type="checkbox" name="ids" value="{{item.id}}"><i></i></label></td>
-                                         <td>{{item.order_no}}</td>
-                                          
-                                        <td>￥{{item.order_amount|formatCurrency}}</td>
+                                        <td>{{item.order_no}}</td>
+                                        <td>￥{{item.order_amount|formatCurrency}}</td>  
+                                        <td>￥{{item.discount_amount|formatCurrency}}</td>
+                                        <td>￥{{item.real_amount|formatCurrency}}</td>
                                         <td>{{item.user_id|get_nickname}}</td>
                                         <td>{{item.connect_name}}</td>
                                         <td>{{item.connect_phone}}</td>
                                         <td><a target="_blank" href="/p/{{item.product_id}}.html">{{item.title}}</a></td>
-                                        <td >{{item.start_date}}</td>
+                                        <!--<td >{{item.start_date}}</td>-->
                                         <td > {%if item.discount_code%}{{item.discount_code}}{%else%}-{%endif%}</td>
                                         <td class="text-danger">
                                           <span class="text-muted">{{item.status_desc}} </span>

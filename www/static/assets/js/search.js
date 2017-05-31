@@ -340,16 +340,19 @@ function gettourquestion(days=0){
 }; 
 
 function studytour_pagination(page) {
+    console.log('yoxuue fenye ');
     var searchword = GetQueryString("q");
     var value = GetQueryString("value");
-    console.log(value)
+    //console.log(value)
+    var cover = '';
+    var fav = '';
     var pageHTML = "";
     $.ajax({
         type:"get",
         url:"/ajax/topic?q="+searchword+"&page="+page+"&value="+value,
         success:function(dataResult){    
             $.each(dataResult.data,function(k,v){
-                if(null==v.cover_url){
+                /*if(null==v.cover_url){
                     pageHTML +='<a target="_blank" href="/p/'+v.tid+'.html"><div class="strategy-content">'+
                             
                             '<div class="strategy-txt"> '+
@@ -386,7 +389,34 @@ function studytour_pagination(page) {
                                 '</p>'+
                             '</div>'+
                             '</div></a>';     
-                }    
+                }*/ 
+                if(null==v.cover_url){
+                    cover = '/static/noimg.jpg';
+                }else{
+                    cover = v.cover_url;
+                }
+                /*if (1==v.favflag) {
+                    console.log('favflaggggggg');
+                    fav = '<img class="small-end-single"  src="/static/assets/images/small_end_single.jpg" />';
+                }*/
+                pageHTML +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+fav+
+                            '<img src='+cover+'>'+
+                            '<div class="strategy-txt"> '+
+                                '<p>'+
+                                '&nbsp;'+
+                                '</p>'+
+                                '<h2>'+
+                                    v.title +
+                                    '<span class="price-span">￥'+
+                                    v.price +
+                                    '/人起</span>'+
+                                '</h2>'+
+
+                                '<p>'+
+                                    v.description+
+                                '</p>'+
+                            '</div>'+
+                            '</div></a>';    
             });
            
             if(dataResult.currentPage < dataResult.totalPages){

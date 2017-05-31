@@ -372,6 +372,9 @@ export default class extends Base {
     //减少订单中商品的库存 TODO：需要做事务处理，同时需要确认库存是在下单后减少 还是在支付成功后
     await this.model("order_tour").stock(order_id,true);
 
+    //订单成功，设置优惠券状态为已使用（目前默认设置为提交订单即使用优惠券，订单取消返还优惠券）
+    await this.model("discount").where({code:data.discount_code,is_del:0}).update({status: 1,used_orderid:order_id,used_uid:this.user.uid,used_date:orderinfo.create_time,product_id:goods.product_id});
+
     this.assign("orderinfo",orderinfo);
     //判断浏览客户端
     if (checkMobile(this.userAgent())) {
@@ -542,8 +545,14 @@ export default class extends Base {
     order_tour_info.status = 3;
 
     let update = await this.model("order_tour").where({user_id: this.user.uid,order_no:orderid}).update(order_tour_info);
-    if(update)
+    if(update){
+      //如果订单存在优惠券，则还原优惠券为未使用
+      let findData = await this.model("order_tour").where({user_id: this.user.uid,order_no:orderid}).find();
+      if(!think.isEmpty(findData.discount_code)){
+        await this.model("discount").where({code:findData.discount_code,is_del:0}).update({status: 0,});
+      }
       return this.success("取消订单成功");
+    }
     else
       return this.fail("取消订单失败");
   }

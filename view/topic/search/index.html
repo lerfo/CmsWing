@@ -296,6 +296,12 @@
     .tourschool_pagination>a{
 		color: #3e3e3e;
     }
+    .small-end-single{
+       position: absolute;
+       top: 0px;
+       right: -2px;
+       clear:both;
+    }
 </style>
     <!--
     PAGE HEADER
@@ -555,6 +561,11 @@
                                 <!-- IMAGE -->
                                 {% if val.cover_id>0 %}
                                 <figure class="blog-item-small-image margin-bottom-0">
+                                   <!--  {% if v.favflag == 1 %} 
+                                   <div>
+                                       <img class="small-end-single"  src="/static/assets/images/small_end_single.jpg" /> 
+                                   </div>
+                                   {% endif%} -->
                                     <img class="img-responsive a-img" src="{{val.cover_id|get_pic('m=1,w=200,h=120')}}" alt="" >
                                 </figure>
                                 {% endif %}

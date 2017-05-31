@@ -15,6 +15,11 @@
 	    top: 0px;
 	    right: -10px;
 	}
+	.small-end-single{
+        position: absolute;
+        top: 0px;
+        right: -2px;
+	}
 </style>
 {% endblock %}
 {% block content %}
@@ -841,6 +846,9 @@ CLASSES:
 					<a href="{{v.name|get_url(v.id)}}">
 						<figure>
 							<div class="col-lg-6 col-sm-6" style="padding: 0;">
+								{% if v.favflag == 1 %} 
+                                <img class="small-end-single"  src="/static/assets/images/small_end_single.jpg" alt=""/> 
+                                {% endif%} 
 								<img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=200,h=120')}}"  alt="">
 							</div>
 							<div class="col-lg-6 col-sm-6 banner-right" style="padding: 0;">
@@ -1771,7 +1779,7 @@ CLASSES:
 	
 	$(document).ready(function() {
 	let str = "{{info.price|get_price_format('1')}}";
-	price = str.substr(0,str.length-3);
+	let price = parseInt(str.replace(",",""));
 	console.log(price)
 		$('#calendar').fullCalendar({
 			theme: true,

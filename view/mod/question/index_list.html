@@ -310,6 +310,11 @@ ul.blog-post-info li a:after {
     top: -10px;
     right: 14px;
 }
+.small-end-single{
+    position: absolute;
+    top: 0px;
+    right: 6px;
+}
 </style>
 <!--
 PAGE HEADER
@@ -734,6 +739,9 @@ CLASSES:
 							<a href="{{v.name|get_url(v.id)}}">
 								<figure style="width: auto;">
 									<div class="col-lg-12 col-sm-12" style="padding: 0 10px;">
+										{% if v.favflag == 1 %} 
+		                                <img class="small-end-single"  src="/static/assets/images/small_end_single.jpg" /> 
+		                                {% endif%} 
 										<img class="img-responsive" style="height: 120px;" src="{{v.cover_id|get_pic('m=1,w=190,h=120')}}"  alt="">
 									</div>
 									<div class="col-lg-12 col-sm-12" style="padding: 0 4px;">

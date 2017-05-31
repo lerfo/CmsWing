@@ -146,7 +146,12 @@ function orderDetail(n){
 
 	 html +=`            
 	 				<span>${n}成人,${m}儿童</span>  
-	                <span>金额:￥${orderDataDetail.order_amount}</span>
+	                
+	              </p>
+	              <p>
+	              <span>商品总价:￥${orderDataDetail.order_amount}</span>
+	              <span>,优惠促销:￥${orderDataDetail.discount_amount}</span>
+	              <span>,订单金额:￥${orderDataDetail.real_amount}</span>
 	              </p>
 	            </div>
 	          </div>
@@ -364,7 +369,6 @@ function orderEvaluation(){
   			
   	}
 }
-orderEvaluation()
  
 //动态显示数量
 function textCounter(n) {
@@ -374,6 +378,7 @@ function textCounter(n) {
 }
 //显示订单评价
 function showEvaluation(product_id){
+	orderEvaluation();
 	$('#evaluation-order'+product_id).addClass("active").addClass("in");
 	$(".aside-right").html("");
 }
@@ -601,7 +606,7 @@ function resultEach(pageNum){
 			            </td>
 			            <td class="col-xs-2">姓名</td>
 			            <td class="col-xs-2">出发日期</td>
-			            <td class="col-xs-1">总金额</td>
+			            <td class="col-xs-1">订单金额</td>
 			            <td class="col-xs-1">订单状态</td>
 			            <td class="col-xs-1">操作</td>
 					</tr>
@@ -613,7 +618,7 @@ function resultEach(pageNum){
 							<span>${v.connect_name}</span>
 				        </td>
 			        	<td>${v.start_date}</td>
-			        	<td>￥${v.order_amount}</td>
+			        	<td>￥${v.real_amount}</td>
 						<td>
 							<span class="text-warning">${v.status_desc}</span><br>
 							<a class="order-detail" href="javascript:orderDetail(${i})">查看详情 </a> 
