@@ -700,9 +700,9 @@ export default class extends Base {
             //行为记录
             if (!res.data.id) {
                 await this.model("action").log("add_document", "document", res.id, this.user.uid, this.ip(), this.http.url);
-                this.success({name: "添加成功", url: "/admin/article/index/cate_id/" + res.data.category_id,id:res.data.id});
+                this.success({name: "添加成功", url: "/admin/article/index/cate_id/" + res.data.category_id,id:res.data.id,model_id:res.data.model_id,category_id:res.data.category_id});
             } else {
-                this.success({name: "更新成功", url: "/admin/article/index/cate_id/" + res.data.category_id,id:res.data.id});
+                this.success({name: "更新成功", url: "/admin/article/index/cate_id/" + res.data.category_id,id:res.data.id,model_id:res.data.model_id,category_id:res.data.category_id});
                 
             }
 
@@ -711,11 +711,11 @@ export default class extends Base {
         }
     }
     /**
-     * 更新或者添加数据 ,成功后不跳转
+     * 更新或者添加数据 ,成功后跳转至编辑
      */
     async saveAction() {
         let data = this.post();
-        ////console.log(data);
+        console.log(data);
         let res = await this.model('document').updates(data);
 
         if (res) {
@@ -724,7 +724,7 @@ export default class extends Base {
                 await this.model("action").log("add_document", "document", res.id, this.user.uid, this.ip(), this.http.url);
                 this.success({name: "添加成功", url: "/admin/article/edit/id/" + res.data.id + "/model/" + res.data.model_id +"/cate_id/"+res.data.category_id,id:res.data.id});
             } else {
-                this.success({name: "更新成功", url: "/admin/article/edit/id/" + res.data.id + "/model/" + res.data.model_id +"/cate_id/"+res.data.category_id,id:res.data.id});
+                //this.success({name: "保存成功", url: "/admin/article/edit/id/" + res.data.id + "/model/" + res.data.model_id +"/cate_id/"+res.data.category_id,id:res.data.id});
             }
 
         } else {

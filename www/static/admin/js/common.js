@@ -97,6 +97,7 @@ function ajaxpost(){
     var target_form = $(this).attr('target-form');
     var that = this;
     var nead_confirm=false;
+    let button_name = $(this).attr('name') ;
     if(($(this).attr('type')=='submit') || (target = $(this).attr('href')) || (target = $(this).attr('url')) ){
         form = $('.'+target_form);
         if ($(this).attr('hide-data') === 'true'){//无数据时也可以使用的功能
@@ -161,28 +162,43 @@ function ajaxpost(){
             }
             query = form.find('input,select,textarea').serialize();
         }
+        
         $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
         $.post(target,query).success(function(data){
             //alert(JSON.stringify(data))
             //console.log(data)
             //return false;
+            console.log(target);
             if (data.errno==0) {
-                if (data.data.url) {
+                if (data.data.url && !$(that).hasClass('no-refresh') ) {
 
                     toastr.success(data.data.name + ' 页面即将自动跳转~');
                 }else{
                     toastr.success(data.data.name);
                 }
-                setTimeout(function(){
-                    $(that).removeClass('disabled').prop('disabled',false);
-                    if (data.data.url) {
-                        location.href=data.data.url;
-                    }else if( $(that).hasClass('no-refresh')){
-                        toastr.clear()
-                    }else{
-                        location.reload();
-                    }
-                },1500);
+                console.log(button_name);
+                if( button_name != 'add' ){   
+                    setTimeout(function(){
+                        $(that).removeClass('disabled').prop('disabled',false);
+                        if ( $(that).hasClass('no-refresh')){ //编辑保存按钮不刷新页面，且可以继续保存
+                            toastr.clear()
+                        }else if(data.data.url) {
+                            location.href=data.data.url;
+                        }else {
+                            location.reload();
+                        }
+                    },1500);
+                }else{  
+                    
+                    //新建保存后跳转到编辑页面继续编辑
+                    data.data.url = "/admin/article/edit/id/" + data.data.id + "/model/" + data.data.model_id +"/cate_id/"+data.data.category_id;
+                    setTimeout(function(){
+                        $(that).removeClass('disabled').prop('disabled',false);
+                            location.href=data.data.url;
+                        },1500);
+
+                    
+                }
             }else{
                 if(data.errno==1001){
                     $.each(data.errmsg,function(i,n){

@@ -82,6 +82,11 @@ c{% extends "./inc/base.html" %}
                                     </header>
                                     <div class="panel-body">
                                         <form id="ajaxForm" action="/admin/article/update" method="post" class="form-horizontal" data-validate="parsley">
+                                             <div class="form-group form-submit" style="margin-bottom: 10px;">
+                                                <div class="col-sm-4 col-sm-offset-2">
+                                                    <button class="btn btn-primary btn-s-md ajax-post no-refresh" type="submit"  target-form="form-horizontal">保存</button>
+                                                </div>
+                                            </div>
 <!--模型字段-->
 <div class="tab-content">
     <!--匹配多个数据模型-->
@@ -2326,7 +2331,7 @@ c{% extends "./inc/base.html" %}
 
                                             <div class="form-group form-submit">
                                                 <div class="col-sm-4 col-sm-offset-2">
-                                                    <button class="btn btn-primary btn-s-md ajax-post" type="submit" target-form="form-horizontal">确定</button>
+                                                    <button class="btn btn-primary btn-s-md ajax-post" type="submit"  target-form="form-horizontal">确定</button>
                                                     <button class="btn btn-default" onclick="javascript:history.back(-1);return false;" type="submit">返回</button>
                                                     <input type="hidden" name="id" value="{{data.id}}"/>
                                                     <input type="hidden" name="pid" value="{{data.pid}}"/>

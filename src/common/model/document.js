@@ -78,7 +78,7 @@ export default class extends think.model.base {
              data[vs[1]]=(think.isEmpty(data[v])||data[v]==0)?0:new Date(data[v]).getTime();
             };
         }
-        //console.log(data);
+        console.log(data);
         data=data||null;
         //检查文档类型是否符合要求
         let type = data.type||2;
@@ -97,6 +97,7 @@ export default class extends think.model.base {
             }
             data.update_time=new Date().getTime();
             data.status= await this.getStatus(data.id,data.category_id);
+            console.log("data.status:"+data.status);
             var id = await this.add(data);//添加基础数据
             console.log(id);
             //let id = 100;
