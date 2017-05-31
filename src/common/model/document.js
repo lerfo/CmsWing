@@ -104,7 +104,7 @@ export default class extends think.model.base {
                 this.error = '新增基础内容出错！';
                 return false
             }else {
-                data.id = id;
+                //data.id = id;  data.id仍应为空，还需要插入模型字段数据
                 //添加分类信息
                 if(data.sort_id !=0 && !think.isEmpty(data.sort_id)){
                     let sortarr = [];
@@ -207,11 +207,12 @@ export default class extends think.model.base {
         }else {
             model = modelinfo.name;
         }
-
+        //console.log('(data.id:'+data.id);
         if (think.isEmpty(data.id)) {//新增数据
             data.id=id;
             let ids =  this.model(model).add(data);
-            data.id=null;
+            //console.log(ids);
+            //data.id=null;
             if (!ids) {
                 this.delete(id);
                 this.error = '新增数据失败！';

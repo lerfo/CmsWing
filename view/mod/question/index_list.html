@@ -387,13 +387,15 @@ CLASSES:
                                     <h4 class="nomargin title">{{v.title}}</h4>
                                 </div><!-- /overlay title -->
                                 {% if i == 1 or i == 3 %}
-                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=307,h=457')}}"  alt="">
+                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=334,h=272')}}"  alt="">
                                 {% elif i == 2 %}
-                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=506,h=457')}}"  alt="">
+                                <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=265,h=272')}}"  alt="">
+                                {#
                                 {% elif i == 4 or i == 6 %}
                                 <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=438,h=319')}}"  alt="">
                                 {% elif i == 5 %}
                                 <img class="img-responsive" src="{{v.cover_id|get_pic('m=1,w=244,h=319')}}"  alt="">
+                                #}
                                 {% endif %}
                             </figure>
                         </a>

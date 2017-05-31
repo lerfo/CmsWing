@@ -376,7 +376,7 @@ export default class extends Base {
             //  //console.log(type);
             // //console.log(map);
         }
-        //console.log(map);
+        console.log(map);
         let list;
         if(!think.isEmpty(sortval)){
             list = await Document.alias('DOCUMENT').join({
@@ -390,6 +390,7 @@ export default class extends Base {
             //list = await Document.alias('DOCUMENT').where(map).order('level DESC,DOCUMENT.id DESC').field(field.join(",")).page(this.get("page"),20).countSelect();
             list = await Document.alias('DOCUMENT').where(map).order('DOCUMENT.id DESC').field(field.join(",")).page(this.get("page"),20).countSelect();
         }
+        console.log(list);
         //let list=await this.model('document').where(map).order('level DESC').field(field.join(",")).page(this.get("page")).countSelect();
         let Pages = think.adapter("pages", "page"); //加载名为 dot 的 Template Adapter
         let pages = new Pages(this.http); //实例化 Adapter

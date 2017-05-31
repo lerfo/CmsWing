@@ -78,6 +78,9 @@
     	background-color: transparent !important;
     	margin-left:20px !important;
     	display: inline-block;
+        overflow: visible;
+        width: 864px;
+        height: 25px;
 
     }
     ul.blog-post-info{
@@ -344,38 +347,62 @@ CLASSES:
 <section >
     <div class="container">
         <div class="row">
+            {% if category.id== 124 %}
+            <input type="hidden" name="ival">
+            <div class="heading_border heading-title heading-border heading-color margin-bottom-10" style="top: -98px;">
+                <div  class="head_img">
+                    <img src="/uc/index/avatar/uid/{{info.uid}}" >
+                    <!-- <span> {{info.uid|get_nickname}} </span> -->
+                </div>
+                <h1 class="size-19 clearfix title-h1" >{{info.title}}</h1>
+                <ul class="blog-post-info list-inline tag-ul " >
+                    <li>
+                        <!-- <span class="font-lato"> {{info.create_time|moment}}</span> -->
+                        <span class="font-lato"> {{info.create_time|dateformat('Y-m-d H:i:s')}}</span>
+                    </li>
 
+                    <li>
+                       <img class="browse-img" src="/static/assets/images/browse.png" />
+                        <span class="font-lato">{{info.view}}</span>
+                    </li>
+                    {#
+                    <li>
+                        <img class="agree-img" src="/static/assets/images/agree.png"  />
+                        <span class="font-lato"> {{info.agree_count}}</span>
+                    </li>
+                    #}
+                </ul>
+                <div class="meta margin-top-6">
+                    {% rkeywords data ="tags",type="1",mod_id="8",id=info.id%}
+                    {%set color = ["btn-primary","btn-success","btn-info","btn-warning","btn-danger"]%}
+                    {%for k in tags%}
+                    <a href="{{k.url}}" class="btn {{color|random}} btn-xs relative">
+                        {{k.keyname}}
+                    </a>
+                    {%endfor%}
+                    <!--
+                    {%if controller.is_login%}
+
+                    {%if focus.uid%}
+                    <a href="/mod/question/ajax/ajaxquestionfocus/type/2/id/{{info.id}}" class="btn btn-default btn-xs pull-right ajax-get" style="margin-top: -28px">取消关注 ({{info.focus_count}})</a>
+                    {%else%}
+                    <a href="/mod/question/ajax/ajaxquestionfocus/type/1/id/{{info.id}}" class="btn btn-primary btn-xs pull-right ajax-get" style="margin-top: -28px">关注 ({{info.focus_count}})</a>
+                    {%endif%}
+                    {%else%}
+                    <a href="/uc/public/login" class="btn btn-primary btn-xs pull-right " style="margin-top: -28px">关注 ({{info.focus_count}})</a>
+                    {%endif%}
+                    -->
+                </div>
+
+
+            </div>
+            {%endif%}
             <!-- LEFT -->
             <div class="col-md-9 col-sm-9">
 
                 <input type="hidden" name="qId" value="{{info.id}}">
 
-                {% if category.id== 124 %}
-                <input type="hidden" name="ival">
-                <div class="heading_border heading-title heading-border heading-color margin-bottom-10" style="top: -98px;">
-                    <div  class="head_img">
-                        <img src="/uc/index/avatar/uid/{{info.uid}}" >
-                        <!-- <span> {{info.uid|get_nickname}} </span> -->
-                    </div>
-                    <h1 class="size-19 clearfix title-h1" >{{info.title}}</h1>
-                    <ul class="blog-post-info list-inline tag-ul " >
-                        <li>
-                            <!-- <span class="font-lato"> {{info.create_time|moment}}</span> -->
-                            <span class="font-lato"> {{info.create_time|dateformat('Y-m-d H:i:s')}}</span>
-                        </li>
-
-                        <li>
-                           <img class="browse-img" src="/static/assets/images/browse.png" />
-                            <span class="font-lato">{{info.view}}</span>
-                        </li>
-                        {#
-                        <li>
-                            <img class="agree-img" src="/static/assets/images/agree.png"  />
-                            <span class="font-lato"> {{info.agree_count}}</span>
-                        </li>
-                        #}
-                    </ul>
-                {% else %}
+                {% if category.id== 125 %}
                 <!-- breadcrumbs -->
 		        <ol class="breadcrumb">
 		            <!-- <li><a href="/">首页</a></li>
@@ -397,8 +424,7 @@ CLASSES:
                 
                <!--  <div class="heading_border heading-title heading-border heading-color margin-bottom-10">
                    <h1 class="size-20 clearfix">{{info.title}} </h1> -->
-                {% endif %}
-                    <div class="meta margin-top-6">
+                   <div class="meta margin-top-6">
                         {% rkeywords data ="tags",type="1",mod_id="8",id=info.id%}
                         {%set color = ["btn-primary","btn-success","btn-info","btn-warning","btn-danger"]%}
                         {%for k in tags%}
@@ -422,6 +448,8 @@ CLASSES:
 
 
                 </div>
+                {% endif %}
+                    
                 <!--<div class="divider divider-dotted nomargin"></div>-->
                 {% if category.id== 124 %}
                 <div class="wangEditor-container cmswing-container" style="border: none;margin-top: -90px;">
