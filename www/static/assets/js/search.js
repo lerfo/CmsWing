@@ -395,12 +395,13 @@ function studytour_pagination(page) {
                 }else{
                     cover = v.cover_url;
                 }
-                /*if (1==v.favflag) {
-                    console.log('favflaggggggg');
-                    fav = '<img class="small-end-single"  src="/static/assets/images/small_end_single.jpg" />';
-                }*/
-                pageHTML +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+fav+
+                if (1==v.favflag) {
+                    //console.log('favflaggggggg');
+                    fav = '<img class="small-end-single" src=/static/assets/images/small_end_single.jpg> ';
+                }
+                pageHTML +='<a target="_blank" href="/p/'+v.id+'.html"><div class="strategy-content">'+
                             '<img src='+cover+'>'+
+                            fav+
                             '<div class="strategy-txt"> '+
                                 '<p>'+
                                 '&nbsp;'+

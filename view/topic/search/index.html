@@ -297,12 +297,13 @@
 		color: #3e3e3e;
     }
     .small-end-single{
-       position: absolute;
-       top: 0px;
-       right: -2px;
-       clear:both;
+        width: 50px !important;
+        height: 60px !important;    
+        position: relative;
+        top: 0px;
+        left: -45px;
     }
-</style>
+    </style>
     <!--
     PAGE HEADER
 
@@ -421,7 +422,7 @@
                             </td>
                         </tr>
                         <tr class="type_tr_m">
-                            <td class="the-td"">学校性质:</td>
+                            <td class="the-td">学校性质:</td>
                             <td class="schooltype">
                                 <a href="javascript:;" class="btn btn-danger btn-xs relative" id="schooltype_0">全部</a>
                                 <a href="javascript:;" class="btn btn-clean btn-xs relative" id="schooltype_1">私立</a>
@@ -553,7 +554,35 @@
                 <div class="row txtbd" >
 
                     <!-- LEFT -->
-                    <div class="col-md-9 col-sm-9 left-part studytour_pagination1">                    
+                    <div class="col-md-9 col-sm-9 left-part studytour_pagination1">
+                            <!-- POST ITEM -->
+                            {% for val in list %}
+                            {% set categoryname = val.category_id|get_cate %}
+                            <a target="_blank" href="/mod/question/'+v.id+'.html">
+                                <div class="strategy-content">
+                                    {% if val.cover_id>0 %}
+                                    <img src="{{val.cover_id|get_pic('m=1,w=200,h=120')}}">
+                                    {%else%}
+                                    <img src="/static/noimg.jpg">
+                                    {% endif %}
+                                    {% if val.favflag==1 %}
+                                    <img class="small-end-single"  src="/static/assets/images/small_end_single.jpg" /> 
+                                    {%endif%}
+                                    <div class="strategy-txt">
+                                        <h2>
+                                            {{val.title|truncate(30, true, "...")}}
+                                            <span class="price-span">¥{{val.price|get_price('1')}}/人起</span>
+                                        </h2>
+                                        <p>{{val.description|truncate(90, true, "...")}}</p>
+                                    </div>
+                                </div>
+                            </a>
+                            {%endfor%}
+
+                            {#                    
+                            {% for val in list %}
+                            {% set categoryname = val.category_id|get_cate %}
+                            {#                    
                             {% for val in list %}
                             {% set categoryname = val.category_id|get_cate %}
                              <!-- POST ITEM -->
@@ -579,7 +608,7 @@
                             </div>
                             <!-- /POST ITEM -->     
                             {%endfor%}
-
+                            #}
                             {#
                            <!-- PAGINATION(分页) -->
                            <div class="text-left">
