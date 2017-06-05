@@ -20,6 +20,18 @@
         top: 0px;
         right: -2px;
 	}
+	.retrun-div{
+		width: 1014px;
+		height: 55px;
+		margin: 0 auto;
+	}
+	.btn-return{
+		margin-left:30px;
+	}
+	.btn-return.btn-primary:active:focus, .btn-return.btn-primary:active:hover{
+		background-color: #1eb6c1;
+		border: none;
+	}
 </style>
 {% endblock %}
 {% block content %}
@@ -102,6 +114,9 @@ CLASSES:
 
 <!-- -->
 <section>
+	<div class="retrun-div">
+		<button class="btn  btn-primary btn-return" onclick="javascript:history.back(-1);return false;" type="submit">返回</button>
+	</div>
 	<div class="container">
 
 		<div class="row tour-box">
@@ -923,7 +938,7 @@ CLASSES:
 	            	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
 	            </div>
 	            <script>
-	            	window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}
+	            	window._bd_share_config={"common":{"bdSnsKey":{"tqq":"wx32e38113a4d73758 "},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}
 	            	// ,"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}
 	            };
 	            	with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];

@@ -162,7 +162,7 @@ function ajaxpost(){
             }
             query = form.find('input,select,textarea').serialize();
         }
-        
+        console.log(query);
         $(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
         $.post(target,query).success(function(data){
             //alert(JSON.stringify(data))

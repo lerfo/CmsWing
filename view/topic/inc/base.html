@@ -332,6 +332,10 @@
 	<!-- JAVASCRIPT FILES -->
 
 	<script type="text/javascript" src="/static/assets/plugins/jquery/jquery-2.1.4.min.js"></script>
+	<!-- 避免客户端缓存脚本，导致文件升级后用户的脚步未发生变化(未生效)  -->
+	<!-- <script src="1.js?ver=1"></script> -->
+	<!-- <script src="/i/jquery.js?v=1.3.2"></script> -->
+	<!---->
 	<script type="text/javascript">
 		var plugin_path = '/static/assets/plugins/';
 		$(function () {
