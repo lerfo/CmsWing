@@ -369,39 +369,28 @@ export default class extends Base {
    * 重置密码页面
    */
   async changepwAction(){
-    let data = this.post();
-    // if(think.isEmpty(data)){
-    // 	return this.redirect(`/uc/public/findpw`)
-    // }else{
-    	//if(!think.isEmpty(data.mobile)){
-    		let user = await this.model("member").where({mobile:data.mobile}).find();
+    if(!this.get("mobile") || !this.get("sms_type") || !this.get("verifycode")){
+      return this.redirect(`/uc/public/findpw`)
+    }
+    		let user = await this.model("member").where({mobile:this.get("mobile")}).find();
 		      if(think.isEmpty(user) ){
 		          return this.redirect(`/uc/public/findpw`)
 		    }
-    	//}
-    	//if(!think.isEmpty(data.mobile)&&!think.isEmpty(data.sms_type)){
     		//对比验证码
 		    let map = {
-		       mobile:data.mobile,
-		       type:data.sms_type
+		       mobile:this.get("mobile"),
+		       type:this.get("sms_type")
 		    }
 		    map.create_time = [">",new Date().valueOf() - 1 * 3600 * 1000]
 		    // //console.log(map);
 		    let code = await this.model("sms_log").where(map).order("id DESC").getField("code",true);
-		    if(think.isEmpty(code)||code != data.verifycode){
+		    if(think.isEmpty(code)||code != this.get("verifycode")){
 		        return this.redirect(`/uc/public/findpw`)
 		    }else{
 		        this.meta_title = "重置密码";
 		        return this.display();
 
-		    } 
-    	//}
-	    
-    //}
-    
-    
-     
-   
+		    }         
   }
 
   //重置密码
