@@ -173,13 +173,14 @@
     .body-section{
         background-color: #EFF7F9;
     }
-    .peanut-roll{
+    /* .peanut-roll{
         width:100%;
         height:143px;
         padding:0; 
         border-bottom:none;
-        background: url(static/assets/images/home_logo1.jpg);
-    }
+        background: url(static/assets/images/home_logo1.jpg) no-repeat;
+        background-size:100% 100% !important;
+    } */
     #page1{
         width: 904px;
         min-height:400px;
@@ -646,8 +647,9 @@
     <!-- /PAGE HEADER -->
 
     <!-- PEANUT ROLL -->   
-    <section class="peanut-roll" >
-	</section>
+    <section style="padding: 0; border-bottom: none;">
+        <img src="/static/assets/images/home_logo1.jpg" style="width: 100%;height: 100%;">
+    </section>
     <!-- /PEANUT ROLL -->
 
     {% endblock %}

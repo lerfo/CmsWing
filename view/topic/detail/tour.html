@@ -938,12 +938,47 @@ CLASSES:
 	            	<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
 	            </div>
 	            <script>
-	            	window._bd_share_config={"common":{"bdSnsKey":{"tqq":"wx32e38113a4d73758 "},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}
+	            	window._bd_share_config={"common":{"bdSnsKey":{"tqq":"wx32e38113a4d73758 "},"bdText":"","bdMini":"2","bdMiniList":true,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}
 	            	// ,"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}
 	            };
 	            	with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
 	            </script>
-	            
+	            <!-- <script>
+	            	window._bd_share_config= {
+	            		"common":{
+	            			"bdSnsKey":{"tqq":"wx32e38113a4d73758 "},
+	            			"bdText":"",
+	            			"bdMini":"2",
+	            			"bdMiniList":false,
+	            			"bdPic":"",
+	            			"bdStyle":"0",
+	            			"bdSize":"24",
+	            			"onBeforeClick": function(cmd, cfg) {
+	            												console.log(cmd);
+	            												console.log(cfg);
+	            												var l = location.href;
+	            												if (cmd === "weixin") {
+	            												cfg.bdUrl = l.indexOf("?") !== -1 ? l + "&wx" : l + "?wx";
+	            												console.log(cfg.bdUrl);
+	            												}
+	            												return cfg;
+	            											}
+	            		},
+	            		"share":{}
+	            	// ,"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}
+	            };
+	            	with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+	            </script> -->
+	           <!-- <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script> -->
+	        <!-- JiaThis Button BEGIN -->
+	        <!-- <div id="ckepop">
+	        				<span class="jiathis_txt">分享到：</span>
+	        				<a class="jiathis_button_weixin">微信</a> 
+	        				<a href="http://www.jiathis.com/share"  class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	        				<a class="jiathis_counter_style"></a> </div> 
+	        				<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1" charset="utf-8"></script>
+	        			</div>  -->
+	        <!-- JiaThis Button END -->
 	        </div>
 			
 			</div>
@@ -1795,7 +1830,11 @@ CLASSES:
 	$(document).ready(function() {
 	let str = "{{info.price|get_price_format('1')}}";
 	let price = parseInt(str.replace(",",""));
-	console.log(price)
+	let dat = "{{info.start_date}}";
+	var d = new Date(1498953600000);
+	console.log(price);
+	console.log(dat);
+	console.log(d);
 		$('#calendar').fullCalendar({
 			theme: true,
 			header: {
@@ -1803,6 +1842,7 @@ CLASSES:
 				center: 'title',
 				right: ''
 			},
+			///buttonIcons: false,
 			monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
             monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
             dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],

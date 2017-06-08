@@ -24,10 +24,11 @@ export default class extends Base {
     //微信公众账号内自动登陆
     let openid = await this.session("wx_openid");
     //let openid = null;
-    if(is_weixin(this.userAgent()) && think.isEmpty(openid)){
+    if (is_weixin(this.userAgent()) && think.isEmpty(openid)){
       this.cookie("cmswing_wx_url",this.http.url);
+      console.log(openid)
       var oauthUrl = pingpp.wxPubOauth.createOauthUrlForCode(this.setup.wx_AppID, `http://${this.http.host}/uc/weixin/getopenid?showwxpaytitle=1`);
-      ////console.log(oauthUrl)
+      console.log(oauthUrl)
       this.redirect(oauthUrl);
     }
 
