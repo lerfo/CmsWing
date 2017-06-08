@@ -187,7 +187,7 @@ export default class extends Base {
     //console.log(map);
     let exec_count = await this.model("sms_log").where(map).count();
     //console.log(exec_count);
-    if(exec_count >= 3 ){
+    if(exec_count >= 30 ){
       return this.fail("发送过于频发请24小时后，再尝试。")
     }
 
@@ -195,7 +195,7 @@ export default class extends Base {
     let instance = new dayu();
     let qianming = this.setup.SMS_qianming;
     let temp_code;
-    if(data.type ==1){
+    if(data.type ==1||data.type ==2){
       temp_code = this.setup.SMS_zhuce
     }
     let info = {
@@ -329,6 +329,100 @@ export default class extends Base {
     };
     await this.session('webuser', userInfo);
     return this.success({name:"验证成功,修改密码!",url:"/uc/changepw"});
+  }
+
+  /***
+  *密码找回页面
+  **/
+  async findpwAction(){
+    this.meta_title = "找回密码";
+    return this.display();
+  }
+  /**
+   * 短信找回密码：验证手机号
+   */
+
+    async forgotpwAction(){
+      let data = this.post();
+      console.log(data);
+      let user = await this.model("member").where({mobile:data.mobile}).find();
+        if(think.isEmpty(user) ){
+          return this.fail("该手机号未注册！")
+      }
+      //对比验证码
+      let map = {
+        mobile:data.mobile,
+        type:data.sms_type
+      }
+      map.create_time = [">",new Date().valueOf() - 1 * 3600 * 1000]
+      // //console.log(map);
+      let code = await this.model("sms_log").where(map).order("id DESC").getField("code",true);
+      if(think.isEmpty(code)||code != data.verifycode){
+        return this.fail("验证码不正确!")
+      }else{
+        return this.success({name:"验证成功,修改密码!",url:"/uc/public/changepw?mobile="+data.mobile+"&verifycode="+data.verifycode+"&sms_type="+data.sms_type});
+      }
+     
+  }
+
+    /**
+   * 重置密码页面
+   */
+  async changepwAction(){
+    let data = this.post();
+    // if(think.isEmpty(data)){
+    // 	return this.redirect(`/uc/public/findpw`)
+    // }else{
+    	//if(!think.isEmpty(data.mobile)){
+    		let user = await this.model("member").where({mobile:data.mobile}).find();
+		      if(think.isEmpty(user) ){
+		          return this.redirect(`/uc/public/findpw`)
+		    }
+    	//}
+    	//if(!think.isEmpty(data.mobile)&&!think.isEmpty(data.sms_type)){
+    		//对比验证码
+		    let map = {
+		       mobile:data.mobile,
+		       type:data.sms_type
+		    }
+		    map.create_time = [">",new Date().valueOf() - 1 * 3600 * 1000]
+		    // //console.log(map);
+		    let code = await this.model("sms_log").where(map).order("id DESC").getField("code",true);
+		    if(think.isEmpty(code)||code != data.verifycode){
+		        return this.redirect(`/uc/public/findpw`)
+		    }else{
+		        this.meta_title = "重置密码";
+		        return this.display();
+
+		    } 
+    	//}
+	    
+    //}
+    
+    
+     
+   
+  }
+
+  //重置密码
+  async resetingAction(){
+    let mobnum = await this.session("mobile");
+    mobnum = parseInt(mobnum);
+    let data = this.post();
+    let patrn = /^(?=.*[0-9])(?=.*[a-zA-Z])^[A-Za-z0-9\x21-\x7e]{8,16}$/;//密码需包含字母+数字的8-16位字符
+    if(think.isEmpty(data.firstpw)){
+      return this.fail("请填写新密码！")
+    }else if(think.isEmpty(data.secondpw)){
+      return this.fail("请再次输入密码！")
+    }else if(data.firstpw != data.secondpw){
+      return this.fail("您第二次输入的密码有误！")
+    }else if(!patrn.test(data.secondpw)){
+      return this.fail("密码：需包含字母和数字的8-16为字符")
+    }else if(data.firstpw == data.secondpw){
+      await this.model("member").where({mobile:mobnum}).update({password:encryptPassword(data.secondpw)});
+      return this.success({name:"修改密码成功，请用新密码重新登陆!",url:"/uc/public/login"});
+    }
+
   }
 
   async verifymemberAction(){

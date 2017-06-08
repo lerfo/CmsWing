@@ -443,6 +443,7 @@ global.get_attribute_type = function(type) {
         'string': ['字符串', 'varchar(255) NOT NULL'],
         'textarea': ['文本框', 'text NOT NULL'],
         'date': ['日期', 'bigint(13) NOT NULL'],
+        'multidate': ['多选日期', 'varchar(255) NOT NULL'],
         'datetime': ['时间', 'bigint(13) NOT NULL'],
         'bool': ['布尔', 'tinyint(2) NOT NULL'],
         'select': ['枚举', 'char(50) NOT NULL'],

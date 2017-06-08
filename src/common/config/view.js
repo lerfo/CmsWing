@@ -55,9 +55,14 @@ export default {
                 env.addFilter("moment",function (time,config) {
                     let moment = require('moment');
                     moment.locale('zh-cn');
+                    //console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!time:"+time);
+                    //console.log( config); 
+                    //time = parseInt(time);
                     if(think.isEmpty(config)){
+                         //console.log( moment(time).fromNow());
                         return moment(time).fromNow();
                     }else {
+                        //console.log(moment(time).format(config));
                         return moment(time).format(config);
                     }
                 })

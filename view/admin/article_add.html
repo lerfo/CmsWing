@@ -395,6 +395,10 @@
                 <div class="col-md-3">
                     <input type="text" name="date|||{{field.name}}" class="form-control date" value="" placeholder="请选择日期" />
                 </div>
+                {% elif field.type == "multidate" %}
+                <div class="col-md-3">
+                    <input type="text" name="date|||{{field.name}}" class="form-control date" value="" placeholder="请选择日期" />
+                </div>
                 {% elif field.type == "datetime" %}
                 <div class="col-md-3">
                     <input type="text" name="date|||{{field.name}}" class="form-control time" value="" placeholder="请选择时间" />
