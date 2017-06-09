@@ -55,7 +55,8 @@ export default class extends Base {
     //获取列表数据
       //条件
     let map = {
-      'category_id': ['IN', subcate]
+      'category_id': ['IN', subcate],
+      'status':1
     };
     //排序
     let o = {};
@@ -146,7 +147,7 @@ export default class extends Base {
           return think.statusAction(702, this.http);
       }
       //获取详情信息
-      let info = await this.model("question").find(id);
+      let info = await this.model("question").where({status:1}).find(id);
       //判断信息是否存在
       if(think.isEmpty(info)){
               this.http.error = new Error("信息不存在！");

@@ -217,7 +217,7 @@ function getCommunity() {
 	var page = parseInt(localStorage.getItem("community_page")) ;
 	$.ajax({
 		type:"get",
-		url:"ajax/question?cid=124&page="+page+"&limit=4",
+		url:"ajax/question?cid=124&order=2&page="+page+"&limit=4",
 		success:function(dataResult){
 			if (dataResult.data.length == 4) {
 				$.each(dataResult.data,function(k,v){

@@ -144,7 +144,7 @@
                                         var jValue;
                                         //alert(getShowTimes("4.2.1","4.3"));
                                         var forTree = function(o){
-                                            jValue ='<select class="form-control">';
+                                            jValue ='<select class="form-control" {% if val.required == 1 %}data-required="true"{%endif%}>';
                                             jValue +='<option value=""  >请选择</option>';
                                             for(var item in jsonObj){
                                                 if(item.indexOf(".")<0){
@@ -217,7 +217,7 @@
                                 <input class="hide" type="checkbox" value="0" name="sortid_{{val.option.identifier}}"{% if val.required == 1 %}data-required="true"{%endif%} checked >
                                 {% for k ,v in val.option.rules.choices %}
                                 <label class="checkbox-inline i-checks">
-                                    <input type="checkbox" value="{{k}}" name="sortid_{{val.option.identifier}}" ><i></i> {{v}}
+                                    <input type="checkbox" value="{{k}}" name="sortid_{{val.option.identifier}}" {% if val.required == 1 %}data-required="true"{%endif%}><i></i> {{v}}
                                 </label>
                                 {% endfor %}
                             </div>
@@ -381,31 +381,31 @@
 
                 {% if field.type == "num" %}
                 <div class="col-md-2">
-                    <input type="text" class="form-control  " name="{{field.name}}" value="{{field.value}}"  >
+                    <input type="text" class="form-control  " name="{{field.name}}" value="{{field.value}}" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}" >
                 </div>
                 {% elif field.type == "string" %}
                 <div class="col-md-10">
-                    <input type="text" class="form-control  " name="{{field.name}}" value="{{field.value}}"  >
+                    <input type="text" class="form-control  " name="{{field.name}}" value="{{field.value}}" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}" >
                 </div>
                 {% elif field.type == "textarea" %}
                 <div class="col-md-8">
-                    <textarea name="{{field.name}}" class="form-control">{{field.value}}</textarea>
+                    <textarea name="{{field.name}}" class="form-control" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">{{field.value}}</textarea>
                 </div>
                 {% elif field.type == "date" %}
                 <div class="col-md-3">
-                    <input type="text" name="date|||{{field.name}}" class="form-control date" value="" placeholder="请选择日期" />
+                    <input type="text" name="date|||{{field.name}}" class="form-control date" value="" placeholder="请选择日期"{% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}" />
                 </div>
                 {% elif field.type == "multidate" %}
                 <div class="col-md-3">
-                    <input type="text" name="date|||{{field.name}}" class="form-control date" value="" placeholder="请选择日期" />
+                    <input type="text" name="date|||{{field.name}}" class="form-control date" value="" placeholder="请选择日期" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}"/>
                 </div>
                 {% elif field.type == "datetime" %}
                 <div class="col-md-3">
-                    <input type="text" name="date|||{{field.name}}" class="form-control time" value="" placeholder="请选择时间" />
+                    <input type="text" name="date|||{{field.name}}" class="form-control time" value="" placeholder="请选择时间" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}"/>
                 </div>
                         {% elif field.type == "keyword" %}
                         <div class="col-md-10">
-                            <input type="text" class="form-control" id="{{field.name}}" name="{{field.name}}" value="{{field.value}}" >
+                            <input type="text" class="form-control" id="{{field.name}}" name="{{field.name}}" value="{{field.value}}" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">
                         </div>
                         <script>
                             $(function () {
@@ -421,7 +421,7 @@
                         {%elif field.type == 'relation'%}
                         <div class="col-md-3">
                             <input type="hidden" name="{{field.name}}" value="" id="{{field.name}}">
-                            <input type="text" class="form-control  " id="{{field.name}}_show" name="{{field.name}}_show" />
+                            <input type="text" class="form-control  " id="{{field.name}}_show" name="{{field.name}}_show" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}"/>
                             {%set relext = field.extra|parse_config_attr%}
                             <script language="javascript" type="text/javascript">
                                 $("#{{field.name}}_show").coolautosuggest({
@@ -446,7 +446,7 @@
                         <tr><td>
                     <div class="radio i-checks">
                           <label>
-                            <input type="radio" checked="" value="0" id="js-unified-postage" name="{{field.name}}_radio">
+                            <input type="radio" checked="" value="0" id="js-unified-postage" name="{{field.name}}_radio" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">
                             <i></i>
                             统一运费 
                           </label>
@@ -456,7 +456,7 @@
                         <td>
                        <div class="radio i-checks">
                           <label>
-                            <input type="radio" value="1" id="js-use-delivery" name="{{field.name}}_radio">
+                            <input type="radio" value="1" id="js-use-delivery" name="{{field.name}}_radio" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">
                             <i></i>
                             运费模板
                           </label>
@@ -467,11 +467,11 @@
                             <div class="radio-tab1">
                        <div class="input-group ">
                           <span class="input-group-addon">￥</span>
-                          <input type="text" class="form-control" style="width:100px" value="0" id="js-postage">
+                          <input type="text" class="form-control" style="width:100px" value="0" id="js-postage" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">
                         </div>
                             </div>
                             <div class="radio-tab2 hide ">
-                          <select style="width:260px" data-placeholder="请选择运费模板" class="chosen-select1" id="js-delivery-template">
+                          <select style="width:260px" data-placeholder="请选择运费模板" class="chosen-select1" id="js-delivery-template" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">
                                <option value=""></option>
                                 <option value="1">测试运费模板1</option>
                                 <option value="2">测试运费模板2</option>
@@ -1309,9 +1309,9 @@
                             <div class="row">
                                 <div class="col-md-6">   <div class="input-group ">
                                     <span class="input-group-addon">￥</span>
-                                    <input type="text" class="form-control" value="{{data[field.name]|get_price('1')}}" id="{{field.name}}_present_price">
+                                    <input type="text" class="form-control" value="{{data[field.name]|get_price('1')}}" id="{{field.name}}_present_price" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">
                                 </div>  </div>
-                                <div class="col-md-6">  <input type="text" placeholder="原价：¥99.99"  value="{{data[field.name]|get_price('2')}}"  class="form-control" id="{{field.name}}_discount_price">  </div>  
+                                <div class="col-md-6">  <input type="text" placeholder="原价：¥99.99"  value="{{data[field.name]|get_price('2')}}"  class="form-control" id="{{field.name}}_discount_price" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">  </div>  
                             </div>         
                         </div>
 
@@ -1342,7 +1342,7 @@
                                 </div>
                                     {% elif field.type == "bool" %}
                                     <div class="col-md-4">
-                                        <select class="form-control" name="{{field.name}}">
+                                        <select class="form-control" name="{{field.name}}" {% if field.is_must == 1 %}data-required="true"{%endif%}>
                                             {% for k ,v in field.extra|parse_config_attr %}
                                             <option value="{{k}}" {% if field.value == k%} selected {%endif%}>{{v}}</option>
                                             {% endfor %}
@@ -1350,7 +1350,7 @@
                                     </div>
                                     {% elif field.type == "select" %}
                                     <div class="col-md-3">
-                                        <select class="form-control " name="{{field.name}}">
+                                        <select class="form-control " name="{{field.name}}" {% if field.is_must == 1 %}data-required="true"{%endif%}>
                                             {% for k ,v in field.extra|parse_config_attr %}
                                             <option value="{{k}}" {% if field.value == k%} selected {%endif%}>{{v}}</option>
                                             {% endfor %}
@@ -1360,7 +1360,7 @@
                                     <div class="col-sm-10">
                                         {% for k ,v in field.extra|parse_config_attr %}
                                         <label class="radio-inline i-checks">
-                                            <input type="radio" value="{{k}}" name="{{field.name}}" {% if field.value == k%} checked {%endif%}><i></i> {{v}}
+                                            <input type="radio" value="{{k}}" name="{{field.name}}" {% if field.value == k%} checked {%endif%} {% if field.is_must == 1 %}data-required="true"{%endif%}><i></i> {{v}}
                                         </label>
                                         {% endfor %}
                                     </div>
@@ -1368,7 +1368,7 @@
                                     <div class="col-sm-10">
                                         {% for k ,v in field.extra|parse_config_attr %}
                                         <label class="checkbox-inline i-checks">
-                                            <input type="checkbox" value="{{k}}" name="{{field.name}}" {% if field.value == k%} checked {%endif%}><i></i> {{v}}
+                                            <input type="checkbox" value="{{k}}" name="{{field.name}}" {% if field.value == k%} checked {%endif%} {% if field.is_must == 1 %}data-required="true"{%endif%}><i></i> {{v}}
                                         </label>
                                         {% endfor %}
                                     </div>
@@ -1493,7 +1493,7 @@
 
                                     <div class="col-md-10">
                                         <!--用来存放文件信息-->
-                                        <input id="pickfilesid" type="hidden" name="{{field.name}}" value="{{data[field['name']]}}"/>
+                                        <input id="pickfilesid" type="hidden" name="{{field.name}}" value="{{data[field['name']]}}" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}"/>
                                         {%if controller.setup.IS_QINIU == 1%}
 
                                             <div id="container">
@@ -1633,7 +1633,7 @@
                                     </div>
                                     {% else %}
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control  " name="{{field.name}}" value="{{data[field['name']]}}"  >
+                                        <input type="text" class="form-control  " name="{{field.name}}" value="{{data[field['name']]}}" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}" >
                                     </div>
                                     {% endif %}
 

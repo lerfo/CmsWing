@@ -216,7 +216,7 @@
         return new nodes.CallExtensionAsync(this, 'run', args);
     };
     this.run = async function (context, args, callback) {
-        //console.log(args);
+        console.log(args);
         let where = {};//{'status':1};
         let data = think.isEmpty(args.data) ? "data" : args.data;
         let limit = think.isEmpty(args.limit) ? "4" : args.limit;

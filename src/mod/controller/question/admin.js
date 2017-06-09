@@ -27,7 +27,7 @@ export default class extends Base {
     //获取内容
     // 构建列表数据
     let question = this.model('question');
-    let map = {}
+    let map = {status:1};
     if (cate_id) {
       //获取当前分类的所有子栏目
       let subcate = await this.model('category').get_sub_category(cate_id);
@@ -66,14 +66,17 @@ export default class extends Base {
   }
 
 
-  //删除
+  //删除，仅设置删除标示位，以备查验
   async delAction(){
     let ids = this.post("ids");
     if(think.isEmpty(ids)){
       return this.fail("至少选择一条数据！")
     }
+    //设置帖子删除标注
+    await this.model("question").where({id:["IN",ids]}).update({status:-1});
+    /*
     //删除帖子
-     await this.model("question").where({id:["IN",ids]}).delete();
+    await this.model("question").where({id:["IN",ids]}).delete();
     //查出相关的回复id
     let qm = await this.model("question_answer").where({question_id:["IN",ids]}).getField("answer_id");
     //删除相关回复
@@ -82,6 +85,7 @@ export default class extends Base {
     if(!think.isEmpty(qm)){
       await this.model("question_answer_comments").where({answer_id:["IN",qm]}).delete();
     }
+    */
       ////console.log(ids);
       //删除搜索
      if(think.isArray(ids)){
@@ -95,6 +99,7 @@ export default class extends Base {
          //话题
          await this.model("keyword").delkey(ids,8);
      }
+     
     //删除相关的
     return this.success({name:"删除成功！"});
   }

@@ -45,7 +45,7 @@ export default class extends Base {
   async editAction(){
      //前台登录验证
      await this.weblogin();
-     let info = await this.model("question").find(this.get("id"));
+     let info = await this.model("question").where({status:1}).find(this.get("id"));
         ////console.log(info);
         this.assign("info",info);
         //后台管理员跳过验证

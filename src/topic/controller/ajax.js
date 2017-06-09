@@ -97,7 +97,7 @@ export default class extends Base {
       }
       if(id == '0'){
 
-          let where = {};//{'status':1};
+          let where = {'status':1};
           let limit = think.isEmpty(this.get("limit")) ? this.config("db.nums_per_page") : this.get("limit");
           let page = think.isEmpty(this.get('page')) ? "0" : this.get('page');
           //帖子包含图片
@@ -440,7 +440,7 @@ export default class extends Base {
   async questionAction(){
           let args = this.post();
           //console.log(this.get("page"));
-          let where = {};//{'status':1};
+          let where = {'status':1};
           //let data = think.isEmpty(args.data) ? "data" : args.data;
           let limit = this.get("limit") ? this.get("limit"): 5 ;
           let page = this.get("page") ? this.get("page") : 1 ;
@@ -453,7 +453,8 @@ export default class extends Base {
 
           //排序
           let odrerMap = {};
-          let type = this.get("order") ? this.get("order") : 0 ;
+          let type = this.get("order") ? this.get("order") : 0 
+          console.log("==============================================="+this.get("order"));
           type = Number(type);
           switch (type){
             case 1://按热度排序
@@ -462,12 +463,13 @@ export default class extends Base {
             case 2://按推荐排序
               //map.is_recommend = 1;
               where = think.extend({},where,{'is_recommend':1});
-              odrerMap.id='DESC';
+              odrerMap.is_recommend='DESC';
+              odrerMap.view = 'DESC';
               break;
             case 3://等待回复
               //map.answer_count = 0;
               where = think.extend({},where,{'answer_count':0});
-              odrerMap.id='DESC';
+              odrerMap.answer_count='DESC';
               break;
             default:
               odrerMap.update_time = 'DESC';

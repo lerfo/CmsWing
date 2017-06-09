@@ -11,6 +11,7 @@ export default class extends think.model.base {
         if(think.isEmpty(data.id)) {//新增主题
             data.create_time = new Date().getTime();
             data.focus_count =1;
+            data.status = 1; //默认新增主题为正常状态
             id = await this.add(data);
                  //添加关注
             if(id){
