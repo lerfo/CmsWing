@@ -68,7 +68,7 @@ export default class extends think.model.base {
      */
     async get_category(id, field){
         field=field||null;
-
+        //console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!id:"+id);
         let list = await think.cache("sys_category_list", () => {
             return this.getallcate();
         }, {timeout: 365 * 24 * 3600});
@@ -151,6 +151,7 @@ export default class extends think.model.base {
      * @returns {boolean} true-允许发布内容，false-不允许发布内容
      */
     async check_category(id){
+        
         if(think.isObject(id)){
             id.type = !think.isEmpty(id.type)?id.type:2;
             let type = await this.get_category(id.category_id,'type');
@@ -158,6 +159,7 @@ export default class extends think.model.base {
             return in_array(id.type,type);
         }else {
             let publish = await this.get_category(id,'allow_publish');
+            console.log(publish);
             return publish ? true : false;
         }
     }

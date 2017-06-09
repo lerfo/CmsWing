@@ -62,11 +62,14 @@ export default class extends think.model.base {
         let extend_model;
         let Model = this.model("model");
         let model = await Model.where({id: model_id}).field("name,extend").find();
+        //console.log(model.extend);
         if (model.extend == 0) {//独立模型表名
             table_name = this.table_name = think.parseConfig(true, think.config("db")).prefix + model.name.toLowerCase();
+
         } else {
             extend_model = await Model.where({id: model.extend}).field("name,extend").find();
             table_name = this.table_name = think.parseConfig(true, think.config("db")).prefix + extend_model.name.toLowerCase() + '_' + model.name.toLowerCase();
+            //console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:"+think.parseConfig(true, think.config("db")).prefix+"----"+extend_model.name.toLowerCase()+"+++++++++++++"+model.name.toLowerCase());
         }
         let res = await think.model('mysql', think.config("db")).query(`SHOW TABLES LIKE '${table_name}'`)
         return res.length;

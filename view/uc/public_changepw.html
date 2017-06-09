@@ -60,18 +60,19 @@
 								<!--<i class="fa fa-users"></i>--> {{controller.meta_title}}
 							</header>
 							<fieldset class="nomargin">
-								<label class="input margin-bottom-10">
+								<label class="input margin-bottom-20">
 									<input type="password" placeholder="需包含字母和数字的8-16为字符" name="firstpw" autocomplete="off">
 									<b class="tooltip tooltip-bottom-right">需包含字母和数字的8-16为字符</b>
 								</label>
 
-								<label class="input margin-bottom-10">
+								<label class="input margin-bottom-20">
 									<input type="password" placeholder="再次输密码" name="secondpw" autocomplete="off">
 									<b class="tooltip tooltip-bottom-right">再次输密码</b>
 								</label>
 
 
 			                    <div class="margin-top-10" style="height: 34px;">
+			                    	<input type="hidden" name="mobile" value>
 			                    	<div class="col-md-12" style="padding-left: 0px; padding-right: 0px;">
 			                    		<button id="ok" type="submit" class="btn btn-primary ajax-post" target-form="findpassword" style="width: 100%; margin: 0;">重置密码</button>
 			                    	</div>
@@ -95,35 +96,25 @@
 {% endblock %}
 {% block script %}
 <script>
-	function GetRequest() {   
-	   var url = location.search; //获取url中"?"符后的字串   
-	   var theRequest = new Object();   
-	   if (url.indexOf("?") != -1) {   
-	      var str = url.substr(1);   
-	      strs = str.split("&");   
-	      for(var i = 0; i < strs.length; i ++) {   
-	         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);   
-	      }   
-	   }   
-	   return theRequest;   
-	}  
-	var Request = new Object();
-	Request = GetRequest();
-	var mobile;
-	mobile = Request["mobile"];
-	verifycode = Request["verifycode"];
-	sms_type = Request["sms_type"];
-	console.log(mobile)
-	console.log(verifycode)
-	console.log(sms_type)
-	$.ajax({
-		type:"post",
-		url:"/uc/public/changepw",
-		data:{mobile:mobile,verifycode:verifycode,sms_type:sms_type},
-		success:function(data){
-			
-		}
-	})
+function GetRequest() {   
+   var url = location.search; //获取url中"?"符后的字串   
+   var theRequest = new Object();   
+   if (url.indexOf("?") != -1) {   
+      var str = url.substr(1);   
+      strs = str.split("&");   
+      for(var i = 0; i < strs.length; i ++) {   
+         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);   
+      }   
+   }   
+   return theRequest;   
+}  
+var Request = new Object();
+Request = GetRequest();
+var mobile;
+mobile = Request["mobile"];
+verifycode = Request["verifycode"];
+sms_type = Request["sms_type"];
+$("input[name='mobile']").val(mobile)
 </script>
 
 {% endblock %}

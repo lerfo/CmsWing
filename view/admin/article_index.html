@@ -19,7 +19,7 @@
 
                         <!-- .breadcrumb -->
                         <ul class="breadcrumb">
-                            <li><a href="/admin/article/index"><i class="fa fa-home"></i> 网站内容</a></li>
+                            <li><a href="/admin/article/index"><i class="fa fa-home"></i> 网站内容管理</a></li>
                             {% for nav in breadcrumb%} {% if cate_id == nav.id %}
                             <li class="active">{{nav.title}} <span class="badge bg-info">{{_total}}</span> {% if allow == 0 %}<span class="label btn-warning">（该分类不允许发布内容）</span>{%
                                 endif %}</li>
@@ -175,6 +175,7 @@
                                                 禁用
                                             </a>
                                         </div>
+                                        <!--
                                         <div class="btn-group">
                                             <a class="btn btn-sm btn-info todo" target-form="ids" href="#">
                                             移动
@@ -185,14 +186,15 @@
                                             <a class="btn btn-sm btn-info todo" target-form="ids" href="#">
                                             粘贴
                                             </a>
-                                        </div>
+                                        </div>-->
                                        
                                         <a class="btn btn-sm btn-info ajax-post confirm" target-form="ids" href="/admin/article/setstatus/status/-1">
                                             删除
                                         </a>
+                                        <!--
                                         <a class="btn btn-sm btn-info todo" target-form="ids" href="#">
                                             排序
-                                        </a>
+                                        </a>-->
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
@@ -248,6 +250,7 @@
                             <footer class="panel-footer">
                                 <div class="row">
                                  <div class="col-md-3">
+                                 <!--
                                       <div class="btn-group">
                                             <a class="btn btn-sm btn-default todo" target-form="ids" href="#">
                                                 微信图文
@@ -258,7 +261,7 @@
                                             <a class="btn btn-sm btn-default todo" target-form="ids" href="#">
                                                 推送
                                             </a>
-                                        </div>
+                                        </div>-->
                                  </div>
                                   
                                     <div class="col-md-9 text-right text-center-xs">

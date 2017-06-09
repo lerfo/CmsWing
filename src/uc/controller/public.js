@@ -372,31 +372,31 @@ export default class extends Base {
     if(!this.get("mobile") || !this.get("sms_type") || !this.get("verifycode")){
       return this.redirect(`/uc/public/findpw`)
     }
-    		let user = await this.model("member").where({mobile:this.get("mobile")}).find();
-		      if(think.isEmpty(user) ){
-		          return this.redirect(`/uc/public/findpw`)
-		    }
-    		//对比验证码
-		    let map = {
-		       mobile:this.get("mobile"),
-		       type:this.get("sms_type")
-		    }
-		    map.create_time = [">",new Date().valueOf() - 1 * 3600 * 1000]
-		    // //console.log(map);
-		    let code = await this.model("sms_log").where(map).order("id DESC").getField("code",true);
-		    if(think.isEmpty(code)||code != this.get("verifycode")){
-		        return this.redirect(`/uc/public/findpw`)
-		    }else{
-		        this.meta_title = "重置密码";
-		        return this.display();
+	let user = await this.model("member").where({mobile:this.get("mobile")}).find();
+      if(think.isEmpty(user) ){
+          return this.redirect(`/uc/public/findpw`)
+    }
+	//对比验证码
+    let map = {
+       mobile:this.get("mobile"),
+       type:this.get("sms_type")
+    }
+    map.create_time = [">",new Date().valueOf() - 1 * 3600 * 1000]
+    // //console.log(map);
+    let code = await this.model("sms_log").where(map).order("id DESC").getField("code",true);
+    if(think.isEmpty(code)||code != this.get("verifycode")){
+        return this.redirect(`/uc/public/findpw`)
+    }else{
+        this.meta_title = "重置密码";
+        return this.display();
 
-		    }         
+    }         
   }
 
   //重置密码
   async resetingAction(){
-    let mobnum = await this.session("mobile");
-    mobnum = parseInt(mobnum);
+    // let mobnum = this.get("mobile");
+    // mobnum = parseInt(mobnum);
     let data = this.post();
     let patrn = /^(?=.*[0-9])(?=.*[a-zA-Z])^[A-Za-z0-9\x21-\x7e]{8,16}$/;//密码需包含字母+数字的8-16位字符
     if(think.isEmpty(data.firstpw)){
@@ -408,7 +408,7 @@ export default class extends Base {
     }else if(!patrn.test(data.secondpw)){
       return this.fail("密码：需包含字母和数字的8-16为字符")
     }else if(data.firstpw == data.secondpw){
-      await this.model("member").where({mobile:mobnum}).update({password:encryptPassword(data.secondpw)});
+      await this.model("member").where({mobile:data.mobile}).update({password:encryptPassword(data.secondpw)});
       return this.success({name:"修改密码成功，请用新密码重新登陆!",url:"/uc/public/login"});
     }
 

@@ -390,7 +390,7 @@ export default class extends Base {
             //list = await Document.alias('DOCUMENT').where(map).order('level DESC,DOCUMENT.id DESC').field(field.join(",")).page(this.get("page"),20).countSelect();
             list = await Document.alias('DOCUMENT').where(map).order('DOCUMENT.id DESC').field(field.join(",")).page(this.get("page"),20).countSelect();
         }
-        console.log(list);
+        //console.log(list);
         //let list=await this.model('document').where(map).order('level DESC').field(field.join(",")).page(this.get("page")).countSelect();
         let Pages = think.adapter("pages", "page"); //加载名为 dot 的 Template Adapter
         let pages = new Pages(this.http); //实例化 Adapter
@@ -405,7 +405,13 @@ export default class extends Base {
         }
 
         //检查该分类是否允许发布内容
-        let allow_publish = await this.model("category").get_category(cate_id, 'allow_publish');
+        let allow_publish = 0;
+        if( cate_id == 0){//根目录下不允许添加内容
+             allow_publish = 0;
+        }else{
+             allow_publish = await this.model("category").get_category(cate_id, 'allow_publish');
+        }
+        //console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+allow_publish);
         this.assign("nsobj",nsobj);
         this.assign('_total', list.count);//该分类下的文档总数
         this.assign('pagerData', page); //分页展示使用
@@ -541,7 +547,7 @@ export default class extends Base {
         this.assign("sort",sort);
         //检查该分类是否允许发布
         let allow_publish = await this.model("category").check_category(cate_id);
-        ////console.log(allow_publish);
+        //console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+allow_publish);
         !allow_publish && this.fail("该分类不允许发布内容");
 
         //获取当先的模型信息

@@ -111,7 +111,7 @@ export default class extends Base {
      */
     async updateAction(){
         let post = this.post();
-        ////console.log(post);
+        console.log(post);
         let res = await this.db.upattr(post,true);
         ////console.log(res);
         if(res){
