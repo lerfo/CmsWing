@@ -224,18 +224,18 @@ $(function () {
        // alert(name)
     })
 
-        //提交评论
+        //提交推荐
     $(document).on("click",'.btn_recommend',function () {
         var id = $(this).attr("data-recommend-id");
-        console.log(id);
+        console.log("btn_recommend id:"+id);
         
         $.ajax({
             type:"get",
-            url:"/mod/question/ajax/ajaxrecommend/cmd/0/id/"+id,
+            url:"/mod/question/ajax/ajaxrecommend/cmd/1/id/"+id,
             success:function (data) {
                 if (data.errno==0) {
                         _toastr(data.data.name,"top-right","success",false);
-                        addhtml(id)
+                       location.reload() ;
                 }else{
 
                         _toastr(data.errmsg,"top-right","error",false);
@@ -245,7 +245,28 @@ $(function () {
         })
         //alert(id)
     })
+        //取消推荐
+    $(document).on("click",'.btn_disrecommend',function () {
+        var id = $(this).attr("data-recommend-id");
+        console.log("btn_disrecommend id:"+id);
+        
+        $.ajax({
+            type:"get",
+            url:"/mod/question/ajax/ajaxrecommend/cmd/0/id/"+id,
+            success:function (data) {
+                console.log(data);
+                if (data.errno==0) {
+                        _toastr(data.data.name,"top-right","success",false);
+                        location.reload();
+                }else{
 
+                        _toastr(data.errmsg,"top-right","error",false);
+
+                }
+            }
+        })
+        //alert(id)
+    })
   
    
 });
@@ -502,4 +523,75 @@ function invalidateAnwser(id,answer_id) {
     //console.log(hasPower);
     //console.log("验证完毕");
     return hasPower;
+}
+
+
+//管理员推荐置顶
+function question_pagination(page){
+    //id是 question_id
+    var id = $("input[name=qId]").val();
+    var html = '';
+    $.ajax({
+        type:"get",
+        url:"/mod/question/ajax/ajaxrecommend/cmd/1/id/{{info.id}}"+id,
+        //async:false,
+        success:function(dataResult){
+            //console.log(dataResult);
+            //console.log(dataResult.data);
+            $.each(dataResult.data.data,function(k,v){
+                 html +='<ul class="comment list-unstyled margin-bottom-20">\
+                                <li class="comments-head-li">\
+                                    <div>\
+                                        <img class="avatar comments-head-img" src="/uc/index/avatar/uid/'+v.uid+'" width="50" height="50"  alt="avatar">\
+                                        <a href="javascript:;" class="comment-author comments-head-a">\
+                                            <span>'+v.username+'</span>\
+                                        </a>\
+                                    </div>\
+                                </li>\
+                                <li class="comment margin-bottom-0">\
+                                    <div class="comment-body">\
+                                        <div class="wangEditor-container cmswing-container comments-container" >\
+                                            <div class="wangEditor-txt nopadding">\
+                                                '+v.answer_content+'\
+                                            </div>\
+                                        </div>\
+                                         <a href="#" class="comment-author comments-a">\
+                                            <small class="text-muted pull-right">'+v.add_time+' </small>\
+                                        </a>\
+                                    </div>\
+                                    <ul class="list-inline size-11 margin-top-10">\
+                                        <li>\
+                                            <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-'+v.answer_id+'"> <i class="fa fa-reply"></i> <span id="oc-'+v.answer_id+'">显示</span>全部评论 (<span id="count-'+v.answer_id+'">'+v.count+'</span>)</a>'+
+                                        '</li>';
+                var hasPower = invalidateAnwser(v.uid,v.answer_id);
+                //console.log("hasPower"+hasPower);
+                if (hasPower) {
+                    var data_plugin_options ='{"type":"ajax", "closeOnBgClick":false}';
+                    //{{info.id}}   {{a.answer_id}}
+                    html +='<li class="pull-right">\
+                                <a href="/mod/question/ajax/delanswer/qid/'+id+'/id/'+v.answer_id+'" class="text-danger confirm ajax-get">删除</a>\
+                            </li>\
+                            <li class="pull-right">\
+                                 <a href="/mod/question/ajax/editanswer/id/'+v.answer_id+'" class="text-primary lightbox" data-lightbox="iframe" data-plugin-options='+data_plugin_options+'>编辑</a>\
+                            </li>';
+                }             
+                  
+
+                      html +=     '</ul>\
+                                </li>\
+                             <div id="comment-reply-'+v.answer_id+'" class="margin-top-10 ">\
+                             </div>\
+                            </ul>';
+            });
+            if(dataResult.data.currentPage < dataResult.data.totalPages){
+                var nextPage = page+1;
+                html +='<div class="text-center qc-addmore">' + '<a href="javascript:question_pagination('+nextPage+');">加载更多</a>'+'</div></div>';
+                $(".question_page"+page).after("<div><div>");
+                $(".question_page"+page).next().addClass("question_page"+nextPage);
+            }
+            //console.log(html);
+            $(".qc-addmore").hide();
+            $(".question_page"+page).html(html);
+        }
+    })
 }
