@@ -106,13 +106,26 @@ function ajaxpost(){
         }else if (form.get(0)==undefined){
             return false;
         }else if ( form.get(0).nodeName=='FORM' ){
+            let ue = $("#ueditor_0")
+            h = ue[0].contentDocument.body.innerHTML
 
             //表单验证
             if($('[data-validate="parsley"]')){
                 $('[data-validate="parsley"]').parsley().validate();
                 if(true !== $('[data-validate="parsley"]').parsley().isValid()){
+                    toastr.error("有未完成的必填选项！");
                     return false;
                 }
+            }
+            if($("#price_adult_present_price").val()=="" && $("#price_adult_discount_price").val()=="" &&
+                $("#price_kid_present_price").val()=="" && $("#price_kid_discount_price").val()=="" &&
+                $("#price_baby_present_price").val()=="" && $("#price_baby_discount_price").val()==""){
+                   toastr.error("成人价格，儿童价格，婴儿价格三项请选择至少一项填上！");
+                   return false;  
+            }
+            if(h == "<p><br></p>"){
+                toastr.error("请填写产品特色一项！");
+                return false;
             }
             if ( $(this).hasClass('confirm') ) {
                 if(!confirm('确认要执行该操作吗?')){

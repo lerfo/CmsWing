@@ -44,6 +44,30 @@
     	background-color:#fff !important;
     	margin-bottom: 20px;
     }
+    .parsley-error-list,
+    .parsley-error-list li{
+        float:right;
+    }
+    #parsley-sortid_tourmonth{
+        margin-top:8px;
+    }
+    #parsley-12967031688394215{
+        margin-left
+    }
+    #cover_id_cover_id,
+    #pics{
+        position:absolute;
+        z-index:-50;
+    }
+    .required,
+    .regexp{
+        color:#ff5f5f;
+    }
+    #price_present_price+.parsley-error-list{
+        position: absolute;
+        left: 87px;
+        top: 32px;
+    }
 </style>
 
 <script>
@@ -88,7 +112,7 @@
                                 </header>
                                 <div class="panel-body">
 
-            <form id="ajaxForm" action="/admin/article/update" method="post" class="form-horizontal" data-validate="parsley">
+        <form id="ajaxForm" action="/admin/article/update" method="post" class="form-horizontal" data-validate="parsley">
                 
             <div class="tab-content">
 
@@ -205,7 +229,7 @@
                                 <textarea class="form-control" name="sortid_{{val.option.identifier}}"  {% if val.required == 1 %}data-required="true"{%endif%}  {% if val.option.rules.rowsize %} rows="{{val.option.rules.rowsize}}" {% endif %}>{{val.option.rules.defaultvalue}}</textarea>
                             </div>
                             {% elif val.option.type == 'radio' %}
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                                 {% for k ,v in val.option.rules.choices %}
                                 <label class="radio-inline i-checks">
                                     <input type="radio" value="{{k}}" name="sortid_{{val.option.identifier}}" {% if val.required == 1 %}data-required="true"{%endif%}><i></i> {{v}}
@@ -393,7 +417,7 @@
                 </div>
                 {% elif field.type == "date" %}
                 <div class="col-md-3">
-                    <input type="text" name="date|||{{field.name}}" class="form-control date" value="" placeholder="请选择日期"{% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}" />
+                    <input type="text" name="date|||{{field.name}}" class="form-control date" value="" placeholder="请选择日期"{% if field.is_must == 1 %}data-required="true"{%endif%} />
                 </div>
                 {% elif field.type == "multidate" %}
                 <div class="col-md-3">
@@ -1291,33 +1315,33 @@
                                     </script>
                                     </div>
     {% elif field.type == "price" %}
-                        <script type="text/javascript">
-                               //关联价格  fixed  多个price控件同时存在时，只更新第一个
-                            $(document).on('change','#{{field.name}}_present_price,#{{field.name}}_discount_price',function(){
-                                console.log("field.name:{{field.name}}")
-                                var discount_price;
-                                if($("#{{field.name}}_discount_price").val()){
-                                 discount_price = $("#{{field.name}}_discount_price").val()
-                                }else{
-                                 discount_price = 0
-                                }
-                                $("#{{field.name}}").val('{"present_price":"'+$("#{{field.name}}_present_price").val()+'","discount_price":"'+discount_price+'"}');
-                            });
-                        </script>
-                        <div class="col-md-5">
-                            <input type="hidden" name="{{field.name}}" value="{{data[field.name]}}" id="{{field.name}}">
-                            <div class="row">
-                                <div class="col-md-6">   <div class="input-group ">
-                                    <span class="input-group-addon">￥</span>
-                                    <input type="text" class="form-control" value="{{data[field.name]|get_price('1')}}" id="{{field.name}}_present_price" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">
-                                </div>  </div>
-                                <div class="col-md-6">  <input type="text" placeholder="原价：¥99.99"  value="{{data[field.name]|get_price('2')}}"  class="form-control" id="{{field.name}}_discount_price" {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">  </div>  
-                            </div>         
-                        </div>
+    <script type="text/javascript">
+           //关联价格  fixed  多个price控件同时存在时，只更新第一个
+        $(document).on('change','#{{field.name}}_present_price,#{{field.name}}_discount_price',function(){
+            console.log("field.name:{{field.name}}")
+            var discount_price;
+            if($("#{{field.name}}_discount_price").val()){
+             discount_price = $("#{{field.name}}_discount_price").val()
+            }else{
+             discount_price = 0
+            }
+            $("#{{field.name}}").val('{"present_price":"'+$("#{{field.name}}_present_price").val()+'","discount_price":"'+discount_price+'"}');
+        });
+    </script>
+        <div class="col-md-5">
+            <input type="hidden" name="{{field.name}}" value="{{data[field.name]}}" id="{{field.name}}">
+            <div class="row">
+                <div class="col-md-6">   <div class="input-group ">
+                    <span class="input-group-addon">￥</span>
+                    <input type="text" class="form-control" value="{{data[field.name]|get_price('1')}}" id="{{field.name}}_present_price"  {% if field.is_must == 1 %}data-required="true"{%endif%} data-regexp="{{field.validate_rule}}">
+                </div>  </div>
+                <div class="col-md-6">  <input type="text" placeholder="原价"  value="{{data[field.name]|get_price('2')}}"  class="form-control" id="{{field.name}}_discount_price">  </div>  
+            </div>         
+        </div>
 
                                     {% elif field.type == "pics" %}
                                     <div class="col-md-10">
-                                        <input type="hidden" name="{{field.name}}" class="form-control" value="" id="{{field.name}}" />
+                                        <input type="text" name="{{field.name}}" class="form-control" value="" id="{{field.name}}" {% if field.is_must == 1 %}data-required="true"{%endif%}/>
                                     <div id="uploader" class="wu-example">
                                     <div class="queueList">
                                         <div id="dndArea" class="placeholder">
@@ -1387,7 +1411,7 @@
                                     </div>
                                     {% elif field.type == "picture" %}
                                     <div class="col-sm-10">
-                                        <input type="hidden" name="{{field.name}}" id="cover_id_{{field.name}}"/>
+                                        <input type="text" name="{{field.name}}" id="cover_id_{{field.name}}" {% if field.is_must == 1 %}data-required="true"{%endif%} />
                                         <div id="fileList_{{field.name}}" class="uploader-list"></div>
                                         <div id="filePicker_{{field.name}}">选择图片</div>
 

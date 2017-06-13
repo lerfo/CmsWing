@@ -23,7 +23,7 @@ $(document).ready(function(){
 		            '<span>'+uname+'</span>'+
 		            //'<a class="btn btn-info apply" href="">申请成为商家</a>'+
 	          	'</div>'+
-	          	'<div class="order-content min-height">'+
+	          	'<div class="order-content min-height2">'+
 	          		'<div class="table-list">'+
 		                '<a class="all-order" href="javascript:allOrder();">全部订单</a>'+
 		                '<input class="pagetype" type="hidden" value="order"/>'+
@@ -1098,7 +1098,7 @@ function ucTraveller(){
 	                  <a class="col-xs-2">操作</a>
 	                </div>
 	              </div>			 
-	            <div class="detail-information clear min-height">	            				             
+	            <div class="detail-information clear min-height2">	            				             
   			`;
   			var  v = result.data;
   			localStorage.setItem("travellerList",JSON.stringify(v));
@@ -2497,7 +2497,7 @@ function ucCoupon(){
                   <a>使用状态</a>
             </div>
             
-            <div class="table-responsive coupon min-height">        
+            <div class="table-responsive coupon min-height2">        
   	`;
   	$.ajax({
   		url:"/uc/booking/discountquery",
