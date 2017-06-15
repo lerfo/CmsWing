@@ -2073,7 +2073,7 @@ function editAddress(n){
               <div class="form-group clear">
                 <label class="col-md-2 control-label">所在地区</label>
                 <div class="col-md-10">
-                  <select class="form-control pointer sel-pro" onblur="proBlur()" id="start_province1" name="start_province" style="width: 150px;display: inline-block">
+                  <select class="form-control pointer sel-pro" onblur="proBlur()" id="start_province1" name="province" style="width: 150px;display: inline-block">
                     <option value="省份">-- 省份/直辖市 --</option>
         `;
 
@@ -2091,7 +2091,7 @@ function editAddress(n){
 
         html += `
                   </select>省
-                  <select class="form-control pointer" id="start_city1" name="start_city" style="width: 150px;display: inline-block">
+                  <select class="form-control pointer" id="start_city1" name="city" style="width: 150px;display: inline-block">
                     <option value="城市">-- 城市 --</option> 
             `;
         //let a = $(".aside-right").find("#start_province1>option:selected").attr("value");

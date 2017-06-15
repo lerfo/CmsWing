@@ -114,9 +114,10 @@ CLASSES:
 
 <!-- -->
 <section>
+	<!--
 	<div class="retrun-div">
 		<button class="btn  btn-primary btn-return" onclick="javascript:history.back(-1);return false;" type="submit">返回</button>
-	</div>
+	</div>-->
 	<div class="container">
 
 		<div class="row tour-box">
@@ -1832,33 +1833,53 @@ CLASSES:
 	let price = parseInt(str.replace(",",""));
 	let dat = "{{info.start_date}}";
 	var d = new Date(1498953600000);
-	console.log(price);
+	console.log('-----'+price);
 	console.log(dat);
 	console.log(d);
+	let dates =  dat.split(',');
+	console.log(dates);
+	let defaultDate = parseInt(dates[0]);
+	let eventsArray = new Array(); 
+	let selectArray = new Array();
+	for (let onedate of dates){
+		console.log(onedate);
+		let eventobject = new Object(); 
+		let selectobject = new Object();
+		eventobject.title = '¥'+price+'起';
+		eventobject.allDay = true;
+		eventobject.start = new Date(parseInt(onedate));
+		eventsArray.push(eventobject);
+		selectobject.data = new Date(parseInt(onedate));
+		selectArray.push(selectobject);
+	}
+	console.log(eventsArray);
+	console.log(selectArray);
 		$('#calendar').fullCalendar({
 			theme: true,
 			header: {
-				left: '',
+				left: 'prev',
 				center: 'title',
-				right: ''
+				right: 'next'
 			},
-			///buttonIcons: false,
+			buttonIcons: true,
 			monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
             monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
             dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
             dayNamesShort: ["日", "一", "二", "三", "四", "五", "六"],
             titleFormat: 'YYYY年MM月',
-			defaultDate: new Date({{info.start_date}}),
+			defaultDate: new Date(defaultDate),
 			// navLinks: true, // can click day/week names to navigate views
 			// editable: true,
 			// eventLimit: true, // allow "more" link when too many events
-			events: [
+			events: eventsArray
+			/*
+			[
 				{
 					title: '¥'+price+'起',
                     allDay: true,
 					start: new Date({{info.start_date}})
 				}
-			]
+			]*/
 		});
 		
     	// var feature_str = $("#product_feature").html();
@@ -1887,7 +1908,7 @@ CLASSES:
 		rootPath: '/static/admin/js/udeitor/'
 	})
 
-	var dateChanged = false;
+	/*var dateChanged = false;
     $('#datetimepicker').datetimepicker({
         format: 'yyyy-mm-dd',
         language:"zh-CN",
@@ -1915,7 +1936,7 @@ CLASSES:
     	if(!dateChanged) {
     		$('#datetimepicker').val("请选择出发日期");
     	}
-    });
+    });*/
 
 	function submit_tour() {
 		var count_adult = parseInt($("#adult_quantity").val());

@@ -67,6 +67,52 @@ export default {
                     }
                 })
                 /**
+                 * multimoment
+                 * YYYY-MM-DD 
+                 * lll   
+                 */
+                env.addFilter("multimoment",function (time,config) {
+                    
+                    let moment = require('moment');
+                    moment.locale('zh-cn');
+                    if(time.length>15){//多选
+                        console.log('duo');
+                        var multi_date = time.split(",");
+                        var temp_multidate = '';
+                        if(think.isEmpty(config)){
+                            for(let m in multi_date ){
+                                if (!think.isEmpty(multi_date[m])) {
+                                    temp_multidate += moment(parseInt(multi_date[m])).fromNow();
+                                    if (m<multi_date.length-1) {
+                                         temp_multidate += ',';
+                                    }
+                                }
+                            }
+                        }else {
+                            for(let m in multi_date ){
+                                if (!think.isEmpty(multi_date[m])) {
+                                    temp_multidate +=moment(parseInt(multi_date[m])).format(config);
+                                    if (m<multi_date.length-1) {
+                                         temp_multidate += ',';
+                                    }
+                                }
+                            }
+                        }
+                        console.log(temp_multidate);
+                        return temp_multidate;
+                    }else{//单选
+                        console.log('dan');
+                        if(think.isEmpty(config)){
+                            //console.log(moment(parseInt(time)).fromNow());
+                            return moment(parseInt(time)).fromNow();
+                        }else {
+                            //console.log(moment(parseInt(time).format(config));
+                            return moment(parseInt(time)).format(config);
+                        }
+                    }
+                    
+                })
+                /**
                  *分析枚举类型配置值 格式 a:名称1,b:名称2
                  */
                 env.addFilter("parse_config_attr", function (str) {

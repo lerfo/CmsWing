@@ -63,7 +63,7 @@ export default class extends think.model.base {
      * @returns boolean fasle 失败 ， int  成功 返回完整的数据
      */
     async updates(data,time=new Date().getTime()){
-
+        console.log("document.js")
         data.position = data.position||0;
         let position = data.position;
         if(!think.isEmpty(data.position)){
@@ -75,7 +75,30 @@ export default class extends think.model.base {
 
             if(vs.length>1){
                 //console.log(data[v]);
-             data[vs[1]]=(think.isEmpty(data[v])||data[v]==0)?0:new Date(data[v]).getTime();
+                //data[vs[1]]=(think.isEmpty(data[v])||data[v]==0)?0:new Date(data[v]).getTime();
+                /**
+                 * 多选日期提交后台修改
+                 * 修改start_date类型为日期绝对值型字符串
+                 */
+                if (vs[1] == "start_date") {
+                    if(!think.isEmpty(data[v])){
+                        var start_date_str = data[v] ;
+                        var temp_Ary = start_date_str.split(",");
+                        var temp_str = '';
+                        for(let a in temp_Ary){
+                            temp_Ary[a] = new Date(temp_Ary[a]).getTime();
+                            temp_str += temp_Ary[a];
+                            if (a<temp_Ary.length-1) {
+                                temp_str += ',';
+                            }
+                        }
+                        data[vs[1]] = temp_str;
+                    }else{
+                        data[vs[1]] = 0 ;
+                    }
+                }else{
+                    data[vs[1]]=(think.isEmpty(data[v])||data[v]==0)?0:new Date(data[v]).getTime();
+                }
             };
         }
         console.log(data);
