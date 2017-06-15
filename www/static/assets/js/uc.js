@@ -1098,7 +1098,7 @@ function ucTraveller(){
 	                  <a class="col-xs-2">操作</a>
 	                </div>
 	              </div>			 
-	            <div class="detail-information clear min-height2">	            				             
+	            <div class="detail-information clear min-height3">	            				             
   			`;
   			var  v = result.data;
   			localStorage.setItem("travellerList",JSON.stringify(v));

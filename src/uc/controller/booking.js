@@ -339,7 +339,7 @@ export default class extends Base {
         temp_traveller.type = traveller.type;
         travellers.push(temp_traveller);
         //保存常用旅客信息，以中文名为关键字
-        if(traveller.issave){ 
+        if(traveller.issave == 1){ 
           let  one_traveller = await this.model("traveller").where({name_zh:traveller.name_zh}).find();
           if(one_traveller.id){
             let res = await this.model("traveller").where({id: one_traveller.id}).update(temp_traveller); 

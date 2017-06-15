@@ -439,6 +439,12 @@
         line-height: 16px;
         margin-right: 20px;
     }
+    #product_issave{
+        float:left;
+        margin:0 3px;
+        width:14px;
+        height:14px;
+    }
     .input_info .save_wrap .save i, .input_info .save_wrap .selected i {
     	background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book.png?20150619.png);
         _background-image: url(http://pic.c-ctrip.com/vacation_v1/bg_book_ie.png?20150619.png);
@@ -985,11 +991,12 @@
                         <input type="number" class="input_m pho-num" value="{{info.phone}}" role="mobileNo" regex="checkMobile" required="" name="phone">
                         <span style="margin-left:10px;color:#999;">请至少输入一位出行旅客的手机号码</span>                        
                     </li> 
-                    <input type="hidden" id="product_issave" name="issave" value="1" >
+                    <!-- <input type="hidden" id="product_issave" name="issave" value="1" > -->
                     <input type="hidden" id="product_type" name="type" value="{{info.type}}" >
                 </ul>
-                <div class="save_wrap">                            
-                    <a href="###" class="save selected" role="saveId"><i></i>保存</a>
+                <div class="save_wrap"> 
+                    <input type="checkbox" id="product_issave" name="issave" value="0" >                           
+                    <a href="###" class="save selected" role="saveId">保存</a>
                     <a href="###" class="clear" role="clear">清空</a>
                 </div>                   
             </div>
@@ -1077,11 +1084,12 @@
                         <input type="number" class="input_m pho-num" value="" role="mobileNo" regex="checkMobile" required="" name="phone">
                         <span style="margin-left:10px;color:#999;">请至少输入一位出行旅客的手机号码</span>                        
                     </li>                                                                        
-                    <input type="hidden" id="product_issave" name="issave" value="1" >
+                    <!-- <input type="hidden" id="product_issave" name="issave" value="1" > -->
                     <input type="hidden" id="product_type" name="type" value="{% if i < amountinfo.adult_quantity %}1{% elif i < amountinfo.adult_quantity + amountinfo.kid_quantity %}2{% else %}3{% endif %}" >
                 </ul>
-                <div class="save_wrap">                            
-                    <a href="###" class="save selected" role="saveId"><i></i>保存</a>                            
+                <div class="save_wrap"> 
+                    <input type="checkbox" id="product_issave" name="issave" value="0" >                           
+                    <a href="###" class="save selected" role="saveId">保存</a>                            
                     <a href="###" class="clear" role="clear">清空</a>                        
                 </div>                   
             </div>
@@ -1604,6 +1612,13 @@
 		<script type="text/javascript" src="/static/assets/js/view/demo.shop.js"></script>
 
 <script type="text/javascript">
+    $(".save_wrap").on("click","#product_issave",function(){
+        if($(this).is(":checked")){
+            $(this).val(1)
+        }else{
+            $(this).val(0)
+        }
+    })
     $("#commonersID").on("click","input[type='checkbox']",function(){
         var adultcheck = $(".adult1").parent().siblings(".users:checked").length,
             adult = $(".adult").length,

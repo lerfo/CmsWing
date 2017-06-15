@@ -142,7 +142,7 @@ c{% extends "./inc/base.html" %}
             {%if val.available==1%}
             <div class="form-group">
                 <label  class="col-sm-2 control-label">
-                    {{val.option.title}}
+                    {{val.option.title}}{% if val.required == 1 %} *{%endif%}
                 </label>
                 
                 <div class="col-sm-10">
@@ -422,7 +422,7 @@ c{% extends "./inc/base.html" %}
         {% if field.is_show == 1 or field.is_show == 2 %}
         <div class="form-group">
 
-            <label class="col-sm-2 control-label">{{field.title}}</label>
+            <label class="col-sm-2 control-label">{{field.title}}{% if field.is_must == 1 %} *{%endif%}</label>
 
             <div class="col-sm-10">
 
