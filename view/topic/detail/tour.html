@@ -1840,26 +1840,21 @@ CLASSES:
 	console.log(dates);
 	let defaultDate = parseInt(dates[0]);
 	let eventsArray = new Array(); 
-	let selectArray = new Array();
 	for (let onedate of dates){
-		console.log(onedate);
+		//console.log(onedate);
 		let eventobject = new Object(); 
-		let selectobject = new Object();
 		eventobject.title = '¥'+price+'起';
 		eventobject.allDay = true;
 		eventobject.start = new Date(parseInt(onedate));
 		eventsArray.push(eventobject);
-		selectobject.data = new Date(parseInt(onedate));
-		selectArray.push(selectobject);
 	}
 	console.log(eventsArray);
-	console.log(selectArray);
 		$('#calendar').fullCalendar({
 			theme: true,
 			header: {
-				left: 'prev',
+				left: '',
 				center: 'title',
-				right: 'next'
+				right: ''
 			},
 			buttonIcons: true,
 			monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
@@ -1908,14 +1903,16 @@ CLASSES:
 		rootPath: '/static/admin/js/udeitor/'
 	})
 
-	/*var dateChanged = false;
+	var dateChanged = false;
+	let dat = "{{info.start_date}}";
+	let dates =  dat.split(',');
     $('#datetimepicker').datetimepicker({
         format: 'yyyy-mm-dd',
         language:"zh-CN",
         minView:2,
-        initialDate:new Date({{info.start_date}}),
-        startDate:new Date({{info.start_date}}),
-        endDate:new Date({{info.start_date}}),
+        initialDate:new Date(parseInt(dates[0])),//Date({{info.start_date}}),
+        startDate:new Date(parseInt(dates[0])),//Date({{info.start_date}}),
+        endDate:new Date(parseInt(dates[dates.length-1])),//Date({{info.start_date}}),
         autoclose:true
     }).on('changeDate', function(ev){
     	var date = $('#datetimepicker').val();
@@ -1936,7 +1933,7 @@ CLASSES:
     	if(!dateChanged) {
     		$('#datetimepicker').val("请选择出发日期");
     	}
-    });*/
+    });
 
 	function submit_tour() {
 		var count_adult = parseInt($("#adult_quantity").val());
