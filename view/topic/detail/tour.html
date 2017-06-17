@@ -7,6 +7,10 @@
 <link href="/static/assets/plugins/fullcalendar-3.2.0/fullcalendar.print.min.css" rel="stylesheet"  media='print' />
 <link rel="stylesheet" href="/static/admin/js/datepicker/bootstrap-datetimepicker.min.css" type="text/css">
 <link rel="stylesheet" href="/static/assets/css/tour.css">
+<!--glDatePicker-->
+<link href="/static/assets/js/glDatePicker-2.0/styles/glDatePicker.default.css" rel="stylesheet" type="text/css">
+<link href="/static/assets/js/glDatePicker-2.0/styles/glDatePicker.flatwhite.css" rel="stylesheet" type="text/css">
+<!--/glDatePicker-->
 <style type="text/css">
 	.end-single{
 	    position: absolute;
@@ -31,6 +35,9 @@
 	.btn-return.btn-primary:active:focus, .btn-return.btn-primary:active:hover{
 		background-color: #1eb6c1;
 		border: none;
+	}
+	.gldp-flatwhite .dow{
+		background-color: #1eb6c1 !important;
 	}
 </style>
 {% endblock %}
@@ -424,7 +431,7 @@ CLASSES:
 				<input type="hidden" id="kid_quantity" name="kid_quantity" value="0" />
 				<input type="hidden" id="baby_quantity" name="baby_quantity" value="0" />
 				<input type="hidden" id="differences_quantity" name="differences_quantity" value="0" />
-				<input type="hidden" id="start_date" name="start_date" value="2017-10-10" />
+				<input type="hidden" id="start_date" name="start_date" value="" />
 				<button class="btn btn-primary" id="js-submit" style="font-size: 18px; margin-top: 3px; padding: 6px 24px;" onclick="submit_tour();return false;">  开始预订  </button> 
 			</form>
 			<div class="price_alert" id="J_pricealert" style="display:none"></div> 
@@ -1800,6 +1807,9 @@ CLASSES:
 <script src="/static/assets/plugins/fullcalendar-3.2.0/gcal.min.js"></script>
 <script src="/static/admin/js/datepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 <script src="/static/admin/js/datepicker/locales/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+<!--glDatePicker-->
+<script src="/static/assets/js/glDatePicker-2.0/glDatePicker.min.js"></script>
+<!--/glDatePicker-->
 <script src="/static/assets/js/tour.js"></script>
 <script src="/static/assets/js/exchange.js"></script>
 <script>
@@ -1828,33 +1838,34 @@ CLASSES:
 	//     }
 	// };
 	
+
 	$(document).ready(function() {
 	let str = "{{info.price|get_price_format('1')}}";
 	let price = parseInt(str.replace(",",""));
 	let dat = "{{info.start_date}}";
-	var d = new Date(1498953600000);
-	console.log('-----'+price);
-	console.log(dat);
-	console.log(d);
+	//console.log('-----'+price);
+	//console.log(dat);
 	let dates =  dat.split(',');
-	console.log(dates);
 	let defaultDate = parseInt(dates[0]);
-	let eventsArray = new Array(); 
+	let eventsArray = new Array(); //FullCalendar 事件对象数组
+	let defaultDat = new Date(parseInt(dates[0]));//FullCalendar 默认日期
 	for (let onedate of dates){
-		//console.log(onedate);
+		console.log(onedate);
 		let eventobject = new Object(); 
+		let selectobject = new Object();
 		eventobject.title = '¥'+price+'起';
 		eventobject.allDay = true;
 		eventobject.start = new Date(parseInt(onedate));
 		eventsArray.push(eventobject);
 	}
+	console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
 	console.log(eventsArray);
 		$('#calendar').fullCalendar({
 			theme: true,
 			header: {
-				left: '',
+				left: 'prev',
 				center: 'title',
-				right: ''
+				right: 'next'
 			},
 			buttonIcons: true,
 			monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
@@ -1862,7 +1873,7 @@ CLASSES:
             dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
             dayNamesShort: ["日", "一", "二", "三", "四", "五", "六"],
             titleFormat: 'YYYY年MM月',
-			defaultDate: new Date(defaultDate),
+			defaultDate: defaultDat,
 			// navLinks: true, // can click day/week names to navigate views
 			// editable: true,
 			// eventLimit: true, // allow "more" link when too many events
@@ -1903,16 +1914,54 @@ CLASSES:
 		rootPath: '/static/admin/js/udeitor/'
 	})
 
-	var dateChanged = false;
+
+	
+	let selectArray = new Array();
+	let str = "{{info.price|get_price_format('1')}}";
+	let price = parseInt(str.replace(",",""));
 	let dat = "{{info.start_date}}";
 	let dates =  dat.split(',');
+	let defaultDate = new Date(parseInt(dates[0]));
+	console.log(defaultDate) 
+	let selectJson = "";
+	for (let onedate of dates){
+		let selectobject = new Object();
+		selectobject.date = new Date(parseInt(onedate));
+		console.log(selectobject.date);
+		selectArray.push(selectobject);
+	}
+	$('#datetimepicker').glDatePicker({
+		cssName: 'flatwhite',
+     	allowYearSelect: false,
+     	selectedDate:defaultDate ,
+	    selectableDates:selectArray,
+	    dowNames:[ '日','一', '二', '三', '四', '五', '六'],
+	    monthNames:[ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+	    onClick: function(target, cell, date, data) {
+	    	console.log(">?????????????");
+	    	console.log(date);
+	        $('#datetimepicker').val(date.getFullYear() + '-' +
+	                    date.getMonth() + '-' +
+	                    date.getDate());
+	          /* var data_val = $('#datetimepicker').val();
+	           console.log(data_val);*/
+	        console.log( $('#datetimepicker').val())
+	        $('#start_date').val($('#datetimepicker').val());
+	        console.log( $('#start_date').val());
+	        if(data != null) {
+	            alert(data.message + '\n' + date);
+	        }
+	    }
+     });
+
+	/*var dateChanged = false;
     $('#datetimepicker').datetimepicker({
         format: 'yyyy-mm-dd',
         language:"zh-CN",
         minView:2,
-        initialDate:new Date(parseInt(dates[0])),//Date({{info.start_date}}),
-        startDate:new Date(parseInt(dates[0])),//Date({{info.start_date}}),
-        endDate:new Date(parseInt(dates[dates.length-1])),//Date({{info.start_date}}),
+        initialDate:new Date({{info.start_date}}),
+        startDate:new Date({{info.start_date}}),
+        endDate:new Date({{info.start_date}}),
         autoclose:true
     }).on('changeDate', function(ev){
     	var date = $('#datetimepicker').val();
@@ -1933,7 +1982,7 @@ CLASSES:
     	if(!dateChanged) {
     		$('#datetimepicker').val("请选择出发日期");
     	}
-    });
+    });*/
 
 	function submit_tour() {
 		var count_adult = parseInt($("#adult_quantity").val());

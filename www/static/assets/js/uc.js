@@ -135,17 +135,20 @@ function orderDetail(n){
 	var travellersinfo = JSON.parse(orderDataDetail.travellersinfo);
 	var n=0;
 	var m=0;
+	var b=0;
 	$.each(travellersinfo,function(k,v){
 		
 		if(v.type == 1){
 			n++;
 		}else if(v.type == 2){
-			m++
+			m++;
+		}else{
+			b++;
 		}
 	})
 
 	 html +=`            
-	 				<span>${n}成人,${m}儿童</span>  
+	 				<span>${n}成人,${m}儿童,${b}婴儿</span>  
 	                
 	              </p>
 	              <p>
@@ -686,27 +689,35 @@ function resultEach(pageNum){
 function cannelorder(orderid){
 	//console.log(orderid);
 	var pro;
-	$.ajax({
-		url:"/uc/booking/cannelorder?orderid="+orderid,
-		async:false,
-		success:function(result){
-			//console.log(result);
-			queryorderlist();
-		}
-	});
+	var r = confirm("您确定要取消该订单吗？")
+	if(r){
+		$.ajax({
+			url:"/uc/booking/cannelorder?orderid="+orderid,
+			async:false,
+			success:function(result){
+				//console.log(result);
+				queryorderlist();
+			}
+		});
+	}
+	
 	//console.log(pro)
 	return pro;
 };
 //删除订单
 function deleteOrder(orderid){
+	var r = confirm("您确定要删除该订单吗？")
 	var pro;
-	$.ajax({
-		url:"/uc/booking/delorder?orderid="+orderid,
-		async:false,
-		success:function(result){
-			queryorderlist();
-		}
-	})
+	if(r){
+		$.ajax({
+			url:"/uc/booking/delorder?orderid="+orderid,
+			async:false,
+			success:function(result){
+				queryorderlist();
+			}
+		})
+	}
+	
 	return pro;
 }
 
@@ -1820,9 +1831,9 @@ $(".aside-right").on("click","button.sub-increase",function(e){
 	var birth = new Date(birthday).getTime(); 
 	var current = new Date().getTime();
 	var time = current - birth;
-	if(time > 0 && time < 31536000000){
+	if(time > 0 && time < 31536000000*2){
 		$(".aside-right .type-name").val("2");
-	}else if(time >= 31536000000 && time < 567648000000){
+	}else if(time >= 31536000000*2 && time < 567648000000){
 		$(".aside-right .type-name").val("1");
 	}else if(time >= 567648000000){
 		$(".aside-right .type-name").val("0");

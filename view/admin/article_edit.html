@@ -452,7 +452,7 @@ c{% extends "./inc/base.html" %}
                             <input type="text" name="date|||{{field.name}}" class="form-control date" value="{%if data[field.name]==0%}{%else%}{{data[field.name]|moment('YYYY-MM-DD')}}{%endif%}" placeholder="请选择日期" {% if field.is_must == 1 %}data-required="true"{%endif%} />
                         </div> -->
                         <div class="col-md-10" id="multidates-div">
-                           <input type="text" id="multidate" name="date|||{{field.name}}" class="form-control multidate" value="{%if data[field.name]==0%}{%else%}{{data[field.name]|multimoment('YYYY-MM-DD')}}{%endif%}" data-mark="{%if data[field.name]==0%}{%else%}{{data[field.name]}}{%endif%}" readonly="readonly" />
+                           <input type="text" id="multidate" name="date|||{{field.name}}" class="form-control multidate" value="{%if data[field.name]==0%}{%else%}{{data[field.name]|multimoment('YYYY-MM-DD')}}{%endif%}" data-mark="{%if data[field.name]==0%}{%else%}{{data[field.name]}}{%endif%}" readonly="readonly" {% if field.is_must == 1 %}data-required="true"{%endif%}/>
                             <!-- Dates in the 'value' attribute of the altField are automatically added to the calendar -->
                             <script type="text/javascript">
                                 jQuery(function(){
@@ -472,7 +472,7 @@ c{% extends "./inc/base.html" %}
                                     $('#multidates-div').multiDatesPicker({
                                         //初始日期
                                         dateFormat: "yy-mm-dd",
-                                        //defaultDate:"1885-02-19"
+                                        defaultDate:ad[0],
                                         
                                         // var date = new Date(); ↑
                                         // preselect the 14th and 19th of the current month(预选)
