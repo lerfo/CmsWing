@@ -54,8 +54,11 @@ export default class extends Base {
     //console.log(temp);
     //判断浏览客户端
     if(checkMobile(this.userAgent())){
-      temp = cate.template_m_index ? `${cate.template_m_index}` : `${this.http.action}`
-      return this.display(`mobile/${this.http.controller}/${temp}`)
+      //Old  此时页面跳转到 mobile/cover/index.html
+      //temp = cate.template_m_index ? `${cate.template_m_index}` : `${this.http.action}`
+      //return this.display(`mobile/${this.http.controller}/${temp}`)
+      //New  此时页面跳转到 mobile/cover/place.html
+      return this.display(`mobile/${this.http.controller}/`+temp);
     }else{
       return this.display(temp);
     }

@@ -81,8 +81,14 @@ export default class extends Base {
   async startregisterAction() {
  
     this.meta_title = "注册花生卷账号";
-    return this.display();
-    
+    //return this.display();
+    //判断浏览客户端
+  	if (checkMobile(this.userAgent())) {
+  	  this.active = "user/index";
+  	  return this.display(`mobile/${this.http.controller}/${this.http.action}`)
+  	} else {
+  	  return this.display();
+  	}
 
   }
   //   登陆页面
@@ -336,7 +342,13 @@ export default class extends Base {
   **/
   async findpwAction(){
     this.meta_title = "找回密码";
-    return this.display();
+     //判断浏览客户端
+    if (checkMobile(this.userAgent())) {
+      this.active = "user/index";
+      return this.display(`mobile/${this.http.controller}/${this.http.action}`)
+    } else {
+      return this.display();
+    }
   }
   /**
    * 短信找回密码：验证手机号
@@ -387,8 +399,14 @@ export default class extends Base {
     if(think.isEmpty(code)||code != this.get("verifycode")){
         return this.redirect(`/uc/public/findpw`)
     }else{
-        this.meta_title = "重置密码";
+      this.meta_title = "重置密码";
+        //判断浏览客户端
+      if (checkMobile(this.userAgent())) {
+        this.active = "user/index";
+        return this.display(`mobile/${this.http.controller}/${this.http.action}`)
+      } else {
         return this.display();
+      }
 
     }         
   }

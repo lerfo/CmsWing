@@ -153,6 +153,9 @@ export default class extends Base {
           data.anonymous = data.anonymous||1;
         }
         ////console.log(data);
+        if(data.u_id == data.controller_id){
+          this.fail("不能回答自己发起的提问!");
+        }
         let res = await this.model('question_answer').updates(data);
         if (res) {
             //行为记录

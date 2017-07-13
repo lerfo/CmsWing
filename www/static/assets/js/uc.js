@@ -82,7 +82,14 @@ function orderDetail(n){
   	var orderDataList = localStorage.getItem("odrerData");
 	orderDataList = JSON.parse(orderDataList);
   	var orderDataDetail = orderDataList[n];
-  	//console.log(orderDataDetail);
+  	console.log(orderDataDetail.product_id);
+  	var tourdays;
+  	$.ajax({
+  		url:"/uc/booking/tourdays?tid="+orderDataDetail.product_id,
+  		success:function(result){
+  			tourdays = result[0].tourdays;
+  		}
+  	})
 	html+=`
 		<div class="detail-box">
 	        <div>
@@ -108,7 +115,9 @@ function orderDetail(n){
             </div>         
     	`;
     }
-    var newdate = new Date(orderDataDetail.end_time)
+    var newdate = new Date(orderDataDetail.start_date).getTime()
+    newdate = 86400000*tourdays+newdate;
+    newdate = new Date(newdate)
 	var y = newdate.getFullYear();  
 	var m = newdate.getMonth() + 1;  
 	m = m < 10 ? ('0' + m) : m;  

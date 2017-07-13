@@ -338,9 +338,11 @@ export default class extends Base {
         return this.json(data);
       }
       //手机端模版
-      temp = cate.template_m_lists ? `${cate.template_m_lists}` : `${this.http.action}`;
+      //Old 此时页面跳转到 mobile/list/index.html
+      //temp = cate.template_m_lists ? `${cate.template_m_lists}` : `${this.http.action}`;
+      //New 此时跳转到 mbile/list/tour.html
       //think.log(temp);
-      return this.display(`mobile/${this.http.controller}/${temp}`)
+      return this.display(`mobile/${this.http.controller}/${temp}`);
     }else{
       //console.log(temp);
       return this.display(temp);

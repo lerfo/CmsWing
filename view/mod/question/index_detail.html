@@ -33,10 +33,6 @@
     li.comment.comment-reply {
     	font-size: 14px;
     }
-    li.comment.comment-reply>img{
-    	width: 32px;
-    	height: 32px;
-    }
     ul.list-inline.size-11.margin-top-10.clear li.pull-right {
         margin-top: -20px;
     }
@@ -51,6 +47,9 @@
         color: #666666;
         display: inline-block;
         margin-top: 10px;
+    }
+    .text-muted{
+        margin-left:6px ;
     }
     {% if category.id== 124 %}
     .blog-post-info>li+li:before {
@@ -142,7 +141,11 @@
 	.tc-addmore a:hover{
 		color: #1eb6c1;
 	}
-
+    li.comment.comment-reply>img{
+    }
+    li.comment.comment-reply>div.comment-body{
+        padding-left:10px !important;
+    }
     {% else %}
     .breadcrumb>li+li:before {
     padding: 0 5px;
@@ -213,6 +216,23 @@
         height: 16px;
         margin-top:-4px;
     }
+    .isopen{
+        border:3px solid #f1f1f1;
+    }
+    .isopen .arrow {
+        position:relative;
+        top:-18px;
+        right:-16px; /* 圆角的位置需要细心调试哦 */
+        width:0;
+        height:0;
+        font-size:0;
+        border:solid 8px;
+        border-color:#fff #fff #f1f1f1 #fff;
+    }
+    li.comment.comment-reply>img{
+        width: 32px;
+        height: 32px;
+    }
     .comment.list-unstyled.margin-bottom-20{
         border: 3px solid #f1f1f1;
         padding:25px 20px;
@@ -255,6 +275,24 @@
 	.qc-addmore a:hover{
 		color: #1eb6c1;
 	}
+    li.comment a.comment-author span{
+        font-size:12px !important;
+    }
+    .type-sm{
+        background-color: #1eb6c1 !important;
+        color: #fff !important;
+        padding:3px;
+        border-radius: 5px; 
+        margin-left: 10px;
+    }
+    .answer-sm{
+       /*  background-color: #999999 !important; */
+        color: #1eb6c1 !important;
+        padding:3px;
+        border: 1px #1eb6c1 solid;
+        border-radius: 5px; 
+        margin-left: 10px;
+    }
     {% endif %}
 </style>
 <!--
@@ -347,6 +385,8 @@ CLASSES:
 <section >
     <div class="container">
         <div class="row">
+            <input type="hidden" name="category_id" value="{{category.id}}">
+            <input type="hidden" name="u_id" value="{{info.uid}}">
             {% if category.id== 124 %}
             <input type="hidden" name="ival">
             <div class="heading_border heading-title heading-border heading-color margin-bottom-10" style="top: -98px;">
@@ -667,7 +707,7 @@ CLASSES:
                                         <!-- avatar -->
                                         <img class="avatar comments-head-img" src="/uc/index/avatar/uid/{{a.uid}}" width="50" height="50"  alt="avatar">
                                         <a href="javascript:;" class="comment-author comments-head-a">
-                                            <span>{{a.uid|get_nickname}}{{a.uid}}</span>
+                                            <span>{{a.uid|get_nickname}}</span>
                                         </a>
                                     </div>
                                 </li>
@@ -721,12 +761,16 @@ CLASSES:
                             <div class="text-center qc-addmore">
                                 <a href="javascript:question_pagination({{info.id}},2)">加载更多</a>
                             </div>
-                            #}
+                             #}
                         </div>
                     </div>
                 </div>
                 {% endif %}
                 <!--评论结束============================-->
+                <!-- {%if category.id== 124%}
+                {% else %}
+                {% endif %}
+                <input type="hidden" name="controller_id" value="{{controller.user.uid}}"> -->
                 {%if controller.is_login %}
                 <form method="post" action="/mod/question/sys/updateanswer" class="box-light margin-top-20 padding-0 validate"><!-- .box-light OR .box-dark -->
                     <div class="box-inner padding-0">
@@ -741,6 +785,8 @@ CLASSES:
 
                         <textarea id="detail" name="answer_content"  class="form-control required" style="height: 280px"  placeholder="Type your message here..."></textarea>
 
+                        <input type="hidden" name="u_id" value="{{info.uid}}">
+                        <input type="hidden" name="controller_id" value="{{controller.user.uid}}">
                         <input type="hidden" name="question_id" value="{{info.id}}">
                         <input type="hidden" name="category_id" value="{{info.category_id}}">
                         <input type="hidden" name="backurl" value="{{http.url}}">

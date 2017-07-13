@@ -525,6 +525,11 @@ export default class extends Base {
     //console.log(data);
     return this.json(data);
   }
+   async tourdaysAction(){
+    let data = this.get();
+    let tourdays = await this.model("type_optionvalue17").where({tid:data.tid}).select();
+    return this.json(tourdays);
+  }
     /**
    * cannelorderAction  取消订单
    * @return {Promise} []
@@ -624,7 +629,7 @@ export default class extends Base {
     data.discount_code = this.get("code");
     //console.log(this.get("code"));
     if(think.isEmpty(data.discount_code)){
-        return this.fail("输入不能为空！");
+        return this.fail("您的输入不能为空！");
     }
     //console.log(data.discount_code);
     let findData = await this.model("discount").where({code:data.discount_code,is_del:0}).find();
@@ -773,16 +778,12 @@ export default class extends Base {
     return this.success("评论成功");
   }
 
-
-
   //实时查询商品库存
   async getstockAction(){
     let data = this.get();
     let stock = await this.model("order_tour").getstock(data.id,data.type);
     return this.json(stock);
   }
-
-
 
 
 

@@ -36,8 +36,27 @@
 		background-color: #1eb6c1;
 		border: none;
 	}
+	.gldp-flatwhite .core{
+		/* cursor:default !important; */
+	}
 	.gldp-flatwhite .dow{
 		background-color: #1eb6c1 !important;
+		cursor:default !important;
+	}
+	.gldp-flatwhite .selected{
+		/* border: -1px !important; */
+		/* border-color: #1eb6c1 !important; */
+		border-color:#fff !important;
+		background-color: #1eb6c1 !important;
+	}
+	.gldp-flatwhite .sat{
+		/* border-color: #1eb6c1 !important; */
+		color: #fff !important;
+    	font-weight: bold;
+		background-color: #1eb6c1 !important;
+	}
+	.gldp-flatwhite .noday{
+		cursor:default !important;
 	}
 </style>
 {% endblock %}
@@ -1850,7 +1869,7 @@ CLASSES:
 	let eventsArray = new Array(); //FullCalendar 事件对象数组
 	let defaultDat = new Date(parseInt(dates[0]));//FullCalendar 默认日期
 	for (let onedate of dates){
-		console.log(onedate);
+		//console.log(onedate);
 		let eventobject = new Object(); 
 		let selectobject = new Object();
 		eventobject.title = '¥'+price+'起';
@@ -1858,8 +1877,7 @@ CLASSES:
 		eventobject.start = new Date(parseInt(onedate));
 		eventsArray.push(eventobject);
 	}
-	console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
-	console.log(eventsArray);
+	//console.log(eventsArray);
 		$('#calendar').fullCalendar({
 			theme: true,
 			header: {
@@ -1922,12 +1940,12 @@ CLASSES:
 	let dat = "{{info.start_date}}";
 	let dates =  dat.split(',');
 	let defaultDate = new Date(parseInt(dates[0]));
-	console.log(defaultDate) 
+	//console.log(defaultDate) 
 	let selectJson = "";
 	for (let onedate of dates){
 		let selectobject = new Object();
 		selectobject.date = new Date(parseInt(onedate));
-		console.log(selectobject.date);
+		//console.log(selectobject.date);
 		selectArray.push(selectobject);
 	}
 	$('#datetimepicker').glDatePicker({
@@ -1940,14 +1958,15 @@ CLASSES:
 	    onClick: function(target, cell, date, data) {
 	    	console.log(">?????????????");
 	    	console.log(date);
+	    	console.log();
 	        $('#datetimepicker').val(date.getFullYear() + '-' +
-	                    date.getMonth() + '-' +
+	                    (date.getMonth() +1) + '-' +
 	                    date.getDate());
 	          /* var data_val = $('#datetimepicker').val();
 	           console.log(data_val);*/
-	        console.log( $('#datetimepicker').val())
+	        //console.log( $('#datetimepicker').val())
 	        $('#start_date').val($('#datetimepicker').val());
-	        console.log( $('#start_date').val());
+	        //console.log( $('#start_date').val());
 	        if(data != null) {
 	            alert(data.message + '\n' + date);
 	        }

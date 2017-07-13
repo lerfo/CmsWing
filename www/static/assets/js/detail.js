@@ -24,7 +24,7 @@ $(function () {
     });
     //下啦组件改造
     var question_select = $(".question_select");
-     var ul = $(".question_select .dropdown-menu")
+    var ul = $(".question_select .dropdown-menu")
     var li = $(".question_select .dropdown-menu>li");
     $(document).on("click",".question_select .dropdown-menu>li",function () {
         var v = $(this).attr("data-value");
@@ -61,7 +61,24 @@ $(function () {
 //回复
 
     function addhtml(id) {
-        var rhtml = "";
+    	var category_id = $("input[name=category_id]").val();
+	    //console.log(category_id);
+	    var u_id = $("input[name=u_id]").val();
+	    //console.log(u_id);
+	    var controller_id =  $("input[name=controller_id]").val();
+	    var answerId;
+	    var reply_type = '';
+	    var arrow_div = '';
+	    var rhtml = "";
+	    if (category_id==124) {
+	    	reply_type = '评论';
+	    }else{
+	    	reply_type = '回答';
+	    	answerId = localStorage.getItem("answerId");
+	    	//console.log(answerId);
+	    	rhtml = '<div class="arrow"></div>';
+	    }
+        
         //ajax
         $.ajax({
             url:"/mod/question/ajax/ajaxanswercomments/answer_id/"+id,
@@ -117,16 +134,28 @@ $(function () {
         
 
            success:function (res) {
+           		//console.log(res);
+           		var comment_type = '';
+           		var reply_str = '';
                 var count = (res.data).length;
                 if(count>0){
                     $.each(res.data,function (k,v) {
+                    	//console.log(v.uid);
+                    	if( v.uid==u_id && category_id==125){ //回复时 如果为提问人 标为追问  为回答人 标为追答
+		                    //show_commentInput = true ;
+		                    comment_type = '<span class="type-sm">追问</span>';//追答 wrong
+		                }else if(category_id==125){
+		                	//show_commentInput = true ;
+		                    comment_type = '<span class="type-sm">追答</span>';//追问 wrong
+		                }
                         rhtml+='<li class="comment comment-reply">'+
                             '<b class="triangle"></b>'+
                             '<img class="avatar" src="/uc/index/avatar/uid/'+v.uid+'" width="50" height="50" alt="avatar">'+
                             '<div class="comment-body">'+
-                            '<a href="#" class="comment-author">'+
+                            '<a href="/" class="comment-author">'+
                             '<span>'+v.username+'</span>'+
                             '<small class="text-muted">'+v.time+'</small>'+
+                            comment_type+
                             '</a>'+
                             '<p>'+v.message+'</p>'+
                             '</div>';
@@ -138,29 +167,47 @@ $(function () {
                                                 '<li class="pull-right">'+
                                                     '<a href="/mod/question/ajax/delcomments/id/'+v.id+'" class="edit-delete confirm ajax-get">删除</a>'+
                                                 '</li>';
-                                    }
+
+                                }
                                 rhtml+=  '</li></ul>';
                             
                         rhtml+= '</li>';
                     })
                 }else {
                     rhtml += '<div class="alert alert-mini alert-warning margin-bottom-10 text-center">'+
-                        '暂无评论'+
+                        '暂无'+reply_type+
                         '</div>';
-                }
-                if(res.is_login){
-                    rhtml +=' <li id="write-reply-'+id+'">'+
-                        '<div class="input-group">'+
-                        '<input id="btn-input-'+id+'" type="text" class="form-control" placeholder="评论一下...">'+
-                        '<span class="input-group-btn">'+
-                        '<button class="btn btn-primary btn-chat" id="btn-chat-'+id+'" data-btn-id="'+id+'">'+
-                        '<i class="fa fa-reply"></i> 评论'+
-                        '</button>'+
-                        '</span>'+
-                        '</div>'+
-                        '</li>';
+
                 }
 
+                var reply_btn = '<a href="/uc/public/loginmodal" data-toggle="ajaxModal" class="btn btn-primary btn-chat-novalidate" id="btn-chat-'+id+'" data-btn-id="'+id+'"><i class="fa fa-reply"></i>'+reply_type+'</a>';
+                if(res.is_login){
+                     reply_btn =  '<button class="btn btn-primary btn-chat" id="btn-chat-'+id+'" data-btn-id="'+id+'">'
+                        +
+                        '<i class="fa fa-reply"></i>'+reply_type+
+                        '</button>';   
+                }
+                if (category_id==124) {// 
+	                 rhtml +=' <li id="write-reply-'+id+'">'+
+	                        '<div class="input-group">'+
+	                        '<input id="btn-input-'+id+'" type="text" class="form-control" placeholder="">'+
+	                        '<span class="input-group-btn">'+
+	                        reply_btn+
+	                        '</span>'+
+	                        '</div>'+
+	                        '</li>';
+                }else{
+                	if (u_id == controller_id || answerId == controller_id) {
+                		rhtml +=' <li id="write-reply-'+id+'">'+
+	                        '<div class="input-group">'+
+	                        '<input id="btn-input-'+id+'" type="text" class="form-control" placeholder="">'+
+	                        '<span class="input-group-btn">'+
+	                        reply_btn+
+	                        '</span>'+
+	                        '</div>'+
+	                        '</li>';
+                	}
+                }
                 $('#comment-reply-'+id).html(rhtml);
                 $('#comment-reply-'+id).addClass("isopen");
                 $("#count-"+id).text(count);
@@ -172,9 +219,17 @@ $(function () {
     $(".box-light").on("click",".comment-reply",function () {
         var rid = $(this).attr("data-comment");
         //console.log(rid);
+	    var category_id = $("input[name=category_id]").val();
+	    if (category_id==125) {
+	    	var answerId = $(this).parents("ul.list-unstyled").children(".comments-head-li").children("div").children(".comments-head-img").attr("src");
+	   		answerId = answerId.split("/uid/")[1];
+	    	//console.log(answerId);
+	    	localStorage.setItem("answerId",answerId);
+	    }
         var id = rid.split("-")[2];
         var isopen = $('#'+rid).is(".isopen");
         //console.log(isopen);
+        // TODO 124显示关闭  125显示所有
         if(isopen){
             $('#'+rid).html("");
             $('#'+rid).removeClass("isopen");
@@ -187,6 +242,7 @@ $(function () {
 
     })
 
+    
 
     //提交评论
     $(document).on("click",'.btn-chat',function () {
@@ -275,8 +331,14 @@ $(function(){
     //console.log("pasasd");
     //var qid = $("input[name=qId]").val();
     //console.log(qid);
-    tournote_pagination(1);
-    question_pagination(1)
+    //category_id = {{category.id}}
+    var category_id = $("input[name=category_id]").val();
+    //console.log(category_id);
+    if (category_id==124) {
+    	tournote_pagination(1);
+    }else{
+    	question_pagination(1);
+    }
 });
 
 //攻略评论分页
@@ -292,6 +354,7 @@ function tournote_pagination(page){
     }
     //console.log(i);
     var html = '';
+    var ad_time;
     $.ajax({
         type:"get",
         url:"/mod/question/index/answer/id/"+id+"/limit/8/page/"+page,
@@ -301,6 +364,15 @@ function tournote_pagination(page){
             //console.log(dataResult.data);
             $.each(dataResult.data.data,function(k,v){
                 i = i+1;
+                //console.log(v.add_time);
+                //var think_time = '{{v.add_time}}'
+                //console.log(think_time);
+                //ad_time = new Date(parseInt(v.add_time));
+                //console.log(ad_time)
+                //ad_time = ad_time.getFullYear() + '-' + (ad_time.getMonth() + 1) + '-' + ad_time.getDate() + ' ' + ad_time.getHours() + ':' + ad_time.getMinutes() + ':' + ad_time.getSeconds();
+                
+                ad_time = v.add_time;
+                //console.log(ad_time);
                 html +='<div  class="margin-bottom-40">\
                             <ul class="comment list-unstyled margin-bottom-0" >\
                                 <li class="comment margin-bottom-0 comment-user">\
@@ -314,7 +386,7 @@ function tournote_pagination(page){
                                                     '+v.answer_content+'\
                                                 </div>\
                                                 <small class="text-muted pull-left time-small" >\
-                                                    '+v.add_time+'\
+                                                    '+ad_time+'\
                                                 </small> \
                                                 <ul class="list-inline size-12 margin-top-10">\
                                                     <li class="pull-right">\
@@ -325,7 +397,7 @@ function tournote_pagination(page){
                 var hasPower = invalidateAnwser(v.uid,v.answer_id);
                 //console.log(hasPower);
                 if (hasPower) {
-                    var data_plugin_options ='{"type":"ajax", "closeOnBgClick":false}';
+                    var data_plugin_options ='{"type":"ajax","closeOnBgClick":false}';
                     //{{info.id}}   {{a.answer_id}}
                     html +='<li class="pull-right">\
                                 <a href="/mod/question/ajax/delanswer/qid/'+id+'/id/'+v.answer_id+'" class="text-danger confirm ajax-get">删除</a>\
@@ -364,7 +436,7 @@ function tournote_pagination(page){
 
 //问答评论分页
 function question_pagination(page){
-    //id是 question_id
+    //id是 
     var id = $("input[name=qId]").val();
     var html = '';
     $.ajax({
@@ -382,6 +454,7 @@ function question_pagination(page){
                                         <a href="javascript:;" class="comment-author comments-head-a">\
                                             <span>'+v.username+'</span>\
                                         </a>\
+                                        <span class="answer-sm">回答</span>\
                                     </div>\
                                 </li>\
                                 <li class="comment margin-bottom-0">\
@@ -397,12 +470,12 @@ function question_pagination(page){
                                     </div>\
                                     <ul class="list-inline size-11 margin-top-10">\
                                         <li>\
-                                            <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-'+v.answer_id+'"> <i class="fa fa-reply"></i> <span id="oc-'+v.answer_id+'">显示</span>全部评论 (<span id="count-'+v.answer_id+'">'+v.count+'</span>)</a>'+
+                                            <a href="javascript:;"  class="text-info comment-reply" data-comment="comment-reply-'+v.answer_id+'"> <i class="fa fa-reply"></i> <span id="oc-'+v.answer_id+'">显示</span>全部问答 (<span id="count-'+v.answer_id+'">'+v.count+'</span>)</a>'+
                                         '</li>';
                 var hasPower = invalidateAnwser(v.uid,v.answer_id);
                 //console.log("hasPower"+hasPower);
                 if (hasPower) {
-                    var data_plugin_options ='{"type":"ajax", "closeOnBgClick":false}';
+                    var data_plugin_options ='{"type":"ajax","closeOnBgClick":false}';
                     //{{info.id}}   {{a.answer_id}}
                     html +='<li class="pull-right">\
                                 <a href="/mod/question/ajax/delanswer/qid/'+id+'/id/'+v.answer_id+'" class="text-danger confirm ajax-get">删除</a>\
@@ -415,9 +488,9 @@ function question_pagination(page){
 
                       html +=     '</ul>\
                                 </li>\
-                             <div id="comment-reply-'+v.answer_id+'" class="margin-top-10 ">\
-                             </div>\
-                            </ul>';
+                            </ul>\
+                            <div id="comment-reply-'+v.answer_id+'" class="margin-top-10  margin-bottom-30 list-unstyled ">\
+                           	</div>';
             });
             if(dataResult.data.currentPage < dataResult.data.totalPages){
                 var nextPage = page+1;
@@ -527,7 +600,7 @@ function invalidateAnwser(id,answer_id) {
 
 
 //管理员推荐置顶
-function question_pagination(page){
+function questiion_pagination(page){
     //id是 question_id
     var id = $("input[name=qId]").val();
     var html = '';
@@ -536,9 +609,12 @@ function question_pagination(page){
         url:"/mod/question/ajax/ajaxrecommend/cmd/1/id/{{info.id}}"+id,
         //async:false,
         success:function(dataResult){
-            //console.log(dataResult);
-            //console.log(dataResult.data);
+            console.log(dataResult);
+            console.log(dataResult.data);
             $.each(dataResult.data.data,function(k,v){
+            	console.log('---------------');
+            	console.log(k);
+            	console.log(v);
                  html +='<ul class="comment list-unstyled margin-bottom-20">\
                                 <li class="comments-head-li">\
                                     <div>\

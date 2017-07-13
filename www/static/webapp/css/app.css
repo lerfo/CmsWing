@@ -7,6 +7,7 @@
 html,
 			body {
 				background-color: #efeff4;
+				height:100%;
 			}
 			.mui-bar~.mui-content .mui-fullscreen {
 				top: 44px;
