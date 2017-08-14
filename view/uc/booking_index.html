@@ -798,8 +798,8 @@
 					</colgroup>
 					<tbody>
 						<tr>
-							<td>2017-07-23</td>
-							<td>13日游套餐</td>
+							<td>{{amountinfo.start_date}}</td>
+							<td><span class="duration"></span>日游套餐</td>
 						</tr>
 					</tbody>
 				</table>
@@ -1618,6 +1618,18 @@
         }else{
             $(this).val(0)
         }
+    })
+        //游学时长
+    $(document).ready(function(){
+        var tourdays;
+        $.ajax({
+            url:"/uc/booking/tourdays?tid="+{{amountinfo.product_id}},
+            async:false,
+            success:function(result){
+                tourdays = result[0].tourdays;
+                $(".duration").html(tourdays)
+            }
+        })
     })
     $("#commonersID").on("click","input[type='checkbox']",function(){
         var adultcheck = $(".adult1").parent().siblings(".users:checked").length,

@@ -280,13 +280,12 @@
                 </li>
             </ul>
         </form>
-
+{#
             {%if controller.setup.GEETEST_IS_LOGIN ==1%}
             <div id="mask" class="hide"></div>
             <div id="popup-captcha-mobile" class="hide"></div>
             {%endif%}
-            <div class="mui-content-padded oauth-area">
-
+#}
 
     </section>
 
@@ -302,7 +301,7 @@
 <script>
     var btn = document.getElementById("login"),account = document.getElementById("account"),password = document.getElementById("password");
     var href = "{{http.referrer()}}"==""?"/uc/public/login":"{{http.referrer()}}";
-
+{#
     {%if controller.setup.GEETEST_IS_LOGIN ==1%}
     var pop=document.getElementById("popup-captcha-mobile"),
             mask=document.getElementById("mask");
@@ -388,6 +387,9 @@
         }
     });
     {%else%}
+    
+     {%endif%}
+#}
     btn.addEventListener("tap", function () {
         if(!account.value){
             mui.toast("账号不能为空");
@@ -416,8 +418,6 @@
         );
 
     });
-
-    {%endif%}
 </script>
 
 {% endblock %}

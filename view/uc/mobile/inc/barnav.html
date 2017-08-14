@@ -1,4 +1,42 @@
-<nav class="mui-bar mui-bar-tab">
+<style type="text/css">
+    .nav-bar{
+        padding-top: 5px;
+    }
+    .icon-index{
+        background:url(/static/assets/images/mobile/nav/index.png) no-repeat;
+        background-size: 100% 100%;
+    }
+    .icon-place{
+        background:url(/static/assets/images/mobile/nav/place.png) no-repeat;
+        background-size: 100% 100%;
+    }
+    .icon-studytour{
+        background:url(/static/assets/images/mobile/nav/studytour.png) no-repeat;
+        background-size: 100% 100%;
+    }
+    .icon-comunity{
+        background:url(/static/assets/images/mobile/nav/community.png) no-repeat;
+        background-size: 100% 100%;
+    }
+</style>
+<nav class="mui-bar mui-bar-tab nav-bar">
+    <a class="mui-tab-item" href="/index">
+        <span class="mui-icon icon-index"></span>
+        <span class="mui-tab-label">首页</span>
+    </a>
+    <a class="mui-tab-item" href="/place">
+        <span class="mui-icon icon-place"></span>
+        <span class="mui-tab-label">目的地</span>
+    </a>
+    <a class="mui-tab-item" href="/youxue">
+        <span class="mui-icon icon-studytour"></span>
+        <span class="mui-tab-label">游学</span>
+    </a>
+    <a class="mui-tab-item" href="/question">
+        <span class="mui-icon icon-comunity"></span>
+        <span class="mui-tab-label">社区</span>
+    </a>
+    {#
     <a class="mui-tab-item " href="/index">
         <span class="mui-icon iconfont icon-home"></span>
         <span class="mui-tab-label">首页</span>
@@ -15,12 +53,11 @@
         <span class="mui-icon iconfont icon-shoplight"></span>
         <span class="mui-tab-label">购物</span>
     </a>
-    {#
+    
     <a class="mui-tab-item" href="#tabbar-with-chat">
         <span class="mui-icon iconfont icon-gouwuche"><span class="mui-badge">9</span></span>
         <span class="mui-tab-label">购物车</span>
     </a>
-    #}
     {% if controller.is_login %}
     <a class="mui-tab-item" href="/uc">
         <span class="mui-icon iconfont icon-my"></span>
@@ -32,4 +69,5 @@
         <span class="mui-tab-label">登录</span>
     </a>
     {%endif%}
+    #}
 </nav>

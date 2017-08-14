@@ -273,22 +273,19 @@
 </style>
 {%endblock%}
 {% block content %}
+{#
 <header class="mui-bar mui-bar-nav peanturoll-top">
     <img src="/static/assets/images/mobile/index/logo.png" class="peanturoll-logo mui-pull-left">
     <a class="mobile-log mui-btn-nav mui-pull-right" href="/uc/public/login">登录</a>
     <a class="mobile-reg mui-btn-nav mui-pull-right" href="/uc/public/startregister">注册</a>
 </header>
+#}
+{% include "../inc/top.html" %}
 {% include "../inc/nav.html" %}
-<div class="mui-content peanturoll-selection">
+{% include "../inc/search.html" %}
+<div class="mui-content margin-top-10">
+    {#
     <div class="mui-input-row peanturoll-search " >
-    	{#	
-       	<form action="" method="get" class="widget_search">
-            <input type="search" class="serch-input">
-            <button class="search_btn" type="submit">
-                <img class="search_logo" src="/static/assets/images/mobile/index/search_logo.png">
-            </button>
-        </form>
-        #}
         <form action="/search" method="get" class="widget_search">
             <input type="search" name="q" {% if queryword %} value={{queryword}} {%endif%} class="serch-input">
             <button class="search_btn" type="submit">
@@ -296,6 +293,7 @@
             </button>
         </form>
     </div> 
+    #}
     <div class="mui-content area-list">
         <ul class="mui-table-view mui-grid-view mui-grid-9">
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
@@ -422,6 +420,8 @@
         </ul>
     </div>
 </div>
+{% include "../inc/footer.html" %}
+{#
 <div class="mui-content margin-top-10 margin-bottom-60 peanturoll-footer">
     <div class="mui-row peanturoll-row">
         <div class="footer-t peanturoll-title-1">
@@ -447,6 +447,7 @@
         </div>
     </div>
 </div>
+#}
 {#
 <div class="mui-content margin-top-20 margin-bottom-60">
    

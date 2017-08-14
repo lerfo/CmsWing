@@ -5,36 +5,16 @@
 .mui-bar-tab~.mui-content{
 	padding-bottom:0;
 }
+.peanturoll-footer{
+	padding-top:0 !important;
+}
 	ul,li{
 		list-style: none;
 		margin:0;
 		padding:0;
 	}
-    .header{
-        background: url(/static/assets/images/mobile/background/header_bg.jpg) no-repeat;
-        background-size:100% 100%;
-    }
-    .user-header{
-		min-width:12%;
-		height:40px;
-		margin-top:2px;
-		color:#fff;
-		line-height: 40px
-	}
-	.user-header img{
-		width:40px;
-		height:40px;
-		border-radius: 50%
-	}
-	.user-header span{
-		margin-left:5px;
-	}
     .mui-bar{
     	z-index:100;
-    }
-    .logo,.logo img{height:100%;}
-    .header .header-btn{
-        color:#fff;
     }
     .theme-img{
         position:relative;
@@ -56,6 +36,7 @@
     .text-title .start-place{
         width:70%;
         white-space:pre-wrap;
+        line-height: 1.4;
     }
     .serial-number{
         width:30%;
@@ -171,7 +152,7 @@
 		color:#b2b2b2;
 	}
 	.select-date{
-		padding:30px 0;
+		padding:20px 0;
 		background:#fff;
 	}
 	.select-date>a{
@@ -215,12 +196,14 @@
 		background:#fff;
 	}
 	.product-detail table,
-	.product-introduce table{
+	.product-introduce table,
+	.#js_detail table{
 		width:100% !important;
 		height:auto !important;
 	}
 	.product-detail img,
-	.product-introduce img{
+	.product-introduce img,
+	#js_detail img{
 		width:100% !important;
 		height:auto !important;
 	}
@@ -232,7 +215,6 @@
 	    height: 39px;
 	    position: relative;
 	    z-index: 2;
-	    margin-top: 10px;
 	}
 	.detail_tab_col {
 	    float: left;
@@ -278,6 +260,7 @@
 	.product-detail>h3,
 	.detail_content>h3{
 		padding:25px 0;
+		margin:0;
 	}
 	.ce-product{
 		display:inline-block;
@@ -449,6 +432,18 @@
 	    color: #000000;
 	    font-size: 15px;
 		float:left;
+		margin-top:9px;
+		margin-left:5px;
+	}
+	li.comment a.comment-author i{
+		display: inline-block;
+		width:12%;
+		border-radius: 50%;
+		float:left;
+	}
+	li.comment a.comment-author i img{
+		width:100%;
+		border-radius: 50%;
 	}
 	small {
 	    font-family: "Microsoft Yahei",Regular;
@@ -456,6 +451,7 @@
 	    color: #000000;
 	    padding-left: 10px;
 	    float:right;
+	    margin-top:9px;
 	}
 	.list-inline li{
 		padding:0 3px;
@@ -492,12 +488,15 @@
 		border:1px solid #1eb6c1;
 	}
 	.validate{
-		padding:0 2.78%;
+		padding:10px 2.78%;
+		background: #fff;
 	}
 	.consultation{
 		background: #1eb6c1;
 		color:#fff;
 		border:1px solid #1eb6c1;
+		padding:5px 6px;
+		border-radius: 3px;
 	}
 	.wangEditor-consult i{
 		display: block;
@@ -565,6 +564,18 @@
         color: rgba(255,255,255,0.6);
         font-size: 12px;
     }
+    .avatar,.rounded{
+    	border-radius: 50%;
+    }
+    .tours{
+    	display: inline-block;
+    	margin-top:9px;
+    	margin-left:5px;
+    	color:#000;
+    }
+    .detail_content{
+    	background:#fff;
+    }
 	
 	.ellipsis{
 		overflow: hidden;
@@ -588,27 +599,18 @@
 	#bdshare_weixin_qrcode_dialog{
 		height:288px !important;
 	}
+	.active{
+		display: block;
+	}
+	.fade{
+		display: none;
+	}
 </style>
 {% endblock %}
 
 {% block content %}
+{% include "../inc/top.html" %}
 {% include "../inc/nav.html" %}
-<header class="header mui-bar mui-bar-nav">
-    <a href="/index" class="logo mui-btn-nav mui-pull-left">
-        <img src="/static/assets/images/mobile/background/mobile_logo.png" alt="">
-    </a>
-	{% if not controller.is_login %}
-    <a href="/uc/public/register" class="header-btn mui-btn-nav mui-pull-right mui-btn-link margin-left-10">注册</a>
-    <a href="/uc/public/login" class="header-btn mui-btn-nav mui-pull-right mui-btn-link">登录</a>
-	{% else %}
-	<a class="mui-pull-right user-header" href="/uc/seting">
-		<img class="mui-media-object mui-pull-left head-img" id="head-img" src="/uc/index/avatar">
-		<span class="mui-media-body">
-			{{controller.user.username}}
-		</span>
-	</a>
-	{% endif %}
-</header>
 <section id="slider" class="mui-content">
     {% set pic = info.pics|strToArray %}
     {% for val in pic %}
@@ -680,7 +682,7 @@
 			<s>¥{{originalPrice | replace(",","") | round(0, "floor")}}<i></i></s>
 			{% endif %}
 			<div>				
-				<span class="score">{{ info.score }}<span>分</span></span>
+				<span class="score">{{ info.score_avg }}<span>分</span></span>
 				<span class="score"><span>{{info.commentcount}}条点评</span></span>
 				<span class="score"><span>{{info.ordercount}}人出游</span></span>
 			</div>						
@@ -711,24 +713,26 @@
 		<div class="detail_tab_div" style="height: 40px;">
 	        <div class="detail_tab basefix" style="z-index: 1;">
 	            <ul class="detail_tab_col" id="js_detail_tab">
-	                <li><a href="#xcjs" class="current">行程介绍</a></li>
+	                <li><a class="current xs-xcjs">行程介绍</a></li>
 	                <!-- <li id="J_zyld" style="display: none"><a href="#zyld">专业领队</a></li> -->
 	                {% if info.product_expenses  %}
-	                <li class="fy-zx" style=""><a href="#fy" class="">费用</a></li>
+	                <li class="fy-zx" style=""><a class="xs-fy">费用</a></li>
 	                {% endif %}
                 	{% if info.product_booking_info  %}
-	                <li style=""><a href="#ydxz" class="">预订须知</a></li>
+	                <li style=""><a class="xs-ydxz">预订须知</a></li>
 	                {% endif %}
                 	{% if info.product_visainfo  %}
-	                <li style=""><a href="#qz" class="">签证/签注</a></li>
+	                <li style=""><a class="xs-qz">签证/签注</a></li>
 	                {% endif %}
-	                <li style=""><a href="#pj" class="">用户评价</a></li>
-	                <li class="fy-zx" style=""><a href="#zx" class="">咨询</a></li>              
+	                <li style=""><a class="xs-yhpj">用户评价</a></li>
+	                <li class="fy-zx" style=""><a class="xs-zx">咨询</a></li>              
 	            </ul>
 	        </div>
 	    </div>
-		{% if info.product_recommend or info.product_route %}  
-        <div id="js_detail" class="detail_content" style="border-top: none;">
+		
+	</div>
+	{% if info.product_recommend or info.product_route %} 
+        <div id="js_detail" class="detail_content xcjs active product-info" style="border-top: none;">
 			<!--产品特色-->
 		    <h3 class="resource_title text-center">
 		       <i class="ce-product"></i> 产品特色
@@ -741,11 +745,10 @@
 		    </div> 
 		    
 	    </div>
-		{% endif %}
-	</div>
-
+	{% endif %}
 	 <!-- 费用包含占位 -->
     {% if info.product_expenses  %}  
+    <div class="fy active product-info">
     <i class="under_tab_anchor" id="fy"></i>
     <i class="under_tab_anchor_abc" id="fy_abc"></i>
     <div id="js_expense" class="detail_content product-detail">
@@ -754,10 +757,12 @@
 	    	{{info.product_expenses | safe}}
 	    </div>
     </div> 
+    </div>
     {% endif %}
 
      <!-- 预订须知占位 -->
     {% if info.product_booking_info  %}
+    <div class="ydxz active product-info">
     <i class="under_tab_anchor" id="ydxz"></i>
     <i class="under_tab_anchor_abc" id="ydxz_abc"></i>
     <div id="js_order_needknow" class="detail_content product-detail">
@@ -766,10 +771,12 @@
 	    	{{info.product_booking_info | safe}}
 	    </div>
     </div> 
+    </div>
     {% endif %}
 
      <!-- 签证占位 -->
     {% if info.product_visainfo  %}
+    <div class="qz active product-info">
     <i id="qz" class="under_tab_anchor" ></i>
     <i class="under_tab_anchor_abc" id="qz_abc"></i>
     <div id="js_visa" class="detail_content product-detail">
@@ -778,9 +785,11 @@
 	    	{{info.product_visainfo | safe}}
 	    </div>
     </div> 
+    </div>
     {% endif %}
 
 	<!-- 用户点评占位 --> 
+	<div class="yhdp active product-info">
     <i id="pj" class="under_tab_anchor" ></i>
     <i class="under_tab_anchor_abc" id="qz_abc"></i>
 	{% if info.score!== 0 and info.score!== '' and info.commentcount !== 0 and info.commentcount !== '' %}			
@@ -798,7 +807,7 @@
 				<p class="people-num"><span>{{info.ordercount}}</span>人出游</p>
 			</div>
 			<div class="global-score mui-pull-left text-center">
-				<p>{{ info.score }}</p>
+				<p>{{ info.score_avg }}</p>
 				<span>总体评分</span>
 			</div>
 		</div>
@@ -815,7 +824,7 @@
 		<div class="evaluate-box">  </div>
 		<!-- <div id="more-comment" class="get-more"><span>展开更多</span> <b class="b1"></b><b class="b2"></b></div> -->	
 	</div>
-					
+	</div>				
 	{% else %}
 	 <div id="js_review" class="detail_content product-detail">	
 		<h3 class="resource_title text-center"><i class="ce-comment"></i> 用户评价</h3>
@@ -823,9 +832,10 @@
 			暂无该产品评价！
 		</div>				
     </div>
+    </div>
 	{% endif %}
 
-	<div class="consult">
+	<div class="consult active product-info">
 
 			<!-- RIGHT -->
 		<div class="">
@@ -859,6 +869,7 @@
 	                            <div class="tourist-question">
 	                                <a class="comment-author" style="position: relative;z-index: 10;background-color: #fff">
 	                                    <!-- <small class="text-muted pull-right">{{a.add_time|dateformat('Y-m-d H:i:s')}} </small> -->
+	                                    <i><img src="/uc/index/avatar/uid/{{a.uid}}" alt=""></i>
 	                                    <span>{{a.uid|get_nickname}}</span>
 	                                    <small class="text-mutedd">{{a.add_time|dateformat('Y-m-d H:i:s')}} </small>
 	                                </a>
@@ -875,12 +886,12 @@
 	                               
 	                                {%if controller.user.uid == a.uid or (controller.user.uid|in_Array(http.config('user_administrator'))) %}
 	                                
-	                                <li class="mui-pull-right">
+	                               <!--  <li class="mui-pull-right">
 	                                    <a href="/mod/question/ajax/delanswer/qid/{{info.id}}/id/{{a.answer_id}}" class="edit-delete confirm ajax-get">删除</a>
 	                                </li>
 	                                <li class="mui-pull-right">
 	                                    <a href="/mod/question/ajax/editanswer/id/{{a.answer_id}}" class="edit-delete lightbox" data-lightbox="iframe" data-plugin-options='{"type":"ajax", "closeOnBgClick":false}'>编辑</a>
-	                                </li>
+	                                </li> -->
 	                                <li  class="mui-pull-right">
 	                                   <a href="javascript:;"  class="text-info comment-reply commentary" data-comment="write-reply-{{a.answer_id}}">
 	                                    	<i class="fa fa-reply"></i> <span id="oc-{{a.answer_id}}">回复</span>
@@ -910,7 +921,7 @@
 									 {%if controller.user.uid == a.uid or (controller.user.uid|in_Array(http.config('user_administrator'))) %}
 									 <ul class="list-inline size-11 clear">
 		                                <li class="mui-pull-right">
-		                                    <a href="/mod/question/ajax/delcomments/id/+{{c.id}}" class="edit-delete confirm ajax-get">删除</a>
+		                                    <a href="javascript:editdelete({{c.id}})" class="edit-delete confirm ajax-get">删除</a>
 		                                </li>
 		                        	</ul>
 
@@ -933,19 +944,20 @@
 
             </div>
 
-		</div>
+			</div>
+	</div>
 	</div>
 	<div id = "more-consult" class="get-more"><span>展开更多</span> <b class="b1"></b><b class="b2"></b></div>
-
+	</div>
    <!--评论结束============================-->
                    <form method="post" action="/mod/question/sys/updatetouranswer" class="box-light margin-top-20  validate"><!-- .box-light OR .box-dark -->
                     <div class="box-inner clear">
-                        <h4 class="uppercase padding-bottom-0 clearfix margin-bottom-0 noborder row">  <div class="col-md-9 col-sm-9"><div class="clearfix margin-bottom-0 clear"><!-- rounded item -->
+                        <h4 class="padding-bottom-0 clearfix margin-bottom-10 noborder row">  <div class="col-md-9 col-sm-9"><div class="clearfix margin-bottom-0 clear"><!-- rounded item -->
                             {% if controller.user.uid %}
                             <img class="thumbnail mui-pull-left rounded" src="/uc/index/avatar/uid/{{controller.user.uid}}" width="40" height="40" alt="">
                             <h4 class="size-14 nomargin noborder nopadding"><a class="tours">{{controller.user.uid|get_nickname}}</a></h4>
                             {% else%}
-                            <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/0" width="40" height="40" alt="">
+                            <img class="thumbnail mui-pull-left rounded" src="/uc/index/avatar/uid/0" width="40" height="40" alt="">
                             <h4 class="size-14 nomargin noborder nopadding"><a class="tours">遊客</a></h4>
                             
                             {%endif%}
@@ -956,12 +968,13 @@
                             <span class="switch-label" data-on="不匿" data-off="匿名"></span>
                         </label>--></div></h4>
 
-                        <textarea id="detail" name="answer_content"  class="form-control required" style="height: 280px"  placeholder="Type your message here..."></textarea>
+                        <textarea id="detail" name="answer_content"  class="form-control required zx-content" style="height: 140px"  placeholder="说说你的疑问"></textarea>
 
                         <input type="hidden" name="question_id" value="{{info.id}}">
                         <input type="hidden" name="category_id" value="{{info.category_id}}">
                         <input type="hidden" name="backurl" value="{{http.url}}">
-                        <button type="submit" class="btn btn-primary mui-pull-right margin-top-20 consultation"><i class="fa fa-check"></i> 咨询</button>
+                        <!-- <button type="submit" class="btn btn-primary mui-pull-right margin-top-20 consultation"><i class="fa fa-check"></i> 咨询</button> -->
+                        <a href="javascript:subTour()" class="mui-pull-right consultation">咨询</a>
                     </div>
                 </form>
 </section>

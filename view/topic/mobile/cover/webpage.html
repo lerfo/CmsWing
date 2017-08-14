@@ -48,7 +48,7 @@
 
 {% include "../inc/nav.html" %}
 <header class="mui-bar mui-bar-nav peanturoll-top">
-    <a href="/index" class="back mui-btn mui-btn-nav mui-pull-left"></a>
+    <a  class="mui-action-back  back mui-btn mui-btn-nav mui-pull-left"></a>
     {% column data="cates",cid=category.id %} 
     {%for val in cates%}
         {% topic data = "list",cid=val.id,isstu=1 %} 

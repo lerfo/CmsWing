@@ -424,7 +424,7 @@ export default class extends Base {
     }else if(data.firstpw != data.secondpw){
       return this.fail("您第二次输入的密码有误！")
     }else if(!patrn.test(data.secondpw)){
-      return this.fail("密码：需包含字母和数字的8-16为字符")
+      return this.fail("密码：需包含字母和数字的8-16位字符")
     }else if(data.firstpw == data.secondpw){
       await this.model("member").where({mobile:data.mobile}).update({password:encryptPassword(data.secondpw)});
       return this.success({name:"修改密码成功，请用新密码重新登陆!",url:"/uc/public/login"});

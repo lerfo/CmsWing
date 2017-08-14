@@ -2,6 +2,10 @@
 {% block style %}
 <link href="/static/assets/css/layout-shop.css" rel="stylesheet" type="text/css" />
 <style>
+    .mui-content input[type=number]{
+        line-height: normal;
+        padding:0 15px;
+    }
     header.book-header{
         background:#1eb6c1;
     }
@@ -254,6 +258,7 @@
         height:30px;
         float:right;
         border-right:none;
+        border-radius: 3px 0 0 3px;
     }
     .traveller-infor .tips_txt{
         padding:20px 2.78%;
@@ -306,8 +311,11 @@
     .product_input_border .input_box input.credential-num{
         width:32%;
     }
+    .product_input_border .input_box input.credential-num{
+        width:42%;
+    }
     .product_input_border .input_box .sel-credentials{
-        width:32%;
+        width:25%;
         height:30px;
         padding:0;
         border:1px solid rgba(0,0,0,.2);
@@ -325,6 +333,9 @@
     }
     .product_input_border .save_wrap{
         padding:0 5.56% 20px 5.56%;
+    }
+    .product_input_border .save_wrap a{
+        color:#1eb6c1;
     }
     .reserve_limited{
         -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.3);
@@ -383,8 +394,10 @@
     }
     .special_tips{
         padding:15px 2.78%;
+        color:#8f8f94;
     }
-    .more-travell i{
+    .more-travell i,
+    .explain{
         display: inline-block;
         width: 20px;
         height:13px;
@@ -491,8 +504,22 @@
     }
     .help_block{
         padding:2.78%;
+        margin-bottom:15px;
     }
-
+    .help_block i.ico{
+        display: inline-block;
+        width:70px;
+        height:70px;
+        border-radius: 50%;
+        background: url(/static/assets/images/mobile/background/booking_help.png) no-repeat;
+        background-size:100% 100%;
+        margin-top:5%;
+    } 
+    .help_block span{
+        display: inline-block;
+        width:70%;
+        float:right;
+    }
 
     .clear:after{
         content:"";
@@ -511,7 +538,7 @@
     <span>填写信息</span>
 </header>
 <section class="mui-content">
-
+{% include "./inc/barnav.html" %}
     <div class="product-information">
         <ol class="progress_bar clear">
             <li class="complete"><i></i><p></p>选择产品</li>
@@ -530,8 +557,8 @@
                         </colgroup>
                         <tbody>
                             <tr>
-                                <td>2017-07-23</td>
-                                <td>13日游套餐</td>
+                                <td>{{amountinfo.start_date}}</td>
+                                <td><span class="duration"></span>日游套餐</td>
                             </tr>
                         </tbody>
                     </table>
@@ -594,7 +621,7 @@
                 <a class="more-travell">旅客信息 <i class="down"></i></a>
                 
                 <a class="search"><span></span></a>
-                <input type="text" id="searchID" class="ticket_search cq" _cqnotice="查找常用旅客">
+                <input type="text" id="searchID" class="ticket_search cq" _cqnotice="查找常用旅客" placeholder="中文姓名">
 
             </h3>
             <div id="commonersID" class="active">
@@ -602,7 +629,7 @@
                     {% for v in travellerlist %}
                         <li style="position:relative">
                             <input class="users" type="checkbox">
-                            <label class="clear">{% if v.name_zh != "" %}{{v.name_zh}}{% endif %} {% if v.name_zh == "" %} {{v.name_en_first}}{{v.name_en_last}}{% endif %}</label>
+                            <label class="clear">{% if v.name_zh != "" %}{{v.name_zh}}{% endif %} {% if v.name_zh == "" %} {{v.name_en_first}} {{v.name_en_last}}{% endif %}</label>
                             {% if v.type == 0 %}                                           
                             <span class="adult1">成人</span>                                               
                             {% elif v.type == 1 %}                                              
@@ -619,8 +646,7 @@
 
                             <input type="hidden" class="adult-baby" value="{{v.type}}">
 
-                            <input mod_value="" type="hidden" value="{{v.country}}" regex="checkNationality" role="national" class="input_m cq nationality nation" _cqnotice="中文/拼音" autocomplete="on" name="country">
-                                   
+                            <input mod_value="" type="hidden" value="{{v.country}}" regex="checkNationality" role="national" class="input_m cq nationality nation" _cqnotice="中文/拼音" autocomplete="on" name="country">                                   
                            
 
                             <input type="hidden" value="{{v.credentials_type}}" role="idCardType" regex="checkIdCardType" class="cre-type" name="credentials_type"> 
@@ -680,8 +706,9 @@
                             <!-- <option value="100">稍后提供</option> -->
                         </select>                                
                         <input type="text" value="{{info.credentials_value}}" role="idCardNo" class="input_s later cq credential-num" regex="checkIdCard" _cqnotice="证件号码" note="" required="" name="credentials_value" placeholder="因私护照">
-                        <div class="help_block J_notice" style="">
-                            <span class="ico"></span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。
+                        <div class="help_block J_notice clear" style="">
+                            <i class="ico"></i>
+                            <span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。</span>
                         </div>                                                            
                     </li>
                     <!--
@@ -771,8 +798,9 @@
                         <input type="text" value="" role="idCardNo" class="input_s later cq credential-num" regex="checkIdCard" _cqnotice="证件号码" note="" required="" name="credentials_value" placeholder="因私护照">
                                                                               
                     </li>
-                    <div class="help_block J_notice" style="">
-                        <span class="ico"></span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。
+                    <div class="help_block J_notice clear" style="">
+                        <i class="ico"></i>
+                        <span>特别提醒：为了您能顺利出行，请确保旅行结束日期至少比证件有效期早6个月，并准确填写真实、有效的证件号码，订单提交后将无法进行修改。</span>
                     </div>      
                    <!--
                     <li class="optional" style="">                                
@@ -946,9 +974,15 @@
         </form>
     </div>
     <div class="input_info mt0" id="J_term">
-        <h3>预订须知</h3><i class="down"></i>
-        <div class="special_tips">
-            <span class="">为支持绿色环保，我同意接受电子合同并默认其合法有效性，如需签署纸质合同将另行致电花生卷客服。</span>
+        <h3 class="illustrate">预订须知<i class="explain down"></i></h3>
+        <div class="special_tips active">
+            <h4>预订说明</h4>
+            <p>* 请您在预订时务必提供准确、完整的信息（姓名、性别、证件号码、国籍、联系方式、是否成人或儿童等），以免产生预订错误，影响出行。如因客人提供错误个人信息而造成损失，我不承担任何责任。</p>
+            <h4>产品说明</h4>
+            <p>* 最少成团人数1人，花生卷不保证一定成团，下单后请您耐心等待是否成团的通知，您也可以选择已成团的班期或产品预订，以确保行程。</p>
+            <p>* 团队中可能会有入住不同酒店的其他花生卷团友一同出行，如涉及不同酒店客人的接送事宜，当地司导人员会根据团队实际情况进行合理安排，敬请理解、配合，谢谢。</p>
+            <p>* 本行程在实际游览过程中可能会有不同的车辆和导游为您服务，如给您带来不便，敬请谅解！</p>
+            <p>* 出游过程中，如遇不可抗力因素造成景点未能正常游玩，导游经与客人协商后可根据实际情况取消或更换该景点，或由导游在现场按旅游产品中的门票价退还费用，退费不以景区挂牌价为准，敬请谅解。</p>
         </div>
         <div class="content_box"></div>
     </div>
@@ -993,8 +1027,30 @@
             $(".more-travell i").removeClass("top").addClass("down")
         }
     })
+    mui("#J_term").on("tap",".illustrate",function(){
+        if($(".special_tips").hasClass("active")){
+            $(".special_tips").removeClass("active")
+            $(".explain").removeClass("down").addClass("top")
+        }else{
+            $(".special_tips").addClass("active")
+            $(".explain").removeClass("top").addClass("down")
+        }
+    })
 
+    //游学时长
+    mui.ready(function(){
+        var tourdays;
+        $.ajax({
+            url:"/uc/booking/tourdays?tid="+{{amountinfo.product_id}},
+            async:false,
+            success:function(result){
+                tourdays = result[0].tourdays;
+                $(".duration").html(tourdays)
+            }
+        })
+    })
 
+    //点击保存
     $(".save_wrap").on("click","#product_issave",function(){
         if($(this).is(":checked")){
             $(this).val(1)
@@ -1002,6 +1058,31 @@
             $(this).val(0)
         }
     })
+    //点击清空
+    $(".save_wrap").on("click",".clear-info",function(){
+        var number = $(this).parent().siblings("ul").find(".credential-num").val();
+        var arr = $(this).parent().siblings("ul");
+        var selarr = $(".select-trave li");
+        for(var k=0;k<selarr.length;k++){
+            var b = $(selarr[k]).find(".cre-number").val();
+            if(number == b){
+                $(selarr[k]).find(".users").prop("checked",false);
+            }
+        }
+        for(var i=0;i<arr.length;i++){
+            var a = arr[i];
+            $(a).find(".name-zh").val("");
+            $(a).find(".name-en-last").val("");
+            $(a).find(".name-en-first").val("");
+            $(a).find(".country").val("");
+            $(a).find(".sel-credentials").find("option[value=0]").prop("selected",true);
+            $(a).find(".credential-num").val("");
+            $(a).find(".sexuality").prop("checked",false);
+            $(a).find(".birthday").val("");
+            $(a).find(".pho-num").val("");
+        }
+    })
+
     $("#commonersID").on("click","input[type='checkbox']",function(){
         var adultcheck = $(".adult1").siblings(".users:checked").length,
             adult = $(".adult").length,
@@ -1012,7 +1093,7 @@
         // console.log(child)
         if(adultcheck <= adult && childcheck <= child && babycheck <= baby){
             if($(this).is(":checked")){
-                console.log($(this));
+                //console.log($(this));
                 //console.log($(this).siblings("input"));
                 var zhname =  $(this).siblings("input.uname-zh").val(),
                     ennamelast = $(this).siblings("input.uname-en-last").val(),
@@ -1024,14 +1105,14 @@
                     sex = $(this).siblings("input.sex").val(),
                     fete = $(this).siblings("input.fete").val(),
                     phon = $(this).siblings("input.phon").val()
-                    console.log(zhname,ennamelast,ennamefirst,type,nation,cretype,crenumber,sex,fete,phon)
-                    console.log(type)
+                    //console.log(zhname,ennamelast,ennamefirst,type,nation,cretype,crenumber,sex,fete,phon)
+                    //console.log(type)
                 if(type == 0){
                     var arr = $("#travellersID span.adult").parent().siblings("ul");
-                    console.log(arr)
+                    //console.log(arr)
                     for(var i=0;i<arr.length;i++){
                         var a = arr[i];
-                        console.log(a)
+                        //console.log(a)
                         if($(a).find(".credential-num").val() == ""){
                             $(a).find(".name-zh").val(zhname);
                             $(a).find(".name-en-last").val(ennamelast);
@@ -1049,7 +1130,7 @@
                     var arr = $("#travellersID span.children").parent().siblings("ul");
                     for(var i=0;i<arr.length;i++){
                         var a = arr[i];
-                        console.log(a)
+                        //console.log(a)
                         if($(a).find(".credential-num").val() == ""){
                             $(a).find(".name-zh").val(zhname);
                             $(a).find(".name-en-last").val(ennamelast);
@@ -1067,7 +1148,7 @@
                     var arr = $("#travellersID span.baby").parent().siblings("ul");
                     for(var i=0;i<arr.length;i++){
                         var a = arr[i];
-                        console.log(a)
+                        //console.log(a)
                         if($(a).find(".credential-num").val() == ""){
                             $(a).find(".name-zh").val(zhname);
                             $(a).find(".name-en-last").val(ennamelast);
@@ -1160,10 +1241,14 @@
                     return false;
                 }
             }
+            str_data = str_data + ('"' + $(this).attr("name") + '":"' + $(this).val() + '"');
+            if(index < array.length - 1) {
+                str_data = str_data + ",";
+            }
         });
-        // console.log("str_data: " + "{" + str_data + "}");
-        // $("#product_connectinfo").val("{" + str_data + "}");
-        // console.log($("#product_connectinfo").val())
+        //console.log("str_data: " + "{" + str_data + "}");
+        $("#product_connectinfo").val("{" + str_data + "}");
+        //console.log($("#product_connectinfo").val())
 
         array = $("#travellersID .product_input");
         // console.log("array.length = " + array.length);
@@ -1181,11 +1266,19 @@
                         return false;
                     }
                 }
+                str = str + ('"' + $(this).attr("name") + '":"' + $(this).val() + '"');
+                if(index1 < inputs.length - 1)
+                    str = str + ",";
             });
+            if(!isInputValid)
+                return false;
+            str_data = str_data + "{" + str + "}";
+            if(index < array.length - 1)
+                str_data = str_data + ",";
         });
-        // console.log("str_data: " + "[" + str_data + "]");
-        // $("#product_travellersinfo").val("[" + str_data + "]");
-        // console.log($("#product_travellersinfo").val())
+        //console.log("str_data: " + "[" + str_data + "]");
+        $("#product_travellersinfo").val("[" + str_data + "]");
+        //console.log($("#product_travellersinfo").val())
         if(isInputValid){
              $("#form-order").submit();
         }
@@ -1223,7 +1316,7 @@
                 url: "/uc/booking/discountcheck?code=" + btn.val(),
                 type: "GET",
                 success: function (res) {
-                    console.log(res);
+                    //console.log(res);
                     if(res.errno == 0)
                         mui.toast("优惠券可使用");
                     else
@@ -1232,5 +1325,73 @@
             });
         });
     })
+
+    //搜索功能
+    mui(".traveller-infor").on("tap","a.search",function(){
+        var uname = $("#searchID").val();
+        var travellarr = $("#travellersID ul")
+        console.log(travellarr)
+        for(var i=0;i<travellarr.length;i++){
+            var a = travellarr[i]
+            //console.log(a)
+            $(a).find(".name-zh").val("");
+            $(a).find(".name-en-last").val("");
+            $(a).find(".name-en-first").val("");
+            $(a).find(".country").val("");
+            $(a).find(".sel-credentials").find("option[value=0]").prop("selected",true);
+            $(a).find(".credential-num").val("");
+            $(a).find(".sexuality").prop("checked",false);
+            $(a).find(".birthday").val("");
+            $(a).find(".pho-num").val("");
+        }
+        //console.log(uname)
+        $.ajax({
+        url:"/uc/traveller/query?q="+uname,
+        success:function(result){
+            var v = result.data;
+            var html = "";
+            for(var i=0;i<v.length;i++){
+                html+=`
+                        <li style="position:relative">
+                            <input class="users" type="checkbox">  
+                    `;
+                if(v[i].name_zh != "" && v[i].name_zh != undefined){
+                    html+=`<label class="clear">${v[i].name_zh}</label>`;
+                }else{
+                    html+=`<label class="clear">${v[i].name_en_last} ${v[i].name_en_first}</label>`;
+                }
+                if(v[i].type == 0){
+                    html+=`<span class="adult1">成人</span>`
+                }else if(v[i].type == 1){
+                    html+=`<span class="child1 children1">儿童</span>`
+                }else{
+                    html+=`<span class="child1 baby1">婴儿</span>`
+                }
+                html+=`  
+                    <input type="hidden" data-type="name" class="input_m cq uname-zh" _cqnotice="证件的中文姓名" role="nameCN" egex="checkCnName" value="${v[i].name_zh}" name="name_zh">
+
+                    <input type="hidden" data-type="name" class="input_englishname cq uname-en-last" _cqnotice="姓（拼音或英文）" value="${v[i].name_en_last}" role="nameEnLast" regex="checkEnNameLast" style="text-transform:Uppercase; margin-right: 7px;" name="name_en_last">
+
+                    <input type="hidden" data-type="name" class="input_englishname input_engnomar cq uname-en-first" _cqnotice="名（拼音或英文）" value="${v[i].name_en_first}" role="nameEnFirst" regex="checkEnNameFirst" style="text-transform:Uppercase" name="name_en_first">
+
+                    <input type="hidden" class="adult-baby" value="${v[i].type}">
+
+                    <input mod_value="" type="hidden" value="${v[i].country}" regex="checkNationality" role="national" class="input_m cq nationality nation" _cqnotice="中文/拼音" autocomplete="on" name="country">
+                                   
+                    <input type="hidden" value="${v[i].credentials_type}" role="idCardType" regex="checkIdCardType" class="cre-type" name="credentials_type"> 
+                    <input type="hidden" value="${v[i].credentials_value}" role="idCardNo" class="input_s later cq cre-number" regex="checkIdCard" _cqnotice="证件号码" note="" name="credentials_value">
+
+                    <input type="hidden" class="sex" value="${v[i].sexual}" name="sexual" >
+
+                    <input mod_value="" type="hidden" value="${v[i].birthday}" regex="checkNationality" role="national" class="input_m cq nationality fete" _cqnotice="中文/拼音" autocomplete="on" name="birthday">
+
+                    <input type="hidden" class="input_m phon" value="${v[i].phone}" role="mobileNo" regex="checkMobile" name="phone">   
+                    </li>   
+                    `;
+            }
+            $(".select-trave").html(html);
+        }
+    })
+})
 </script>
 {%endblock%}

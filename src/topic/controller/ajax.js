@@ -33,6 +33,8 @@ export default class extends Base {
           this.action('ajax',doaction)
         }else if(doaction == "productcommentall"){
           this.action('ajax',doaction)
+        }else if(doaction == "query"){
+          this.action('ajax',doaction)
         }else{
           this.http.error = new Error('分类不存在或者被禁用！');
           return think.statusAction(702, this.http);
@@ -724,6 +726,13 @@ export default class extends Base {
       let productcomment = await think.model('tour_comment', think.config("db")).page(page,limit).where(where).order('add_time DESC').countSelect();
       //console.log(productcomment);
       return this.success(productcomment);
+  }
+  //获取详情
+  async queryAction(){
+    let id = this.get('id') || 0;
+    let document = this.model('document');
+    let info = await document.detail(id);
+    return this.json(info)
   }
 
 }

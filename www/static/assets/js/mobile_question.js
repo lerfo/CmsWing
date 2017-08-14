@@ -2,17 +2,17 @@
  * Created by Arterli on 2016/10/10.
  */
 $(function () {
-    if($("#detail").length>0){
-        //载入编辑器
-        var editor = new wangEditor('detail');
-        // 上传图片
-        editor.config.uploadImgUrl = '/uc/file/uploadpic/type/path';
-        editor.config.uploadImgFileName = 'file';
-        editor.create();
-        if(($("#detail").html()).length==0){
-            editor.clear();
-        }
-    }
+    // if($("#detail").length>0){
+    //     //载入编辑器
+    //     var editor = new wangEditor('detail');
+    //     // 上传图片
+    //     editor.config.uploadImgUrl = '/uc/file/uploadpic/type/path';
+    //     editor.config.uploadImgFileName = 'file';
+    //     editor.create();
+    //     if(($("#detail").html()).length==0){
+    //         editor.clear();
+    //     }
+    // }
 
     //tags
     $('#keywords').tagsInput({
@@ -136,7 +136,7 @@ $(function () {
                                 if(res.is_login==v.uid || res.is_admin){
                                     rhtml+= '<ul class="list-inline size-11 margin-top-10 clear">'+
                                                 '<li class="mui-pull-right">'+
-                                                    '<a href="/mod/question/ajax/delcomments/id/'+v.id+'" class="edit-delete confirm ajax-get">删除</a>'+
+                                                    '<a href="javascript:editdelete('+v.id+')" class="edit-delete confirm ajax-get">删除</a>'+
                                                 '</li>';
                                     }
                                 rhtml+=  '</li></ul>';
@@ -169,7 +169,7 @@ $(function () {
 
         })
     }
-    $(".comment-reply").on("click",function () {
+    $(".commentary").on("click",function () {
         var rid = $(this).attr("data-comment");
         //alert(rid)
         console.log(rid);
@@ -248,4 +248,62 @@ $(function () {
         })
         //alert(id)
     })
+    //咨询
+    // $(document).on("click",".consultation",function(){
+    //     var data = $(".validate").serialize();
+    //     console.log()
+    //     $.ajax({
+    //         type:"POST"
+    //         url:"/mod/question/sys/updatetouranswer",
+    //         data:data,
+    //         success:function(data){
+    //             console.log(data)
+    //         }
+    //     })
+    // })
+    
 });
+//删除评论
+function editdelete(id){
+    $.ajax({
+        type:"get",
+        url:"/mod/question/ajax/delcomments/id/"+id,
+        success:function(data){
+            if (data.errno==0) {
+                    mui.toast(data.data.name);
+                    setTimeout(function(){
+                        mui.openWindow({url:window.location.href}) 
+                    },1500)                                     
+            }else{
+
+                    mui.toast(data.errmsg);
+
+            }
+        }
+    })
+}
+//咨询
+function subTour(){
+        var data = $("form.validate").serialize();
+        var content = $(".zx-content").val();
+        if(content == ""){
+            mui.toast("咨询内容不能为空")
+        }else{
+            $.ajax({
+                type:"POST",
+                url:"/mod/question/sys/updatetouranswer",
+                data:data,
+                success:function(data){
+                    console.log(data)
+                    if(data.errno == 0){
+                        mui.toast(data.data.name)
+                        setTimeout(function(){
+                            mui.openWindow({url:window.location.href}) 
+                        },1500) 
+                    }else{
+                        mui.toast(data.errmsg)
+                    }
+                }
+            })
+        }
+    }

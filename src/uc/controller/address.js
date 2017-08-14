@@ -36,7 +36,8 @@ export default class extends Base {
         val.county = await this.model("area").where({id: val.county}).getField("name", true);
       }
     }
-    this.assign("list", data.data);
+    console.log(data)
+    this.assign("list", data);
     this.meta_title = "收货地址";
     //判断浏览客户端
     if (checkMobile(this.userAgent())) {
@@ -114,6 +115,141 @@ export default class extends Base {
     this.meta_title = "收货地址";
     //判断浏览客户端
     return this.json(data);
+  }
+
+    async mobilequeryAction() {
+    //判断是否登陆
+    let islogin = await this.jsonlogin();
+    if(!islogin){
+      return this.fail("未登录");
+    }
+    let map ={'user_id':this.user.uid};
+         //0.获取查询关键字
+    let searchword = [];
+    let q = this.get("q");
+    
+    if(!think.isEmpty(q)){
+      let segment = new Segment();
+      // 使用默认的识别模块及字典，载入字典文件需要1秒，仅初始化时执行一次即可
+      await segment.useDefault();
+      // 开始分词
+      let segment_q= await segment.doSegment(q, {
+          simple: true,
+          stripPunctuation: true
+      });
+      for (let k=0; k<segment_q.length ;k++){
+          searchword.push("%"+segment_q[k]+"%");
+      }
+
+
+    }
+    //console.log(searchword);
+    let data;
+    if(searchword.length > 0){
+        map.accept_name = ["like",searchword];
+    }else{
+       
+        
+    }
+    data = await this.model("address").where(map).page(this.get('page')).order("is_default DESC,id DESC").countSelect();
+    let html = pagination(data, this.http, {
+      desc: false, //show description
+      pageNum: 2,
+      url: '', //page url, when not set, it will auto generated
+      class: 'nomargin', //pagenation extra class
+      text: {
+        next: '下一页',
+        prev: '上一页',
+        total: 'count: ${count} , pages: ${pages}'
+      }
+    });
+    //think.log(data);
+    this.assign('pagination', html);
+    if (!think.isEmpty(data.data)) {
+      for (let val of data.data) {
+        val.province_num = val.province;
+        val.city_num = val.city;
+        val.county_num = val.county;
+        val.province = await this.model("area").where({id: val.province}).getField("name", true);
+        val.city = await this.model("area").where({id: val.city}).getField("name", true);
+        val.county = await this.model("area").where({id: val.county}).getField("name", true);
+      }
+    }
+    data.html = html;
+    this.assign("list", data.data);
+    this.meta_title = "收货地址";
+    //判断浏览客户端
+    return this.json(data);
+  }
+  async checkAction() {
+    //判断是否登陆
+    let islogin = await this.jsonlogin();
+    if(!islogin){
+      return this.fail("未登录");
+    }
+    var id = this.get("id");
+    console.log(id)
+    let map ={'user_id':this.user.uid,id:id};
+         //0.获取查询关键字
+    let searchword = [];
+    let q = this.get("q");
+    
+    if(!think.isEmpty(q)){
+      let segment = new Segment();
+      // 使用默认的识别模块及字典，载入字典文件需要1秒，仅初始化时执行一次即可
+      await segment.useDefault();
+      // 开始分词
+      let segment_q= await segment.doSegment(q, {
+          simple: true,
+          stripPunctuation: true
+      });
+      for (let k=0; k<segment_q.length ;k++){
+          searchword.push("%"+segment_q[k]+"%");
+      }
+
+
+    }
+    //console.log(searchword);
+    let data;
+    if(searchword.length > 0){
+        map.accept_name = ["like",searchword];
+    }else{
+       
+        
+    }
+    data = await this.model("address").where(map).page(this.get('page'),1000).order("is_default DESC,id DESC").countSelect();
+    let html = pagination(data, this.http, {
+      desc: false, //show description
+      pageNum: 2,
+      url: '', //page url, when not set, it will auto generated
+      class: 'nomargin', //pagenation extra class
+      text: {
+        next: '下一页',
+        prev: '上一页',
+        total: 'count: ${count} , pages: ${pages}'
+      }
+    });
+    //think.log(data);
+    this.assign('pagination', html);
+    if (!think.isEmpty(data.data)) {
+      for (let val of data.data) {
+        val.province_num = val.province;
+        val.city_num = val.city;
+        val.county_num = val.county;
+        val.province = await this.model("area").where({id: val.province}).getField("name", true);
+        val.city = await this.model("area").where({id: val.city}).getField("name", true);
+        val.county = await this.model("area").where({id: val.county}).getField("name", true);
+      }
+    }
+    data.html = html;
+    console.log(data.data)
+    this.assign("list", data.data);
+    this.meta_title = "收货地址";
+    //判断浏览客户端
+    if (checkMobile(this.userAgent())) {
+      this.active = "user/index";
+      return this.display(`mobile/${this.http.controller}/${this.http.action}`)
+    }
   }
 
 
@@ -270,7 +406,7 @@ export default class extends Base {
     if(!think.isEmpty(id)){
 
       //获取地址信息
-      let address = await this.model("address").where({user_id:this.user.uid}).find(id);
+      let address = await this.model("address").where({user_id:this.user.uid,id:id}).find(id);
 
       let province, city, county;
       //获取省份

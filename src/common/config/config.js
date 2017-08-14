@@ -14,4 +14,5 @@ export default {
     document_model_type: {2 : '主题', 1 : '目录', 3 : '段落'},
     user_administrator :[1],//数组格式，可以配置多个[1,2,3]
     user_editor :[98],//数组格式，可以配置多个[1,2,3]
+    pathname_suffix: ".html",
 };

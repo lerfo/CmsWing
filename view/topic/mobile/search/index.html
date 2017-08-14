@@ -76,7 +76,7 @@
     .peanturoll-navigation a:nth-child(1) ,.peanturoll-navigation a:nth-child(2) ,.peanturoll-navigation a:nth-child(3){
        padding-right: 1%;
     } */
-    .peanturoll-navigation a div img{
+    .peanturoll-navigation a div img.logo-img{ 
        /*  position: relative; */
        /*  top: 10px;
        left: 10%; */
@@ -84,6 +84,16 @@
         margin-left: 31%;
         width: 38%;
         height: 33px !important;
+    }
+    .check-img{
+		position: absolute;
+		width: 23%;
+		height: 3px;
+		bottom: 0.1px;
+		display: none;
+    }
+    .check-img.active{
+    	display: block;
     }
     .peanturoll-navigation a div span{
         /* position: relative;
@@ -177,9 +187,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
-    .img-responsive{
-        width: 100%;
-    }
+    
      */
     
     .peanturoll-check{
@@ -300,14 +308,48 @@
     #area-popover.active,#check-popover.active{
         display:block  !important;
     }
-
-    .studytour-content{
+	
+	.studytour-div,.tournote-div,.question-div,.school-div{
+		background-color: #fff;
+	}
+    .studytour-content,.tournote-content,.question-content,.school-content{
         min-height: 290px;
         clear: both;
     }
-    .studytour-content.close{
+    .studytour-div.close,.tournote-div.close,.question-div.close,.school-div.close{
         display: none;
     }
+    .studytour-content.close,.tournote-content.close,.question-content.close,.school-content.close{
+        display: none;
+    }
+    /* .question-row{
+        padding: 0px 15px  !important;
+       }
+       .question-row.close{
+        display:none; 
+       }
+       .question-check{
+        font-size: 14px;
+        text-align: center;
+        font-weight: 600;
+        color: #666;
+       }
+       .question-check.active{
+        color: #1eb6c1;
+       }
+       .question-check.active .question-check-line{
+        background-color: #1eb6c1;
+       }
+       .question-check-line{
+        background-color:#666;
+        width: 3px;
+        height: 16px;
+        display: inline-block;
+       margin-right: 10px;
+        position: absolute;
+        left: 0px;
+        top: 2px;
+       } */
     .studytour-li{
         padding:7px 15px !important;
     }
@@ -324,18 +366,22 @@
         color: #1eb6c1;
     }
     .img-cover{
-        width: 100px;
-        height: 60px;
+        width: 100%;
+        height: 70px;
     }
     .studytour-title{
-        font-size: 14px;
+        margin-left:5px; 
+        font-size: 13px;
+        line-height: 1.5;
         color:#8f8f94;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .load-more-btn,.check-more-btn{
         width: 94%;
         margin:0 auto 10px auto;
         padding: 5px 0;
-        /* background-color: #8f8f94; */
         border: 1px solid #1eb6c1;
         color: #1eb6c1;
         font-size: 15px;
@@ -345,6 +391,165 @@
         height: 12px;
     }
 
+    .community-li .img-cover{
+        width: 100%;
+        height: 95px;
+    }
+    .mui-table-view-cell>a:not(.mui-btn){
+        white-space:normal;
+    }
+    .mui-table-view-cell>a .mui-col-sm-8.mui-col-xs-8{
+        padding-left: 6px;
+    }
+    .community-title{
+        font-weight: bold;
+        /* margin-left:4px;  */
+        font-size: 16px;
+        line-height: 1.5;
+        color:#888;
+        height: auto;
+        min-height: 24px;
+        max-height: 48px;
+        word-wrap: break-word; 
+        word-break: normal;
+        /* word-wrap:break-all;  */
+        /* width:200px; */
+         overflow: hidden;
+        text-overflow: ellipsis;
+        /*white-space: nowrap; */
+    }
+    .item_info{
+        max-height: 42px;
+        height: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top:5px;
+    }    
+	.bbs-span{
+		float: left;
+		margin-left: 4%;
+	}
+	.bbs-span img{
+		width: 31px;
+		margin:3.5px 5px 3.5px 5px;
+	}
+	.bbs-time{
+		float: left;
+		margin:10px 4px;
+	}
+	.bbs-all{
+		float: right;
+		margin:10px 4%;
+		padding:0 36px ; 
+		font-size: 12px;
+		background-color: #fff;
+		color: #1eb6c1;
+	}
+	.tournote-check-div{
+		padding:10px 5%;
+	}
+	.tournote-check-div>div{
+		font-size: 12px;
+		text-align: center;
+	}
+	.tournote-check-div .tournote-check{
+		width: 86%;
+		padding:1px 4%;
+		border:2px solid #1eb6c1; 
+		border-radius:10%;
+		margin:0 auto; 
+	}
+    .tournote-check-div .tournote-check.active{
+        width: 86%;
+        padding:1px 4%;
+        background-color: #1eb6c1;
+        color: #fff;
+        border-radius:10%;
+        margin:0 auto; 
+    }
+    .tourquestion-check-div{
+        padding:10px 5%;
+    }
+    .tourquestion-check-div>div{
+        font-size: 12px;
+        text-align: center;
+    }
+    .tourquestion-check-div .tourquestion-check{
+        width: 86%;
+        padding:1px 4%;
+        border:2px solid #1eb6c1; 
+        border-radius:10%;
+        margin:0 auto; 
+    }
+    .tourquestion-check-div .tourquestion-check.active{
+        width: 86%;
+        padding:1px 4%;
+        background-color: #1eb6c1;
+        color: #fff;
+        border-radius:10%;
+        margin:0 auto; 
+    }
+    .question-content{
+        background-color:transparent;
+    }
+    .question-content>ul{
+        padding: 7px 15px !important;
+    }
+    .question-card-div{
+        border: 1px solid #c8c7cc;
+    }
+    .mui-card-footer:before, .mui-card-header:after{
+        height:0;
+    }
+    .question-headimg{
+        border-radius: 50%;
+    }
+    .question-nickname{
+        font-size: 15px !important;
+        font-weight: bold;
+    }
+    .question-txt{
+        color: #888;
+    }
+    .question-point{
+        color: #888;
+        margin:0 3px; 
+    }
+    .question-wating{
+        width: 38px;
+        margin-bottom: -2px;
+    }
+    .question-title{
+        font-size: 17px !important;
+        font-weight: bold;
+        color: #333;
+    }
+    .question-detail{
+        color: #666;
+    }
+    .pull-right{
+        position:absolute !important;
+        right: 20px !important;
+        color: #666;
+        /* color: #888; */
+    }
+    .question-sign-1{
+        width: 14px;
+        margin-bottom: -3px;
+    }
+    .question-sign-div{
+        display: inline-block;
+        background-color:black;
+        width: 1px;
+        height: 16px;
+        margin:0 5px; 
+        position: relative;
+        top:2px;
+    }
+    .question-sign-2{
+        width: 19px;
+        margin-bottom: -2.5px;
+    }
 
     .peanturoll-footer{
         background-color: #484848;
@@ -423,125 +628,222 @@
     </div> 
     #}
     <div class="mui-input-row  peanturoll-navigation">
-        <a href="/">
+        <a class="navigation-a" >
             <div class="school">
-                <img src="/static/assets/images/mobile/search/school.png">
+                <img class="logo-img" src="/static/assets/images/mobile/search/school.png">
                 <span>学校</span>
+                <img class="check-img" src="/static/assets/images/mobile/search/check.png">
             </div>
         </a>
-        <a href="/youxue">
+        <a class="navigation-a" >
             <div class="studytour">
-                <img src="/static/assets/images/mobile/search/studytour.png">
+                <img class="logo-img" src="/static/assets/images/mobile/search/studytour.png">
                 <span>游学</span>
+                <img class="check-img active" src="/static/assets/images/mobile/search/check.png">
             </div>
         </a>
-        <a href="/">
+        <a class="navigation-a" >
             <div class="tournote">
-                <img src="/static/assets/images/mobile/search/tournote.png">
+                <img class="logo-img" src="/static/assets/images/mobile/search/tournote.png">
                 <span>游记攻略</span>
+                <img class="check-img" src="/static/assets/images/mobile/search/check.png">
             </div>
         </a>
-        <a href="/">
+        <a class="navigation-a" >
             <div class="tourquestion">
-                <img src="/static/assets/images/mobile/search/tourquestion.png">
+                <img class="logo-img" src="/static/assets/images/mobile/search/tourquestion.png">
                 <span>问答</span>
+                <img class="check-img" src="/static/assets/images/mobile/search/check.png">
             </div>
         </a>
     </div>
 </div>
-<div class="mui-content margin-top-10 peanturoll-check">
-    <div class="mui-row">
-        
-        <div class="mui-col-sm-6 mui-col-xs-6 area-div">    
-            <span class="check-span-1">全部目的地</span>     
-            <span>
-                <img class="check-icon-1" src="/static/assets/images/mobile/search/down.png">
+
+<div class="studytour-div">
+	<div class="mui-content margin-top-10 peanturoll-check">
+	    <div class="mui-row">
+	        
+	        <div class="mui-col-sm-6 mui-col-xs-6 area-div">    
+	            <span class="check-span-1">全部目的地</span>     
+	            <span>
+	                <img class="check-icon-1" src="/static/assets/images/mobile/search/down.png">
+	            </span>
+	        </div>
+	        
+	        <div class="mui-col-sm-6 mui-col-xs-6 check-div">
+	            <span class="check-span-2">筛选</span>
+	            <span>
+	                <img class="check-icon-2" src="/static/assets/images/mobile/search/down.png">
+	            </span>
+	        </div>
+	    </div>
+	</div>
+	<div class="mui-content peanturoll-filter">
+	    <div id="area-popover" class="area-popover">
+	        <div class="area-country-div">
+	            <ul class="mui-table-view area-ul">
+	                <li class="mui-table-view-cell active" data-area="0"><a href="#">全部目的地</a></li>
+	                {%for val in typevar%} 
+	                    {%if val.search > 1%}
+	                        {%if val.optionid==52%}
+	                            {%for v in val.rules %}
+	                                <!-- item -->
+	                                <li class="mui-table-view-cell" data-area={{v.id}}>
+	                                    <a href="#">{{v.name}}{{val.option.unit}}</a>
+	                                </li>
+	                            {%endfor%}
+	                        {%endif%}
+	                    {%endif%}
+	                {%endfor%}
+	            </ul>
+	        </div>
+	        <div class="conutry-div">
+	            {%for val in typevar%} 
+	                {%if val.search > 1%}
+	                    {%if val.optionid==52%}
+	                    	{#
+	                        <ul class="mui-table-view area-country-ul" data-areaId="0">
+	                            <li class="mui-table-view-cell area-country-li active" data-country={{val.option.identifier}}_0><a href="#">
+	                                    全部目的地</a></li>      
+	                        </ul>
+	                        #}
+	                        {%for v in val.rules %} 
+	                            <ul class="mui-table-view area-country-ul" data-areaId={{v.id}} >
+	                                <li class="mui-table-view-cell area-country-li" data-country={{val.option.identifier}}_{{v.id}}><a href="#">
+	                                   全部</a></li>
+	                            {% if v.children%}
+	                                {% for v_ in v.children %}  
+	                                <li class="mui-table-view-cell area-country-li" data-country={{val.option.identifier}}_{{v_.id}}><a href="#">
+	                                {{v_.name}}{{val.option.unit}}</a></li>
+	                                {#
+	                                {{JSON.stringify(v_)}}
+	                                #}
+	                                {% endfor %}
+	                            {%endif%}
+	                            </ul>
+	                        {%endfor%}
+	                    {%endif%}
+	                {%endif%}
+	            {%endfor%}
+	        </div>
+	    </div>
+	    <div id="check-popover" class="check-popover">
+	        <ul class="mui-table-view check-ul">
+	        {%for val in typevar%} 
+	            {%if val.search > 1%}  
+	                {%if val.optionid!=52%}  
+	                    <li class="mui-table-view-cell check-title">{{val.option.title}}</li>
+	                    <li class="mui-table-view-cell check-btn">
+	                        <div class="mui-row">
+	                            <div class="mui-col-sm-3 mui-col-xs-3">
+	                                <button class="mui-btn active" data-style={{val.option.identifier}}_0>全部</button>
+	                            </div>
+	                            {%for v in val.rules %}
+	                            <div class="mui-col-sm-3 mui-col-xs-3" >
+	                                <!-- item -->
+	                                <button class="mui-btn" data-style={{val.option.identifier}}_{{v.id}}>{{v.name}}{{val.option.unit}}</button>
+	                            </div>
+	                            {%endfor%}
+	                        </div>
+	                    </li>
+	                {%endif%}
+	            {%endif%}
+	        {%endfor%}
+	        </ul>
+	    </div>  
+	    
+	</div>
+	<div class="mui-content  margin-bottom-10">
+	    <div class="studytour-content">
+	        <ul class="mui-table-view ">
+	            {% for val in list %}
+	            {% set categoryname = val.category_id|get_cate %}
+	            <li class="mui-table-view-cell mui-media studytour-li"> 
+	                <a href="{{val.name|get_url(val.id)}}">
+	                    <div class="mui-row">
+	                        <div class="mui-col-sm-4 mui-col-xs-4 ">
+	                            {% if val.cover_id>0 %}
+	                            <img class="img-cover" src="{{val.cover_id|get_pic('m=1,w=200,h=120')}}">
+	                            {%else%}
+	                            <img class="img-cover" src="/static/noimg.jpg">
+	                            {% endif %}
+	                        </div>
+	                        <div class="mui-col-sm-8 mui-col-xs-8">
+	                            <h4 class="studytour-title">{{val.title|truncate(30, true, "...")}}</h4>
+	                            <p class="item_info">
+	                                <span class="mui-pull-right price-span">¥{{val.price|get_price('1')}}/1人起</span> 
+	                            </p>
+	                        </div>
+	                    </div>
+	                </a>
+	            </li>
+	            {%endfor%}
+	            {% if currentPage < totalPages %}
+	            <button type="button" class="mui-btn mui-btn-block margin-bottom-10 check-more-btn" data-page="2">
+	                展开更多
+	                <span>
+	                    <img src="/static/assets/images/mobile/search/load_more.png">
+	                </span>
+	            </button>
+	            {%endif%}   
+	        </ul>
+	    </div>
+	    
+	</div>
+</div>
+<div class="tournote-div close">
+	<div class="mui-content margin-top-10 peanturoll-check">
+	    <div class="mui-row nopadding">
+	    	<span class="bbs-span">
+                <img src="/static/assets/images/mobile/community/iadd.png">
             </span>
+            <span class="bbs-time">发帖时间</span>
+            <span class="bbs-all tournote-check" data-day="0">全部</span>
+	    </div>
+	</div>
+	<div class="mui-row tournote-check-div">
+        <div class="mui-col-xs-3 mui-col-sm-3">
+            <div class="tournote-check" data-day="7">最近7天</div>
         </div>
-        
-        <div class="mui-col-sm-6 mui-col-xs-6 check-div">
-            <span class="check-span-2">筛选</span>
-            <span>
-                <img class="check-icon-2" src="/static/assets/images/mobile/search/down.png">
-            </span>
+        <div class="mui-col-xs-3 mui-col-sm-3">
+            <div class="tournote-check" data-day="30">最近30天</div>
+        </div>
+        <div class="mui-col-xs-3 mui-col-sm-3">
+            <div class="tournote-check" data-day="180">6个月内</div>
+        </div>
+        <div class="mui-col-xs-3 mui-col-sm-3">
+            <div class="tournote-check" data-day="365">1年内</div>
         </div>
     </div>
+	<div class="tournote-content">
+        
+    </div>
 </div>
-<div class="mui-content peanturoll-filter">
-    <div id="area-popover" class="area-popover">
-        <div class="area-country-div">
-            <ul class="mui-table-view area-ul">
-                <li class="mui-table-view-cell active" data-area="0"><a href="#">全部目的地</a></li>
-                {%for val in typevar%} 
-                    {%if val.search > 1%}
-                        {%if val.optionid==52%}
-                            {%for v in val.rules %}
-                                <!-- item -->
-                                <li class="mui-table-view-cell" data-area={{v.id}}>
-                                    <a href="#">{{v.name}}{{val.option.unit}}</a>
-                                </li>
-                            {%endfor%}
-                        {%endif%}
-                    {%endif%}
-                {%endfor%}
-            </ul>
+<div class="question-div close">
+	<div class="mui-content margin-top-10 peanturoll-check">
+	    <div class="mui-row nopadding">
+	    	<span class="bbs-span">
+                <img src="/static/assets/images/mobile/community/iadd.png">
+            </span>
+            <span class="bbs-time">发帖时间</span>
+            <span class="bbs-all tourquestion-check" data-day="0">全部</span>
+	    </div>
+	</div>
+	<div class="mui-row tourquestion-check-div">
+        <div class="mui-col-xs-3 mui-col-sm-3">
+            <div class="tourquestion-check" data-day="7">最近7天</div>
         </div>
-        <div class="conutry-div">
-            {%for val in typevar%} 
-                {%if val.search > 1%}
-                    {%if val.optionid==52%}
-                        <ul class="mui-table-view area-country-ul" data-areaId="0">
-                            <li class="mui-table-view-cell area-country-li active" data-country={{val.option.identifier}}_0><a href="#">
-                                    全部目的地</a></li>      
-                        </ul>
-                        {%for v in val.rules %} 
-                            <ul class="mui-table-view area-country-ul" data-areaId={{v.id}} >
-                                <li class="mui-table-view-cell area-country-li" data-country={{val.option.identifier}}_{{v.id}}><a href="#">
-                                   全部</a></li>
-                            {% if v.children%}
-                                {% for v_ in v.children %}  
-                                <li class="mui-table-view-cell area-country-li" data-country={{val.option.identifier}}_{{v_.id}}><a href="#">
-                                {{v_.name}}{{val.option.unit}}</a></li>
-                                {#
-                                {{JSON.stringify(v_)}}
-                                #}
-                                {% endfor %}
-                            {%endif%}
-                            </ul>
-                        {%endfor%}
-                    {%endif%}
-                {%endif%}
-            {%endfor%}
+        <div class="mui-col-xs-3 mui-col-sm-3">
+            <div class="tourquestion-check" data-day="30">最近30天</div>
+        </div>
+        <div class="mui-col-xs-3 mui-col-sm-3">
+            <div class="tourquestion-check" data-day="180">6个月内</div>
+        </div>
+        <div class="mui-col-xs-3 mui-col-sm-3">
+            <div class="tourquestion-check" data-day="365">1年内</div>
         </div>
     </div>
-    <div id="check-popover" class="check-popover">
-        <ul class="mui-table-view check-ul">
-        {%for val in typevar%} 
-            {%if val.search > 1%}  
-                {%if val.optionid!=52%}  
-                    <li class="mui-table-view-cell check-title">{{val.option.title}}</li>
-                    <li class="mui-table-view-cell check-btn">
-                        <div class="mui-row">
-                            <div class="mui-col-sm-3 mui-col-xs-3">
-                                <button class="mui-btn active" data-style={{val.option.identifier}}_0>全部</button>
-                            </div>
-                            {%for v in val.rules %}
-                            <div class="mui-col-sm-3 mui-col-xs-3" >
-                                <!-- item -->
-                                <button class="mui-btn" data-style={{val.option.identifier}}_{{v.id}}>{{v.name}}{{val.option.unit}}</button>
-                            </div>
-                            {%endfor%}
-                        </div>
-                    </li>
-                {%endif%}
-            {%endif%}
-        {%endfor%}
-        </ul>
-    </div>  
-    
-</div>
-<div class="mui-content  margin-bottom-10">
-    <div class="studytour-content">
+	<div class="question-content">
         <ul class="mui-table-view ">
             {% for val in list %}
             {% set categoryname = val.category_id|get_cate %}
@@ -556,7 +858,7 @@
                             {% endif %}
                         </div>
                         <div class="mui-col-sm-8 mui-col-xs-8">
-                            <h4 class="dotdot studytour-title">{{val.title|truncate(30, true, "...")}}</h4>
+                            <h4 class="studytour-title">{{val.title|truncate(30, true, "...")}}</h4>
                             <p class="item_info">
                                 <span class="mui-pull-right price-span">¥{{val.price|get_price('1')}}/1人起</span> 
                             </p>
@@ -576,6 +878,47 @@
         </ul>
     </div>
 </div>
+<div class="school-div close">
+	<div class="school-content">
+        {#
+        <ul class="mui-table-view ">
+            {% for val in list %}
+            {% set categoryname = val.category_id|get_cate %}
+            <li class="mui-table-view-cell mui-media studytour-li"> 
+                <a href="{{val.name|get_url(val.id)}}">
+                    <div class="mui-row">
+                        <div class="mui-col-sm-4 mui-col-xs-4 ">
+                            {% if val.cover_id>0 %}
+                            <img class="img-cover" src="{{val.cover_id|get_pic('m=1,w=200,h=120')}}">
+                            {%else%}
+                            <img class="img-cover" src="/static/noimg.jpg">
+                            {% endif %}
+                        </div>
+                        <div class="mui-col-sm-8 mui-col-xs-8">
+                            <h4 class="studytour-title">{{val.title|truncate(30, true, "...")}}</h4>
+                            <p class="item_info">
+                                <span class="mui-pull-right price-span">¥{{val.price|get_price('1')}}/1人起</span> 
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            {%endfor%}
+            {% if currentPage < totalPages %}
+            <button type="button" class="mui-btn mui-btn-block margin-bottom-10 load-more-btn" data-page="2">
+                展开更多
+                <span>
+                    <img src="/static/assets/images/mobile/search/load_more.png">
+                </span>
+            </button>
+            {%endif%}   
+        </ul>
+        #}
+        <div class="text-center padding-top-30">即将上线，敬请期待</div>
+    </div>
+</div>
+	
+
 {% include "../inc/footer.html" %}
 {#
 <div class="mui-content margin-top-10 margin-bottom-60 peanturoll-footer">
@@ -884,7 +1227,7 @@
     function checkStudytour() {
         var searchword=GetQueryString("q");
         var value = '132-0-0-17-';  
-        if(0 ==$(".area-ul").find(".active").attr("data-area")){
+        if("0" ==$(".area-ul").find(".active").attr("data-area")){
             value += "tourdest_0"+"|";
         }else{
             value += $(".area-country-ul").find(".active").attr("data-country")+'|';
@@ -896,54 +1239,14 @@
             }
         });
         //console.log(value);
-        //var ul = document.createElement('ul');
-        //ul.className = 'mui-table-view';
+        var ul = document.createElement('ul');
+        ul.className = 'mui-table-view';
         var page = 1;
-        $.ajax({
-            type:"get",
-            url:"/ajax/topic?q="+searchword+"&page="+page+"&value="+value,
-            success:function(dataResult){
-                var thtml = '<ul class="mui-table-view">';
-                $.each(dataResult.data,function(k,v){
-                    var cover;
-                    if(null==v.cover_url){
-                        cover = '/static/noimg.jpg';
-                    }else{
-                        cover = v.cover_url;
-                    }
-                    //TODO
-                    //title = v.title;
-                    //price =v.price; 
-                    thtml += '<li class="mui-table-view-cell mui-media">\
-                                <a href="/p/'+v.id+'.html">\
-                                    <div class="mui-row">\
-                                        <div class="mui-col-sm-4 mui-col-xs-4 ">\
-                                            <img class="img-cover" src='+cover+'>\
-                                        </div>\
-                                        <div class="mui-col-sm-8 mui-col-xs-8">\
-                                            <h4 class="dotdot studytour-title">'+v.title+'</h4>\
-                                            <p class="item_info">\
-                                                <span class="mui-pull-right price-span">¥'+v.price+'/人起</span> \
-                                            </p>\
-                                        </div>\
-                                    </div>\
-                                </a>\
-                            </li>'  
-                });
-               
-                if(dataResult.currentPage < dataResult.totalPages){
-                    page =parseInt(page)+1;
-                    thtml+= '<button type="button" class="mui-btn mui-btn-block margin-bottom-10 check-more-btn" data-page=2>\
-                                展开更多\
-                                <span>\
-                                    <img src="/static/assets/images/mobile/search/load_more.png">\
-                                </span>\
-                            </button></ul>'
-                } 
-                //console.log(thtml);
-                $(".studytour-content").html(thtml);          
-            }
-        });
+        var thtml = studytour_ajax(page,searchword,value);
+        ul.innerHTML=thtml; 
+        $('.studytour-content').empty()
+        $('.studytour-content').append(ul);
+
     }
     //
     //获取URL的q&value
@@ -954,67 +1257,6 @@
             return  (decodeURI(r[2])); 
         }
         return '';
-    }
-
-    //load-more-btn点击事件
-    mui(".studytour-content").on("tap","button.load-more-btn",loadstudytour);
-    function loadstudytour() {
-        page = $(this).attr("data-page");
-        var ul = document.createElement('ul');
-        ul.className = 'mui-table-view';
-        var searchword=GetQueryString("q");
-        var value=GetQueryString("value");
-        $.ajax({
-            type:"get",
-            url:"/ajax/topic?q="+searchword+"&page="+page+"&value="+value,
-            success:function(dataResult){
-                var thtml = '';
-                var cover;
-                $.each(dataResult.data,function(k,v){
-                    if(null==v.cover_url){
-                        cover = '/static/noimg.jpg';
-                    }else{
-                        cover = v.cover_url;
-                    }
-                    //TODO
-                    //title = v.title;
-                    //price =v.price; 
-                    /*console.log(v.price);
-                    if (null==v.price ) {
-                        v.price = 0;
-                    }*/
-                    thtml += '<li class="mui-table-view-cell mui-media">\
-                                <a href="/p/'+v.id+'.html">\
-                                    <div class="mui-row">\
-                                        <div class="mui-col-sm-4 mui-col-xs-4 ">\
-                                            <img class="img-cover" src='+cover+'>\
-                                        </div>\
-                                        <div class="mui-col-sm-8 mui-col-xs-8">\
-                                            <h4 class="dotdot studytour-title">'+v.title+'</h4>\
-                                            <p class="item_info">\
-                                                <span class="mui-pull-right price-span">¥'+v.price+'/人起</span> \
-                                            </p>\
-                                        </div>\
-                                    </div>\
-                                </a>\
-                            </li>'  
-                });
-               
-                if(dataResult.currentPage < dataResult.totalPages){
-                    page =parseInt(page)+1;
-                    thtml+= '<button type="button" class="mui-btn mui-btn-block margin-bottom-10 load-more-btn" data-page='+page+'>\
-                                展开更多\
-                                <span>\
-                                    <img src="/static/assets/images/mobile/search/load_more.png">\
-                                </span>\
-                            </button>'
-                }
-                ul.innerHTML=thtml;            
-            }
-        });
-        $(this).hide();
-        $('.studytour-content').append(ul);
-
     }
 
     //check-more-btn点击事件
@@ -1036,12 +1278,32 @@
                 value += '|';
             }
         });
-        //console.log("/ajax/topic?q="+searchword+"&page="+page+"&value="+value);
+        $(this).hide();
+        var thtml = studytour_ajax(page,searchword,value);
+        ul.innerHTML=thtml; 
+        $('.studytour-content').append(ul);
+
+    }
+    //封装查询游学的ajax方法，返回String类型的 item循环的 html字符串 searchword page value
+    //TODO 
+    /**
+     * [studytour_ajax description]
+     * 封装查询游学的ajax方法 返回String类型的 item循环的 html字符串
+     * @param  {[string]} page       
+     * @param  {[string]} searchword 
+     * @param  {[string]} value      [ '0'|'1'|'3'  最新|热门|待回答]
+     * @return {[string]} thtml      [ajax数据遍历得出的html字符串]
+     */
+    function studytour_ajax(page,searchword,value) {
+        null == page ? page='1':page;
+        null == searchword ? searchword='':searchword;
+        null == value ? value='':value;
+        var thtml='';
         $.ajax({
             type:"get",
+            async:false,
             url:"/ajax/topic?q="+searchword+"&page="+page+"&value="+value,
             success:function(dataResult){
-                var thtml = '';
                 $.each(dataResult.data,function(k,v){
                     var cover;
                     if(null==v.cover_url){
@@ -1049,9 +1311,6 @@
                     }else{
                         cover = v.cover_url;
                     }
-                    //TODO
-                    //title = v.title;
-                    //price =v.price; 
                     thtml += '<li class="mui-table-view-cell mui-media">\
                                 <a href="/p/'+v.id+'.html">\
                                     <div class="mui-row">\
@@ -1059,36 +1318,35 @@
                                             <img class="img-cover" src='+cover+'>\
                                         </div>\
                                         <div class="mui-col-sm-8 mui-col-xs-8">\
-                                            <h4 class="dotdot studytour-title">'+v.title+'</h4>\
+                                            <h4 class="studytour-title">'+v.title+'</h4>\
                                             <p class="item_info">\
                                                 <span class="mui-pull-right price-span">¥'+v.price+'/人起</span> \
                                             </p>\
                                         </div>\
                                     </div>\
                                 </a>\
-                            </li>'  
+                            </li>' 
                 });
-               
                 if(dataResult.currentPage < dataResult.totalPages){
-                    page =parseInt(page)+1;
-                    thtml+= '<button type="button" class="mui-btn mui-btn-block margin-bottom-10 check-more-btn" data-page='+page+'>\
+                    var nextPage =parseInt(page)+1;
+                    thtml+= '<button type="button" class="mui-btn mui-btn-block margin-bottom-10 check-more-btn" data-page='+nextPage+'>\
                                 展开更多\
                                 <span>\
                                     <img src="/static/assets/images/mobile/search/load_more.png">\
                                 </span>\
                             </button>'
                 }
-                ul.innerHTML=thtml;            
+               //$("[data-pages='"+page+"']").hide();      
             }
         });
-        $(this).hide();
-        $('.studytour-content').append(ul);
-
+        return thtml;  
     }
     //解析url 对应筛选条件(地区模块和分类默认选中)
     mui.ready(function() {
     	var value = GetQueryString("value");
     	//console.log(value);
+        var tourdest = GetQueryString("tourdest");
+        //console.log(tourdest);
     	if(''!=value){
     		value = value.split("132-0-0-17-")[1];
 	    	var data=value.split("|");
@@ -1096,16 +1354,25 @@
 	    	for (var i = data.length - 1; i >= 0; i--) {
 
 	    		if (data[i].indexOf("tourdest")>=0) {
-	    			//console.log(data[i]);
 	    			if(0!=parseInt(data[i].split("tourdest_")[1])){
-	    				//console.log($("[data-country='"+data[i]+"']"));
-	    				$(".area-ul li").removeClass("active");
-	    				$("[data-area='"+data[i].split("tourdest_")[1]+"']").addClass("active");
-	    				$("[data-areaid='"+data[i].split("tourdest_")[1]+"']").addClass("active");
-	    				$("[data-country='"+data[i]+"']").addClass("active");
-	    				//$(".check-span-1").text($("[data-country='"+data[i]+"']").text());
-	    				$(".check-span-1").text($("[data-area='"+data[i].split("tourdest_")[1]+"']").text());
+                        var id  = data[i].split("tourdest_")[1];
+                        var areaId  = id;
+                        if (id.length>3) {
+                            areaId  = id.split(".")[0];
+                        }
+                        //areaId = 400 500 
+                        var area =  $("[data-area='"+areaId+"']");
+                        $(".area-ul li").removeClass("active");
+                        area.addClass("active");
+                        $("[data-areaid='"+areaId+"']").addClass("active");
+                        $("[data-country='"+data[i]+"']").addClass("active");
+                        if(id.length>3){
+                           $(".check-span-1").text($("[data-country='"+data[i]+"']").text());
+                        }else{
+                            $(".check-span-1").text($("[data-area='"+data[i].split("tourdest_")[1]+"']").text());
+                        }
 	    			}
+                    
 	    		}else{
 	    			$("[data-style='"+data[i]+"']").parents(".check-btn").find(".active").removeClass("active");
 	    			$("[data-style='"+data[i]+"']").addClass("active");
@@ -1114,6 +1381,7 @@
 	    	}
     	}
     });
+    
     //底部导航栏单击打开herf事件
     mui.ready(function() {
         var btn = document.querySelectorAll(".mui-bar-tab a.mui-tab-item");
@@ -1138,6 +1406,221 @@
             url: url
         });
     })
+
+    //peanturoll-navigation点击切换页面
+     mui(".peanturoll-navigation").on("tap","a.navigation-a",function(){
+        var openContent = '';
+        if ($(this).children("div").hasClass("school")) {
+            openContent = '.school-div';
+        }else if($(this).children("div").hasClass("tournote")){
+            openContent = '.tournote-div';
+        }else if($(this).children("div").hasClass("tourquestion")){
+             openContent = '.question-div';
+        }else{
+            openContent = '.studytour-div';
+        }
+        openContent = $(openContent);
+        openContent.removeClass("close");
+        openContent.siblings().addClass("close");
+        $(this).siblings().find(".check-img").removeClass("active");
+        $(this).find(".check-img").addClass("active");
+     });
+
+     //初始化加载攻略游记、问答模块内容
+      mui.ready(function(){
+        loadtournote();
+        loadquestion();
+    });
+     mui(".peanturoll-check").on("tap",".bbs-all",function(){
+        $(".tournote-check").removeClass("active");
+        loadtournote();
+    })  
+    //点击 tournote-check add class
+    mui(".tournote-check-div").on("tap",".tournote-check",function(){
+        $(".tournote-check").removeClass("active");
+        $(this).addClass("active");
+        loadtournote();
+    })
+      
+    function loadtournote(page) {
+        (typeof(page) == "undefined")?page="1":page;
+        var day = '';
+        if ($(".tournote-check").hasClass("active")) {
+            day = $(".tournote-check.active").attr("data-day");
+        }
+        var searchword = GetQueryString("q");
+        var ul = document.createElement('ul');
+        ul.className = 'mui-table-view';
+        var thtml = tournote_ajax(page,day,searchword);
+        ul.innerHTML=thtml; 
+        if ("1"==page) {
+             $('.tournote-content').empty();
+        }
+        $('.tournote-content').append(ul);
+        
+    }
+     /**
+     * [tournote_ajax description]
+     * 封装查询问答的ajax方法 返回String类型的 item循环的 html字符串
+     * @param  {[string]} page       
+     * @param  {[string]} searchword 
+     * @param  {[string]} day
+     * @return {[string]} thtml      [ajax数据遍历得出的html字符串]
+     */
+    function tournote_ajax(page,day,searchword) {
+        //console.log("page:"+page+"day:"+day+"searchword"+searchword)
+        null == page ? page='1':page;
+        null == searchword ? searchword='':searchword;
+        null == day ? day='':day;
+        var thtml='';
+        $.ajax({
+            type:"get",
+            async:false,
+            url:"/ajax/question?cid=124&q="+searchword+"&page="+page+"&day="+day,
+            success:function(dataResult){
+                $.each(dataResult.data,function(k,v){
+                    var cover;
+                    if(null==v.imgurl || ''==v.imgurl){
+                        cover = '<img class="img-cover" src="static/assets/images/noimage.jpg">';
+                    }else{
+                       cover = v.imgurl;
+                       cover = '<img class="img-cover" src='+cover+'>';
+                    }
+                    thtml += '<li class="mui-table-view-cell mui-media community-li"  data-url="/mod/question/'+v.id+'">\
+                                <a href="/mod/question/'+v.id+'.html">\
+                                    <div class="mui-row">\
+                                        <div class="mui-col-sm-4 mui-col-xs-4">\
+                                            '+cover+'\
+                                        </div>\
+                                        <div class="mui-col-sm-8 mui-col-xs-8">\
+                                            <p class="community-title">'+v.title+'</p>\
+                                            <p class="item_info">'+v.detailtext+'</p>\
+                                        </div>\
+                                    </div>\
+                                </a>\
+                            </li>'  
+                });
+                if(dataResult.currentPage < dataResult.totalPages){
+                    var nextPage =parseInt(page)+1;
+                    thtml+= '<button type="button" class="mui-btn mui-btn-block margin-bottom-10 check-more-btn" data-page='+nextPage+' onclick="loadtournote('+nextPage+');">\
+                                展开更多\
+                                <span>\
+                                    <img src="/static/assets/images/mobile/search/load_more.png">\
+                                </span>\
+                            </button>'
+                }
+               $("[data-page='"+page+"']").hide();      
+            }
+        });
+        return thtml;  
+    }
+
+
+    mui(".peanturoll-check").on("tap",".tourquestion-check",function(){
+        $(".tourquestion-check").removeClass("active");
+        loadquestion();
+    })  
+    mui(".tourquestion-check-div").on("tap",".tourquestion-check",function(){
+        $(".tourquestion-check").removeClass("active");
+        $(this).addClass("active");
+        loadquestion();
+    })
+    mui(".question-content").on("tap",".question-card-div",function(){
+        var url = $(this).attr("data-url");
+        //打开关于页面
+        mui.openWindow({
+            url: url
+        });
+    })
+    function loadquestion(page,day) {
+        (typeof(page) == "undefined")?page="1":page;
+        (typeof(day) == "undefined")?day="":day;
+        if ($(".tourquestion-check").hasClass("active")) {
+            day = $(".tourquestion-check.active").attr("data-day");
+        }
+        var searchword = GetQueryString("q");
+        var ul = document.createElement('ul');
+        ul.className = 'mui-table-view';
+        var thtml = question_ajax(page,day,searchword);
+        //console.log(thtml);
+        ul.innerHTML=thtml; 
+        if ("1"==page) {
+             $('.question-content').empty();
+        }
+        $('.question-content').append(ul);
+        
+    }
+    /**
+     * [question_ajax description]
+     * 封装查询问答的ajax方法 返回String类型的 item循环的 html字符串
+     * @param  {[string]} page       
+     * @param  {[string]} searchword 
+     * @param  {[string]} order      [ '0'|'1'|'3'  最新|热门|待回答]
+     * @return {[string]} thtml      [ajax数据遍历得出的html字符串]
+     */
+    function question_ajax(page,day,searchword) {
+        //console.log("page:"+page+"day:"+day+"searchword"+searchword)
+        null == page ? page='1':page;
+        null == searchword ? searchword='':searchword;
+        null == day ? day='':day;
+        var thtml='';
+        $.ajax({
+            type:"get",
+            async:false,
+            url:"/ajax/question?cid=125&q="+searchword+"&page="+page+"&day="+day,
+            success:function(dataResult){
+                $.each(dataResult.data,function(k,v){
+                    var waiting='';
+                    if (0==v.answer_count) {
+                        waiting = '<span><img class="question-wating" src="static/assets/images/mobile/community/waiting.png"></span>';
+                    }
+                    thtml += '<div class="mui-card question-card-div" data-url="/mod/question/'+v.id+'">\
+                                <div class="mui-card-header mui-card-media">\
+                                    <img class="question-headimg" src="/uc/index/avatar/uid/'+v.uid+'">\
+                                    <div class="mui-media-body margin-top-10">\
+                                        <span class="question-nickname">'+v.username+'</span>\
+                                        <span class="question-txt">提了一个问题</span>\
+                                        <span class="question-point">•</span>\
+                                        <span class="question-txt">'+ v.create_time +'</span>\
+                                       '+waiting+'\
+                                    </div>\
+                                </div>\
+                                <div class="mui-card-content">\
+                                    <div class="mui-card-content-inner" >\
+                                        <p class="question-title">'+v.title+'</p>\
+                                        <p class="question-detail">'+v.detailtext+'</p>\
+                                    </div>\
+                                </div>\
+                                <div class="mui-card-footer">\
+                                    <a class="pull-right">\
+                                        <span>\
+                                            <img class="question-sign-1" src="/static/assets/images/mobile/community/reply.png"> 回答:'+ v.answer_count +'\
+                                        </span>\
+                                        <span>\
+                                            <div class="question-sign-div">&nbsp;</div>\
+                                        </span>\
+                                        <span>\
+                                            <img class="question-sign-2" src="/static/assets/images/mobile/community/view.png"> \
+                                            浏览:'+ v.view +'\
+                                        </span>\
+                                    </a>\
+                                </div>\
+                            </div>'  
+                });
+                if(dataResult.currentPage < dataResult.totalPages){
+                    var nextPage =parseInt(page)+1;
+                    thtml+= '<button type="button" class="mui-btn mui-btn-block margin-bottom-10 check-more-btn" data-pages='+nextPage+' onclick="loadquestion('+nextPage+');">\
+                                展开更多\
+                                <span>\
+                                    <img src="/static/assets/images/mobile/search/load_more.png">\
+                                </span>\
+                            </button>';
+                }
+               $("[data-pages='"+page+"']").hide();      
+            }
+        });
+        return thtml;  
+    }
 </script>
 
 {% endblock %}

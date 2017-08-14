@@ -1,5 +1,6 @@
 {% extends "../inc/base.html" %}
 {% block style%}
+<link rel="stylesheet" href="/static/assets/plugins/listnav/css/listnav.css">
 <style type="text/css">
     .mui-bar{
         z-index: 1000;
@@ -181,6 +182,9 @@
         border-right: 1px solid  skyblue;
         border-bottom: 1px solid  skyblue;
     }
+   .area-li.overlay{
+        background-color: rgba(0,0,0,.2) !important;
+   }
     .area-img{
         height: 45px  !important;
         width: 40px !important;
@@ -270,6 +274,10 @@
     	color: rgba(255,255,255,0.6);
 		font-size: 12px;
     }
+
+    .disappear{
+    	display: none;
+    }
 </style>
 {%endblock%}
 {% block content %}
@@ -356,55 +364,73 @@
     </div>
     <div class="mui-content area-list">
         <ul class="mui-table-view mui-grid-view mui-grid-9">
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
-                <a class="peanutRoll_a" href="search.html?q=&value=132-0-0-17-tourdest_100" title="亚洲">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 area-li" data-id="661">
+                <a  href="javascript:void(0)" title="亚洲">
                     <img class="area-img" src="/static/assets/images/world/area1.png"  alt="" >
                     <div class="area-div">亚洲</div>   
                 </a>
             </li>
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
-                <a href="/">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 area-li" data-id="710">
+                <a href="javascript:void(0)">
                     <img class="area-img" src="/static/assets/images/world/area2.png"  alt="" >
                     <div class="area-div">欧洲</div>
                 </a>
             </li>
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
-                <a href="/">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 area-li" data-id="757">
+                <a href="javascript:void(0)">
                     <img class="area-img" src="/static/assets/images/world/area3.png"  alt="" >
                     <div class="area-div">非洲</div>
                 </a>
             </li>
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
-                <a href="/">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 area-li" data-id="888">
+                <a href="javascript:void(0)">
                     <img class="area-img" src="/static/assets/images/world/area5.png"  alt="" >
                     <div class="area-div">美洲</div>
                 </a>
             </li>
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
-                <a href="/">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 area-li" data-id="874">
+                <a href="javascript:void(0)">
                     <img class="area-img" src="/static/assets/images/world/area6.png"  alt="" >
                     <div class="area-div">大洋洲</div>
                 </a>
             </li>
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 area-li" >
-                <a href="/">
+            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4 area-li" data-id="0">
+                <a href="javascript:void(0)">
                     <span class="area-img"></span>
                     <div class="area-all">全部</div>
                 </a>
             </li>
         </ul>
     </div>
-    {#
-    {% topic data = "list", limit= "200", cid=135, issub=1, isstu=1, pid=0, type="level", page=0 %}
-    {% for v in list %}
-    	{{v.title}}{{v.name_en}}
-    	{% topic data = "list", limit= "200", cid=135, isstu=1, pid=v.id,type="none",page=0 %}
-        {% for v_ in list %}
-        	{{v_.title}}
-        {% endfor %}
-    {% endfor %}
-    #}
-    <div class="mui-slider-group area-list">
+
+
+   
+    <div class="mui-content area-list" style="display: none;" > <!--  -->
+        <!-- <div id="noticeMSG">
+            <label>中文字母序：</label>
+        </div>
+        
+        <br />  -->
+       
+        <!--显示字母序的层。注：此层id必需是ul的id+"-nav"-->
+        <div id="candyList-nav" >
+        </div>
+        <ul class="candyList" id="candyList">
+    	{% topic data = "list", limit= "20", cid=135, issub=1,pid=0, type="level", page=0 %}    
+        {% for v in list %}
+            {# <h4>{{v.title}}{{v.place_id}}</h4> #}
+            {% topic data = "list", limit= "200", cid=135, isstu=1, pid=v.id,type="none",page=0 %}
+            {% for v_ in list %}
+                {%if null != v_.place_id%}
+                <li class="mui-table-view-cell mui-indexed-list-item" data-area="{{v.id}}"><a href="/search.html?q=&value=132-0-0-17-tourdest_{{v_.place_id}}|tourfeature_0|tourtype_0|tourmonth_0">{{v_.title}}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+        {% endfor %}     
+        </ul>
+    </div>
+    
+    <div class="mui-slider-group area-list" >
         <div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
 
             <div id='list' class="mui-indexed-list" >
@@ -412,33 +438,36 @@
                 <div class="mui-indexed-list-inner">
                     <!-- <div class="mui-indexed-list-empty-alert margin-bottom-10">没有数据</div> -->
                     <ul class="mui-table-view" id="cityList">
-                        <li data-group="A" class="mui-table-view-divider mui-indexed-list-group" id="A">A</li>
+                        <li data-group="A" class="mui-table-view-divider mui-indexed-list-group" id="a">A</li>
+                        <li data-group="B" class="mui-table-view-divider mui-indexed-list-group" id="b">B</li>
+                        <li data-group="C" class="mui-table-view-divider mui-indexed-list-group" id="c">C</li>
 
-                        <li data-group="B" class="mui-table-view-divider mui-indexed-list-group" id="B">B</li>
-                        <li data-group="C" class="mui-table-view-divider mui-indexed-list-group" id="C">C</li>
+                        <li data-group="D" class="mui-table-view-divider mui-indexed-list-group" id="d">D</li>
 
-                        <li data-group="D" class="mui-table-view-divider mui-indexed-list-group" id="D">D</li>
+                        <li data-group="E" class="mui-table-view-divider mui-indexed-list-group" id="e">E</li>
 
-                        <li data-group="E" class="mui-table-view-divider mui-indexed-list-group" id="E">E</li>
+                        <li data-group="F" class="mui-table-view-divider mui-indexed-list-group" id="f">F</li>
+                        <li data-group="G" class="mui-table-view-divider mui-indexed-list-group" id="g">G</li>
+                        <li data-group="H" class="mui-table-view-divider mui-indexed-list-group" id="h">H</li>
+                        <li data-group="I" class="mui-table-view-divider mui-indexed-list-group" id="i">I</li>
+                        <li data-group="J" class="mui-table-view-divider mui-indexed-list-group" id="j">J</li>
+                        <li data-group="K" class="mui-table-view-divider mui-indexed-list-group" id="k">K</li>
 
-                        <li data-group="F" class="mui-table-view-divider mui-indexed-list-group" id="F">F</li>
-                        <li data-group="G" class="mui-table-view-divider mui-indexed-list-group" id="G">G</li>
-                        <li data-group="H" class="mui-table-view-divider mui-indexed-list-group" id="H">H</li>
-                        <li data-group="J" class="mui-table-view-divider mui-indexed-list-group" id="J">J</li>
-                        <li data-group="K" class="mui-table-view-divider mui-indexed-list-group" id="K">K</li>
-
-                        <li data-group="L" class="mui-table-view-divider mui-indexed-list-group" id="L">L</li>
-                        <li data-group="M" class="mui-table-view-divider mui-indexed-list-group" id="M">M</li>
-                        <li data-group="N" class="mui-table-view-divider mui-indexed-list-group" id="N">N</li>
-                        <li data-group="P" class="mui-table-view-divider mui-indexed-list-group" id="P">P</li>
-                        <!-- <li data-group="Q" class="mui-table-view-divider mui-indexed-list-group" id="Q">Q</li> -->
-                        <li data-group="R" class="mui-table-view-divider mui-indexed-list-group" id="R">R</li>
-                        <li data-group="S" class="mui-table-view-divider mui-indexed-list-group" id="S">S</li>
-                        <li data-group="T" class="mui-table-view-divider mui-indexed-list-group" id="T">T</li>
-                        <li data-group="W" class="mui-table-view-divider mui-indexed-list-group" id="W">W</li>
-                        <li data-group="X" class="mui-table-view-divider mui-indexed-list-group" id="X">X</li>
-                        <li data-group="Y" class="mui-table-view-divider mui-indexed-list-group" id="Y">Y</li>
-                        <li data-group="Z" class="mui-table-view-divider mui-indexed-list-group" id="Z">Z</li>
+                        <li data-group="L" class="mui-table-view-divider mui-indexed-list-group" id="l">L</li>
+                        <li data-group="M" class="mui-table-view-divider mui-indexed-list-group" id="m">M</li>
+                        <li data-group="N" class="mui-table-view-divider mui-indexed-list-group" id="n">N</li>
+                        <li data-group="O" class="mui-table-view-divider mui-indexed-list-group" id="o">O</li>
+                        <li data-group="P" class="mui-table-view-divider mui-indexed-list-group" id="p">P</li>
+                        <li data-group="Q" class="mui-table-view-divider mui-indexed-list-group" id="q">Q</li>
+                        <li data-group="R" class="mui-table-view-divider mui-indexed-list-group" id="r">R</li>
+                        <li data-group="S" class="mui-table-view-divider mui-indexed-list-group" id="s">S</li>
+                        <li data-group="T" class="mui-table-view-divider mui-indexed-list-group" id="t">T</li>
+                        <li data-group="U" class="mui-table-view-divider mui-indexed-list-group" id="u">U</li>
+                        <li data-group="V" class="mui-table-view-divider mui-indexed-list-group" id="v">V</li>
+                        <li data-group="W" class="mui-table-view-divider mui-indexed-list-group" id="w">W</li>
+                        <li data-group="X" class="mui-table-view-divider mui-indexed-list-group" id="x">X</li>
+                        <li data-group="Y" class="mui-table-view-divider mui-indexed-list-group" id="y">Y</li>
+                        <li data-group="Z" class="mui-table-view-divider mui-indexed-list-group" id="z">Z</li>
                     </ul>
                 </div>
             </div>
@@ -453,7 +482,7 @@
 			<a href="#wait"><h5 class="letter-spacing-1">电脑版</h5></a>
 		</div>
 		<div class="footer-t peanturoll-title-1">
-			<a href="#wait"><h5 class="letter-spacing-1">手机版</h5></a>
+			<a href="/index"><h5 class="letter-spacing-1">手机版</h5></a>
 		</div>
 		<div class="footer-t peanturoll-title-2">
 			<a href="/webpage#565"><h5 class="letter-spacing-1">花生卷简介</h5></a>
@@ -900,6 +929,16 @@
         });
 
 #}
+    mui("#cityList").on("tap","li.mui-table-view-cell > a",function(){
+        console.log("tap a");
+        console.log($(this));
+        var  url = $(this).attr("href");
+        //var url = this.getAttribute("href");
+        //打开关于页面
+        mui.openWindow({
+            url: url
+        });
+    })
     //底部导航栏单击打开herf事件
     mui.ready(function() {
         var btn = document.querySelectorAll(".mui-bar-tab a.mui-tab-item");
@@ -920,6 +959,61 @@
 
 
 <script src="/static/assets/plugins/jquery/jquery-2.1.4.min.js"></script>
+<script src="/static/assets/plugins/listnav/js/jquery.charfirst.pinyin.js"></script>
+<script src="/static/assets/plugins/listnav/js/jquery.listnav.min-2.1.js"></script>
+<script type="text/javascript" charset="utf-8">
+    $(function(){
+        $('#candyList').listnav({
+            includeOther: true,
+            noMatchText: '没有内容',
+            prefixes: ['the', 'a']
+        });
+    })
+    $(function getAreaList(){
+        var character = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+        for (var i = 0; i <= character.length-1; i++) {
+        	if (0>=$(".ln-"+character[i]).length) {
+        		$("#"+character[i]).css("display","none");
+        	}else{
+        		$("#"+character[i]).after($(".ln-"+character[i]));
+        	}
+        }
+   	});
+   	mui(".area-list").on("tap",".area-li",function(){
+        $(".area-li").removeClass("overlay");
+        $(this).addClass("overlay");
+   		var id = $(this).attr("data-id");
+		var list = $(".mui-table-view-cell.mui-indexed-list-item");
+   		for (var i = 0; i <= list.length-1; i++) {
+   			var li = list[i];
+   			li.className = "mui-table-view-cell mui-indexed-list-item";
+   			var areaId = li.getAttribute("data-area");
+
+   			if(id=="888") {
+   				if ( ("818"!= areaId) && ("859"!= areaId)) {
+	   				li.className = "mui-table-view-cell mui-indexed-list-item disappear";
+	   			}
+	   		}else if(id!="0"){
+		   		if (id != areaId) {
+	   				li.className = "mui-table-view-cell mui-indexed-list-item disappear";
+	   			}
+	   		}
+   		}
+        var character = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+        for (var i = 0; i <= character.length-1; i++) {
+            $("#"+character[i]).css("display","");
+            //console.log('------------------------');
+            var totalList = $("#"+character[i]).nextUntil("#"+character[i+1],".mui-table-view-cell.mui-indexed-list-item");
+            var disappearList = $("#"+character[i]).nextUntil("#"+character[i+1]+".mui-table-view-divider.mui-indexed-list-group",".mui-table-view-cell.mui-indexed-list-item.disappear");
+            if (totalList.length==disappearList.length) {
+                $("#"+character[i]).css("display","none");
+            }
+        }
+
+   	});
+    
+</script>
+{#
 <script src="/static/webapp/js/mui.min.js"></script>
 <script src="/static/mobile/indexedlist.js"></script>
 <script type="text/javascript" charset="utf-8">
@@ -928,7 +1022,6 @@
    $(function getCityList(){
        $.getJSON("/static/mobile/area.json",function(data){
            $.each(data,function(index,item){
-               //console.log(index,item)
                var datas=item;
                var name=index;
                var str='';
@@ -938,7 +1031,7 @@
                });
                $("#"+name).after(str);
            });
-          /* mui.ready(function () {
+           /*mui.ready(function () {
                var header = document.querySelector('header.mui-bar');
                var list = document.getElementById('list');
                //calc hieght
@@ -949,21 +1042,8 @@
 
        });
    });
-
-   $(function getAreaList(){
-   		console.log("getAreaList");
-   		//var list = "{% topic data = "list", limit= "200", cid=135, isstu=1, pid=v.id,type="none",page=0 %}";
-   		var list ="{{list}}";
-   		console.log(list);
-   		//console.log(JSON.stringify(list)); 
-   		/*for(var l in list){
-   			console.log(list[l].data);
-   		}*/
-   		/*for (var i =0; i <=list.length - 1; i++) {
-   			console.log(list[i]);
-   			console.log('-0-');
-   		}*/
-   });
-    
 </script>
+#}
+
+
 {% endblock %}

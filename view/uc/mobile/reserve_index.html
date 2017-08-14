@@ -30,7 +30,7 @@
     	font-weight:normal;
     }
     .calendar-box{
-    	height:460px;
+    	height:380px;
     	background:#fff;
     }
     .calendar-box h3{
@@ -66,20 +66,17 @@
 		background: #1eb6c1;
 		border:none;
 	}
-    .fc-day-grid-container{
+/*    .fc-day-grid-container{
     	height:337px !important;
-    }
+    }*/
     .fc-basic-view .fc-body .fc-row {
-	    min-height: 3.3em;
+	    min-height: 3em;
 	}
 	.fc-event{
 		font-size:0.55em;
 		text-align: center;
 		background:transparent;
 		border:none;
-	}
-	.fc-title{
-		color:#ff441c;
 	}
 	.selector-quantity{
 		margin-top:20px;
@@ -146,6 +143,11 @@
 		font-size:19px;
 		font-weight:normal;
 	}
+	.selector-quantity>h3 span{
+		font-size:18px;
+		color:#666;
+		margin-left:12px;
+	}
 
 
 	.clear:after{
@@ -154,7 +156,8 @@
 		clear:both;
 	}
 	.active{
-		background:#1eb6c1 !important;
+		background:#b2b2b2 !important;
+		opacity: 0.5;
 	}
 </style>
 {% endblock %}
@@ -170,15 +173,15 @@
 		<div id='calendar'></div>
 	</div>
 	<div class="selector-quantity">
-		<h3>选择数量</h3>
+		<h3>选择数量 <span>库存：{{info.total_stock}}</span></h3>
 		{%set n = 6%}
 		<ul class="mui-table-view {%if n ==1 %}margin-top-0{%else%}margin-top-20{%endif%}">
-			{% if info.price_adult|get_price_format('1') %}
+			{% set price_adult = info.price_adult|get_price_format('1')|replace(",","")|round(0, "floor") %}
+			{% if price_adult and price_adult>0 %}
 			<li class="tourist_num clear"> 
 				<div class="mui-pull-left price">
 					<span>成人</span>
-					{% set price_adult = info.price_adult|get_price_format('1') %}
-					<b>¥<span class="price-adult">{{price_adult | replace(",","") | round(0, "floor")}}</span>起</b>
+					<b>¥<span class="price-adult">{{price_adult}}</span>起</b>
 				</div>
 				<div class="mui-pull-right number text-right">
 					<a class="adult_reduce" href="javascript:adultReduce()">-</a>
@@ -187,12 +190,12 @@
 				</div> 
 			</li> 
 			{% endif %}
-			{% if info.price_kid|get_price_format('1') %}
+			{% set price_kid = info.price_kid|get_price_format('1')|replace(",","")|round(0, "floor") %}
+			{% if price_kid and price_kid>0 %}
 			<li class="children_num  clear">  
 				<div class="mui-pull-left price">
-					<span>儿童</span>
-					{% set price_kid = info.price_kid|get_price_format('1') %}
-					<b>¥<span class="price-kid">{{price_kid | replace(",","") | round(0, "floor")}}</span>起</b>
+					<span>儿童</span>					
+					<b>¥<span class="price-kid">{{price_kid}}</span>起</b>
 				</div>
 				<div class="mui-pull-right number text-right">
 					<a class="kid_reduce" href="javascript:kidReduce()">-</a>
@@ -201,12 +204,12 @@
 				</div> 
 			</li> 
 			{% endif %}
-			{% if info.price_baby|get_price_format('1') %}
+			{% set price_baby = info.price_baby|get_price_format('1')|replace(",","")|round(0, "floor") %}
+			{% if price_baby and price_baby > 0 %}
 			<li class="baby_num clear">  
 				<div class="mui-pull-left price">
-					<span>婴儿</span>
-					{% set price_baby = info.price_baby|get_price_format('1') %}
-					<b>¥<span class="price-baby">{{price_baby | replace(",","") | round(0, "floor")}}</span>起</b>
+					<span>婴儿</span>					
+					<b>¥<span class="price-baby">{{price_baby}}</span>起</b>
 				</div>
 				<div class="mui-pull-right number text-right">
 					<a class="baby_reduce" href="javascript:babyReduce()">-</a>
@@ -214,6 +217,20 @@
 					<a class="baby_add" href="javascript:babyAdd()">+</a>
 				</div> 
 			</li> 
+			{% endif %}
+			{% set price_differences = info.price_differences|get_price_format('1') | replace(",","") %}
+			{% if price_differences > 0 %} 
+			<li>
+				<div class="mui-pull-left price">
+					<span>单房差</span>
+					<b>¥<span class="price-different">{{price_differences}}</span></b>
+				</div>
+				<div class="mui-pull-right number text-right">
+					<a class="room_reduce" href="javascript:roomReduce()">-</a>
+					<input class="room_number" type="tel" onblur="roomBlur()" value="0">
+					<a class="room_add" href="javascript:roomAdd()">+</a>
+				</div>
+			</li>
 			{% endif %}
 		</ul>
 	</div>
@@ -251,18 +268,39 @@ mui.ready(function() {
 	//console.log('-----'+price);
 	//console.log(dat);
 	var dates =  dat.split(',');
-	console.log(dates)
 	var defaultDate = parseInt(dates[0]);
 	var eventsArray = new Array(); //FullCalendar 事件对象数组
 	var defaultDat = new Date(parseInt(dates[0]));//FullCalendar 默认日期
-	for (var onedate of dates){
-		//console.log(onedate);
-		var eventobject = new Object(); 
-		var selectobject = new Object();
-		eventobject.title = '¥'+price;
-		eventobject.allDay = true;
-		eventobject.start = new Date(parseInt(onedate));
-		eventsArray.push(eventobject);
+	var num = "{{info.total_stock}}";
+	console.log(num)
+	if(num>4){
+		for (var onedate of dates){
+			//console.log(onedate);
+			var eventobject = new Object(); 
+			var selectobject = new Object();
+			eventobject.title = '充足';
+			eventobject.allDay = true;
+			eventobject.start = new Date(parseInt(onedate));
+			eventobject.textColor = "#1eb6c1";
+			
+			selectobject.title = '¥'+price;
+			selectobject.allDay = true;
+			selectobject.start = new Date(parseInt(onedate));
+			selectobject.textColor = "#ff441c";
+
+			
+			eventsArray.push(eventobject,selectobject);
+		}
+	}else{
+		for (var onedate of dates){
+			//console.log(onedate);
+			var eventobject = new Object(); 
+			var selectobject = new Object();
+			eventobject.title = '¥'+price;
+			eventobject.allDay = true;
+			eventobject.start = new Date(parseInt(onedate));
+			eventsArray.push(eventobject);
+		}
 	}
 	$('#calendar').fullCalendar({
 			theme: true,
@@ -283,23 +321,18 @@ mui.ready(function() {
 			// eventLimit: true, // allow "more" link when too many events
 			events: eventsArray,
 			dayClick:function() {
-				console.log(dates)
 				for(var i=0;i<dates.length;i++){
 					var date = parseInt(dates[i]);
 					var time = $(this).attr("data-date");
 					var t =  (new Date(time)).getTime();
-					console.log(date)
 					if(t == date){
-						console.log(t)
 						if($(this).hasClass("active")){
 							$(this).removeClass("active");
 							$("#start_date").val("");
-							console.log($("#start_date").val())
 						}else{
 							$(".fc-day").removeClass("active")
 							$(this).addClass("active");
 							$("#start_date").val(time);
-							console.log($("#start_date").val())
 						}
 					}
 				}				
@@ -318,7 +351,6 @@ mui.ready(function() {
 function adultReduce(){
 	var a = $(".adult_number").val()
 	var reg = /^(0|[1-9][0-9]*)$/;	
-	console.log(a)
 	if(a>0 && reg.test(a)){
 		a--;
 		$(".adult_number").val(a)
@@ -329,7 +361,6 @@ function adultReduce(){
 function adultAdd(){
 	var a = $(".adult_number").val()
 	var reg = /^(0|[1-9][0-9]*)$/;	
-	console.log(a)
 	if(reg.test(a)){
 		a++;
 		$(".adult_number").val(a);
@@ -340,7 +371,6 @@ function adultAdd(){
 function kidReduce(){
 	var a = $(".kid_number").val()	
 	var reg = /^(0|[1-9][0-9]*)$/;
-	console.log(a)
 	if(a>0 && reg.test(a)){
 		a--;
 		$(".kid_number").val(a);
@@ -351,7 +381,6 @@ function kidReduce(){
 function kidAdd(){
 	var a = $(".kid_number").val()
 	var reg = /^(0|[1-9][0-9]*)$/;	
-	console.log(a)
 	if(reg.test(a)){
 		a++;
 		$(".kid_number").val(a);
@@ -362,7 +391,6 @@ function kidAdd(){
 function babyReduce(){
 	var a = $(".baby_number").val()
 	var reg = /^(0|[1-9][0-9]*)$/;	
-	console.log(a)
 	if(a>0 && reg.test(a)){
 		a--;
 		$(".baby_number").val(a);
@@ -373,11 +401,32 @@ function babyReduce(){
 function babyAdd(){
 	var a = $(".baby_number").val()
 	var reg = /^(0|[1-9][0-9]*)$/;	
-	console.log(a)
 	if(reg.test(a)){
 		a++;
 		$(".baby_number").val(a);
 		$("#baby_quantity").val(a);
+	}
+	totalprice()
+}
+function roomReduce(){
+	var a = $(".room_number").val()
+	var reg = /^(0|[1-9][0-9]*)$/;	
+	console.log(a)
+	if(a>0 && reg.test(a)){
+		a--;
+		$(".room_number").val(a);
+		$("#differences_quantity").val(a);
+	}
+	totalprice()
+}
+function roomAdd(){
+	var a = $(".room_number").val()
+	var reg = /^(0|[1-9][0-9]*)$/;	
+	console.log(a)
+	if(reg.test(a)){
+		a++;
+		$(".room_number").val(a);
+		$("#differences_quantity").val(a);
 	}
 	totalprice()
 }
@@ -411,11 +460,20 @@ function babyBlur(){
 		totalprice()
 	}
 }
+function roomBlur(){
+	var reg = /^(0|[1-9][0-9]*)$/
+	var a = $(".room_number").val()
+	if(!reg.test(a)){
+		mui.toast("请输入正确的人数！")
+	}else{
+		$("#differences_quantity").val($(".room_number").val());
+		totalprice()
+	}
+}
 mui.ready(function(){
 	totalprice()
 })
 function totalprice(){
-	console.log($(".price-adult").html(),$(".price-kid").html(),$(".price-baby").html())
 	if($(".price-adult").html()!="" && $(".price-adult").html()!=undefined && $(".price-adult").html()!=null){
 		var a = parseInt($(".price-adult").html())*parseInt($("#adult_quantity").val());
 	}else{
@@ -431,6 +489,11 @@ function totalprice(){
 	}else{
 		var b = 0
 	}
+	if($(".price-different").html()!="" && $(".price-different").html()!=undefined && $(".price-different").html()!=null){
+		var d = parseInt($(".price-different").html())* parseInt($("#differences_quantity").val());
+	}else{
+		var d = 0
+	}
 	// console.log({{info.price_adult|get_price_format('1')}})
 	// var adultprice = parseInt($(".price-adult").html());
 	// var kidprice = parseInt($(".price-kid").html());
@@ -442,14 +505,13 @@ function totalprice(){
 	// var a = adultprice*count_adult;
 	// var k = kidprice*count_kid;
 	// var b = babyprice*count_baby;
-	console.log(a,k,b)
 
-	var totalprice = a + b + k;
+	var totalprice = a + b + k + d;
 	$(".total-price").html("¥"+totalprice)
 }
 function submit_tour() {
 	var reg = /^(0|[1-9][0-9]*)$/;
-	var a = $(".baby_number").val(),b = $(".kid_number").val(),c = $(".adult_number").val();
+	var a = $(".baby_number").val(),b = $(".kid_number").val(),c = $(".adult_number").val(),d = $(".room_number").val();
 	if(a==undefined || a==null || a== ""){
 		a = 0;
 	}
@@ -459,15 +521,17 @@ function submit_tour() {
 	if(c==undefined || c==null || c== ""){
 		c = 0;
 	}
+	if(d==undefined || d==null || d==""){
+		d = 0;
+	}
 	//console.log(a,b,c)
 	var count_adult = parseInt($("#adult_quantity").val());
 	var count_kid = parseInt($("#kid_quantity").val());
 	var count_baby = parseInt($("#baby_quantity").val());
-	if(!reg.test(a) || !reg.test(b) ||!reg.test(c)){
+	if(!reg.test(a) || !reg.test(b) ||!reg.test(c) || !reg.test(d)){
 		mui.toast("请输入正确的人数！")
 	}else{
 		var total_count = count_adult + count_kid + count_baby;
-		console.log("total_count: " + total_count);
 		if($("#start_date").val() == ""){
 			mui.toast("请选择出发日期！")
 		}else if(total_count == 0){

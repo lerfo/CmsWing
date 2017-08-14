@@ -46,9 +46,12 @@
     }
 
     .mui-content-padded {
-        margin-top: 25px;
-        text-align:center;
+        margin-top: 25px;/* 
+        text-align:center; */
         margin-bottom:20px;
+    }
+    .mui-content-padded button{
+        text-align:center;
     }
 
     .mui-btn {
@@ -225,14 +228,24 @@
         line-height:1.5;
         background-color:#1eb6c1; 
     }
-    .reg-btn{
+    .vc-btn{
         background-color: #1eb6ca;
         border:0;
         width: 40% !important;
         margin:0 auto;
     }
+    .reg-btn{
+        background-color: #1eb6ca;
+        border:0;
+        width: 40% !important;
+        margin:0 30%;
+    }
     .reg-input{
         width: 58% !important;
+    }
+    .link-div{
+        position: relative;
+        top: 20px;
     }
     .link-lab{
         color: #fff !important;
@@ -241,6 +254,45 @@
     .link-lab a{
         color: #1eb6c1;
         text-decoration: underline;
+    }
+    /* .popover-div{
+    	left: 28px !important; 
+    	top: -320px !important;
+    } */
+    .termsPopover{
+    	line-height:14px;
+		top: -454px !important;
+		width: 98% !important;
+		left: 1% !important;
+    }
+    .termsPopover ul{
+    	margin-top: 5px !important; 
+   		padding-left: 20px !important;
+   		font-size: 12px;
+    }
+    .termsPopover p{
+    	margin-bottom: 0 !important;
+    }
+    .cPopover{
+    	line-height:14px;
+		top: -454px !important;
+		width: 98% !important;
+		left: 1% !important;
+    }
+    .cPopover img{
+    	width: 100% !important;
+    }
+    .tPopover{
+    	line-height:14px;
+		top: -454px !important;
+		width: 98% !important;
+		left: 1% !important;
+    }
+    .tPopover img{
+    	width: 100% !important;
+    }
+    .mui-popover-arrow.mui-bottom{
+		display: none;
     }
 </style>
 {%endblock%}
@@ -289,11 +341,11 @@
 </div>
 #}
     <header class="mui-bar mui-bar-nav reg-top">
-        <a href="/index" class=" back mui-btn mui-btn-nav mui-pull-left"></a>
+        <a href="" class="mui-action-back back mui-btn mui-btn-nav mui-pull-left"></a>
         <a href="/uc/public/startregister" class="mobile-reg mui-btn-nav mui-pull-right" >注册</a>
         <a href="/uc/public/login" class="mobile-log mui-btn-nav mui-pull-right" >登录</a>
     </header>
-    <section class="mui-content">
+    <div class="mui-content">
         <div class="text-center login-title">手机注册</div>
         <i></i>
         <form id='reg-form' class="">
@@ -306,7 +358,7 @@
            <!--  <input id='password' type="text" value="" name="password" class="mui-input-clear mui-input" placeholder="图片识别码"> -->
            <div class="mui-input-row margin-bottom-0">
                 <input id='verifycode' type="text" name="verifycode" class="mui-input reg-input" placeholder="请输入验证码">
-                <a href="#" class="mui-btn mui-btn-primary  reg-btn" id="verifycodesend" data-type="1">
+                <a href="#" class="mui-btn mui-btn-primary  vc-btn" id="verifycodesend" data-type="1">
                     <span class="qian">发送验证码</span>
                     <span class="hou" style="display: none"><m id="waittime" class="">60</m>秒后重新获取</span>
                 </a>
@@ -317,24 +369,30 @@
             <input id='password' type="password" value="" name="password" class="mui-input-clear mui-input" placeholder="输入8-16位密码,需包含字母及数字">
             
         </form>
-        <div class="mui-content-padded margin-bottom-100">
+        <div class="mui-content-padded">
             
             <button id='register' class="mui-btn mui-btn-primary ajax-post margin-top-20  margin-bottom-20 reg-btn" target-form="registerpost">注册</button>
             {%if controller.setup.GEETEST_IS_LOGIN ==1%}
             <div id="mask" class="hide"></div>
             <div id="popup-captcha-mobile" class="hide"></div>
             {%endif%}
-            <div class="link-div margin-top-30"> 
+            <div class="link-div "> 
                 
-                <label class="mui-pull-left link-lab">已有花生卷账号？<a id='' href="">登录</a></label>
-                <label class="mui-pull-right link-lab">同意<a id='' href="">会员条款</a>和<a id='' href="">免责声明</a></label>
+                <label class="mui-pull-left link-lab">已有花生卷账号？<a id='' href="/uc/public/login">登录</a></label>
+                <label class="mui-pull-right link-lab">同意<a id='openPopover' href="#cPopover">会员条款</a>和<a id='openPopover' href="#tPopover">免责声明</a></label>
+		        
+				<div id="cPopover" class="mui-popover cPopover">
+		            <img src="/static/assets/images/mobile/register/c.png">
+				</div>
+				<div id="tPopover" class="mui-popover tPopover">
+		            <img src="/static/assets/images/mobile/register/t.png">
+				</div>
                 <!-- <span class="mui-pull-left">
                    
                 </span>
                 <span class="mui-pull-right">
                     
                 </span> -->
-                
             </div>
         </div>
         {#
@@ -351,7 +409,7 @@
             </ul>
         </form>
         #}
-    </section>
+    </div>
 
 {% endblock %}
 {% block script %}

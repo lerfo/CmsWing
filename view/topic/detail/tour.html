@@ -187,7 +187,7 @@ CLASSES:
 			</div>
 		</div>
 		<div class="col-lg-2 col-sm-2 price-num">
-			<div class="score">{{ info.score }}<span>分</span></div>
+			<div class="score">{{ info.score_avg }}<span>分</span></div>
 			{#
 				{% if info.score!== 0 and info.score!== '' and info.commentcount !== 0 and info.commentcount !== '' %}
 					{% set score = info.score/info.commentcount %}
@@ -320,7 +320,8 @@ CLASSES:
 				<b></b> 
 			</div> 
 		</li>  
-		{% if info.price_adult|get_price_format('1') %}
+		{% set price_adult = info.price_adult|get_price_format('1')|replace(",","")|round(0, "floor") %}
+		{% if price_adult and price_adult>0 %}
 		<li class="tourist_num"> 
 			<label for="">成人</label> 
 			<div class="input_wrap">
@@ -369,7 +370,8 @@ CLASSES:
 			<span class="base_price" id="J_adusprice" style="display:none"></span> 
 		</li> 
 		{% endif %}
-		{% if info.price_kid|get_price_format('1') %}
+		{% set price_kid = info.price_kid|get_price_format('1')|replace(",","")|round(0, "floor") %}
+		{% if price_kid and price_kid>0 %}
 		<li class="children_num">  
 			<label for="">儿童</label> 
 			<div class="input_wrap"> 
@@ -411,7 +413,8 @@ CLASSES:
 			<span class="base_price" id="J_chdsprice" style="display:none"></span> 
 		</li> 
 		{% endif %}
-		{% if info.price_baby|get_price_format('1') %}
+		{% set price_baby = info.price_baby|get_price_format('1')|replace(",","")|round(0, "floor") %}
+		{% if price_baby and price_baby > 0 %}
 		<li class="baby_num">  
 			<label for="">婴儿</label> 
 			<div class="input_wrap"> 
@@ -748,7 +751,7 @@ CLASSES:
 						{#
 							{% set score = info.score/info.commentcount %}
 						#}
-							<p>{{ info.score }}</p>
+							<p>{{ info.score_avg }}</p>
 							<span>总体评分</span>
 							<input class="proid" type="hidden" value="{{info.id}}">
 						</div>
@@ -1222,7 +1225,7 @@ CLASSES:
                 #}
                 <form method="post" action="/mod/question/sys/updatetouranswer" class="box-light margin-top-20  validate"><!-- .box-light OR .box-dark -->
                     <div class="box-inner">
-                        <h4 class="uppercase padding-bottom-0 clearfix margin-bottom-0 noborder row">  <div class="col-md-9 col-sm-9"><div class="clearfix margin-bottom-0"><!-- rounded item -->
+                        <h4 class=" padding-bottom-0 clearfix margin-bottom-0 noborder row">  <div class="col-md-9 col-sm-9"><div class="clearfix margin-bottom-0"><!-- rounded item -->
                             {% if controller.user.uid %}
                             <img class="thumbnail pull-left rounded" src="/uc/index/avatar/uid/{{controller.user.uid}}" width="40" height="40" alt="">
                             <h4 class="size-14 nomargin noborder nopadding"><a class="tours">{{controller.user.uid|get_nickname}}</a></h4>

@@ -14,7 +14,8 @@ export default class extends think.controller.base {
 
   async __before() {
     //console.log('end __before');
-    await this.action("uc/weixin", "oauth");
+    //暂时关闭微信登录
+    //await this.action("uc/weixin", "oauth");
     //网站配置
     this.setup = await this.model("setup").getset();
     // //console.log(this.setup);

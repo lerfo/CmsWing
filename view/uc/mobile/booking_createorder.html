@@ -27,7 +27,7 @@
         background:#eff7f9;
     }
     .content{
-        padding:60px 5.56% 0 5.56%;
+        padding:60px 5.56% 50px 5.56%;
     }
     .title-detail>div>span{
         font-size:24px;
@@ -63,6 +63,18 @@
         background-size:100% 100%; 
         margin:20px auto;
     }
+    .cue-information>div{
+        color:#1eb6c1;
+        font-size:24px;
+    }
+    .cue-information>div>span{
+        padding-left:10px;
+    }
+    .cue-information>ul,
+    .cue-information>ul li{
+        padding-top:15px;
+        color:#666;
+    }
 </style>
 {% endblock %}
 {% block content %}
@@ -71,6 +83,7 @@
     <span>提交成功</span>
 </header>
 <section class="mui-content">
+{% include "./inc/barnav.html" %}
     <div class="content">
         <div class="title-detail clear">
             <div>
@@ -93,10 +106,11 @@
             <ul>
                 <li>
                     将有客服与您联系确认报名，并通知您付款
-                    <br>
+                </li>
+                <li>
                     请您留意，感谢您的支持
                 </li>
-                <li>客服电话：XXXXXXXXXXXX</li>
+                <li>客服电话：025-123456789</li>
             </ul>
             <span></span>
         </div>            

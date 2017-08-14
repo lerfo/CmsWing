@@ -1,27 +1,48 @@
-// //固定浮动
-// $(document).ready(function(e) {			
-// 	t = $('.float-box').offset().top;
-// 	//console.log(t)
-// 	//var m =  document.body.scrollHeight;
-// 		//console.log(m)
-// 	//mh = $('.main').height();
-// 	fh = $('.float-box').height();
-// 	$(window).scroll(function(e){
-// 		var m =  document.body.scrollHeight;
-// 		s = $(document).scrollTop();
-// 		var b = m-s;
-// 		//console.log(b)	
-// 		if(s > t-40){
-// 			$('.float-box').css({'position':'fixed','top':'40px','background':'#fff','z-index':'130'});				
-// 		}else{
-// 			$('.float-box').css({'position':'','background':''});
-// 		}
-// 		if(b<1674){
-// 			$('.float-box').css({'position':'','background':''});
-// 		}
-// 	})
-// });
-	
+//固定浮动
+$(document).ready(function(e) {			
+	t = $('.product-introduce').offset().top;
+	//console.log(t)
+	//var m =  document.body.scrollHeight;
+		//console.log(m)
+	//mh = $('.main').height();
+	fh = $('.product-introduce').height();
+	$(window).scroll(function(e){
+		var m =  document.body.scrollHeight;
+		s = $(document).scrollTop();
+		var b = m-s;
+		//console.log(b)	
+		if(s > t-45){
+			$('.product-introduce').css({'position':'fixed','top':'20px','background':'#fff','z-index':'130'});			
+		}else{
+			$('.product-introduce').css({'position':'','background':''});
+		}
+	})
+});
+
+//点击显示
+$("#js_detail_tab").on("click","a",function(){
+	$("#js_detail_tab a").removeClass("current")
+	$(this).addClass("current")
+	if($(this).hasClass("xs-xcjs")){
+		$(".product-info").removeClass("active").addClass("fade")
+		$(".xcjs").removeClass("fade").addClass("active");
+	}else if($(this).hasClass("xs-fy")){
+		$(".product-info").removeClass("active").addClass("fade")
+		$(".fy").removeClass("fade").addClass("active");
+	}else if($(this).hasClass("xs-ydxz")){
+		$(".product-info").removeClass("active").addClass("fade")
+		$(".ydxz").removeClass("fade").addClass("active");
+	}else if($(this).hasClass("xs-qz")){
+		$(".product-info").removeClass("active").addClass("fade")
+		$(".qz").removeClass("fade").addClass("active");
+	}else if($(this).hasClass("xs-yhpj")){
+		$(".product-info").removeClass("active").addClass("fade")
+		$(".yhdp").removeClass("fade").addClass("active");
+	}else if($(this).hasClass("xs-zx")){
+		$(".product-info").removeClass("active").addClass("fade")
+		$(".consult").removeClass("fade").addClass("active");
+	}
+})	
 	
 //分享
 function share(){
@@ -507,6 +528,9 @@ mui(".evaluate-box").on("tap","#more-comment",function(){
 var btn = document.getElementById("more-consult");
 mui.ready(function(){
 	var array = $(".comment-box")
+	if(array.length<3){
+		btn.style.display="none";
+	}
 	if(array.length == 0){
 		btn.style.display="none";
 	}else{

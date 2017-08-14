@@ -143,6 +143,12 @@ export default class extends Base {
 
       }
     }
+    //计算平均分
+    if(info.commentcount > 0){
+      info.score_avg =(info.score / info.commentcount).toFixed(1);
+    }else{
+      info.score_avg = 0;
+    }
     ////console.log(info);
     ////console.log(cate);
     this.assign('info', info);

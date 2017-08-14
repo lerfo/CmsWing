@@ -86,7 +86,9 @@ function orderDetail(n){
   	var tourdays;
   	$.ajax({
   		url:"/uc/booking/tourdays?tid="+orderDataDetail.product_id,
+  		async:false,
   		success:function(result){
+  			console.log(result)
   			tourdays = result[0].tourdays;
   		}
   	})
@@ -124,7 +126,6 @@ function orderDetail(n){
 	var d = newdate.getDate();  
 	d = d < 10 ? ('0' + d) : d;   
 	var time = y + '-' + m + '-' + d
-    
 	html += `          
 	            </div>
 	          </div>
@@ -136,28 +137,22 @@ function orderDetail(n){
 	              <p>
 	                ${orderDataDetail.title}
 	              </p>
-	              <p>
-	                <span>出发城市上海</span>
-	                <span>出发日期${orderDataDetail.start_date}</span>
-	                <span>返回日期${time}</span>
-    `;
-	var travellersinfo = JSON.parse(orderDataDetail.travellersinfo);
-	var n=0;
-	var m=0;
-	var b=0;
-	$.each(travellersinfo,function(k,v){
-		
-		if(v.type == 1){
-			n++;
-		}else if(v.type == 2){
-			m++;
-		}else{
-			b++;
+	`;
+	var departure_place_name;
+	$.ajax({
+		url:"/ajax/query?id="+orderDataDetail.product_id,
+		async:false,
+		success:function(data){
+			console.log(data);
+			departure_place_name = data.departure_place_name
 		}
 	})
-
-	 html +=`            
-	 				<span>${n}成人,${m}儿童,${b}婴儿</span>  
+	html+=`
+	              <p>
+	                <span>出发城市${departure_place_name}</span>
+	                <span>出发日期${orderDataDetail.start_date}</span>
+	                <span>返回日期${time}</span>          
+	 				<span>${orderDataDetail.adult_quantity}成人,${orderDataDetail.kid_quantity}儿童,${orderDataDetail.baby_quantity}婴儿</span>  
 	                
 	              </p>
 	              <p>
@@ -195,11 +190,11 @@ function orderDetail(n){
 	            <div class="detail-content">
 	        <div>
 	`;
-
-	//console.log(travellersinfo)
+	var travellersinfo = JSON.parse(orderDataDetail.travellersinfo);
+	console.log(travellersinfo)
 	$.each(travellersinfo,function(k,v){
 		//console.log(k)
-		//console.log(v)
+		console.log(v)
 		if(v.type == 1){
 			html+=`
 			
@@ -216,14 +211,18 @@ function orderDetail(n){
                 </div>       
             `;
 
+		}else{
+			html+=`
+                <div class="traveller-num">
+                  <p>旅客${k+1}</p>
+                  <span>婴儿</span>
+                </div>       
+            `;
 		}
 		html+=`
 			<ul>
               <li>
                 <b>中文姓名</b><span>${v.name_zh}</span>
-              </li>
-              <li>
-                <b>英文姓名</b><span>xxxxxxx</span>
               </li>
               <li>
                 <b>国籍</b><span>${v.country}</span>
@@ -285,13 +284,13 @@ function orderEvaluation(){
 	 
   	var orderDataList = localStorage.getItem("odrerData");
 	orderDataList = JSON.parse(orderDataList);
-  	//console.log(orderDataList);
+  	console.log(orderDataList);
 
   	for(var i=0;i<orderDataList.length;i++){
   		var html="";
   		var orderDataDetail = orderDataList[i];
   		if(orderDataDetail.status == 8){
-			//console.log(orderDataDetail);
+			console.log(orderDataDetail);
 			$.ajax({
 				url:"/uc/booking/getproductinfo/product_id/"+orderDataDetail.product_id,
 				async:false,
@@ -603,6 +602,7 @@ function resultEach(pageNum){
 		url:"/uc/booking/query?page="+pageNum,
 		async:false,
 		success:function(result){
+			console.log(result.data)
 			localStorage.setItem("odrerData",JSON.stringify(result.data));
 
 			var orderDataList = localStorage.getItem("odrerData");
@@ -754,8 +754,8 @@ function ucArchives(){
 			                    	<label class="col-md-2 control-label">手机</label>
 			                    	<div class="col-md-4">
 			    `;
-			    if(data.phone_number!=null&&data.phone_number!=undefined&&data.phone_number!=""){
-			    	html+=`<p class="form-control-static uname">${data.phone_number}</p>`;
+			    if(data.mobile!=null&&data.mobile!=undefined&&data.mobile!=""){
+			    	html+=`<p class="form-control-static uname">${data.mobile}</p>`;
 			    }else{
 			    	html+=`<p class="form-control-static uname">未设置</p>`;
 			    }
@@ -820,8 +820,9 @@ function ucArchives(){
                     <label class="col-md-2 control-label">生日</label>
                     <div class="col-md-4">
             `;
+            var B = time(data.birthday)
             if(data.birthday!=null&&data.birthday!=undefined&&data.birthday!=""){
-            	html+=`<input type="text" name="birthday" onblur="birthBlur()" value="${data.birthday}" class="form-control masked bir" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">`;
+            	html+=`<input type="text" name="birthday" onblur="birthBlur()" value="${B}" class="form-control masked bir" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">`;
             }else{
             	html+=`<input type="text" name="birthday" onblur="birthBlur()" class="form-control masked bir" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">`;
             }
@@ -1186,7 +1187,7 @@ function seeTraveller(n){
             <div>旅客信息</div>
             <ul>
     	`;
-    if(v.name_zh==""){
+    if(v.name_zh=="" || v.name_zh==null){
     	html+=`
 			<li>
                 <span>中文名</span><b>未设置</b>
@@ -1199,7 +1200,7 @@ function seeTraveller(n){
             </li>
     	`;
     }
-    if(v.name_en_first==""){
+    if(v.name_en_first=="" ||v.name_en_first==null){
     	html+=`
 			<li>
                 <span>英文名</span><b>未设置</b>
@@ -1212,7 +1213,7 @@ function seeTraveller(n){
             </li>
     	`;
     }
-    if(v.country==""){
+    if(v.country=="" || v.country==null){
     	html+=`
 			<li>
                 <span>国籍</span><b>未设置</b>
@@ -1225,20 +1226,20 @@ function seeTraveller(n){
             </li>
     	`;
     }
-    if(v.sexual==0){
+    if(v.sexual==1){
     	 html+=`			                  
           <li>
             <span>性别</span><b>男</b>
           </li>
      `;
-    }else if(v.sexual==1){
+    }else if(v.sexual==2){
     	 html+=`			                  
           <li>
             <span>性别</span><b>女</b>
           </li>
          `;
     } 
-    if(v.birthday==""){
+    if(v.birthday=="" || v.birthday==null){
     	html+=`
 			<li>
                 <span>生日</span><b>未设置</b>
@@ -1251,7 +1252,7 @@ function seeTraveller(n){
             </li>
     	`;
     } 
-    if(v.birthplace==""){
+    if(v.birthplace=="" || v.birthplace==null){
     	html+=`
 			<li>
                 <span>出生地</span><b>未设置</b>
@@ -1264,7 +1265,7 @@ function seeTraveller(n){
             </li>
     	`;
     }
-    if(v.phone==""){
+    if(v.phone=="" || v.phone==null){
     	html+=`
 			 <li>
                 <span>手机号码</span><b>未设置</b>
@@ -1277,7 +1278,7 @@ function seeTraveller(n){
             </li>
     	`;
     }
-    if(v.tel_number==""){
+    if(v.tel_number=="" || v.tel_number==null){
     	html+=`
 			<li>
                 <span>联系电话</span><b>未设置</b>
@@ -1286,11 +1287,11 @@ function seeTraveller(n){
     }else{
     	html+=`
 			<li>
-                <span>联系电话</span><b>${v.tel_number}</b>
+                <span>联系电话</span><b>${v.tel_zone} ${v.tel_number} ${v.tel_ext}</b>
             </li>
     	`;
     }
-    if(v.fax_number==""){
+    if(v.fax_number=="" || v.fax_number==null){
     	html+=`
 			<li>
                 <span>传真号码</span><b>未设置</b>
@@ -1299,11 +1300,11 @@ function seeTraveller(n){
     }else{
     	html+=`
 			<li>
-                <span>传真号码</span><b>${v.fax_number}</b>
+                <span>传真号码</span><b>${v.fax_zone} ${v.fax_number} ${v.fax_ext}</b>
             </li>
     	`;
     }
-    if(v.email == ""){
+    if(v.email == "" || v.email == null){
     	html+=`	             	              	              	              	              
               <li>
                 <span>Email</span><b>未设置</b>
@@ -1347,7 +1348,7 @@ function seeTraveller(n){
               <li>
                 <span>证件号码</span><b>${v.credentials_value}</b>
               </li>
-              <li><span>有效期</span><b>XXXXXXXXXXX</b></li>
+              <li><span>有效期</span><b>${v.credentials_validity}</b></li>
             </ul> 
             <a class="go-back" href="javascript:ucTraveller();"><返回</a>
           </div>
@@ -1530,10 +1531,10 @@ function add(n){
 				    <label class="col-md-2 control-label" for="">英文名</label>
 				    <span class="star">*</span>
 				    <div class="col-md-2 clear">
-				      <input class="form-control masked last-name" onblur="unameBlur()" maxlength="20" type="text" placeholder="LastName(姓)" name="name_en_first" value=${v.name_en_first}>
+				      <input class="form-control masked first-name" onblur="unameBlur()" maxlength="20" type="text" placeholder="FirsName(名)" name="name_en_first" value=${v.name_en_first}>
 				    </div>
 			    	<div class="col-md-2 clear">
-			      		<input class="form-control masked first-name" onblur="unameBlur()" maxlength="20" type="text" placeholder="FirsName(名)" name="name_en_last" value=${v.name_en_last}>
+			      		<input class="form-control masked last-name" onblur="unameBlur()" maxlength="20" type="text" placeholder="LastName(姓)" name="name_en_last" value=${v.name_en_last}>
 			    	</div>
 			  	</div>
 				<div class="col-md-offset-2 self">
@@ -1554,13 +1555,23 @@ function add(n){
 			    <span class="star">*</span>
 			    <div class="col-md-10">
 			      <label class="radio" style="margin-top: 3px;padding-top: 3px">
-			        <input type="radio" value="1" name="sexual">
-			        <i></i> 男
-			      </label>
+			      `;
+			if(v.sexual == 1){
+				html+=`<input type="radio" value="1" name="sexual" checked> <i></i> 男`;
+			}else{
+				html+=`<input type="radio" value="1" name="sexual"> <i></i> 男`;
+			}
+			html+=`      </label>
 			      <label class="radio" style="margin-top: 3px;padding-top: 3px">
-			        <input type="radio" checked="checked" value="2" name="sexual">
-			        <i></i> 女
-			      </label>
+			     `;
+			if(v.sexual == 2){
+				html+=`<input type="radio" value="2" name="sexual" checked>
+			        <i></i> 女`;
+			}else{
+				html+=`<input type="radio" value="2" name="sexual">
+			        <i></i> 女`;
+			}
+			html+=`      </label>
 			      </div>
 			           
 			  </div>
@@ -1568,7 +1579,7 @@ function add(n){
 			    <label class="col-md-2 control-label">生日</label>
 			    <div class="col-md-4">
 			      <input type="text" name="birthday" onblur="birthBlur()" value="${v.birthday}" class="form-control masked bir" data-format="9999-99-99" data-placeholder="_" placeholder="年-月-日">
-			      <input type="hidden" name="type" class="type-name" value="" />
+			      <input type="hidden" name="type" class="type-name" value />
 			    </div>
 			    <span class="cue col-md-5"></span>  
 			  </div>
@@ -1800,7 +1811,7 @@ function phoneBlur(){
 //email验证
 function emailBlur(){
 	var email = $(".aside-right .email-confir").val();
-	var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+	var reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,5}$/;
 	if(email == ""){
 		$(".aside-right .email-confir").parent().siblings("span.cue").html("")
 	}else if(!reg.test(email)){
@@ -1835,16 +1846,22 @@ function validityBlur(){
 $(".aside-right").on("click","button.sub-increase",function(e){
 	if($(".checkself").is(":checked")){
 		$(".self").val(1);
+	}else{
+		$(".self").val(0);
 	}
 	var birthday = $(".aside-right .bir").val();
 	var birth = new Date(birthday).getTime(); 
 	var current = new Date().getTime();
-	var time = current - birth;
-	if(time > 0 && time < 31536000000*2){
-		$(".aside-right .type-name").val("2");
-	}else if(time >= 31536000000*2 && time < 567648000000){
-		$(".aside-right .type-name").val("1");
-	}else if(time >= 567648000000){
+	if(birthday != "" && birthday != undefined && birthday != null ){
+		var time = current - birth;
+		if(time > 0 && time < 31536000000){
+			$(".aside-right .type-name").val("2");
+		}else if(time >= 31536000000 && time < 567648000000){
+			$(".aside-right .type-name").val("1");
+		}else if(time >= 567648000000){
+			$(".aside-right .type-name").val("0");
+		}
+	}else{
 		$(".aside-right .type-name").val("0");
 	}
 	//console.log(time);
@@ -1961,16 +1978,16 @@ function seeAddress(n){
       <div class="check-information min-height padding-top-30">
         <ul>
 	`;
-	if(m.county==null){
+	if(m.county==null||m.county==""){
 		html+=`
-			<li><span>地址简称</span><b>XXX</b></li>
+			<li><span>地址简称</span><b>未设置</b></li>
 		`;
 	}else{
 		html+=`
-			<li><span>地址简称</span><b>XXX</b></li>
+			<li><span>地址简称</span><b>${m.sortname}</b></li>
 		`;
 	}
-	if(m.accept_name==null){
+	if(m.accept_name==null||m.accept_name==""){
 		html+=`
 			<li><span>收件人姓名</span><b>未设置</b></li>
 		`;
@@ -1979,7 +1996,7 @@ function seeAddress(n){
 			<li><span>收件人姓名</span><b>${m.accept_name}</b></li>
 		`;
 	}
-	if(m.city==null){
+	if(m.city==null||m.city==""){
 		html+=`
 			<li><span>所在地区</span><b>未设置</b></li>
 		`;
@@ -1988,7 +2005,7 @@ function seeAddress(n){
 			<li><span>所在地区</span><b>${m.city}</b></li>
 		`;
 	}
-	if(m.addr==null){
+	if(m.addr==null||m.addr==""){
 		html+=`
 			<li><span>详细地址</span><b>未设置</b></li>
 		`;
@@ -1997,7 +2014,7 @@ function seeAddress(n){
 			<li><span>详细地址</span><b>${m.addr}</b></li>
 		`;
 	} 
-	 if(m.zip==null){
+	 if(m.zip==null|| m.zip==""){
 		html+=`
 			<li><span>邮政编码</span><b>未设置</b></li>
 		`;
@@ -2006,7 +2023,7 @@ function seeAddress(n){
 			<li><span>邮政编码</span><b>${m.zip}</b></li>
 		`;
 	}  
-	if(m.mobile==null){
+	if(m.mobile==null||m.mobile==""){
 		html+=`
 			<li><span>手机号码</span><b>未设置</b></li>
 		`;
@@ -2015,7 +2032,7 @@ function seeAddress(n){
 			<li><span>手机号码</span><b>${m.mobile}</b></li>
 		`;
 	}             
-	if(m.phone_number==null){
+	if(m.phone_number==null||m.phone_number==""){
 		html+=`
 			<li><span>联系电话</span><b>未设置</b></li>
 		`;
@@ -2609,7 +2626,8 @@ function time(date){
 	var h = newdate.getHours();  
 	var minute = newdate.getMinutes();  
 		minute = minute < 10 ? ('0' + minute) : minute;  
-	var time = y + '-' + m + '-' + d+' '+h+':'+minute;
+	//var time = y + '-' + m + '-' + d+' '+h+':'+minute;
+	var time = y + '-' + m + '-' + d
 	return time;  
 }
 

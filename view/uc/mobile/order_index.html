@@ -26,39 +26,149 @@
     .mui-bar-nav ~ .mui-content .mui-pull-top-pocket{
         top: 0px !important;
     }
+
+    header.book-header{
+        background:#1eb6c1;
+    }
+    #pullrefresh{
+        padding-bottom:50px;
+        margin-top:12px;
+    }
+    .back{
+        display: inline-block;
+        width:35px;
+        height:20px;
+        background:url(/static/assets/images/mobile/login/back.png) no-repeat;
+        background-size:35px 20px;
+        border:0;
+    }
+    .book-header span{
+        display: inline-block;
+        margin-top:8.5px;
+        font-size:24px;
+        color:#fff;
+    }
+    .mui-table-view{
+        background: #fff;
+        -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    }
+    .mui-table-view li table{
+        width:100%;
+    }
+    .mui-table-view li a.view-details{
+        color:#1eb6c1;
+        text-decoration:underline;
+    }
+    .mui-table-view-cell:after {
+        height:0;
+        background: transparent;
+    }
+    .see-detail{
+        padding:11px 15px;
+    }
+    .text-success{
+        color: #1eb6c1 !important;
+    }
+
+    #segmentedControl{
+        padding:0 1.39%;
+        margin:10px 0;
+    }
+    #segmentedControl a{
+        display: inline-block;
+        text-align: center;
+        width: 25%;
+        padding:5px 0;
+        border:1px solid #1eb6c1;
+        color:#1eb6c1;
+    }
+
+
+
+    .clear:after{
+        content:"";
+        display: block;
+        clear:both;
+    }
 </style>
 {%endblock%}
 {% block content %}
-<header class="mui-bar mui-bar-nav">
-    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    <h1 class="mui-title">{{controller.meta_title}}</h1>
-    <a href="/uc/index" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right userindex" >个人中心</a>
+<header class="mui-bar mui-bar-nav book-header text-center">
+    <a href="" class="mui-action-back back mui-btn mui-btn-nav mui-pull-left"></a>
+    <span>订单</span>
 </header>
-
+{% include "./inc/barnav.html" %}
 <div class="mui-content">
-
-        <div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted">
-            <a class="mui-control-item {%if status == null%}mui-active{%endif%}" href="/uc/order">
-                全部订单
-            </a>
-            <a class="mui-control-item {% if status == 0%}mui-active{%endif%}" href="/uc/order/index/status/0">
-                待付款 ({{nopaid}})
-            </a>
-            <a class="mui-control-item {% if status == 1%}mui-active{%endif%}" href="/uc/order/index/status/1">
-                待收货 ({{receipt}})
-            </a>
-        </div>
-
+    <!-- <div id="segmentedControl" class="mui-segmented-control mui-segmented-control-inverted">
+        <a class="mui-control-item {%if status == null%}mui-active{%endif%}" href="/uc/order">
+            全部订单
+        </a>
+        <a class="mui-control-item {% if status == 0%}mui-active{%endif%}" href="/uc/order/index/status/0">
+            待付款 ({{nopaid}})
+        </a>
+        <a class="mui-control-item {% if status == 1%}mui-active{%endif%}" href="/uc/order/index/status/1">
+            待收货 ({{receipt}})
+        </a>
+    </div> -->
+    <div id="segmentedControl">
+        <a href="">全部订单</a>
+    </div>
     <!--下拉刷新容器-->
     <div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="top:85px">
         <div class="mui-scroll">
             <div class="mui-table">
             <!--数据列表-->
-            {%set n = 1%}
-            {%for item in list %}
-                <ul class="mui-table-view {%if n ==1 %}margin-top-0{%else%}margin-top-6{%endif%}">
+            {%set n = 6%}
+            {%for item in list.data %}
+                <ul class="mui-table-view {%if n ==1 %}margin-top-0{%else%}margin-top-20{%endif%}">
                     <input type="hidden" value="{{item.id}}" name="id{{item.id}}" class="id{{item.id}}">
                     <li class="mui-table-view-cell mui-media">
+                        <span class="mui-pull-left">{{item.order_no}}</span>
+                        {%if item.status == 1 %}
+                        <span class="text-danger mui-pull-right">未提交</span>
+                        {%elif item.status == 2 %}
+                        <span class="text-success mui-pull-right">已提交</span>
+                        {%elif item.status == 3 %}
+                        <span class="text-success mui-pull-right">已取消</span>
+                        {%elif item.status == 6 %}
+                        <span class="text-success mui-pull-right">卖家已确认</span>
+                        {%elif item.status == 8 %}
+                        <span class="text-success mui-pull-right">已成团</span>
+                        {%elif item.status == 9 %}
+                        <span class="text-warning mui-pull-right">已作废</span>
+                        {%elif item.status == 15 %}
+                        <span class="text-success mui-pull-right">已评价</span>
+                        {%endif%}
+                    </li>
+                    {#
+                    {% for v in item.goods%}#}
+                    <li class="mui-table-view-cell mui-media">
+                        <a href="javascript:;">
+                            <div class="mui-media-body">
+                                <h4 class="mui-ellipsis">{{item.title}}</h4>
+                            </div>
+                        </a>
+                    </li>
+                    {#
+                    {%endfor%}#}
+                    <li class="mui-table-view-cell mui-media">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>姓名</td>
+                                    <td>出发日期</td>
+                                    <td>总金额</td>
+                                </tr>
+                                <tr>
+                                    <td>{{item.connect_name}}</td>
+                                    <td>{{item.start_date}}</td>
+                                    <td>¥{{item.real_amount}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                    <!-- <li class="mui-table-view-cell mui-media">
                         <div class="mui-row">
                             <div class="mui-col-sm-6 mui-col-xs-5">
                                 <div class="size-14">状态:{%if item.pay_status == 0 and item.delivery_status != 1 and item.status != 6 and item.status != 4%}
@@ -72,7 +182,7 @@
                                     {%elif item.status == 4%}
                                     <span class="text-default size-14">已完成</span>
                                     {%endif%}
-</div>
+                                </div>
                                 <div class="size-14">总价: <span class="price">¥{{item.order_amount|formatCurrency}}</span> </div>
                             </div>
                             <div class="mui-col-sm-6 mui-col-xs-7">
@@ -91,8 +201,8 @@
                                  </div>
                         </div>
 
-                    </li>
-                    {% for v in item.goods%}
+                    </li> -->
+                    <!-- {% for v in item.goods%}
                     <li class="mui-table-view-cell mui-media">
                         <a href="javascript:;">
                             <img class="mui-media-object mui-pull-left" src="{{v.pic}}">
@@ -102,12 +212,14 @@
                             </div>
                         </a>
                     </li>
-                    {%endfor%}
+                    {%endfor%} -->
 
-                    <li class="mui-table-view-cell">
-                        <a class="mui-navigate-right">
-                            <span class="mui-badge ">{{item.create_time|moment('lll')}}</span>
-                            订单详情
+                    <li class="see-detail clear">
+                        <a class="mui-pull-left view-details" href="/uc/order/trip/product_id/{{item.product_id}}/order_no/{{item.order_no}}">查看行程详情</a>
+
+                        <a class="mui-pull-right view-details" href="/uc/order/detail/product_id/{{item.product_id}}/order_no/{{item.order_no}}">
+                            <!-- <span class="mui-badge ">{{item.create_time|moment('lll')}}</span> -->
+                            查看订单详情
                         </a>
                     </li>
 
@@ -121,9 +233,50 @@
 <script type="text/template" id="tpl">
     {% raw %}
     <%_.forEach(data,function(item,k){ %>
-    <ul class="mui-table-view margin-top-6">
+    <ul class="mui-table-view margin-top-20">
         <input type="hidden" value="<%=item.id%>" name="<%=item.id%>" class="<%=item.id%>">
         <li class="mui-table-view-cell mui-media">
+            <span class="mui-pull-left"><%=item.order_no%></span>
+            <%if (item.status == 1) {%>
+            <span class="text-danger mui-pull-right">未提交</span>
+            <%}else if (item.status == 2) {%>
+            <span class="text-success mui-pull-right">已提交</span>
+            <%}else if (item.status == 3 ){%>
+            <span class="text-success mui-pull-right">已取消</span>
+            <%}else if (item.status == 6) {%>
+            <span class="text-success mui-pull-right">卖家已确认</span>
+            <%}else if (item.status == 8) {%>
+            <span class="text-success mui-pull-right">已成团</span>
+            <%}else if (item.status == 9) {%>
+            <span class="text-warning mui-pull-right">已作废</span>
+            <%}else if (item.status == 15) {%>
+            <span class="text-success mui-pull-right">已评价</span>
+            <%}%>
+        </li>
+        <li class="mui-table-view-cell mui-media">
+            <a href="javascript:;">
+                <div class="mui-media-body">
+                    <h4 class="mui-ellipsis"><%=item.title%></h4>
+                </div>
+            </a>
+        </li>
+        <li class="mui-table-view-cell mui-media">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>姓名</td>
+                        <td>出发日期</td>
+                        <td>总金额</td>
+                    </tr>
+                    <tr>
+                        <td><%=item.connect_name%></td>
+                        <td><%=item.start_date%></td>
+                        <td>¥<%= item.real_amount %></td>
+                    </tr>
+                </tbody>
+            </table>
+        </li>
+        <!-- <li class="mui-table-view-cell mui-media">
             <div class="mui-row">
                 <div class="mui-col-sm-6 mui-col-xs-5">
                     <div class="size-14">状态:<%if ((item.pay_status == 0) && (item.delivery_status != 1) && (item.status != 6) && (item.status != 4)){%>
@@ -156,9 +309,9 @@
                 </div>
             </div>
 
-        </li>
+        </li> -->
 
-        <%_.forEach(item.goods,function(v,k){ %>
+<!--         <%_.forEach(item.goods,function(v,k){ %>
         <li class="mui-table-view-cell mui-media">
             <a href="javascript:;">
                 <img class="mui-media-object mui-pull-left" src="<%=v.pic%>">
@@ -168,13 +321,12 @@
                 </div>
             </a>
         </li>
-        <%})%>
+        <%})%> -->
 
-        <li class="mui-table-view-cell">
-            <a class="mui-navigate-right">
-                <span class="mui-badge "><%=item.create_time%></span>
-                订单详情
-            </a>
+        <li class="see-detail clear">
+            <a class="mui-pull-left view-details" href="/uc/order/trip/product_id/<%=item.product_id%>/order_no/<%=item.order_no%>">查看行程详情</a>
+
+            <a class="mui-pull-right view-details" href="/uc/order/detail/product_id/<%=item.product_id%>/order_no/<%=item.order_no%>">查看订单详情</a>
         </li>
 
     </ul>
@@ -185,6 +337,16 @@
 
 {% block script %}
 <script>
+ //超链接
+ mui("#pullrefresh").on("tap",".see-detail a",function(){
+    var href = this.getAttribute("href");
+    if(href=="#wait"){
+        //todo
+        mui.toast("功能开发中...")
+        return
+    }
+    mui.openWindow({url: href})
+})
     //加载模板
     var tplRender =  _.template(document.getElementById("tpl").innerHTML);
     mui.init({
@@ -213,7 +375,7 @@
         }
         console.log(Y)
         var S = document.querySelector('#pullrefresh').querySelectorAll('ul.mui-table-view').length;
-        console.log(Y);
+        //console.log(Y);
         if (window.sessionStorage) {
             sessionStorage.setItem("{{http.url}}_top", Y);
             sessionStorage.setItem("{{http.url}}_size", S);
@@ -234,17 +396,18 @@
      */
     function pulldownRefresh() {
         setTimeout(function() {
-            var table = document.body.querySelector('#pullrefresh .mui-table');
-            var cells = document.body.querySelectorAll('.mui-table-view');
-            for (var i = cells.length, len = i + 3; i < len; i++) {
-                var li = document.createElement('li');
-                li.className = 'mui-table-view-cell';
-                li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-                //下拉刷新，新纪录插到最前面；
-                table.insertBefore(li, table.firstChild);
-            }
+        //     var table = document.body.querySelector('#pullrefresh .mui-table');
+        //     var cells = document.body.querySelectorAll('.mui-table-view');
+        //     for (var i = cells.length, len = i + 3; i < len; i++) {
+        //         var li = document.createElement('li');
+        //         li.className = 'mui-table-view-cell';
+        //         li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+        //         //下拉刷新，新纪录插到最前面；
+        //         table.insertBefore(li, table.firstChild);
+        //     }
             mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
         }, 1500);
+        
     }
     var count = 0;
     /**
@@ -255,11 +418,12 @@
 
             var table = document.body.querySelector('#pullrefresh .mui-table');
             var cells = document.body.querySelectorAll('#pullrefresh .mui-table-view');
-            var count = "{{count}}";
+            var count = "{{list.count}}";
+            console.log(count)
             console.log((parseInt(count) > cells.length));
 
             if(parseInt(cells.length) < parseInt(count)){
-                createFragment(10)
+                createFragment(5)
                 mui('#pullrefresh').pullRefresh().endPullupToRefresh();
             }else {
                 mui('#pullrefresh').pullRefresh().endPullupToRefresh(true); //参数为true代表没有更多数据了。
@@ -275,13 +439,14 @@
         console.log(lastIndex);
         var pages = page || Math.ceil((lastIndex+count)/count);
         console.log(pages);
-        mui.ajax("{{http.url}}",{
+        mui.ajax("/uc/booking/query",{
             data:{
                 page:pages
             },
             dataType:'json',//服务器返回json格式数据
             type:'get',//HTTP请求类型
             success:function(data){
+                console.log(data)
                 //获得服务器响应
                 $('#pullrefresh .mui-table').append(tplRender(data));
             }
@@ -294,7 +459,7 @@
             var page = Math.ceil(size/10);
             if(page>1 ){
                 for (var i = 1; i < (page+1); i++) {
-                    createFragment(10,(i+1))
+                    createFragment(5,(i+1))
                 }
             }
             mui('#pullrefresh').pullRefresh().scrollTo(0,tops);
@@ -364,6 +529,20 @@
                 return;
             })
         });
+mui.ready(function() {
+    var btn = document.querySelectorAll(".mui-bar-tab a.mui-tab-item");
+    for(var i = 0;i<btn.length;i++){
+        btn[i].addEventListener("tap",function () {
+            var href = this.getAttribute("href");
+            if(href=="#wait"){
+                //todo
+                mui.toast("功能开发中。。。")
+                return
+            }
+            mui.openWindow({url: href})
 
+        })
+    }
+});
 </script>
 {% endblock %}

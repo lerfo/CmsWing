@@ -168,7 +168,8 @@ function gettournote(days=0){
         //history.replaceState(" "," ","question?cid=124&day=all");      
     }
         //'<tr class="type_tr_m"><td style="width: 70px;">所在版面：</td><td> <span class="btn btn-danger btn-xs relative">全部</span> <a href="javascript:;" class="btn btn-clean btn-xs relative">英伦半岛</a><a href="javascript:;" class="btn btn-clean btn-xs relative">旅行摄影</a><a href="javascript:;" class="btn btn-clean btn-xs relative">环游欧洲</a><a href="javascript:;" class="btn btn-clean btn-xs relative">美式风情</a></td></tr></tbody></table>';
-
+    //console.log(days);
+    //console.log("/ajax/question?cid=124&day="+days+"&q="+searchword);
      $.ajax({
         type:"get",
         url:"/ajax/question?cid=124&day="+days+"&q="+searchword,
